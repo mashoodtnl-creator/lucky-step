@@ -1,0 +1,17 @@
+{
+  "name": "Lucky Step",
+  "short_name": "LuckyStep",
+  "description": "Lucky Step Chitty management app for managing members and lucky draws",
+  "start_url": "/lucky-step/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1a9e59",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
