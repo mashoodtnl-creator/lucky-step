@@ -1,592 +1,104 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0d8a4d">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Lucky Step">
-<title>Lucky Step Chitty - PWA v6</title>
-<link rel="manifest" href="data:application/manifest+json,{
-  &quot;name&quot;: &quot;Lucky Step Chitty&quot;,
-  &quot;short_name&quot;: &quot;Lucky Step&quot;,
-  &quot;start_url&quot;: &quot;.&quot;,
-  &quot;display&quot;: &quot;standalone&quot;,
-  &quot;background_color&quot;: &quot;#0d8a4d&quot;,
-  &quot;theme_color&quot;: &quot;#0d8a4d&quot;,
-  &quot;icons&quot;: [{
-    &quot;src&quot;: &quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Ccircle cx='256' cy='256' r='256' fill='%230d8a4d'/%3E%3Ctext x='256' y='320' font-size='200' fill='%23f4c430' text-anchor='middle' font-family='Arial'%3E%E2%82%B9%3C/text%3E%3C/svg%3E&quot;,
-    &quot;sizes&quot;: &quot;512x512&quot;,
-    &quot;type&quot;: &quot;image/svg+xml&quot;
-  }]
-}">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
-:root{--green:#0d8a4d;--gold:#f4c430;--dark:#1a1a1a;--light:#f5f5f5;--card:#fff;--text:#222;--red:#e74c3c}
-[data-theme="dark"]{--card:#2a2a2a;--light:#1a1a1a;--text:#f5f5f5}
-body{background:var(--light);color:var(--text);transition:.3s}
-.container{max-width:500px;margin:0 auto;min-height:100vh;padding-bottom:80px}
-.header{background:linear-gradient(135deg,var(--green),#0a6b3a);color:#fff;padding:20px;text-align:center;position:sticky;top:0;z-index:100}
-.header h1{font-size:24px;display:flex;align-items:center;justify-content:center;gap:10px}
-.logo{width:40px;height:40px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
-.install-btn{background:var(--gold);color:var(--dark);border:none;padding:8px 16px;border-radius:20px;margin-top:10px;font-weight:bold;cursor:pointer}
-.nav{display:flex;justify-content:space-around;background:var(--card);padding:15px 0;position:fixed;bottom:0;left:0;right:0;box-shadow:0 -2px 10px rgba(0,0,0,.1);max-width:500px;margin:0 auto}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;color:#888;font-size:11px;cursor:pointer;border:none;background:none}
-.nav-item.active{color:var(--green)}
-.page{display:none;padding:20px}
-.page.active{display:block}
-.card{background:var(--card);border-radius:16px;padding:20px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:20px}
-.stat-card{background:var(--card);padding:15px;border-radius:12px;text-align:center}
-.stat-card h3{font-size:28px;color:var(--green);margin:5px 0}
-.stat-card p{font-size:12px;color:#888}
-.btn{background:var(--green);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-size:16px;cursor:pointer;width:100%;margin-top:10px}
-.btn-gold{background:var(--gold);color:var(--dark)}
-.btn-red{background:var(--red)}
-.btn-whatsapp{background:#25D366;color:#fff}
-input,textarea,select{width:100%;padding:12px;border:2px solid #ddd;border-radius:10px;font-size:16px;background:var(--card);color:var(--text);margin-bottom:10px}
-[data-theme="dark"] input,[data-theme="dark"] textarea,[data-theme="dark"] select{border-color:#444}
-.member-item{display:flex;justify-content:space-between;align-items:center;padding:15px;background:var(--light);border-radius:10px;margin-bottom:10px;gap:10px}
-.member-avatar{width:50px;height:50px;border-radius:50%;object-fit:cover;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold}
-.member-info{flex:1}
-.member-info h4{margin-bottom:5px}
-.member-info p{font-size:12px;color:#888}
-.member-actions{display:flex;gap:5px}
-.icon-btn{width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.icon-btn.whatsapp{background:#25D366;color:#fff}
-.icon-btn.delete{background:var(--red);color:#fff}
-.badge{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:bold;cursor:pointer}
-.badge.paid{background:#d4edda;color:#155724}
-.badge.due{background:#f8d7da;color:#721c24}
-.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:1000;align-items:center;justify-content:center;padding:20px}
-.modal.active{display:flex}
-.modal-content{background:var(--card);border-radius:20px;padding:25px;width:100%;max-width:400px;max-height:80vh;overflow-y:auto}
-.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;padding:12px 24px;border-radius:10px;z-index:2000;display:none}
-.toast.show{display:block;animation:slideDown.3s}
-@keyframes slideDown{from{top:0;opacity:0}to{top:80px;opacity:1}}
-canvas{max-width:100%;margin:20px 0}
-.winner-modal{text-align:center}
-.winner-modal h2{font-size:32px;color:var(--gold);margin:20px 0}
-.winner-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;margin:0 auto 15px;border:4px solid var(--gold)}
-.hidden{display:none}
-.photo-upload{border:2px dashed var(--green);border-radius:10px;padding:20px;text-align:center;margin-bottom:15px;cursor:pointer}
-.photo-preview{width:100px;height:100px;border-radius:50%;object-fit:cover;margin:10px auto;display:block}
-.admin-panel{background:rgba(142,68,173,.1);border:2px solid #8e44ad;border-radius:10px;padding:15px;margin:15px 0}
-.admin-panel h4{color:#8e44ad;margin-bottom:10px}
-.toggle{display:flex;align-items:center;justify-content:space-between;margin:15px 0}
-.switch{position:relative;width:50px;height:26px}
-.switch input{opacity:0;width:0;height:0}
-.slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#ccc;border-radius:26px;transition:.3s}
-.slider:before{position:absolute;content:"";height:18px;width:18px;left:4px;bottom:4px;background:white;border-radius:50%;transition:.3s}
-input:checked+.slider{background:var(--green)}
-input:checked+.slider:before{transform:translateX(24px)}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d8a4d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mashood കുറി">
+    <title>Mashood കുറി - Lucky Step v12</title>
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22%3A%22Mashood%20%E0%B4%95%E0%B5%81%E0%B4%B1%E0%B4%BF%22%2C%22short_name%22%3A%22Mashood%20%E0%B4%95%E0%B5%81%E0%B4%B1%E0%B4%BF%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230d8a4d%22%2C%22theme_color%22%3A%22%230d8a4d%22%2C%22icons%22%3A[%7B%22src%22%3A%22https%3A%2F%2Fi.ibb.co%2Fb3Lk6pH%2Fwhatsapp-logo.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D]}">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);min-height:100vh;padding:20px}#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:fadeOut.5s ease 2s forwards}.splash-logo{width:120px;height:120px;border-radius:30px;margin-bottom:20px;animation:bounce 1s ease infinite}.splash-text{color:white;font-size:28px;font-weight:bold}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}@keyframes fadeOut{to{opacity:0;visibility:hidden}}.container{background:white;padding:25px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:600px;margin:0 auto;animation:slideUp.5s ease 2.2s backwards}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.lang-switch{display:flex;gap:5px}.lang-btn{padding:6px 12px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;border-radius:6px;font-size:13px;cursor:pointer;width:auto;margin:0}.lang-btn.active{background:#0d8a4d;color:white}.login-header{text-align:center;margin-bottom:25px}.login-logo{width:80px;height:80px;border-radius:20px;margin:0 auto 15px;display:block}h1{color:#0d8a4d;text-align:center;margin-bottom:10px;font-size:26px}.subtitle{text-align:center;color:#666;margin-bottom:25px;font-size:14px}h2{color:#0d8a4d;margin:20px 0 15px;font-size:20px}input,textarea,select{width:100%;padding:12px;margin:8px 0;border:2px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit}textarea{min-height:100px;resize:vertical}input:focus,textarea:focus{outline:none;border-color:#0d8a4d}button{width:100%;padding:14px;background:#0d8a4d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:10px 0;transition:background.3s}button:hover{background:#0a6e3d}button:disabled{background:#ccc;cursor:not-allowed}button.secondary{background:#6c757d}button.danger{background:#dc3545}.hidden{display:none!important}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.header-logo{width:45px;height:45px;border-radius:12px}.user-badge{background:#0d8a4d;color:white;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}.user-badge.guest{background:#6c757d}.nav-menu{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}.nav-btn{padding:12px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;font-size:14px}.nav-btn.active{background:#0d8a4d;color:white}.member,.rule-item,.feedback-item{background:#f8f9fa;padding:15px;margin:10px 0;border-radius:10px;border-left:4px solid #0d8a4d}.member-name{font-weight:bold;color:#0d8a4d;font-size:16px;margin-bottom:5px}.whatsapp-btn{background:#25D366;padding:8px 16px;font-size:14px;width:auto;margin-top:8px;display:inline-block}.feedback-item{border-left-color:#ffc107}.feedback-name{font-weight:bold;color:#856404}.feedback-date{font-size:12px;color:#999;margin-top:5px}.letter-box{background:#f8f9fa;padding:20px;border-radius:10px;border:2px solid #0d8a4d;margin:15px 0;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.6}.admin-only{display:none}.admin-mode.admin-only{display:block}.footer{text-align:center;margin-top:30px;padding-top:20px;border-top:2px solid #f0f0f0}.footer-img{width:70px;height:70px;border-radius:50%;margin:10px auto;display:block;border:3px solid #0d8a4d}.footer-text{color:#666;font-size:13px;margin-top:8px;font-weight:600}
+    </style>
 </head>
 <body>
-
-<div class="container">
-  <div class="header">
-    <h1><div class="logo">₹</div>Lucky Step</h1>
-    <p id="chittyName">Chitty Management</p>
-    <button class="install-btn hidden" id="installBtn">📱 Install App</button>
-  </div>
-
-  <div class="page active" id="dashboard">
-    <div class="stats">
-      <div class="stat-card"><p>Total Members</p><h3 id="totalMembers">0</h3></div>
-      <div class="stat-card"><p>Total Amount</p><h3 id="totalAmount">₹0</h3></div>
-      <div class="stat-card"><p>Collected</p><h3 id="collected">₹0</h3></div>
-      <div class="stat-card"><p>Due</p><h3 id="due">₹0</h3></div>
+    <div id="splash">
+        <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="splash-logo">
+        <div class="splash-text" data-lang="welcome">Welcome to Mashood കുറി</div>
     </div>
-    <div class="card">
-      <h3>Quick Actions</h3>
-      <button class="btn" onclick="showModal('addMemberModal')">+ Add Member</button>
-      <button class="btn btn-gold" onclick="showPage('draw')">🎰 Start Lucky Draw</button>
-      <button class="btn btn-whatsapp" onclick="sendBulkMessage()">📱 Send Due Reminder</button>
+    <div class="container" id="mainContainer">
+        <div class="top-bar">
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLang('ml')">മലയാളം</button>
+                <button class="lang-btn" onclick="setLang('en')">English</button>
+            </div>
+            <div class="user-badge guest" id="userBadge">👤 Guest</div>
+        </div>
+        <div id="loginPage">
+            <div class="login-header">
+                <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="login-logo">
+                <h1 data-lang="title">Mashood കുറി</h1>
+                <p class="subtitle" data-lang="subtitle">Lucky Step Chitty Management</p>
+            </div>
+            <input type="password" id="password" data-lang-placeholder="password_placeholder" placeholder="Admin Password അടിക്കുക">
+            <button onclick="adminLogin()" data-lang="admin_login">Admin Login</button>
+            <button class="secondary" onclick="guestLogin()" data-lang="guest_login">Guest ആയി കാണുക</button>
+            <p style="text-align:center;color:#999;font-size:12px;margin-top:15px" data-lang="login_note">Admin മാത്രം: admin123 / mashood456</p>
+        </div>
+        <div id="mainPage" class="hidden">
+            <div class="header">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="header-logo">
+                    <h1 style="margin:0;font-size:20px" data-lang="title">Mashood കുറി</h1>
+                </div>
+                <button class="danger" style="width:auto;padding:8px 16px" onclick="logout()" data-lang="logout">Logout</button>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-btn active" onclick="showPage('dashboard')" data-lang="nav_dashboard">🏠 Dashboard</button>
+                <button class="nav-btn" onclick="showPage('rules')" data-lang="nav_rules">📋 നിയമങ്ങൾ</button>
+                <button class="nav-btn" onclick="showPage('feedback')" data-lang="nav_feedback">💬 അഭിപ്രായം</button>
+                <button class="nav-btn" onclick="showPage('letter')" data-lang="nav_letter">🚨 Emergency</button>
+            </div>
+            <div id="dashboardPage">
+                <h2 data-lang="members_title">👥 Members List</h2>
+                <div class="admin-only">
+                    <input type="text" id="memberName" data-lang-placeholder="member_name" placeholder="Member പേര്">
+                    <input type="text" id="memberPhone" data-lang-placeholder="member_phone" placeholder="WhatsApp നമ്പർ (91...)">
+                    <button onclick="addMember()" data-lang="add_member">➕ Member Add ചെയ്യുക</button>
+                </div>
+                <div id="membersList"></div>
+            </div>
+            <div id="rulesPage" class="hidden">
+                <h2 data-lang="rules_title">📋 കുറിയുടെ നിയമങ്ങൾ</h2>
+                <div id="rulesList"></div>
+                <div class="admin-only">
+                    <input type="text" id="newRule" data-lang-placeholder="new_rule" placeholder="പുതിയ നിയമം എഴുതുക">
+                    <button onclick="addRule()" data-lang="add_rule">➕ നിയമം Add ചെയ്യുക</button>
+                </div>
+            </div>
+            <div id="feedbackPage" class="hidden">
+                <h2 data-lang="feedback_title">💬 Customer അഭിപ്രായം</h2>
+                <input type="text" id="feedbackName" data-lang-placeholder="your_name" placeholder="നിങ്ങളുടെ പേര്">
+                <textarea id="feedbackText" data-lang-placeholder="your_feedback" placeholder="നിങ്ങളുടെ അഭിപ്രായം എഴുതുക..."></textarea>
+                <button onclick="addFeedback()" data-lang="submit_feedback">📝 അഭിപ്രായം Submit ചെയ്യുക</button>
+                <h3 style="margin-top:20px" data-lang="all_feedbacks">📢 എല്ലാ അഭിപ്രായങ്ങളും</h3>
+                <div id="feedbackList"></div>
+            </div>
+            <div id="letterPage" class="hidden">
+                <h2 data-lang="letter_title">🚨 Emergency Letter</h2>
+                <div class="admin-only">
+                    <input type="text" id="letterTo" data-lang-placeholder="letter_to" placeholder="ആർക്ക്? (പേര്)">
+                    <input type="text" id="letterSubject" data-lang-placeholder="letter_subject" placeholder="വിഷയം">
+                    <textarea id="letterBody" data-lang-placeholder="letter_body" placeholder="കത്തിന്റെ ഉള്ളടക്കം എഴുതുക..."></textarea>
+                    <button onclick="generateLetter()" data-lang="generate_letter">📄 Letter Generate ചെയ്യുക</button>
+                </div>
+                <div id="letterOutput" class="hidden">
+                    <h3 data-lang="generated_letter">Generated Letter:</h3>
+                    <div class="letter-box" id="letterContent"></div>
+                    <div class="admin-only">
+                        <button onclick="copyLetter()" data-lang="copy_letter">📋 Copy ചെയ്യുക</button>
+                        <button class="secondary" onclick="shareLetter()" data-lang="share_whatsapp">📱 WhatsApp-ൽ Share</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Mashood" class="footer-img">
+                <div class="footer-text" data-lang="footer">App Created by Mashood</div>
+            </div>
+        </div>
     </div>
-  </div>
-
-  <div class="page" id="members">
-    <div class="card">
-      <h3>Members List</h3>
-      <button class="btn" onclick="showModal('addMemberModal')">+ Add Member</button>
-      <button class="btn" onclick="showModal('bulkAddModal')" style="background:#666">📋 Bulk Add</button>
-      <div id="membersList" style="margin-top:15px"></div>
-    </div>
-  </div>
-
-  <div class="page" id="collections">
-    <div class="card">
-      <h3>Payment Collection</h3>
-      <div id="collectionsList"></div>
-    </div>
-  </div>
-
-  <div class="page" id="draw">
-    <div class="card" style="text-align:center">
-      <h3>Lucky Draw</h3>
-      <div class="admin-panel">
-        <h4>🔒 Admin Control - Rig Draw</h4>
-        <label style="font-size:13px;display:block;text-align:left;margin-bottom:5px">Pre-select Winner:</label>
-        <select id="preSelectWinner"><option value="">Random Draw (Fair)</option></select>
-      </div>
-      <canvas id="wheelCanvas" width="300" height="300"></canvas>
-      <button class="btn btn-gold" id="spinBtn" onclick="spinWheel()">🎰 SPIN</button>
-      <button class="btn" onclick="showDrawHistory()">📜 Draw History</button>
-    </div>
-  </div>
-
-  <div class="page" id="reports">
-    <div class="card">
-      <h3>Reports & Backup</h3>
-      <button class="btn" onclick="downloadReport()">📥 Download Report</button>
-      <button class="btn" onclick="exportExcel()">📊 Export to Excel</button>
-      <button class="btn" onclick="backupData()">💾 Backup Data</button>
-      <input type="file" id="restoreFile" class="hidden" accept=".json" onchange="restoreData(event)">
-      <button class="btn" onclick="document.getElementById('restoreFile').click()">📤 Restore Backup</button>
-    </div>
-  </div>
-
-  <div class="page" id="settings">
-    <div class="card">
-      <h3>Settings</h3>
-      <input type="text" id="chittyNameInput" placeholder="Chitty Name">
-      <input type="number" id="amountInput" placeholder="Amount per member">
-      <div class="toggle">
-        <span>🌙 Dark Mode</span>
-        <label class="switch"><input type="checkbox" id="darkModeToggle"><span class="slider"></span></label>
-      </div>
-      <button class="btn" onclick="saveSettings()">Save Settings</button>
-      <button class="btn btn-red" onclick="clearAllData()">🗑️ Clear All Data</button>
-    </div>
-  </div>
-
-  <div class="nav">
-    <button class="nav-item active" onclick="showPage('dashboard')">Home</button>
-    <button class="nav-item" onclick="showPage('members')">Members</button>
-    <button class="nav-item" onclick="showPage('draw')">Draw</button>
-    <button class="nav-item" onclick="showPage('reports')">Reports</button>
-    <button class="nav-item" onclick="showPage('settings')">Settings</button>
-  </div>
-</div>
-
-<div class="modal" id="addMemberModal">
-  <div class="modal-content">
-    <h3>Add Member</h3>
-    <div class="photo-upload" onclick="document.getElementById('photoInput').click()">
-      <img id="photoPreview" class="photo-preview hidden">
-      <p id="photoPlaceholder">📷 Click to add photo</p>
-    </div>
-    <input type="file" id="photoInput" class="hidden" accept="image/*" onchange="previewPhoto(event)">
-    <input type="text" id="memberName" placeholder="Name">
-    <input type="tel" id="memberPhone" placeholder="Phone (WhatsApp)">
-    <button class="btn" onclick="addMember()">Add</button>
-    <button class="btn" style="background:#666" onclick="hideModal('addMemberModal');resetPhoto()">Cancel</button>
-  </div>
-</div>
-
-<div class="modal" id="bulkAddModal">
-  <div class="modal-content">
-    <h3>Bulk Add Members</h3>
-    <p style="font-size:12px;color:#888">ഒരു വരിയിൽ ഒരു പേര്</p>
-    <textarea id="bulkNames" rows="10" placeholder="Ramesh&#10;Suresh&#10;Anil"></textarea>
-    <button class="btn" onclick="bulkAddMembers()">Add All</button>
-    <button class="btn" style="background:#666" onclick="hideModal('bulkAddModal')">Cancel</button>
-  </div>
-</div>
-
-<div class="modal" id="winnerModal">
-  <div class="modal-content winner-modal">
-    <h2>🎉 Winner! 🎉</h2>
-    <img id="winnerPhoto" class="winner-avatar">
-    <h1 id="winnerName" style="font-size:40px;color:var(--green)"></h1>
-    <button class="btn btn-whatsapp" onclick="shareWinner()">📱 Share on WhatsApp</button>
-    <button class="btn btn-gold" onclick="hideModal('winnerModal')">OK</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<script>
-// PWA Install
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('installBtn').classList.remove('hidden');
-});
-document.getElementById('installBtn').onclick = async () => {
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if(outcome === 'accepted') showToast('App Installed ✅');
-    deferredPrompt = null;
-  }
-};
-
-// Service Worker for Offline
-if('serviceWorker' in navigator){
-  const sw = `
-    const CACHE='lucky-step-v1';
-    self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(['./']))));
-    self.addEventListener('fetch',e=>e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request))));
-  `;
-  const blob = new Blob([sw],{type:'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob));
-}
-
-let data = JSON.parse(localStorage.getItem('luckyStepData')) || {
-  chittyName: 'Lucky Step Chitty',
-  amount: 20000,
-  members: [],
-  payments: {},
-  drawHistory: [],
-  darkMode: false,
-  winCounts: {}
-};
-let currentPhoto = null;
-
-function init(){
-  updateUI();
-  drawWheel();
-  loadSettings();
-  if(data.darkMode) document.documentElement.setAttribute('data-theme','dark');
-  populateWinnerSelect();
-}
-
-function populateWinnerSelect(){
-  const select = document.getElementById('preSelectWinner');
-  select.innerHTML = '<option value="">Random Draw (Fair)</option>';
-  data.members.forEach(m=>{
-    select.innerHTML += `<option value="${m.id}">${m.name}</option>`;
-  });
-}
-
-function updateUI(){
-  document.getElementById('chittyName').textContent = data.chittyName;
-  document.getElementById('totalMembers').textContent = data.members.length;
-  document.getElementById('totalAmount').textContent = '₹' + (data.members.length * data.amount).toLocaleString();
-  let collected = Object.values(data.payments).filter(p=>p).length * data.amount;
-  document.getElementById('collected').textContent = '₹' + collected.toLocaleString();
-  document.getElementById('due').textContent = '₹' + ((data.members.length * data.amount) - collected).toLocaleString();
-  renderMembers();
-  renderCollections();
-  populateWinnerSelect();
-}
-
-function showPage(page){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  document.getElementById(page).classList.add('active');
-  event.target.closest('.nav-item')?.classList.add('active');
-}
-
-function showModal(id){document.getElementById(id).classList.add('active')}
-function hideModal(id){document.getElementById(id).classList.remove('active')}
-
-function showToast(msg){
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2000);
-}
-
-function previewPhoto(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev)=>{
-    currentPhoto = ev.target.result;
-    document.getElementById('photoPreview').src = currentPhoto;
-    document.getElementById('photoPreview').classList.remove('hidden');
-    document.getElementById('photoPlaceholder').classList.add('hidden');
-  };
-  reader.readAsDataURL(file);
-}
-
-function resetPhoto(){
-  currentPhoto = null;
-  document.getElementById('photoPreview').classList.add('hidden');
-  document.getElementById('photoPlaceholder').classList.remove('hidden');
-  document.getElementById('photoInput').value = '';
-}
-
-function addMember(){
-  const name = document.getElementById('memberName').value.trim();
-  const phone = document.getElementById('memberPhone').value.trim();
-  if(!name) return showToast('പേര് നൽകൂ');
-  data.members.push({id:Date.now(),name,phone,photo:currentPhoto});
-  saveData();
-  hideModal('addMemberModal');
-  document.getElementById('memberName').value = '';
-  document.getElementById('memberPhone').value = '';
-  resetPhoto();
-  showToast('Member ചേർത്തു ✅');
-}
-
-function bulkAddMembers(){
-  const names = document.getElementById('bulkNames').value.trim().split('\n').filter(n=>n.trim());
-  names.forEach(name=>data.members.push({id:Date.now()+Math.random(),name:name.trim(),phone:'',photo:null}));
-  saveData();
-  hideModal('bulkAddModal');
-  document.getElementById('bulkNames').value = '';
-  showToast(`${names.length} പേരെ ചേർത്തു ✅`);
-}
-
-function deleteMember(id){
-  if(confirm('Delete ചെയ്യണോ?')){
-    data.members = data.members.filter(m=>m.id!==id);
-    delete data.payments[id];
-    saveData();
-    showToast('Delete ചെയ്തു');
-  }
-}
-
-function openWhatsApp(phone,name){
-  if(!phone) return showToast('ഫോൺ നമ്പർ ഇല്ല');
-  const msg = `ഹായ് ${name}, Lucky Step Chitty Reminder: നിങ്ങളുടെ പേയ്മെന്റ് ബാക്കിയുണ്ട്. Amount: ₹${data.amount}`;
-  window.open(`https://wa.me/91${phone}?text=${encodeURIComponent(msg)}`,'_blank');
-}
-
-function renderMembers(){
-  const list = document.getElementById('membersList');
-  if(data.members.length===0){
-    list.innerHTML = '<p style="text-align:center;color:#888">Members ഇല്ല</p>';
-    return;
-  }
-  list.innerHTML = data.members.map(m=>`
-    <div class="member-item">
-      ${m.photo? `<img src="${m.photo}" class="member-avatar">` : `<div class="member-avatar">${m.name[0].toUpperCase()}</div>`}
-      <div class="member-info">
-        <h4>${m.name}</h4>
-        <p>${m.phone||'No phone'} ${data.winCounts[m.id]?`• 🏆 ${data.winCounts[m.id]} wins`:''}</p>
-      </div>
-      <div class="member-actions">
-        ${m.phone?`<button class="icon-btn whatsapp" onclick="openWhatsApp('${m.phone}','${m.name}')">💬</button>`:''}
-        <button class="icon-btn delete" onclick="deleteMember(${m.id})">🗑️</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function togglePayment(id){
-  data.payments[id] =!data.payments[id];
-  saveData();
-  showToast(data.payments[id]?'Payment അടച്ചു ✅':'Payment Due ആക്കി');
-}
-
-function renderCollections(){
-  const list = document.getElementById('collectionsList');
-  if(data.members.length===0){
-    list.innerHTML = '<p style="text-align:center;color:#888">ആദ്യം Members ചേർക്കൂ</p>';
-    return;
-  }
-  list.innerHTML = data.members.map(m=>`
-    <div class="member-item">
-      ${m.photo? `<img src="${m.photo}" class="member-avatar">` : `<div class="member-avatar">${m.name[0].toUpperCase()}</div>`}
-      <div class="member-info">
-        <h4>${m.name}</h4>
-        <p>₹${data.amount.toLocaleString()}</p>
-      </div>
-      <span class="badge ${data.payments[m.id]?'paid':'due'}" onclick="togglePayment(${m.id})">
-        ${data.payments[m.id]?'Paid ✓':'Due'}
-      </span>
-    </div>
-  `).join('');
-}
-
-function sendBulkMessage(){
-  const dueMembers = data.members.filter(m=>!data.payments[m.id] && m.phone);
-  if(dueMembers.length===0) return showToast('Due ഉള്ളവർ ഇല്ല');
-  if(confirm(`${dueMembers.length} പേർക്ക് WhatsApp മെസ്സേജ് അയക്കണോ?`)){
-    dueMembers.forEach((m,i)=>{
-      setTimeout(()=>{
-        const msg = `ഹായ് ${m.name}, Lucky Step Chitty Reminder: നിങ്ങളുടെ ₹${data.amount} പേയ്മെന്റ് ബാക്കിയുണ്ട്.`;
-        window.open(`https://wa.me/91${m.phone}?text=${encodeURIComponent(msg)}`,'_blank');
-      },i*1000);
-    });
-    showToast('WhatsApp തുറക്കുന്നു...');
-  }
-}
-
-let wheelAngle = 0;
-let spinning = false;
-function drawWheel(){
-  const canvas = document.getElementById('wheelCanvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const centerX = 150, centerY = 150, radius = 140;
-  ctx.clearRect(0,0,300,300);
-  if(data.members.length===0){
-    ctx.fillStyle = '#ddd';
-    ctx.beginPath();
-    ctx.arc(centerX,centerY,radius,0,2*Math.PI);
-    ctx.fill();
-    ctx.fillStyle = '#888';
-    ctx.font = '16px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Add Members First',centerX,centerY);
-    return;
-  }
-  const slice = 2*Math.PI/data.members.length;
-  data.members.forEach((m,i)=>{
-    ctx.beginPath();
-    ctx.moveTo(centerX,centerY);
-    ctx.arc(centerX,centerY,radius,wheelAngle+i*slice,wheelAngle+(i+1)*slice);
-    ctx.closePath();
-    ctx.fillStyle = i%2?'#0d8a4d':'#f4c430';
-    ctx.fill();
-    ctx.save();
-    ctx.translate(centerX,centerY);
-    ctx.rotate(wheelAngle+i*slice+slice/2);
-    ctx.fillStyle = i%2?'#fff':'#222';
-    ctx.font = '12px sans-serif';
-    ctx.fillText(m.name.substring(0,8),radius-40,5);
-    ctx.restore();
-  });
-  ctx.fillStyle = '#e74c3c';
-  ctx.beginPath();
-  ctx.moveTo(centerX,centerY-radius-10);
-  ctx.lineTo(centerX-15,centerY-radius+10);
-  ctx.lineTo(centerX+15,centerY-radius+10);
-  ctx.closePath();
-  ctx.fill();
-}
-
-function spinWheel(){
-  if(data.members.length===0) return showToast('ആദ്യം Members ചേർക്കൂ');
-  if(spinning) return;
-  spinning = true;
-  document.getElementById('spinBtn').disabled = true;
-
-  const preSelect = document.getElementById('preSelectWinner').value;
-  let winnerIndex;
-
-  if(preSelect){
-    winnerIndex = data.members.findIndex(m=>m.id==preSelect);
-  }else{
-    winnerIndex = Math.floor(Math.random()*data.members.length);
-  }
-
-  let spins = 5 + Math.random()*5;
-  let targetAngle = (2*Math.PI) - (winnerIndex * (2*Math.PI/data.members.length)) - (Math.PI/data.members.length);
-  let duration = 3000;
-  let start = Date.now();
-  let animate = ()=>{
-    let elapsed = Date.now() - start;
-    let progress = elapsed/duration;
-    if(progress<1){
-      wheelAngle = (spins * 2*Math.PI * (1-progress)) + targetAngle;
-      drawWheel();
-      requestAnimationFrame(animate);
-    }else{
-      wheelAngle = targetAngle;
-      drawWheel();
-      spinning = false;
-      document.getElementById('spinBtn').disabled = false;
-      const winner = data.members[winnerIndex];
-      data.drawHistory.push({name:winner.name,date:new Date().toLocaleString(),photo:winner.photo});
-      data.winCounts[winner.id] = (data.winCounts[winner.id]||0)+1;
-      saveData();
-      document.getElementById('winnerName').textContent = winner.name;
-      document.getElementById('winnerPhoto').src = winner.photo || 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><rect width="120" height="120" fill="%230d8a4d"/><text x="60" y="70" font-size="50" fill="white" text-anchor="middle">'+winner.name[0]+'</text></svg>';
-      showModal('winnerModal');
-    }
-  };
-  animate();
-}
-
-function shareWinner(){
-  const winner = data.drawHistory[data.drawHistory.length-1];
-  const msg = `🎉 Lucky Step Chitty Winner 🎉\n\nവിജയി: ${winner.name}\nതീയതി: ${winner.date}\n\nഅഭിനന്ദനങ്ങൾ! 🎊`;
-  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`,'_blank');
-}
-
-function showDrawHistory(){
-  if(data.drawHistory.length===0) return showToast('No draws yet');
-  alert('Draw History:\n\n' + data.drawHistory.map((d,i)=>`${i+1}. ${d.name} - ${d.date}`).join('\n'));
-}
-
-function saveData(){
-  localStorage.setItem('luckyStepData',JSON.stringify(data));
-  updateUI();
-}
-
-function loadSettings(){
-  document.getElementById('chittyNameInput').value = data.chittyName;
-  document.getElementById('amountInput').value = data.amount;
-  document.getElementById('darkModeToggle').checked = data.darkMode;
-}
-
-function saveSettings(){
-  data.chittyName = document.getElementById('chittyNameInput').value || 'Lucky Step Chitty';
-  data.amount = parseInt(document.getElementById('amountInput').value) || 20000;
-  data.darkMode = document.getElementById('darkModeToggle').checked;
-  if(data.darkMode) document.documentElement.setAttribute('data-theme','dark');
-  else document.documentElement.removeAttribute('data-theme');
-  saveData();
-  showToast('Settings സേവ് ചെയ്തു ✅');
-}
-
-function downloadReport(){
-  const report = `Lucky Step Chitty Report\n\nChitty: ${data.chittyName}\nAmount: ₹${data.amount}\nMembers: ${data.members.length}\n\nMembers List:\n${data.members.map((m,i)=>`${i+1}. ${m.name} - ${data.payments[m.id]?'Paid':'Due'}`).join('\n')}\n\nDraw History:\n${data.drawHistory.map((d,i)=>`${i+1}. ${d.name} - ${d.date}`).join('\n')}`;
-  const blob = new Blob([report],{type:'text/plain'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'lucky_step_report.txt';
-  a.click();
-  showToast('Report ഡൗൺലോഡ് ചെയ്തു');
-}
-
-function exportExcel(){
-  let csv = 'Name,Phone,Payment Status,Wins\n';
-  data.members.forEach(m=>{
-    csv += `"${m.name}","${m.phone||''}","${data.payments[m.id]?'Paid':'Due'}","${data.winCounts[m.id]||0}"\n`;
-  });
-  const blob = new Blob([csv],{type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'lucky_step_members.csv';
-  a.click();
-  showToast('Excel Export ചെയ്തു ✅');
-}
-
-function backupData(){
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'lucky_step_backup.json';
-  a.click();
-  showToast('Backup ചെയ്തു ✅');
-}
-
-function restoreData(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = (ev)=>{
-    try{
-      data = JSON.parse(ev.target.result);
-      saveData();
-      showToast('Restore ചെയ്തു ✅');
-    }catch(err){showToast('Invalid file')}
-  };
-  reader.readAsText(file);
-}
-
-function clearAllData(){
-  if(confirm('എല്ലാ ഡാറ്റയും ഡിലീറ്റ് ചെയ്യണോ? ഇത് തിരികെ കിട്ടില്ല!')){
-    localStorage.removeItem('luckyStepData');
-    location.reload();
-  }
-}
-
-init();
-</script>
-</body>
-</html>
+    <script>
+        const ADMIN_PASSWORDS=['admin123','mashood456'];let currentLang='ml',isAdmin=!1,members=JSON.parse(localStorage.getItem('members')||'[]'),rules=JSON.parse(localStorage.getItem('rules')||'["1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുമ്പ് പണം അടക്കണം / Pay before 5th of every month","2. വൈകിയാൽ 100 രൂപ പിഴ / 100 Rs fine for delay","3. കുറി എടുത്താൽ പിന്നെ പിൻമാറാൻ പറ്റില്ല / No withdrawal after joining"]'),feedbacks=JSON.parse(localStorage.getItem('feedbacks')||'[]');const translations={ml:{welcome:"Welcome to Mashood കുറി",title:"Mashood കുറി",subtitle:"Lucky Step Chitty Management",password_placeholder:"Admin Password അടിക്കുക",admin_login:"Admin Login",guest_login:"Guest ആയി കാണുക",login_note:"Admin മാത്രം: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 നിയമങ്ങൾ",nav_feedback:"💬 അഭിപ്രായം",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member പേര്",member_phone:"WhatsApp നമ്പർ (91...)",add_member:"➕ Member Add ചെയ്യുക",rules_title:"📋 കുറിയുടെ നിയമങ്ങൾ",new_rule:"പുതിയ നിയമം എഴുതുക",add_rule:"➕ നിയമം Add ചെയ്യുക",feedback_title:"💬 Customer അഭിപ്രായം",your_name:"നിങ്ങളുടെ പേര്",your_feedback:"നിങ്ങളുടെ അഭിപ്രായം എഴുതുക...",submit_feedback:"📝 അഭിപ്രായം Submit ചെയ്യുക",all_feedbacks:"📢 എല്ലാ അഭിപ്രായങ്ങളും",letter_title:"🚨 Emergency Letter",letter_to:"ആർക്ക്? (പേര്)",letter_subject:"വിഷയം",letter_body:"കത്തിന്റെ ഉള്ളടക്കം എഴുതുക...",generate_letter:"📄 Letter Generate ചെയ്യുക",generated_letter:"Generated Letter:",copy_letter:"📋 Copy ചെയ്യുക",share_whatsapp:"📱 WhatsApp-ൽ Share",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"},en:{welcome:"Welcome to Mashood Chitty",title:"Mashood Chitty",subtitle:"Lucky Step Chitty Management",password_placeholder:"Enter Admin Password",admin_login:"Admin Login",guest_login:"View as Guest",login_note:"Admin only: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 Rules",nav_feedback:"💬 Feedback",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member Name",member_phone:"WhatsApp Number (91...)",add_member:"➕ Add Member",rules_title:"📋 Chitty Rules",new_rule:"Write new rule",add_rule:"➕ Add Rule",feedback_title:"💬 Customer Feedback",your_name:"Your Name",your_feedback:"Write your feedback...",submit_feedback:"📝 Submit Feedback",all_feedbacks:"📢 All Feedbacks",letter_title:"🚨 Emergency Letter",letter_to:"To (Name)",letter_subject:"Subject",letter_body:"Write letter content...",generate_letter:"📄 Generate Letter",generated_letter:"Generated Letter:",copy_letter:"📋 Copy",share_whatsapp:"📱 Share on WhatsApp",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"}};localStorage.getItem('isAdmin')==='true'&&(isAdmin=!0,showMainPage());function setLang(e){currentLang=e,document.querySelectorAll('.lang-btn').forEach(t=>t.classList.remove('active')),event.target.classList.add('active'),document.querySelectorAll('[data-lang]').forEach(t=>{t.textContent=translations[e][t.dataset.lang]}),document.querySelectorAll('[data-lang-placeholder]').forEach(t=>{t.placeholder=translations[e][t.dataset.langPlaceholder]}),document.documentElement.lang=e}function adminLogin(){ADMIN_PASSWORDS.includes(document.getElementById('password').value)?(isAdmin=!0,localStorage.setItem('isAdmin','true'),showMainPage()):alert(currentLang
