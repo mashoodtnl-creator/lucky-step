@@ -4,12 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0d8a4d">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Mashood കുറി">
     <title>Mashood കുറി - Lucky Step v12</title>
-    <link rel="manifest" href="data:application/manifest+json,{%22name%22%3A%22Mashood%20%E0%B4%95%E0%B5%81%E0%B4%B1%E0%B4%BF%22%2C%22short_name%22%3A%22Mashood%20%E0%B4%95%E0%B5%81%E0%B4%B1%E0%B4%BF%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230d8a4d%22%2C%22theme_color%22%3A%22%230d8a4d%22%2C%22icons%22%3A[%7B%22src%22%3A%22https%3A%2F%2Fi.ibb.co%2Fb3Lk6pH%2Fwhatsapp-logo.png%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D]}">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);min-height:100vh;padding:20px}#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:fadeOut.5s ease 2s forwards}.splash-logo{width:120px;height:120px;border-radius:30px;margin-bottom:20px;animation:bounce 1s ease infinite}.splash-text{color:white;font-size:28px;font-weight:bold}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}@keyframes fadeOut{to{opacity:0;visibility:hidden}}.container{background:white;padding:25px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:600px;margin:0 auto;animation:slideUp.5s ease 2.2s backwards}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.lang-switch{display:flex;gap:5px}.lang-btn{padding:6px 12px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;border-radius:6px;font-size:13px;cursor:pointer;width:auto;margin:0}.lang-btn.active{background:#0d8a4d;color:white}.login-header{text-align:center;margin-bottom:25px}.login-logo{width:80px;height:80px;border-radius:20px;margin:0 auto 15px;display:block}h1{color:#0d8a4d;text-align:center;margin-bottom:10px;font-size:26px}.subtitle{text-align:center;color:#666;margin-bottom:25px;font-size:14px}h2{color:#0d8a4d;margin:20px 0 15px;font-size:20px}input,textarea,select{width:100%;padding:12px;margin:8px 0;border:2px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit}textarea{min-height:100px;resize:vertical}input:focus,textarea:focus{outline:none;border-color:#0d8a4d}button{width:100%;padding:14px;background:#0d8a4d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:10px 0;transition:background.3s}button:hover{background:#0a6e3d}button:disabled{background:#ccc;cursor:not-allowed}button.secondary{background:#6c757d}button.danger{background:#dc3545}.hidden{display:none!important}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.header-logo{width:45px;height:45px;border-radius:12px}.user-badge{background:#0d8a4d;color:white;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}.user-badge.guest{background:#6c757d}.nav-menu{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}.nav-btn{padding:12px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;font-size:14px}.nav-btn.active{background:#0d8a4d;color:white}.member,.rule-item,.feedback-item{background:#f8f9fa;padding:15px;margin:10px 0;border-radius:10px;border-left:4px solid #0d8a4d}.member-name{font-weight:bold;color:#0d8a4d;font-size:16px;margin-bottom:5px}.whatsapp-btn{background:#25D366;padding:8px 16px;font-size:14px;width:auto;margin-top:8px;display:inline-block}.feedback-item{border-left-color:#ffc107}.feedback-name{font-weight:bold;color:#856404}.feedback-date{font-size:12px;color:#999;margin-top:5px}.letter-box{background:#f8f9fa;padding:20px;border-radius:10px;border:2px solid #0d8a4d;margin:15px 0;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.6}.admin-only{display:none}.admin-mode.admin-only{display:block}.footer{text-align:center;margin-top:30px;padding-top:20px;border-top:2px solid #f0f0f0}.footer-img{width:70px;height:70px;border-radius:50%;margin:10px auto;display:block;border:3px solid #0d8a4d}.footer-text{color:#666;font-size:13px;margin-top:8px;font-weight:600}
     </style>
@@ -93,7 +88,6 @@
                         <button class="secondary" onclick="shareLetter()" data-lang="share_whatsapp">📱 WhatsApp-ൽ Share</button>
                     </div>
                 </div>
-            </div>
             <div class="footer">
                 <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Mashood" class="footer-img">
                 <div class="footer-text" data-lang="footer">App Created by Mashood</div>
@@ -101,4 +95,171 @@
         </div>
     </div>
     <script>
-        const ADMIN_PASSWORDS=['admin123','mashood456'];let currentLang='ml',isAdmin=!1,members=JSON.parse(localStorage.getItem('members')||'[]'),rules=JSON.parse(localStorage.getItem('rules')||'["1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുമ്പ് പണം അടക്കണം / Pay before 5th of every month","2. വൈകിയാൽ 100 രൂപ പിഴ / 100 Rs fine for delay","3. കുറി എടുത്താൽ പിന്നെ പിൻമാറാൻ പറ്റില്ല / No withdrawal after joining"]'),feedbacks=JSON.parse(localStorage.getItem('feedbacks')||'[]');const translations={ml:{welcome:"Welcome to Mashood കുറി",title:"Mashood കുറി",subtitle:"Lucky Step Chitty Management",password_placeholder:"Admin Password അടിക്കുക",admin_login:"Admin Login",guest_login:"Guest ആയി കാണുക",login_note:"Admin മാത്രം: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 നിയമങ്ങൾ",nav_feedback:"💬 അഭിപ്രായം",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member പേര്",member_phone:"WhatsApp നമ്പർ (91...)",add_member:"➕ Member Add ചെയ്യുക",rules_title:"📋 കുറിയുടെ നിയമങ്ങൾ",new_rule:"പുതിയ നിയമം എഴുതുക",add_rule:"➕ നിയമം Add ചെയ്യുക",feedback_title:"💬 Customer അഭിപ്രായം",your_name:"നിങ്ങളുടെ പേര്",your_feedback:"നിങ്ങളുടെ അഭിപ്രായം എഴുതുക...",submit_feedback:"📝 അഭിപ്രായം Submit ചെയ്യുക",all_feedbacks:"📢 എല്ലാ അഭിപ്രായങ്ങളും",letter_title:"🚨 Emergency Letter",letter_to:"ആർക്ക്? (പേര്)",letter_subject:"വിഷയം",letter_body:"കത്തിന്റെ ഉള്ളടക്കം എഴുതുക...",generate_letter:"📄 Letter Generate ചെയ്യുക",generated_letter:"Generated Letter:",copy_letter:"📋 Copy ചെയ്യുക",share_whatsapp:"📱 WhatsApp-ൽ Share",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"},en:{welcome:"Welcome to Mashood Chitty",title:"Mashood Chitty",subtitle:"Lucky Step Chitty Management",password_placeholder:"Enter Admin Password",admin_login:"Admin Login",guest_login:"View as Guest",login_note:"Admin only: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 Rules",nav_feedback:"💬 Feedback",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member Name",member_phone:"WhatsApp Number (91...)",add_member:"➕ Add Member",rules_title:"📋 Chitty Rules",new_rule:"Write new rule",add_rule:"➕ Add Rule",feedback_title:"💬 Customer Feedback",your_name:"Your Name",your_feedback:"Write your feedback...",submit_feedback:"📝 Submit Feedback",all_feedbacks:"📢 All Feedbacks",letter_title:"🚨 Emergency Letter",letter_to:"To (Name)",letter_subject:"Subject",letter_body:"Write letter content...",generate_letter:"📄 Generate Letter",generated_letter:"Generated Letter:",copy_letter:"📋 Copy",share_whatsapp:"📱 Share on WhatsApp",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"}};localStorage.getItem('isAdmin')==='true'&&(isAdmin=!0,showMainPage());function setLang(e){currentLang=e,document.querySelectorAll('.lang-btn').forEach(t=>t.classList.remove('active')),event.target.classList.add('active'),document.querySelectorAll('[data-lang]').forEach(t=>{t.textContent=translations[e][t.dataset.lang]}),document.querySelectorAll('[data-lang-placeholder]').forEach(t=>{t.placeholder=translations[e][t.dataset.langPlaceholder]}),document.documentElement.lang=e}function adminLogin(){ADMIN_PASSWORDS.includes(document.getElementById('password').value)?(isAdmin=!0,localStorage.setItem('isAdmin','true'),showMainPage()):alert(currentLang
+        const ADMIN_PASSWORDS=['admin123','mashood456'];
+        let currentLang='ml',isAdmin=false;
+        let members=JSON.parse(localStorage.getItem('members')||'[]');
+        let rules=JSON.parse(localStorage.getItem('rules')||'["1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുമ്പ് പണം അടക്കണം","2. വൈകിയാൽ 100 രൂപ പിഴ","3. കുറി എടുത്താൽ പിന്നെ പിൻമാറാൻ പറ്റില്ല"]');
+        let feedbacks=JSON.parse(localStorage.getItem('feedbacks')||'[]');
+
+        const translations={ml:{welcome:"Welcome to Mashood കുറി",title:"Mashood കുറി",subtitle:"Lucky Step Chitty Management",password_placeholder:"Admin Password അടിക്കുക",admin_login:"Admin Login",guest_login:"Guest ആയി കാണുക",login_note:"Admin മാത്രം: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 നിയമങ്ങൾ",nav_feedback:"💬 അഭിപ്രായം",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member പേര്",member_phone:"WhatsApp നമ്പർ (91...)",add_member:"➕ Member Add ചെയ്യുക",rules_title:"📋 കുറിയുടെ നിയമങ്ങൾ",new_rule:"പുതിയ നിയമം എഴുതുക",add_rule:"➕ നിയമം Add ചെയ്യുക",feedback_title:"💬 Customer അഭിപ്രായം",your_name:"നിങ്ങളുടെ പേര്",your_feedback:"നിങ്ങളുടെ അഭിപ്രായം എഴുതുക...",submit_feedback:"📝 അഭിപ്രായം Submit ചെയ്യുക",all_feedbacks:"📢 എല്ലാ അഭിപ്രായങ്ങളും",letter_title:"🚨 Emergency Letter",letter_to:"ആർക്ക്? (പേര്)",letter_subject:"വിഷയം",letter_body:"കത്തിന്റെ ഉള്ളടക്കം എഴുതുക...",generate_letter:"📄 Letter Generate ചെയ്യുക",generated_letter:"Generated Letter:",copy_letter:"📋 Copy ചെയ്യുക",share_whatsapp:"📱 WhatsApp-ൽ Share",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"},en:{welcome:"Welcome to Mashood Chitty",title:"Mashood Chitty",subtitle:"Lucky Step Chitty Management",password_placeholder:"Enter Admin Password",admin_login:"Admin Login",guest_login:"View as Guest",login_note:"Admin only: admin123 / mashood456",logout:"Logout",nav_dashboard:"🏠 Dashboard",nav_rules:"📋 Rules",nav_feedback:"💬 Feedback",nav_letter:"🚨 Emergency",members_title:"👥 Members List",member_name:"Member Name",member_phone:"WhatsApp Number (91...)",add_member:"➕ Add Member",rules_title:"📋 Chitty Rules",new_rule:"Write new rule",add_rule:"➕ Add Rule",feedback_title:"💬 Customer Feedback",your_name:"Your Name",your_feedback:"Write your feedback...",submit_feedback:"📝 Submit Feedback",all_feedbacks:"📢 All Feedbacks",letter_title:"🚨 Emergency Letter",letter_to:"To (Name)",letter_subject:"Subject",letter_body:"Write letter content...",generate_letter:"📄 Generate Letter",generated_letter:"Generated Letter:",copy_letter:"📋 Copy",share_whatsapp:"📱 Share on WhatsApp",footer:"App Created by Mashood",guest_badge:"👤 Guest",admin_badge:"👑 Admin"}};
+
+        if(localStorage.getItem('isAdmin')==='true'){isAdmin=true;showMainPage();}
+
+        function setLang(lang){
+            currentLang=lang;
+            document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('[data-lang]').forEach(el=>{el.textContent=translations[lang][el.dataset.lang]});
+            document.querySelectorAll('[data-lang-placeholder]').forEach(el=>{el.placeholder=translations[lang][el.dataset.langPlaceholder]});
+            document.documentElement.lang=lang;
+        }
+
+        function adminLogin(){
+            const pass=document.getElementById('password').value;
+            if(ADMIN_PASSWORDS.includes(pass)){
+                isAdmin=true;
+                localStorage.setItem('isAdmin','true');
+                showMainPage();
+            }else{
+                alert(currentLang==='ml'?'Password തെറ്റ്!':'Wrong Password!');
+            }
+        }
+
+        function guestLogin(){
+            isAdmin=false;
+            localStorage.setItem('isAdmin','false');
+            showMainPage();
+        }
+
+        function showMainPage(){
+            document.getElementById('loginPage').classList.add('hidden');
+            document.getElementById('mainPage').classList.remove('hidden');
+            document.getElementById('userBadge').textContent=translations[currentLang][isAdmin?'admin_badge':'guest_badge'];
+            document.getElementById('userBadge').className='user-badge '+(isAdmin?'':'guest');
+            if(isAdmin) document.getElementById('mainContainer').classList.add('admin-mode');
+            renderMembers();renderRules();renderFeedbacks();
+        }
+
+        function logout(){
+            isAdmin=false;
+            localStorage.setItem('isAdmin','false');
+            document.getElementById('loginPage').classList.remove('hidden');
+            document.getElementById('mainPage').classList.add('hidden');
+            document.getElementById('password').value='';
+            document.getElementById('mainContainer').classList.remove('admin-mode');
+        }
+
+        function showPage(page){
+            document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
+            event.target.classList.add('active');
+            ['dashboard','rules','feedback','letter'].forEach(p=>{
+                document.getElementById(p+'Page').classList.add('hidden');
+            });
+            document.getElementById(page+'Page').classList.remove('hidden');
+        }
+
+        function addMember(){
+            const name=document.getElementById('memberName').value;
+            const phone=document.getElementById('memberPhone').value;
+            if(name&&phone){
+                members.push({name,phone});
+                localStorage.setItem('members',JSON.stringify(members));
+                document.getElementById('memberName').value='';
+                document.getElementById('memberPhone').value='';
+                renderMembers();
+            }
+        }
+
+        function renderMembers(){
+            const list=document.getElementById('membersList');
+            list.innerHTML=members.map((m,i)=>`
+                <div class="member">
+                    <div class="member-name">${m.name}</div>
+                    <div>${m.phone}</div>
+                    <a href="https://wa.me/${m.phone}" target="_blank" class="whatsapp-btn">WhatsApp</a>
+                    ${isAdmin?`<button class="danger" style="width:auto;padding:6px 12px;margin-left:5px" onclick="deleteMember(${i})">Delete</button>`:''}
+                </div>
+            `).join('')||'<p style="text-align:center;color:#999">No members yet</p>';
+        }
+
+        function deleteMember(i){
+            if(confirm('Delete this member?')){
+                members.splice(i,1);
+                localStorage.setItem('members',JSON.stringify(members));
+                renderMembers();
+            }
+        }
+
+        function addRule(){
+            const rule=document.getElementById('newRule').value;
+            if(rule){
+                rules.push(rule);
+                localStorage.setItem('rules',JSON.stringify(rules));
+                document.getElementById('newRule').value='';
+                renderRules();
+            }
+        }
+
+        function renderRules(){
+            document.getElementById('rulesList').innerHTML=rules.map((r,i)=>`
+                <div class="rule-item">
+                    ${r}
+                    ${isAdmin?`<button class="danger" style="width:auto;padding:4px 8px;margin-top:5px" onclick="deleteRule(${i})">Delete</button>`:''}
+                </div>
+            `).join('');
+        }
+
+        function deleteRule(i){
+            if(confirm('Delete this rule?')){
+                rules.splice(i,1);
+                localStorage.setItem('rules',JSON.stringify(rules));
+                renderRules();
+            }
+        }
+
+        function addFeedback(){
+            const name=document.getElementById('feedbackName').value||'Anonymous';
+            const text=document.getElementById('feedbackText').value;
+            if(text){
+                feedbacks.unshift({name,text,date:new Date().toLocaleDateString()});
+                localStorage.setItem('feedbacks',JSON.stringify(feedbacks));
+                document.getElementById('feedbackName').value='';
+                document.getElementById('feedbackText').value='';
+                renderFeedbacks();
+                alert(currentLang==='ml'?'അഭിപ്രായം Save ചെയ്തു!':'Feedback Saved!');
+            }
+        }
+
+        function renderFeedbacks(){
+            document.getElementById('feedbackList').innerHTML=feedbacks.map(f=>`
+                <div class="feedback-item">
+                    <div class="feedback-name">${f.name}</div>
+                    <div>${f.text}</div>
+                    <div class="feedback-date">${f.date}</div>
+                </div>
+            `).join('')||'<p style="text-align:center;color:#999">No feedbacks yet</p>';
+        }
+
+        function generateLetter(){
+            const to=document.getElementById('letterTo').value;
+            const subject=document.getElementById('letterSubject').value;
+            const body=document.getElementById('letterBody').value;
+            if(to&&subject&&body){
+                const letter=`To: ${to}\n\nSubject: ${subject}\n\n${body}\n\nFrom,\nMashood കുറി\n${new Date().toLocaleDateString()}`;
+                document.getElementById('letterContent').textContent=letter;
+                document.getElementById('letterOutput').classList.remove('hidden');
+            }
+        }
+
+        function copyLetter(){
+            navigator.clipboard.writeText(document.getElementById('letterContent').textContent);
+            alert(currentLang==='ml'?'Copy ചെയ്തു!':'Copied!');
+        }
+
+        function shareLetter(){
+            const text=document.getElementById('letterContent').textContent;
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
+        }
+    </script>
+</body>
+</html>
