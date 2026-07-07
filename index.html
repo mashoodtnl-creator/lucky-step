@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0d5a2f">
-    <title>Mashood കുറി - Lucky Step Chitty Management</title>
+    <title>MASHOOD കുറി - Lucky Step Chitty</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
     <div id="splash">
         <div class="splash-logo">
-            <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Mashood">
-            <div class="logo-text">
-                <h1>MASHOOD കുറി</h1>
-                <p>LUCKY STEP CHITTY MANAGEMENT</p>
-            </div>
+            <img src="logo.png" alt="Mashood Kuri" class="main-logo">
         </div>
         <h2>സ്വാഗതം</h2>
         <h3>Mashood കുറിയിലേക്ക്</h3>
@@ -24,26 +20,22 @@
         <p class="created-by">Created by <strong>MASHOOD THENNALA</strong></p>
     </div>
 
-    <div class="container" id="mainContainer">
+    <div class="container" id="mainContainer" style="display:none">
         <div id="loginPage">
             <div class="login-header">
-                <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Logo" class="login-logo">
+                <img src="logo.png" alt="Logo" class="login-logo">
                 <h1>MASHOOD കുറി</h1>
                 <p>LUCKY STEP CHITTY MANAGEMENT</p>
             </div>
             <div class="login-cards">
                 <div class="login-card" onclick="showLogin('admin')">
-                    <i class="ri-admin-line"></i>
-                    <h3>ADMIN LOGIN</h3>
-                    <p>അഡ്മിൻ ലോഗിൻ</p>
+                    <i class="ri-admin-line"></i><h3>ADMIN LOGIN</h3><p>അഡ്മിൻ ലോഗിൻ</p>
                 </div>
                 <div class="login-card" onclick="showLogin('member')">
-                    <i class="ri-user-line"></i>
-                    <h3>MEMBER LOGIN</h3>
-                    <p>മെമ്പർ ലോഗിൻ</p>
+                    <i class="ri-user-line"></i><h3>MEMBER LOGIN</h3><p>മെമ്പർ ലോഗിൻ</p>
                 </div>
             </div>
-            <p class="footer-text">Created by <strong>MASHOOD THENNALA</strong></p>
+            <p class="created-by-login">Created by <strong>MASHOOD THENNALA</strong></p>
         </div>
 
         <div id="adminLoginBox" class="hidden login-box">
@@ -72,26 +64,20 @@
             <button class="secondary" onclick="backToLogin()">Back to Login</button>
         </div>
 
-        <!-- Admin Dashboard -->
         <div id="adminPage" class="hidden">
             <div class="top-nav">
-                <div class="nav-left"><i class="ri-menu-line" onclick="toggleSidebar()"></i><h3>MASHOOD കുറി</h3></div>
-                <div class="nav-right">
-                    <i class="ri-notification-line"></i>
-                    <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" class="nav-avatar">
-                </div>
+                <div class="nav-left"><i class="ri-menu-line" onclick="toggleSidebar()"></i><h3>MASHOOD കുറി</h3><p>Admin Dashboard</p></div>
+                <div class="nav-right"><img src="logo.png" class="nav-avatar"></div>
+            </div>
             <div class="sidebar" id="sidebar">
                 <a onclick="showAdminTab('home')" class="active"><i class="ri-home-line"></i> Home</a>
                 <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
                 <a onclick="showAdminTab('collection')"><i class="ri-wallet-3-line"></i> Collection</a>
                 <a onclick="showAdminTab('draw')"><i class="ri-trophy-line"></i> Draw</a>
                 <a onclick="showAdminTab('reports')"><i class="ri-bar-chart-line"></i> Reports</a>
-                <a onclick="showAdminTab('chat')"><i class="ri-chat-3-line"></i> Chat</a>
-                <a onclick="showAdminTab('feedback')"><i class="ri-star-line"></i> Feedback</a>
-                <a onclick="showAdminTab('rules')"><i class="ri-file-list-line"></i> Rules</a>
                 <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
             </div>
-            
+
             <div id="adminHome" class="admin-tab">
                 <div class="stats-grid">
                     <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
@@ -99,15 +85,18 @@
                     <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid Members</p></div></div>
                     <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending Members</p></div></div>
                 </div>
-                <div class="quick-actions">
-                    <button onclick="showAdminTab('members')"><i class="ri-user-add-line"></i> Add Member</button>
-                    <button onclick="showAdminTab('collection')"><i class="ri-add-circle-line"></i> Add Collection</button>
-                    <button onclick="showAdminTab('draw')"><i class="ri-trophy-line"></i> Start Draw</button>
-                    <button onclick="showAdminTab('reports')"><i class="ri-file-chart-line"></i> View Report</button>
-                </div>
                 <div class="card">
                     <h3><i class="ri-trophy-line"></i> Recent Winners</h3>
-                    <div id="recentWinners"></div>
+                    <div id="recentWinners">No draws yet</div>
+                </div>
+                <div class="card">
+                    <h3>Quick Actions</h3>
+                    <div class="quick-actions">
+                        <button onclick="showAdminTab('members')"><i class="ri-user-add-line"></i> Add Member</button>
+                        <button onclick="showAdminTab('collection')"><i class="ri-add-circle-line"></i> Add Collection</button>
+                        <button onclick="showAdminTab('draw')" class="warning"><i class="ri-trophy-line"></i> Start Draw</button>
+                        <button onclick="showAdminTab('reports')" class="info"><i class="ri-file-chart-line"></i> View Report</button>
+                    </div>
                 </div>
             </div>
 
@@ -118,10 +107,10 @@
                     <input type="text" id="newMemName" placeholder="Name *">
                     <input type="text" id="newMemPhone" placeholder="Phone *">
                     <input type="password" id="newMemPass" placeholder="Password *">
-                    <input type="number" id="newMemAmount" placeholder="Monthly Amount *" value="1000">
+                    <input type="number" id="newMemAmount" placeholder="Amount *" value="1000">
                     <button onclick="addMemberByAdmin()">Add Member</button>
                 </div>
-                <input type="text" id="searchMember" placeholder="🔍 Search Member..." onkeyup="renderAdminMembers()">
+                <input type="text" id="searchMember" placeholder="🔍 Search..." onkeyup="renderAdminMembers()">
                 <div id="adminMembersList"></div>
             </div>
 
@@ -130,7 +119,6 @@
                 <div class="card">
                     <select id="colMonth" onchange="renderCollection()"></select>
                     <button onclick="markAllPaid()">✅ Mark All Paid</button>
-                    <button onclick="sendWhatsAppReminders()" class="warning"><i class="ri-whatsapp-line"></i> Send Reminders</button>
                 </div>
                 <div id="collectionList"></div>
             </div>
@@ -144,84 +132,40 @@
                     <button onclick="selectManualWinner()" class="info">Select Winner</button>
                 </div>
                 <div id="winnerDisplay"></div>
-                <h3>Draw History</h3>
-                <div id="drawHistory"></div>
             </div>
 
             <div id="adminReports" class="admin-tab hidden">
                 <h2><i class="ri-bar-chart-line"></i> Reports</h2>
                 <select id="reportMonth" onchange="renderReport()"></select>
                 <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
-                <button onclick="exportPDF()" class="warning"><i class="ri-file-pdf-line"></i> Export PDF</button>
                 <div id="reportSummary"></div>
                 <div id="reportTable"></div>
             </div>
-
-            <div id="adminChat" class="admin-tab hidden">
-                <h2><i class="ri-chat-3-line"></i> Chat</h2>
-                <select id="chatMember" onchange="loadChat()"></select>
-                <div class="chat-box" id="chatBox"></div>
-                <div class="chat-input">
-                    <input type="text" id="chatMsg" placeholder="Type message...">
-                    <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
-                </div>
-            </div>
-
-            <div id="adminFeedback" class="admin-tab hidden">
-                <h2><i class="ri-star-line"></i> Feedback</h2>
-                <div id="feedbackList"></div>
-            </div>
-
-            <div id="adminRules" class="admin-tab hidden">
-                <h2><i class="ri-file-list-line"></i> Rules</h2>
-                <div id="rulesList"></div>
-                <div class="card">
-                    <input type="text" id="newRule" placeholder="Add new rule">
-                    <button onclick="addRule()">Add Rule</button>
-                </div>
-            </div>
         </div>
 
-        <!-- Member Dashboard -->
         <div id="memberPage" class="hidden">
             <div class="top-nav">
                 <div class="nav-left"><h3>MASHOOD കുറി</h3></div>
-                <div class="nav-right">
-                    <span id="memberNameNav"></span>
-                    <button class="small danger" onclick="logout()">Logout</button>
-                </div>
+                <div class="nav-right"><span id="memberNameNav"></span><button class="small danger" onclick="logout()">Logout</button></div>
             </div>
             <div class="member-dashboard">
                 <div class="card member-info">
-                    <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" class="member-avatar">
-                    <h2 id="memName"></h2>
-                    <p id="memPhone"></p>
-                    <p>Monthly Amount: <strong id="memAmount"></strong></p>
+                    <img src="logo.png" class="member-avatar">
+                    <h2 id="memName"></h2><p id="memPhone"></p><p>Monthly: <strong id="memAmount"></strong></p>
                 </div>
                 <div class="stats-grid">
                     <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="memPaidCount">0</h2><p>Paid Months</p></div></div>
                     <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="memDueCount">0</h2><p>Pending</p></div></div>
                 </div>
-                <div class="card">
-                    <h3><i class="ri-calendar-check-line"></i> Payment Status</h3>
-                    <div id="memPaymentStatus"></div>
-                </div>
-                <div class="card">
-                    <h3><i class="ri-chat-3-line"></i> Chat with Admin</h3>
-                    <div class="chat-box" id="memChatBox"></div>
-                    <div class="chat-input">
-                        <input type="text" id="memChatMsg" placeholder="Type message...">
-                        <button onclick="sendMemberChat()"><i class="ri-send-plane-fill"></i></button>
-                    </div>
-                <div class="card">
-                    <h3><i class="ri-star-line"></i> Send Feedback</h3>
-                    <textarea id="memFeedback" placeholder="Your feedback..."></textarea>
-                    <button onclick="submitMemberFeedback()">Submit Feedback</button>
-                </div>
+                <div class="card"><h3><i class="ri-calendar-check-line"></i> Payment Status</h3><div id="memPaymentStatus"></div></div>
             </div>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <div class="footer">
+        <p>Created by <strong>MASHOOD THENNALA</strong></p>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
