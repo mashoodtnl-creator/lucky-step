@@ -134,7 +134,27 @@
                 <div id="winnerDisplay"></div>
             </div>
 
-            <div id="adminReports" class="admin-tab hidden">
+            <div id="adminReports" class="admin-tab hidden"><div id="adminNotice" class="admin-tab hidden">
+  <h2><i class="ri-notification-3-line"></i> Notice / നിബന്ധന</h2>
+  <div class="card">
+    <h3>Add Notice</h3>
+    <input type="text" id="noticeTitle" placeholder="Notice Title *">
+    <textarea id="noticeMsg" placeholder="Notice Message *"></textarea>
+    <button onclick="addNotice()">Send Notice</button>
+  </div>
+  <div class="card">
+    <h3>നിബന്ധനകൾ</h3>
+    <textarea readonly style="height:200px;">
+1. എല്ലാ അംഗങ്ങളും മാസം തോറും നിശ്ചിത തുക അടക്കണം.
+2. Draw നടത്തുന്ന തീയതി Admin തീരുമാനിക്കും.
+3. Winner-ക്ക് മുഴുവൻ തുകയും ലഭിക്കും.
+4. അടക്കാത്ത അംഗങ്ങൾക്ക് Draw-ൽ പങ്കെടുക്കാൻ കഴിയില്ല.
+5. MASHOOD THENNALA ആണ് ഈ കുറിയുടെ Admin.
+6. Admin-ന്റെ തീരുമാനം അന്തിമമാണ്.
+7. തർക്കങ്ങൾ ഉണ്ടായാൽ Admin തീർപ്പ് കൽപ്പിക്കും.
+    </textarea>
+  </div>
+</div>
                 <h2><i class="ri-bar-chart-line"></i> Reports</h2>
                 <select id="reportMonth" onchange="renderReport()"></select>
                 <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
