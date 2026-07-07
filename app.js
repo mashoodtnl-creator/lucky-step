@@ -373,4 +373,4 @@ function memberLogin() {
 function logout() {
   currentUser = null;
   location.reload();
-}
+} 
