@@ -1,150 +1,206 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d5a2f">
-    <title>MASHOOD കുറി - Lucky Step Chitty</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MASHOOD കുറി - Lucky Step Chitty Management</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="splash">
-        <div class="splash-logo">
-            <img src="logo.png" alt="Mashood Kuri" class="main-logo">
+
+  <!-- Splash Screen -->
+  <div id="splash" class="splash">
+    <img src="logo.png" alt="MASHOOD THENNALA" class="splash-logo">
+    <h1 class="splash-title">സ്വാഗതം Mashood കുറിയിലേക്ക്</h1>
+    <p class="splash-tagline">വിശ്വാസം • സുതാര്യത • സൗഹൃദം</p>
+    <p class="splash-credit">Created by MASHOOD THENNALA</p>
+  </div>
+
+  <!-- Main Container -->
+  <div id="mainContainer" class="main-container" style="display: none;">
+
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+      <div class="login-container">
+        <div class="logo-section">
+          <img src="logo.png" alt="Logo" class="logo-img">
+          <h1 class="app-name">MASHOOD കുറി</h1>
+          <p class="app-tagline">LUCKY STEP CHITTY MANAGEMENT</p>
         </div>
-        <h2>സ്വാഗതം</h2>
-        <h3>Mashood കുറിയിലേക്ക്</h3>
-        <p>വിശ്വാസം • സുതാര്യത • സൗഹൃദം</p>
-        <div class="loading-bar"><div class="loading-progress"></div></div>
-        <p class="created-by">Created by <strong>MASHOOD THENNALA</strong></p>
+
+        <div class="login-buttons">
+          <button onclick="showLogin('admin')" class="login-btn admin-btn">
+            <i class="ri-shield-user-fill"></i> ADMIN LOGIN
+          </button>
+          <button onclick="showLogin('member')" class="login-btn member-btn">
+            <i class="ri-user-fill"></i> MEMBER LOGIN
+          </button>
+        </div>
+
+        <p class="footer-text">Created by <strong>MASHOOD THENNALA</strong></p>
+      </div>
+
+      <!-- Admin Login Box -->
+      <div id="adminLoginBox" class="login-box hidden">
+        <h2><i class="ri-shield-user-fill"></i> Admin Login</h2>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button onclick="adminLogin()">Login</button>
+        <button onclick="backToLogin()" class="secondary">Back</button>
+      </div>
+
+      <!-- Member Login Box -->
+      <div id="memberLoginBox" class="login-box hidden">
+        <h2><i class="ri-user-fill"></i> Member Login</h2>
+        <input type="text" id="memberPhone" placeholder="Phone Number">
+        <input type="password" id="memberPass" placeholder="Password">
+        <button onclick="memberLogin()">Login</button>
+        <button onclick="showRegister()" class="secondary">New Member? Register</button>
+        <button onclick="backToLogin()" class="secondary">Back</button>
+      </div>
+
+      <!-- Register Box -->
+      <div id="registerBox" class="login-box hidden">
+        <h2><i class="ri-user-add-fill"></i> Member Register</h2>
+        <input type="text" id="regName" placeholder="Full Name *">
+        <input type="text" id="regPhone" placeholder="Phone Number *">
+        <input type="password" id="regPass" placeholder="Password *">
+        <input type="number" id="regAmount" placeholder="Monthly Amount *">
+        <button onclick="memberRegister()">Register</button>
+        <button onclick="backToLogin()" class="secondary">Back</button>
+      </div>
     </div>
 
-    <div class="container" id="mainContainer" style="display:none">
-        <div id="loginPage">
-            <div class="login-header">
-                <img src="logo.png" alt="Logo" class="login-logo">
-                <h1>MASHOOD കുറി</h1>
-                <p>LUCKY STEP CHITTY MANAGEMENT</p>
-            </div>
-            <div class="login-cards">
-                <div class="login-card" onclick="showLogin('admin')">
-                    <i class="ri-admin-line"></i><h3>ADMIN LOGIN</h3><p>അഡ്മിൻ ലോഗിൻ</p>
-                </div>
-                <div class="login-card" onclick="showLogin('member')">
-                    <i class="ri-user-line"></i><h3>MEMBER LOGIN</h3><p>മെമ്പർ ലോഗിൻ</p>
-                </div>
-            </div>
-            <p class="created-by-login">Created by <strong>MASHOOD THENNALA</strong></p>
+    <!-- Admin Page -->
+    <div id="adminPage" class="admin-page hidden">
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img src="logo.png" alt="Logo" class="sidebar-logo">
+          <h3>MASHOOD കുറി</h3>
+        </div>
+        <nav>
+          <a onclick="showAdminTab('home')" class="active"><i class="ri-home-5-line"></i> Dashboard</a>
+          <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
+          <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
+          <a onclick="showAdminTab('draw')"><i class="ri-gift-line"></i> Lucky Draw</a>
+          <a onclick="showAdminTab('reports')"><i class="ri-bar-chart-line"></i> Reports</a>
+          <a onclick="showAdminTab('notice')"><i class="ri-notification-3-line"></i> Notice</a>
+          <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
+        </nav>
+      </div>
+
+      <div class="main-content">
+        <div class="top-nav">
+          <button onclick="toggleSidebar()" class="menu-btn"><i class="ri-menu-line"></i></button>
+          <h2>Admin Dashboard</h2>
         </div>
 
-        <div id="adminLoginBox" class="hidden login-box">
-            <h2><i class="ri-shield-keyhole-line"></i> Admin Login</h2>
-            <input type="password" id="adminPass" placeholder="Admin Password">
-            <button onclick="adminLogin()">Login</button>
-            <button class="secondary" onclick="backToLogin()">Back</button>
+        <!-- Dashboard Home -->
+        <div id="adminHome" class="admin-tab">
+          <h2><i class="ri-dashboard-line"></i> Overview</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <i class="ri-group-fill"></i>
+              <div>
+                <h2 id="totalMembers">0</h2>
+                <p>Total Members</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="ri-checkbox-circle-fill"></i>
+              <div>
+                <h2 id="paidMembers">0</h2>
+                <p>Paid This Month</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="ri-error-warning-fill"></i>
+              <div>
+                <h2 id="pendingMembers">0</h2>
+                <p>Pending</p>
+              </div>
+            </div>
+            <div class="stat-card">
+              <i class="ri-money-rupee-circle-fill"></i>
+              <div>
+                <h2 id="totalCollection">₹0</h2>
+                <p>Total Collection</p>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3><i class="ri-trophy-line"></i> Recent Winners</h3>
+            <div id="recentWinners"></div>
+          </div>
         </div>
 
-        <div id="memberLoginBox" class="hidden login-box">
-            <h2><i class="ri-user-line"></i> Member Login</h2>
-            <input type="text" id="memberPhone" placeholder="Phone Number">
-            <input type="password" id="memberPass" placeholder="Password">
-            <button onclick="memberLogin()">Login</button>
-            <button class="secondary" onclick="showRegister()">New Member? Register</button>
-            <button class="secondary" onclick="backToLogin()">Back</button>
+        <!-- Members Tab -->
+        <div id="adminMembers" class="admin-tab hidden">
+          <h2><i class="ri-group-line"></i> Members Management</h2>
+          <div class="card">
+            <h3>Add New Member</h3>
+            <input type="text" id="newMemName" placeholder="Name *">
+            <input type="text" id="newMemPhone" placeholder="Phone *">
+            <input type="password" id="newMemPass" placeholder="Password *">
+            <input type="number" id="newMemAmount" placeholder="Monthly Amount *">
+            <button onclick="addMemberByAdmin()">Add Member</button>
+          </div>
+          <div class="card">
+            <h3>All Members</h3>
+            <input type="text" id="searchMember" placeholder="Search..." onkeyup="renderAdminMembers()">
+            <div id="adminMembersList"></div>
+          </div>
         </div>
 
-        <div id="registerBox" class="hidden login-box">
-            <h2><i class="ri-user-add-line"></i> Member Register</h2>
-            <input type="text" id="regName" placeholder="Full Name *">
-            <input type="text" id="regPhone" placeholder="Phone Number *">
-            <input type="password" id="regPass" placeholder="Create Password *">
-            <input type="number" id="regAmount" placeholder="Monthly Amount *" value="1000">
-            <button onclick="memberRegister()">Register</button>
-            <button class="secondary" onclick="backToLogin()">Back to Login</button>
+        <!-- Collection Tab -->
+        <div id="adminCollection" class="admin-tab hidden">
+          <h2><i class="ri-money-rupee-circle-line"></i> Collection</h2>
+          <div class="card">
+            <select id="colMonth" onchange="renderCollection()"></select>
+            <button onclick="markAllPaid()" class="secondary">Mark All Paid</button>
+          </div>
+          <div id="collectionList"></div>
         </div>
 
-        <div id="adminPage" class="hidden">
-            <div class="top-nav">
-                <div class="nav-left"><i class="ri-menu-line" onclick="toggleSidebar()"></i><h3>MASHOOD കുറി</h3><p>Admin Dashboard</p></div>
-                <div class="nav-right"><img src="logo.png" class="nav-avatar"></div>
-            </div>
-            <div class="sidebar" id="sidebar">
-                <a onclick="showAdminTab('home')" class="active"><i class="ri-home-line"></i> Home</a>
-                <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
-                <a onclick="showAdminTab('collection')"><i class="ri-wallet-3-line"></i> Collection</a>
-                <a onclick="showAdminTab('draw')"><i class="ri-trophy-line"></i> Draw</a>
-                <a onclick="showAdminTab('reports')"><i class="ri-bar-chart-line"></i> Reports</a>
-                <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
-            </div>
+        <!-- Draw Tab -->
+        <div id="adminDraw" class="admin-tab hidden">
+          <h2><i class="ri-gift-line"></i> Lucky Draw</h2>
+          <div class="card">
+            <h3>Random Draw</h3>
+            <p>Click to select a random winner from paid members</p>
+            <button onclick="doRandomDraw()">🎲 Start Draw</button>
+            <div id="winnerDisplay"></div>
+          </div>
+          <div class="card">
+            <h3>Manual Winner Select</h3>
+            <select id="manualWinner"></select>
+            <button onclick="selectManualWinner()">Select Winner</button>
+          </div>
+        </div>
 
-            <div id="adminHome" class="admin-tab">
-                <div class="stats-grid">
-                    <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
-                    <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>This Month Collection</p></div></div>
-                    <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid Members</p></div></div>
-                    <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending Members</p></div></div>
-                </div>
-                <div class="card">
-                    <h3><i class="ri-trophy-line"></i> Recent Winners</h3>
-                    <div id="recentWinners">No draws yet</div>
-                </div>
-                <div class="card">
-                    <h3>Quick Actions</h3>
-                    <div class="quick-actions">
-                        <button onclick="showAdminTab('members')"><i class="ri-user-add-line"></i> Add Member</button>
-                        <button onclick="showAdminTab('collection')"><i class="ri-add-circle-line"></i> Add Collection</button>
-                        <button onclick="showAdminTab('draw')" class="warning"><i class="ri-trophy-line"></i> Start Draw</button>
-                        <button onclick="showAdminTab('reports')" class="info"><i class="ri-file-chart-line"></i> View Report</button>
-                    </div>
-                </div>
-            </div>
+        <!-- Reports Tab -->
+        <div id="adminReports" class="admin-tab hidden">
+          <h2><i class="ri-bar-chart-line"></i> Reports</h2>
+          <select id="reportMonth" onchange="renderReport()"></select>
+          <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
+          <div id="reportSummary"></div>
+          <div id="reportTable"></div>
+        </div>
 
-            <div id="adminMembers" class="admin-tab hidden">
-                <h2><i class="ri-group-line"></i> Members Management</h2>
-                <div class="card">
-                    <h3>Add New Member</h3>
-                    <input type="text" id="newMemName" placeholder="Name *">
-                    <input type="text" id="newMemPhone" placeholder="Phone *">
-                    <input type="password" id="newMemPass" placeholder="Password *">
-                    <input type="number" id="newMemAmount" placeholder="Amount *" value="1000">
-                    <button onclick="addMemberByAdmin()">Add Member</button>
-                </div>
-                <input type="text" id="searchMember" placeholder="🔍 Search..." onkeyup="renderAdminMembers()">
-                <div id="adminMembersList"></div>
-            </div>
-
-            <div id="adminCollection" class="admin-tab hidden">
-                <h2><i class="ri-wallet-3-line"></i> Monthly Collection</h2>
-                <div class="card">
-                    <select id="colMonth" onchange="renderCollection()"></select>
-                    <button onclick="markAllPaid()">✅ Mark All Paid</button>
-                </div>
-                <div id="collectionList"></div>
-            </div>
-
-            <div id="adminDraw" class="admin-tab hidden">
-                <h2><i class="ri-trophy-line"></i> Lucky Draw</h2>
-                <div class="card">
-                    <button onclick="doRandomDraw()" style="background:#ff9800"><i class="ri-shuffle-line"></i> Random Draw</button>
-                    <h3>Manual Winner Select</h3>
-                    <select id="manualWinner"></select>
-                    <button onclick="selectManualWinner()" class="info">Select Winner</button>
-                </div>
-                <div id="winnerDisplay"></div>
-            </div>
-
-            <div id="adminReports" class="admin-tab hidden"><div id="adminNotice" class="admin-tab hidden">
-  <h2><i class="ri-notification-3-line"></i> Notice / നിബന്ധന</h2>
-  <div class="card">
-    <h3>Add Notice</h3>
-    <input type="text" id="noticeTitle" placeholder="Notice Title *">
-    <textarea id="noticeMsg" placeholder="Notice Message *"></textarea>
-    <button onclick="addNotice()">Send Notice</button>
-  </div>
-  <div class="card">
-    <h3>നിബന്ധനകൾ</h3>
-    <textarea readonly style="height:200px;">
+        <!-- Notice Tab -->
+        <div id="adminNotice" class="admin-tab hidden">
+          <h2><i class="ri-notification-3-line"></i> Notice / നിബന്ധന</h2>
+          <div class="card">
+            <h3>Add Notice</h3>
+            <input type="text" id="noticeTitle" placeholder="Notice Title *">
+            <textarea id="noticeMsg" placeholder="Notice Message *"></textarea>
+            <button onclick="addNotice()">Send Notice</button>
+          </div>
+          <div class="card">
+            <h3>നിബന്ധനകൾ</h3>
+            <textarea readonly style="height:200px;">
 1. എല്ലാ അംഗങ്ങളും മാസം തോറും നിശ്ചിത തുക അടക്കണം.
 2. Draw നടത്തുന്ന തീയതി Admin തീരുമാനിക്കും.
 3. Winner-ക്ക് മുഴുവൻ തുകയും ലഭിക്കും.
@@ -152,40 +208,30 @@
 5. MASHOOD THENNALA ആണ് ഈ കുറിയുടെ Admin.
 6. Admin-ന്റെ തീരുമാനം അന്തിമമാണ്.
 7. തർക്കങ്ങൾ ഉണ്ടായാൽ Admin തീർപ്പ് കൽപ്പിക്കും.
-    </textarea>
-  </div>
-</div>
-                <h2><i class="ri-bar-chart-line"></i> Reports</h2>
-                <select id="reportMonth" onchange="renderReport()"></select>
-                <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
-                <div id="reportSummary"></div>
-                <div id="reportTable"></div>
-            </div>
+            </textarea>
+          </div>
         </div>
 
-        <div id="memberPage" class="hidden">
-            <div class="top-nav">
-                <div class="nav-left"><h3>MASHOOD കുറി</h3></div>
-                <div class="nav-right"><span id="memberNameNav"></span><button class="small danger" onclick="logout()">Logout</button></div>
-            </div>
-            <div class="member-dashboard">
-                <div class="card member-info">
-                    <img src="logo.png" class="member-avatar">
-                    <h2 id="memName"></h2><p id="memPhone"></p><p>Monthly: <strong id="memAmount"></strong></p>
-                </div>
-                <div class="stats-grid">
-                    <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="memPaidCount">0</h2><p>Paid Months</p></div></div>
-                    <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="memDueCount">0</h2><p>Pending</p></div></div>
-                </div>
-                <div class="card"><h3><i class="ri-calendar-check-line"></i> Payment Status</h3><div id="memPaymentStatus"></div></div>
-            </div>
+      </div>
+    </div>
+
+    <!-- Member Page -->
+    <div id="memberPage" class="hidden">
+      <div class="top-nav">
+        <h2>Welcome, <span id="memberNameNav"></span></h2>
+        <button onclick="logout()"><i class="ri-logout-box-line"></i> Logout</button>
+      </div>
+      <div class="main-content">
+        <div class="card">
+          <h3><i class="ri-user-line"></i> My Details</h3>
+          <p><strong>Name:</strong> <span id="memName"></span></p>
+          <p><strong>Phone:</strong> <span id="memPhone"></span></p>
+          <p><strong>Monthly Amount:</strong> <span id="memAmount"></span></p>
         </div>
-    </div>
-
-    <div class="footer">
-        <p>Created by <strong>MASHOOD THENNALA</strong></p>
-    </div>
-
-    <script src="app.js"></script>
-</body>
-</html>
+        <div class="card">
+          <h3><i class="ri-money-rupee-circle-line"></i> Payment Status</h3>
+          <div id="memPaymentStatus"></div>
+        </div>
+        <div class="card">
+          <h3><i class="ri-bar-chart-line"></i> My Stats</h3>
+          <p><strong>Paid Months
