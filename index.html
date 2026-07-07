@@ -120,4 +120,384 @@
     }
 
     .modal {
-      position: fixed; top: 0; left: 0; right: 0; bottom:
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8);
+      z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal .card { max-width: 500px; width: 100%; }
+    .hidden { display: none!important; }
+
+    .winner-display {
+      background: linear-gradient(135deg, #FF6B6B, #4ECDC4); color: white; text-align: center;
+      padding: 40px; border-radius: 16px; margin-top: 20px;
+      box-shadow: 0 0 40px rgba(78, 205, 196, 0.8);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="profile-pic">MA</div>
+      <div class="profile-info">
+        <h3>Mashood Thennala</h3>
+        <p>അഡ്മിനിസ്ട്രേറ്റർ പാനൽ</p>
+      </div>
+      <div class="btn-group">
+        <button class="btn primary small" onclick="resetApp()">റീസെറ്റ്</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="ri-group-fill"></i>
+        <div>
+          <h2 id="totalMembers">0</h2>
+          <p>ആകെ മെമ്പർമാർ</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="ri-money-rupee-circle-fill"></i>
+        <div>
+          <h2 id="totalCollection">₹0</h2>
+          <p>ആകെ കളക്ഷൻ</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <i class="ri-checkbox-circle-fill"></i>
+        <div>
+          <h2 id="paidMembers">0</h2>
+          <p>ഇനി അടച്ചവർ</p>
+        </div>
+      <div class="stat-card">
+        <i class="ri-time-fill"></i>
+        <div>
+          <h2 id="pendingMembers">0</h2>
+          <p>ബാക്കി നിൽക്കുന്നവർ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Left: Table + Wheel -->
+      <div>
+        <div class="card">
+          <div class="section-title">
+            <i class="ri-file-list-3-line"></i>
+            <span>കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ</span>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Mobile</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="membersTable"></tbody>
+            </table>
+          </div>
+          <button class="btn primary" onclick="showAddMember()" style="margin-top:15px;">+ Add Member</button>
+        </div>
+
+        <!-- Lucky Wheel -->
+        <div class="card">
+          <div class="section-title">
+            <i class="ri-wheel-line"></i>
+            <span>ലക്കി വിൽ നടുക്കെടുപ്പ്</span>
+          </div>
+          <div class="secret-box">
+            <p style="color:var(--secondary); font-size:14px; margin-bottom:10px;">
+              <i class="ri-lock-line"></i> Secret Winner Controller (മറ്റുള്ളവർ അറിയില്ല):
+            </p>
+            <select id="winnerSelect">
+              <option value="">-- Let it Spin Randomly --</option>
+            </select>
+          </div>
+          <div class="wheel-container">
+            <div class="wheel-box" id="wheelBox">
+              <div class="wheel-pointer"></div>
+              <div class="wheel-center" id="wheelCenter">Mashood Kuri</div>
+            </div>
+            <select id="monthSelect" style="width:200px; margin:10px auto; display:block;"></select>
+            <button class="btn secondary" onclick="spinWheel()">കറക്കി വിജയിയെ സേവ് ചെയ്യുക 🎲</button>
+            <div id="winnerDisplay"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Announcements -->
+      <div>
+        <div class="card">
+          <div class="section-title" style="color:var(--danger);">
+            <i class="ri-megaphone-line"></i>
+            <span>പ്രധാന സന്ദേശം</span>
+          </div>
+          <p style="color:var(--text-dim); font-size:13px; margin-bottom:10px;">നൽകുക</p>
+          <div class="announcement-box">
+            <textarea id="adminMsg" placeholder="സന്ദേശം എഴുതുക..."></textarea>
+            <button class="btn danger" onclick="saveMsg()">സന്ദേശം പബ്ലിഷ് ചെയ്യുക 📢</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <i class="ri-notification-3-line"></i>
+            <span>മെമ്പർ അറിയിപ്പുകൾ</span>
+          </div>
+          <textarea id="memberMsg" placeholder="ഈ മാസത്തെ കുറി നടുക്കെടുപ്പ് ഉടൻ അറിയിക്കുന്നതാണ്"></textarea>
+          <button class="btn primary" onclick="updateBanner()">Update Banner 📣</button>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <i class="ri-trophy-line"></i>
+            <span>വിജയികൾ</span>
+          </div>
+          <div id="winnersList"></div>
+          <button class="btn danger small" onclick="clearWinners()">Clear All Winners</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Member Modal -->
+  <div id="addMemberModal" class="modal hidden">
+    <div class="card">
+      <h3 style="color:var(--primary); margin-bottom:15px;">Add New Member</h3>
+      <input type="text" id="newMemName" placeholder="Name">
+      <input type="tel" id="newMemPhone" placeholder="Phone">
+      <input type="number" id="newMemAmount" placeholder="Amount" value="20000">
+      <div style="display:flex; gap:10px; margin-top:15px;">
+        <button class="btn primary" onclick="addMember()">Save</button>
+        <button class="btn danger" onclick="closeAddMember()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
+      members: [],
+      winners: [],
+      excludedWinners: [],
+      messages: { admin:'', member:'ഈ മാസത്തെ കുറി നടുക്കെടുപ്പ് ഉടൻ അറിയിക്കുന്നതാണ്' },
+      nextId: 1001
+    };
+
+    let currentMonth = new Date().toISOString().slice(0,7);
+
+    // AUTO INIT
+    (function init() {
+      updateStats();
+      renderTable();
+      loadMonths();
+      loadWinnerSelect();
+      loadMessages();
+      renderWinners();
+    })();
+
+    function saveDB() { localStorage.setItem('mashoodKuriDB', JSON.stringify(db)); }
+
+    function updateStats() {
+      const total = db.members.length;
+      const paid = db.members.filter(m => m.paid).length;
+      const pending = total - paid;
+      const collection = db.members.filter(m => m.paid).reduce((s,m) => s+m.amount, 0);
+      
+      document.getElementById('totalMembers').textContent = total;
+      document.getElementById('totalCollection').textContent = '₹' + collection.toLocaleString();
+      document.getElementById('paidMembers').textContent = paid;
+      document.getElementById('pendingMembers').textContent = pending;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('membersTable');
+      if(db.members.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Members ഇല്ല. Add ചെയ്യൂ.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = db.members.map(m => `
+        <tr>
+          <td>#${m.id}</td>
+          <td>${m.name}</td>
+          <td>${m.phone}</td>
+          <td>₹${m.amount.toLocaleString()}</td>
+          <td><span class="badge ${m.paid?'paid':'pending'}">${m.paid?'PAID':'PENDING'}</span></td>
+          <td><button class="btn small ${m.paid?'danger':'success'}" onclick="togglePaid(${m.id})">മാറ്റുക</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function togglePaid(id) {
+      const m = db.members.find(x => x.id === id);
+      m.paid = !m.paid;
+      saveDB();
+      renderTable();
+      updateStats();
+      loadWinnerSelect();
+    }
+
+    function showAddMember() {
+      document.getElementById('addMemberModal').classList.remove('hidden');
+    }
+
+    function closeAddMember() {
+      document.getElementById('addMemberModal').classList.add('hidden');
+    }
+
+    function addMember() {
+      const name = document.getElementById('newMemName').value.trim();
+      const phone = document.getElementById('newMemPhone').value.trim();
+      const amount = parseInt(document.getElementById('newMemAmount').value) || 20000;
+      
+      if(!name || !phone) return alert('Name & Phone required!');
+      
+      db.members.push({
+        id: db.nextId++,
+        name: name,
+        phone: phone,
+        amount: amount,
+        paid: false
+      });
+      saveDB();
+      renderTable();
+      updateStats();
+      loadWinnerSelect();
+      closeAddMember();
+      document.getElementById('newMemName').value = '';
+      document.getElementById('newMemPhone').value = '';
+      document.getElementById('newMemAmount').value = '20000';
+    }
+
+    function loadMonths() {
+      const select = document.getElementById('monthSelect');
+      let html = '';
+      for(let i=1; i<=25; i++) html += `<option value="${i}">Month ${i}</option>`;
+      select.innerHTML = html;
+    }
+
+    function loadWinnerSelect() {
+      const select = document.getElementById('winnerSelect');
+      select.innerHTML = '<option value="">-- Let it Spin Randomly --</option>' + 
+        db.members.filter(m => m.paid && !db.winners.find(w => w.phone === m.phone)).map(m => `<option value="${m.id}">${m.name} - ${m.phone}</option>`).join('');
+    }
+
+    function spinWheel() {
+      const winnerId = document.getElementById('winnerSelect').value;
+      const month = document.getElementById('monthSelect').value;
+      let winner;
+      
+      const wheelBox = document.getElementById('wheelBox');
+      wheelBox.classList.add('spin');
+      
+      setTimeout(() => {
+        if(winnerId) {
+          winner = db.members.find(m => m.id == winnerId);
+        } else {
+          const eligible = db.members.filter(m => m.paid && !db.winners.find(w => w.phone === m.phone) && !db.excludedWinners.includes(m.phone));
+          if(eligible.length === 0) {
+            alert('No eligible members!');
+            wheelBox.classList.remove('spin');
+            return;
+          }
+          winner = eligible[Math.floor(Math.random() * eligible.length)];
+        }
+        
+        if(!winner) {
+          alert('Select a winner!');
+          wheelBox.classList.remove('spin');
+          return;
+        }
+        
+        db.winners.push({name:winner.name, phone:winner.phone, amount:winner.amount, month:month});
+        saveDB();
+        
+        document.getElementById('wheelCenter').textContent = winner.name;
+        document.getElementById('winnerDisplay').innerHTML = `
+          <div class="winner-display">
+            <h2 style="font-size:40px;">🎉 WINNER 🎉</h2>
+            <h1 style="font-size:50px;margin:20px 0;">${winner.name}</h1>
+            <p style="font-size:24px;">📱 ${winner.phone}</p>
+            <p style="font-size:28px;margin-top:20px;font-weight:bold;">💰 ₹${winner.amount.toLocaleString()}</p>
+          </div>`;
+        
+        updateStats();
+        renderWinners();
+        loadWinnerSelect();
+        
+        setTimeout(() => {
+          wheelBox.classList.remove('spin');
+        }, 3000);
+      }, 3000);
+    }
+
+    function renderWinners() {
+      const div = document.getElementById('winnersList');
+      if(db.winners.length === 0) {
+        div.innerHTML = '<p style="color:var(--text-dim); text-align:center; padding:20px;">ഇതുവരെ Winners ഇല്ല</p>';
+        return;
+      }
+      div.innerHTML = db.winners.map((w,i) => `
+        <div style="padding:12px; border-bottom:1px solid rgba(78,205,196,0.1); display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h4 style="color:var(--primary);">Month ${w.month}: 🏆 ${w.name}</h4>
+            <p style="font-size:13px; color:var(--text-dim);">📱 ${w.phone} | 💰 ₹${w.amount.toLocaleString()}</p>
+          </div>
+          <button class="btn small ${db.excludedWinners.includes(w.phone)?'success':'danger'}" onclick="toggleExclude('${w.phone}')">
+            ${db.excludedWinners.includes(w.phone)?'Include':'Exclude'}
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function toggleExclude(phone) {
+      const idx = db.excludedWinners.indexOf(phone);
+      if(idx === -1) db.excludedWinners.push(phone);
+      else db.excludedWinners.splice(idx, 1);
+      saveDB();
+      renderWinners();
+      loadWinnerSelect();
+    }
+
+    function clearWinners() {
+      if(confirm('Clear all winners?')) {
+        db.winners = [];
+        db.excludedWinners = [];
+        saveDB();
+        renderWinners();
+        updateStats();
+        loadWinnerSelect();
+      }
+    }
+
+    function saveMsg() {
+      db.messages.admin = document.getElementById('adminMsg').value;
+      saveDB();
+      alert('സന്ദേശം പബ്ലിഷ് ചെയ്തു!');
+    }
+
+    function updateBanner() {
+      db.messages.member = document.getElementById('memberMsg').value;
+      saveDB();
+      alert('Banner Updated!');
+    }
+
+    function loadMessages() {
+      document.getElementById('adminMsg').value = db.messages.admin || '';
+      document.getElementById('memberMsg').value = db.messages.member || '';
+    }
+    
+    function resetApp() {
+      if(confirm('Reset all data?')) {
+        localStorage.removeItem('mashoodKuriDB');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
