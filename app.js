@@ -8,6 +8,7 @@ let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
 
 let currentUser = null;
 let currentMonth = new Date().toISOString().slice(0,7);
+let wheelSpinning = false;
 
 function saveDB() {
   localStorage.setItem('mashoodKuriDB', JSON.stringify(db));
@@ -58,7 +59,6 @@ function showAdminPage() {
 
 function showAdminTab(tab) {
   document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-  // നിങ്ങളുടെ HTML-ൽ ID-കൾ: adminHome, adminMembers, adminCollection, adminDraw, adminReports, adminNotice
   const tabId = 'admin' + tab.charAt(0).toUpperCase() + tab.slice(1);
   document.getElementById(tabId).classList.remove('hidden');
   document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
@@ -99,19 +99,29 @@ function renderRecentWinners() {
   `).join('') : '<p>ഇതുവരെ Winners ഇല്ല</p>';
 }
 
+// FIX 1: MEMBER SAVE ISSUE - Duplicate check + proper refresh
 function addMemberByAdmin() {
-  const name = document.getElementById('newMemName').value;
-  const phone = document.getElementById('newMemPhone').value;
-  const pass = document.getElementById('newMemPass').value;
+  const name = document.getElementById('newMemName').value.trim();
+  const phone = document.getElementById('newMemPhone').value.trim();
+  const pass = document.getElementById('newMemPass').value.trim();
   const amount = document.getElementById('newMemAmount').value;
+
   if(!name ||!phone ||!pass ||!amount) {
     alert('❌ എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
     return;
   }
+
+  // Duplicate phone check
+  if(db.members.find(m => m.phone === phone)) {
+    alert('❌ ഈ Phone Number already ഉണ്ട്!');
+    return;
+  }
+
   db.members.push({name, phone, password: pass, amount: parseInt(amount), joinDate: new Date().toISOString()});
   saveDB();
   renderAdminMembers();
   updateStats();
+
   document.getElementById('newMemName').value = '';
   document.getElementById('newMemPhone').value = '';
   document.getElementById('newMemPass').value = '';
@@ -202,20 +212,92 @@ function markAllPaid() {
   alert('✅ എല്ലാവരും Paid ആയി Mark ചെയ്തു!');
 }
 
+// FIX 2 & 3: WHEEL WITH ALL NAMES + 5 SECOND SPIN
 function doRandomDraw() {
   const eligible = db.members.filter(m => {
     const payments = db.payments[currentMonth] || {};
     return payments[m.phone] >= m.amount;
   });
+
   if(eligible.length === 0) {
     alert('❌ Paid Members ഇല്ല! ആദ്യം Collection-ൽ പോയി Mark Paid ചെയ്യൂ');
     return;
   }
-  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7','#FF9FF3','#54A0FF'];
-  const winner = eligible[Math.floor(Math.random() * eligible.length)];
+
+  document.getElementById('winnerDisplay').innerHTML = '';
+  document.getElementById('wheelContainer').style.display = 'block';
+  drawWheel(eligible);
+}
+
+function drawWheel(members) {
+  const canvas = document.getElementById('wheelCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7'];
+  const arc = Math.PI * 2 / members.length;
+  let startAngle = 0;
+
+  ctx.clearRect(0, 0, 300, 300);
+
+  members.forEach((m, i) => {
+    const angle = startAngle + i * arc;
+    ctx.fillStyle = colors[i % colors.length];
+    ctx.beginPath();
+    ctx.arc(150, 150, 140, angle, angle + arc);
+    ctx.lineTo(150, 150);
+    ctx.fill();
+
+    ctx.save();
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 12px Arial';
+    ctx.translate(150 + Math.cos(angle + arc / 2) * 100, 150 + Math.sin(angle + arc / 2) * 100);
+    ctx.rotate(angle + arc / 2 + Math.PI / 2);
+    const text = m.name.length > 10? m.name.substring(0, 10) + '...' : m.name;
+    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+    ctx.restore();
+  });
+
+  ctx.beginPath();
+  ctx.arc(150, 150, 20, 0, 2 * Math.PI);
+  ctx.fillStyle = '#333';
+  ctx.fill();
+}
+
+function spinWheelNow() {
+  if(wheelSpinning) return;
+  wheelSpinning = true;
+
+  const eligible = db.members.filter(m => {
+    const payments = db.payments[currentMonth] || {};
+    return payments[m.phone] >= m.amount;
+  });
+
+  const canvas = document.getElementById('wheelCanvas');
+  const winnerIndex = Math.floor(Math.random() * eligible.length);
+  const arc = 360 / eligible.length;
+  const stopAngle = 3600 + (360 - (winnerIndex * arc + arc/2));
+
+  canvas.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+  canvas.style.transform = `rotate(${stopAngle}deg)`;
+
+  setTimeout(() => {
+    const winner = eligible[winnerIndex];
+    showWinnerCard(winner);
+    wheelSpinning = false;
+    canvas.style.transition = 'none';
+    setTimeout(() => {
+      canvas.style.transform = 'rotate(0deg)';
+      document.getElementById('wheelContainer').style.display = 'none';
+    }, 100);
+  }, 5000);
+}
+
+function showWinnerCard(winner) {
+  const display = document.getElementById('winnerDisplay');
+  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F'];
   const color1 = colors[Math.floor(Math.random()*colors.length)];
   const color2 = colors[Math.floor(Math.random()*colors.length)];
-  const display = document.getElementById('winnerDisplay');
+
   display.innerHTML = `
     <div class="card" style="background: linear-gradient(135deg, ${color1}, ${color2}); color: white; text-align: center; padding: 40px; margin-top: 20px; animation: winnerPop 0.5s;">
       <h2 style="font-size: 40px; margin-bottom: 20px;">🎉 WINNER 🎉</h2>
@@ -323,54 +405,5 @@ function memberRegister() {
     alert('എല്ലാ വിവരങ്ങളും നൽകുക');
     return;
   }
-  db.members.push({
-    name,
-    phone,
-    password: pass,
-    amount: parseInt(amount)
-  });
-  saveDB();
-  alert('Registration Successful');
-  backToLogin();
-}
-
-function memberLogin() {
-  const phone = document.getElementById('memberPhone').value;
-  const pass = document.getElementById('memberPass').value;
-  const member = db.members.find(
-    m => m.phone === phone && m.password === pass
-  );
-  if(member){
-    currentUser = member;
-    document.querySelectorAll('.login-box,#loginPage').forEach(
-      el => el.classList.add('hidden')
-    );
-    document.getElementById('memberPage').classList.remove('hidden');
-    document.getElementById('memberNameNav').textContent = member.name;
-    document.getElementById('memName').textContent = member.name;
-    document.getElementById('memPhone').textContent = member.phone;
-    document.getElementById('memAmount').textContent = "₹" + member.amount;
-    // Payment Status
-    const payments = db.payments[currentMonth] || {};
-    const paid = payments[member.phone] || 0;
-    const statusDiv = document.getElementById('memPaymentStatus');
-    if(statusDiv) {
-      statusDiv.innerHTML = paid >= member.amount?
-        `<p style="color:green;">✅ ${currentMonth} - Paid ₹${paid}</p>` :
-        `<p style="color:orange;">⏳ ${currentMonth} - Pending ₹${paid}/${member.amount}</p>`;
-    }
-    // Paid Months Count
-    let paidCount = 0;
-    Object.values(db.payments).forEach(monthPayments => {
-      if(monthPayments[member.phone] >= member.amount) paidCount++;
-    });
-    document.getElementById('paidMonths').textContent = paidCount;
-  } else {
-    alert('തെറ്റായ Login വിവരങ്ങൾ');
-  }
-}
-
-function logout() {
-  currentUser = null;
-  location.reload();
-} 
+  if(db.members.find(m => m.phone === phone)) {
+    alert('❌ ഈ Phone
