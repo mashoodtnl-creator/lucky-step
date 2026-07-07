@@ -3,148 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MASHOOD കുറി - Lucky Step Chitty Management</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <title>MASHOOD KURI - Lucky Step</title>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Noto Sans Malayalam', sans-serif; background: #f0f2f5; }
+    .hidden { display: none !important; }
+    #splash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #0a4d2e, #0d6b3f); display: flex; align-items: center; justify-content: center; z-index: 9999; }
+    .splash-content { text-align: center; color: white; }
+    .splash-content h1 { font-size: 50px; margin-bottom: 10px; }
+    .loader { border: 5px solid rgba(255,255,255,0.3); border-top: 5px solid white; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #0a4d2e, #0d6b3f); padding: 20px; }
+    .login-box { background: white; padding: 30px; border-radius: 15px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    .login-box h2 { text-align: center; color: #0a4d2e; margin-bottom: 20px; }
+    .login-box input { width: 100%; padding: 12px; margin: 10px 0; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+    .login-box button { width: 100%; padding: 12px; margin: 10px 0; background: #0a4d2e; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+    .login-box button:hover { background: #0d6b3f; }
+    .link-btn { background: none !important; color: #0a4d2e !important; text-decoration: underline; }
+    #adminPage { display: flex; min-height: 100vh; }
+    .sidebar { width: 250px; background: #0a4d2e; color: white; padding: 20px 0; position: fixed; height: 100vh; overflow-y: auto; transition: 0.3s; z-index: 100; }
+    .sidebar h2 { text-align: center; padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .sidebar a { display: flex; align-items: center; gap: 10px; padding: 15px 20px; color: white; text-decoration: none; transition: 0.3s; }
+    .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.1); }
+    .sidebar a i { font-size: 20px; }
+    .main-content { margin-left: 250px; flex: 1; padding: 20px; }
+    .top-bar { background: white; padding: 15px 20px; border-radius: 10px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .menu-toggle { display: none; background: #0a4d2e; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 20px; }
+    .stat-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 15px; }
+    .stat-card i { font-size: 40px; color: #0a4d2e; }
+    .stat-card h2 { font-size: 30px; color: #0a4d2e; }
+    .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    .card h3 { color: #0a4d2e; margin-bottom: 15px; }
+    .member-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee; }
+    .member-item:last-child { border-bottom: none; }
+    .member-actions { display: flex; gap: 10px; }
+    button.small { padding: 8px 15px; font-size: 14px; }
+    button.danger { background: #e74c3c; }
+    input, select, textarea { width: 100%; padding: 10px; margin: 5px 0; border: 2px solid #ddd; border-radius: 5px; font-size: 14px; }
+    .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    @media (max-width: 768px) {
+      .sidebar { left: -250px; }
+      .sidebar.active { left: 0; }
+      .main-content { margin-left: 0; }
+      .menu-toggle { display: block; }
+    }
+  </style>
 </head>
 <body>
-
   <!-- Splash Screen -->
-  <div id="splash" class="splash">
-    <img src="logo.png" alt="MASHOOD THENNALA" class="splash-logo">
-    <h1 class="splash-title">സ്വാഗതം Mashood കുറിയിലേക്ക്</h1>
-    <p class="splash-tagline">വിശ്വാസം • സുതാര്യത • സൗഹൃദം</p>
-    <p class="splash-credit">Created by MASHOOD THENNALA</p>
+  <div id="splash">
+    <div class="splash-content">
+      <h1>MASHOOD KURI</h1>
+      <p>Lucky Step</p>
+      <div class="loader"></div>
+    </div>
   </div>
 
   <!-- Main Container -->
-  <div id="mainContainer" class="main-container" style="display: none;">
-
+  <div id="mainContainer" style="display:none;">
+    
     <!-- Login Page -->
-    <div id="loginPage" class="login-page">
-      <div class="login-container">
-        <div class="logo-section">
-          <img src="logo.png" alt="Logo" class="logo-img">
-          <h1 class="app-name">MASHOOD കുറി</h1>
-          <p class="app-tagline">LUCKY STEP CHITTY MANAGEMENT</p>
-        </div>
-
-        <div class="login-buttons">
-          <button onclick="showLogin('admin')" class="login-btn admin-btn">
-            <i class="ri-shield-user-fill"></i> ADMIN LOGIN
-          </button>
-          <button onclick="showLogin('member')" class="login-btn member-btn">
-            <i class="ri-user-fill"></i> MEMBER LOGIN
-          </button>
-        </div>
-
-        <p class="footer-text">Created by <strong>MASHOOD THENNALA</strong></p>
+    <div id="loginPage" class="login-container">
+      <div class="login-box">
+        <h2>MASHOOD KURI</h2>
+        <button onclick="showLogin('admin')">ADMIN LOGIN</button>
+        <button onclick="showLogin('member')">MEMBER LOGIN</button>
       </div>
+    </div>
 
-      <!-- Admin Login Box -->
-      <div id="adminLoginBox" class="login-box hidden">
-        <h2><i class="ri-shield-user-fill"></i> Admin Login</h2>
+    <!-- Admin Login Box -->
+    <div id="adminLoginBox" class="login-container hidden">
+      <div class="login-box">
+        <h2>Admin Login</h2>
         <input type="password" id="adminPass" placeholder="Password">
         <button onclick="adminLogin()">Login</button>
-        <button onclick="backToLogin()" class="secondary">Back</button>
+        <button class="link-btn" onclick="backToLogin()">Back</button>
       </div>
+    </div>
 
-      <!-- Member Login Box -->
-      <div id="memberLoginBox" class="login-box hidden">
-        <h2><i class="ri-user-fill"></i> Member Login</h2>
+    <!-- Member Login Box -->
+    <div id="memberLoginBox" class="login-container hidden">
+      <div class="login-box">
+        <h2>Member Login</h2>
         <input type="text" id="memberPhone" placeholder="Phone Number">
         <input type="password" id="memberPass" placeholder="Password">
         <button onclick="memberLogin()">Login</button>
-        <button onclick="showRegister()" class="secondary">New Member? Register</button>
-        <button onclick="backToLogin()" class="secondary">Back</button>
+        <button class="link-btn" onclick="showRegister()">New Register</button>
+        <button class="link-btn" onclick="backToLogin()">Back</button>
       </div>
+    </div>
 
-      <!-- Register Box -->
-      <div id="registerBox" class="login-box hidden">
-        <h2><i class="ri-user-add-fill"></i> Member Register</h2>
-        <input type="text" id="regName" placeholder="Full Name *">
-        <input type="text" id="regPhone" placeholder="Phone Number *">
-        <input type="password" id="regPass" placeholder="Password *">
-        <input type="number" id="regAmount" placeholder="Monthly Amount *">
+    <!-- Register Box -->
+    <div id="registerBox" class="login-container hidden">
+      <div class="login-box">
+        <h2>Member Register</h2>
+        <input type="text" id="regName" placeholder="Name">
+        <input type="text" id="regPhone" placeholder="Phone">
+        <input type="password" id="regPass" placeholder="Password">
+        <input type="number" id="regAmount" placeholder="Monthly Amount">
         <button onclick="memberRegister()">Register</button>
-        <button onclick="backToLogin()" class="secondary">Back</button>
+        <button class="link-btn" onclick="backToLogin()">Back to Login</button>
       </div>
     </div>
 
     <!-- Admin Page -->
-    <div id="adminPage" class="admin-page hidden">
+    <div id="adminPage" class="hidden">
       <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <img src="logo.png" alt="Logo" class="sidebar-logo">
-          <h3>MASHOOD കുറി</h3>
-        </div>
-        <nav>
-          <a onclick="showAdminTab('home')" class="active"><i class="ri-home-5-line"></i> Dashboard</a>
-          <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
-          <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
-          <a onclick="showAdminTab('draw')"><i class="ri-gift-line"></i> Lucky Draw</a>
-          <a onclick="showAdminTab('reports')"><i class="ri-bar-chart-line"></i> Reports</a>
-          <a onclick="showAdminTab('notice')"><i class="ri-notification-3-line"></i> Notice</a>
-          <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
-        </nav>
+        <h2>MASHOOD KURI</h2>
+        <a href="#" class="active" onclick="showAdminTab('dashboard')"><i class="ri-dashboard-line"></i> Dashboard</a>
+        <a href="#" onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
+        <a href="#" onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
+        <a href="#" onclick="showAdminTab('draw')"><i class="ri-gift-line"></i> Lucky Draw</a>
+        <a href="#" onclick="showAdminTab('reports')"><i class="ri-file-chart-line"></i> Reports</a>
+        <a href="#" onclick="showAdminTab('notice')"><i class="ri-notification-line"></i> Notice</a>
+        <a href="#" onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
       </div>
 
       <div class="main-content">
-        <div class="top-nav">
-          <button onclick="toggleSidebar()" class="menu-btn"><i class="ri-menu-line"></i></button>
+        <div class="top-bar">
+          <button class="menu-toggle" onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
           <h2>Admin Dashboard</h2>
         </div>
 
-        <!-- Dashboard Home -->
-        <div id="adminHome" class="admin-tab">
-          <h2><i class="ri-dashboard-line"></i> Overview</h2>
+        <!-- Dashboard Tab -->
+        <div id="adminDashboard" class="admin-tab">
           <div class="stats-grid">
-            <div class="stat-card">
-              <i class="ri-group-fill"></i>
-              <div>
-                <h2 id="totalMembers">0</h2>
-                <p>Total Members</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <i class="ri-checkbox-circle-fill"></i>
-              <div>
-                <h2 id="paidMembers">0</h2>
-                <p>Paid This Month</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <i class="ri-error-warning-fill"></i>
-              <div>
-                <h2 id="pendingMembers">0</h2>
-                <p>Pending</p>
-              </div>
-            </div>
-            <div class="stat-card">
-              <i class="ri-money-rupee-circle-fill"></i>
-              <div>
-                <h2 id="totalCollection">₹0</h2>
-                <p>Total Collection</p>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <h3><i class="ri-trophy-line"></i> Recent Winners</h3>
-            <div id="recentWinners"></div>
+            <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
+            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid This Month</p></div></div>
+            <div class="stat-card"><i class="ri-time-line"></i><div><h2 id="pendingMembers">0</h2><p>Pending</p></div></div>
+            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>Total Collection</p></div></div>
           </div>
         </div>
 
         <!-- Members Tab -->
         <div id="adminMembers" class="admin-tab hidden">
-          <h2><i class="ri-group-line"></i> Members Management</h2>
           <div class="card">
             <h3>Add New Member</h3>
-            <input type="text" id="newMemName" placeholder="Name *">
-            <input type="text" id="newMemPhone" placeholder="Phone *">
-            <input type="password" id="newMemPass" placeholder="Password *">
-            <input type="number" id="newMemAmount" placeholder="Monthly Amount *">
+            <div class="form-row">
+              <input type="text" id="newMemName" placeholder="Name">
+              <input type="text" id="newMemPhone" placeholder="Phone">
+              <input type="password" id="newMemPass" placeholder="Password">
+              <input type="number" id="newMemAmount" placeholder="Monthly Amount">
+            </div>
             <button onclick="addMemberByAdmin()">Add Member</button>
           </div>
           <div class="card">
@@ -156,59 +158,46 @@
 
         <!-- Collection Tab -->
         <div id="adminCollection" class="admin-tab hidden">
-          <h2><i class="ri-money-rupee-circle-line"></i> Collection</h2>
           <div class="card">
+            <h3>Collection Management</h3>
             <select id="colMonth" onchange="renderCollection()"></select>
-            <button onclick="markAllPaid()" class="secondary">Mark All Paid</button>
+            <button onclick="markAllPaid()">Mark All Paid</button>
+            <div id="collectionList" style="margin-top:20px;"></div>
           </div>
-          <div id="collectionList"></div>
         </div>
 
-        <!-- Draw Tab -->
+        <!-- Lucky Draw Tab -->
         <div id="adminDraw" class="admin-tab hidden">
-          <h2><i class="ri-gift-line"></i> Lucky Draw</h2>
           <div class="card">
-            <h3>Random Draw</h3>
-            <p>Click to select a random winner from paid members</p>
-            <button onclick="doRandomDraw()">🎲 Start Draw</button>
+            <h3>Lucky Draw</h3>
+            <button onclick="doRandomDraw()">Start Random Draw</button>
+            <div style="margin:20px 0;">
+              <h4>Manual Winner Selection</h4>
+              <select id="manualWinner"></select>
+              <button onclick="selectManualWinner()">Select Winner</button>
+            </div>
             <div id="winnerDisplay"></div>
-          </div>
-          <div class="card">
-            <h3>Manual Winner Select</h3>
-            <select id="manualWinner"></select>
-            <button onclick="selectManualWinner()">Select Winner</button>
           </div>
         </div>
 
         <!-- Reports Tab -->
         <div id="adminReports" class="admin-tab hidden">
-          <h2><i class="ri-bar-chart-line"></i> Reports</h2>
-          <select id="reportMonth" onchange="renderReport()"></select>
-          <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
-          <div id="reportSummary"></div>
-          <div id="reportTable"></div>
+          <div class="card">
+            <h3>Monthly Reports</h3>
+            <select id="reportMonth" onchange="renderReport()"></select>
+            <button onclick="exportCSV()">Export CSV</button>
+            <div id="reportSummary" style="margin-top:20px;"></div>
+            <div id="reportTable" style="margin-top:20px;"></div>
+          </div>
         </div>
 
         <!-- Notice Tab -->
         <div id="adminNotice" class="admin-tab hidden">
-          <h2><i class="ri-notification-3-line"></i> Notice / നിബന്ധന</h2>
           <div class="card">
             <h3>Add Notice</h3>
-            <input type="text" id="noticeTitle" placeholder="Notice Title *">
-            <textarea id="noticeMsg" placeholder="Notice Message *"></textarea>
-            <button onclick="addNotice()">Send Notice</button>
-          </div>
-          <div class="card">
-            <h3>നിബന്ധനകൾ</h3>
-            <textarea readonly style="height:200px;">
-1. എല്ലാ അംഗങ്ങളും മാസം തോറും നിശ്ചിത തുക അടക്കണം.
-2. Draw നടത്തുന്ന തീയതി Admin തീരുമാനിക്കും.
-3. Winner-ക്ക് മുഴുവൻ തുകയും ലഭിക്കും.
-4. അടക്കാത്ത അംഗങ്ങൾക്ക് Draw-ൽ പങ്കെടുക്കാൻ കഴിയില്ല.
-5. MASHOOD THENNALA ആണ് ഈ കുറിയുടെ Admin.
-6. Admin-ന്റെ തീരുമാനം അന്തിമമാണ്.
-7. തർക്കങ്ങൾ ഉണ്ടായാൽ Admin തീർപ്പ് കൽപ്പിക്കും.
-            </textarea>
+            <input type="text" id="noticeTitle" placeholder="Notice Title">
+            <textarea id="noticeMsg" placeholder="Notice Message" rows="5"></textarea>
+            <button onclick="addNotice()">Add Notice</button>
           </div>
         </div>
 
@@ -217,29 +206,22 @@
 
     <!-- Member Page -->
     <div id="memberPage" class="hidden">
-      <div class="top-nav">
-        <h2>Welcome, <span id="memberNameNav"></span></h2>
-        <button onclick="logout()"><i class="ri-logout-box-line"></i> Logout</button>
+      <div class="top-bar">
+        <h2>Welcome <span id="memberNameNav"></span></h2>
+        <button onclick="logout()">Logout</button>
       </div>
       <div class="main-content">
         <div class="card">
-          <h3><i class="ri-user-line"></i> My Details</h3>
-          <p><strong>Name:</strong> <span id="memName"></span></p>
-          <p><strong>Phone:</strong> <span id="memPhone"></span></p>
-          <p><strong>Monthly Amount:</strong> <span id="memAmount"></span></p>
+          <h3>Your Details</h3>
+          <p>Name: <span id="memName"></span></p>
+          <p>Phone: <span id="memPhone"></span></p>
+          <p>Monthly Amount: <span id="memAmount"></span></p>
         </div>
-        <div class="card">
-          <h3><i class="ri-money-rupee-circle-line"></i> Payment Status</h3>
-          <div id="memPaymentStatus"></div>
-        </div>
-        <div class="card">
-          <h3><i class="ri-bar-chart-line"></i> My Stats</h3>
-          <p><strong>Paid Months:</strong> <span id="paidMonths">0</span></p>
-</div>
+      </div>
+    </div>
 
-</div>
-</div>
+  </div>
 
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
