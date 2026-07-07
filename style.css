@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Malayalam:wght@400;500;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Noto Sans Malayalam',sans-serif}
+:root{--green:#0d5a2f;--dark-green:#0a4023;--gold:#d4af37;--light:#f5f5f5;--white:#fff;--red:#dc3545;--blue:#17a2b8;--orange:#ff9800}
+body{background:linear-gradient(135deg,#0d5a2f,#0a4023);min-height:100vh;color:#333}
+.hidden{display:none!important}
+#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0d5a2f,#0a4023);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;color:var(--white);text-align:center;padding:20px}
+.splash-logo{display:flex;flex-direction:column;align-items:center;gap:15px;margin-bottom:30px}
+.splash-logo img{width:120px;height:120px;border-radius:50%;border:5px solid var(--gold);box-shadow:0 0 30px rgba(212,175,55,0.5)}
+.logo-text h1{font-size:32px;color:var(--gold);text-shadow:2px 2px 4px rgba(0,0,0,0.3)}
+.logo-text p{font-size:14px;letter-spacing:2px}
+#splash h2{font-size:40px;margin:20px 0 10px;color:var(--gold)}
+#splash h3{font-size:28px;margin-bottom:10px}
+.loading-bar{width:200px;height:6px;background:rgba(255,255,255,0.2);border-radius:10px;margin:30px 0;overflow:hidden}
+.loading-progress{height:100%;background:var(--gold);width:0%;animation:loading 2s ease-in-out forwards}
+@keyframes loading{to{width:100%}}
+.created-by{position:absolute;bottom:30px;font-size:14px;opacity:0.8}
+.container{max-width:480px;margin:0 auto;padding:20px}
+#loginPage{text-align:center;padding:40px 20px}
+.login-header{margin-bottom:40px}
+.login-logo{width:100px;height:100px;border-radius:50%;border:4px solid var(--gold);margin-bottom:15px}
+.login-header h1{color:var(--gold);font-size:28px;margin-bottom:5px}
+.login-header p{color:var(--white);font-size:14px;letter-spacing:1px}
+.login-cards{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:30px 0}
+.login-card{background:var(--white);padding:30px 15px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);cursor:pointer;transition:transform 0.3s}
+.login-card:hover{transform:translateY(-5px)}
+.login-card i{font-size:48px;color:var(--green);margin-bottom:10px;display:block}
+.login-card h3{color:var(--green);font-size:16px;margin-bottom:5px}
+.login-card p{color:#666;font-size:12px}
+.footer-text{color:var(--white);margin-top:40px;font-size:13px}
+.login-box{background:var(--white);padding:30px;border-radius:15px;box-shadow:0 5px 20px rgba(0,0,0,0.2);max-width:400px;margin:40px auto}
+.login-box h2{color:var(--green);margin-bottom:20px;text-align:center}
+.login-box h2 i{margin-right:8px}
+.top-nav{background:var(--white);padding:12px 15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 10px rgba(0,0,0,0.1);position:sticky;top:0;z-index:100}
+.nav-left{display:flex;align-items:center;gap:10px}
+.nav-left i{font-size:24px;color:var(--green);cursor:pointer}
+.nav-left h3{color:var(--green);font-size:18px}
+.nav-right{display:flex;align-items:center;gap:15px}
+.nav-right i{font-size:22px;color:#666;cursor:pointer}
+.nav-avatar{width:35px;height:35px;border-radius:50%;border:2px solid var(--gold)}
+.sidebar{position:fixed;left:-250px;top:60px;width:250px;height:calc(100vh - 60px);background:var(--white);box-shadow:2px 0 10px rgba(0,0,0,0.1);transition:left 0.3s;z-index:99;overflow-y:auto}
+.sidebar.active{left:0}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:15px 20px;color:#333;text-decoration:none;border-left:3px solid transparent;transition:all 0.3s}
+.sidebar a i{font-size:20px}
+.sidebar a:hover,.sidebar a.active{background:var(--light);border-left-color:var(--green);color:var(--green)}
+.admin-tab,.member-dashboard{padding:20px;background:var(--light);min-height:calc(100vh - 60px)}
+.stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-bottom:20px}
+.stat-card{background:var(--white);padding:20px;border-radius:12px;display:flex;align-items:center;gap:15px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.stat-card i{font-size:40px;color:var(--green)}
+.stat-card h2{font-size:28px;color:#333;margin-bottom:5px}
+.stat-card p{font-size:13px;color:#666}
+.quick-actions{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px}
+.quick-actions button{padding:15px;border:none;border-radius:10px;background:var(--green);color:var(--white);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.quick-actions button i{font-size:18px}
+.card{background:var(--white);padding:20px;border-radius:12px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.card h3{color:var(--green);margin-bottom:15px;font-size:18px}
+.card h3 i{margin-right:8px}
+input,select,textarea{width:100%;padding:12px;margin-bottom:12px;border:1px solid #ddd;border-radius:8px;font-size:15px}
+textarea{resize:vertical;min-height:80px}
+button{width:100%;padding:12px;background:var(--green);color:var(--white);border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;margin-bottom:10px}
+button.secondary{background:#6c757d}
+button.warning{background:var(--orange)}
+button.danger{background:var(--red)}
+button.info{background:var(--blue)}
+button.small{width:auto;padding:8px 15px;font-size:13px}
+.chat-box{height:400px;background:var(--white);border-radius:12px;padding:15px;overflow-y:auto;margin-bottom:10px}
+.chat-input{display:flex;gap:10px}
+.chat-input input{flex:1;margin:0}
+.chat-input button{width:50px;margin:0}
+.chat-msg{margin-bottom:12px;padding:10px;border-radius:10px;max-width:80%}
+.chat-msg.admin{background:var(--green);color:var(--white);margin-left:auto}
+.chat-msg.member{background:#e9ecef;color:#333}
+.chat-msg .time{font-size:11px;opacity:0.7;margin-top:5px}
+.member-info{text-align:center}
+.member-avatar{width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);margin-bottom:10px}
+.member-info h2{color:var(--green);margin-bottom:5px}
+.member-info p{color:#666;margin-bottom:5px}
+.member-item{background:var(--white);padding:15px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 5px rgba(0,0,0,0.1);margin-bottom:10px}
+.member-item-info h4{color:#333;margin-bottom:5px}
+.member-item-info p{color:#666;font-size:13px}
+.member-actions{display:flex;gap:8px}
+.member-actions button{width:auto;padding:8px 12px;font-size:12px;margin:0}
+@media(max-width:480px){.stats-grid{grid-template-columns:1fr}.login-cards{grid-template-columns:1fr}.quick-actions{grid-template-columns:1fr}}
