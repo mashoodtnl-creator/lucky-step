@@ -1,379 +1,384 @@
-// Mashood കുറി - Lucky Step v16 Pro
-let DB = {members:[],payments:{},draws:[],feedback:[],rules:[],chats:{},userType:null,currentUser:null};
-let months = ['2024-01','2024-02','2024-03','2024-04','2024-05','2024-06','2024-07','2024-08','2024-09','2024-10','2024-11','2024-12','2025-01','2025-02','2025-03','2025-04','2025-05','2025-06','2025-07','2025-08','2025-09','2025-10','2025-11','2025-12','2026-01','2026-02','2026-03','2026-04','2026-05','2026-06','2026-07','2026-08','2026-09','2026-10','2026-11','2026-12'];
-
-window.onload = () => {
-    setTimeout(() => {
-        document.getElementById('splash').style.display = 'none';
-        document.getElementById('mainContainer').style.display = 'block';
-    }, 2500);
-    loadDB();
-    initMonths();
+let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
+  admin: { password: 'mashood123' },
+  members: [],
+  payments: {},
+  winners: [],
+  notices: []
 };
 
-function loadDB() {
-    const saved = localStorage.getItem('mashood_kuri_v16');
-    if (saved) DB = JSON.parse(saved);
-    if (!DB.rules.length) DB.rules = ['എല്ലാ മാസവും 10-ാം തീയതിക്ക് മുമ്പ് അടവ് നൽകണം','നറുക്കെടുപ്പ് എല്ലാ മാസവും 15-ാം തീയതി','അടവ് മുടക്കിയാൽ അടുത്ത നറുക്കിൽ പങ്കെടുക്കാൻ കഴിയില്ല'];
-    saveDB();
-}
+let currentUser = null;
+let currentMonth = new Date().toISOString().slice(0,7);
 
 function saveDB() {
-    localStorage.setItem('mashood_kuri_v16', JSON.stringify(DB));
+  localStorage.setItem('mashoodKuriDB', JSON.stringify(db));
 }
 
-function initMonths() {
-    const currentMonth = new Date().toISOString().slice(0,7);
-    ['colMonth','reportMonth'].forEach(id => {
-        const sel = document.getElementById(id);
-        if (sel) sel.innerHTML = months.map(m => `<option value="${m}" ${m===currentMonth?'selected':''}>${m}</option>`).join('');
-    });
-}
+// Splash Screen
+setTimeout(() => {
+  document.getElementById('splash').style.display = 'none';
+  document.getElementById('mainContainer').style.display = 'block';
+}, 3000);
 
+// Login Functions
 function showLogin(type) {
-    document.getElementById('loginPage').classList.add('hidden');
-    document.getElementById(type+'LoginBox').classList.remove('hidden');
+  document.getElementById('loginPage').classList.add('hidden');
+  if(type === 'admin') document.getElementById('adminLoginBox').classList.remove('hidden');
+  else document.getElementById('memberLoginBox').classList.remove('hidden');
 }
 
 function backToLogin() {
-    document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
-    document.getElementById('loginPage').classList.remove('hidden');
+  document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
+  document.getElementById('loginPage').classList.remove('hidden');
 }
 
 function showRegister() {
-    document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
-    document.getElementById('registerBox').classList.remove('hidden');
+  document.getElementById('memberLoginBox').classList.add('hidden');
+  document.getElementById('registerBox').classList.remove('hidden');
 }
 
 function adminLogin() {
-    const pass = document.getElementById('adminPass').value;
-    if (pass === 'admin123' || pass === 'mashood456') {
-        DB.userType = 'admin';
-        document.getElementById('adminLoginBox').classList.add('hidden');
-        document.getElementById('adminPage').classList.remove('hidden');
-        renderDashboard();
-        renderAdminMembers();
-        renderCollection();
-        renderReport();
-        renderRules();
-    } else {
-        alert('Wrong Password! Use: admin123');
-    }
+  const pass = document.getElementById('adminPass').value;
+  if(pass === db.admin.password) {
+    currentUser = 'admin';
+    showAdminPage();
+  } else {
+    alert('❌ തെറ്റായ Password!');
+  }
 }
 
 function memberLogin() {
-    const phone = document.getElementById('memberPhone').value;
-    const pass = document.getElementById('memberPass').value;
-    const member = DB.members.find(m => m.phone === phone && m.password === pass);
-    if (member) {
-        DB.userType = 'member';
-        DB.currentUser = member;
-        document.getElementById('memberLoginBox').classList.add('hidden');
-        document.getElementById('memberPage').classList.remove('hidden');
-        renderMemberDashboard();
-    } else {
-        alert('Wrong Phone or Password!');
-    }
+  const phone = document.getElementById('memberPhone').value;
+  const pass = document.getElementById('memberPass').value;
+  const member = db.members.find(m => m.phone === phone && m.password === pass);
+  if(member) {
+    currentUser = member;
+    showMemberPage();
+  } else {
+    alert('❌ തെറ്റായ Phone/Password!');
+  }
 }
 
 function memberRegister() {
-    const name = document.getElementById('regName').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
-    const pass = document.getElementById('regPass').value.trim();
-    const amount = parseInt(document.getElementById('regAmount').value) || 1000;
-    if (!name ||!phone ||!pass) return alert('Fill all fields!');
-    if (DB.members.find(m => m.phone === phone)) return alert('Phone already registered!');
-    DB.members.push({id:Date.now(),name,phone,password:pass,amount,address:'',joinDate:new Date().toISOString()});
-    saveDB();
-    alert('Registration Successful! Please Login.');
-    backToLogin();
+  const name = document.getElementById('regName').value;
+  const phone = document.getElementById('regPhone').value;
+  const pass = document.getElementById('regPass').value;
+  const amount = document.getElementById('regAmount').value;
+
+  if(!name ||!phone ||!pass ||!amount) {
+    alert('❌ എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
+    return;
+  }
+
+  if(db.members.find(m => m.phone === phone)) {
+    alert('❌ ഈ Phone Number Already Register ചെയ്തിട്ടുണ്ട്!');
+    return;
+  }
+
+  db.members.push({name, phone, password: pass, amount: parseInt(amount), joinDate: new Date().toISOString()});
+  saveDB();
+  alert('✅ Register Success! ഇനി Login ചെയ്യൂ');
+  backToLogin();
 }
 
-function logout() {
-    DB.userType = null;
-    DB.currentUser = null;
-    location.reload();
-}
-
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('active');
+// Admin Page
+function showAdminPage() {
+  document.querySelectorAll('.login-box, #loginPage').forEach(el => el.classList.add('hidden'));
+  document.getElementById('adminPage').classList.remove('hidden');
+  updateStats();
+  renderAdminMembers();
+  renderCollection();
+  renderReport();
+  loadMonths();
+  showNoticeAlert();
 }
 
 function showAdminTab(tab) {
-    document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-    document.getElementById('admin'+tab.charAt(0).toUpperCase()+tab.slice(1)).classList.remove('hidden');
-    document.querySelectorAll('.sidebar a').forEach(el => el.classList.remove('active'));
-    if(event) event.target.classList.add('active');
-    toggleSidebar();
+  document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
+  document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  event.target.closest('a').classList.add('active');
+  if(window.innerWidth < 768) toggleSidebar();
 }
 
-function renderDashboard() {
-    const month = new Date().toISOString().slice(0,7);
-    const paid = DB.payments[month]? Object.keys(DB.payments[month]).filter(id => DB.payments[month][id].paid).length : 0;
-    const collected = DB.payments[month]? Object.values(DB.payments[month]).filter(p => p.paid).reduce((s,p) => s + p.amount, 0) : 0;
-    document.getElementById('totalMembers').textContent = DB.members.length;
-    document.getElementById('totalCollection').textContent = '₹' + collected;
-    document.getElementById('paidMembers').textContent = paid;
-    document.getElementById('pendingMembers').textContent = DB.members.length - paid;
-    const recent = DB.draws.slice(-3).reverse();
-    document.getElementById('recentWinners').innerHTML = recent.length? recent.map(d => {
-        const m = DB.members.find(mem => mem.id === d.winnerId);
-        return `<p><i class="ri-trophy-line"></i> ${m?m.name:'Unknown'} - ${d.month}</p>`;
-    }).join('') : '<p>No draws yet</p>';
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('active');
+}
+
+function updateStats() {
+  const totalMembers = db.members.length;
+  const thisMonthPayments = db.payments[currentMonth] || {};
+  const paidCount = Object.keys(thisMonthPayments).length;
+  const totalCollection = Object.values(thisMonthPayments).reduce((sum, amt) => sum + amt, 0);
+
+  document.getElementById('totalMembers').textContent = totalMembers;
+  document.getElementById('paidMembers').textContent = paidCount;
+  document.getElementById('pendingMembers').textContent = totalMembers - paidCount;
+  document.getElementById('totalCollection').textContent = '₹' + totalCollection;
+
+  const winnersDiv = document.getElementById('recentWinners');
+  if(db.winners.length > 0) {
+    winnersDiv.innerHTML = db.winners.slice(-3).reverse().map(w =>
+      `<p><strong>${w.name}</strong> - ${w.month} - ₹${w.amount}</p>`
+    ).join('');
+  }
 }
 
 function addMemberByAdmin() {
-    const name = document.getElementById('newMemName').value.trim();
-    const phone = document.getElementById('newMemPhone').value.trim();
-    const pass = document.getElementById('newMemPass').value.trim();
-    const amount = parseInt(document.getElementById('newMemAmount').value) || 1000;
-    if (!name ||!phone ||!pass) return alert('Fill all fields!');
-    if (DB.members.find(m => m.phone === phone)) return alert('Phone exists!');
-    DB.members.push({id:Date.now(),name,phone,password:pass,amount,address:'',joinDate:new Date().toISOString()});
-    saveDB();
-    document.getElementById('newMemName').value = '';
-    document.getElementById('newMemPhone').value = '';
-    document.getElementById('newMemPass').value = '';
-    renderAdminMembers();
-    renderDashboard();
-    alert('Member Added!');
+  const name = document.getElementById('newMemName').value;
+  const phone = document.getElementById('newMemPhone').value;
+  const pass = document.getElementById('newMemPass').value;
+  const amount = document.getElementById('newMemAmount').value;
+
+  if(!name ||!phone ||!pass ||!amount) {
+    alert('❌ എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
+    return;
+  }
+
+  db.members.push({name, phone, password: pass, amount: parseInt(amount), joinDate: new Date().toISOString()});
+  saveDB();
+  renderAdminMembers();
+  updateStats();
+  document.getElementById('newMemName').value = '';
+  document.getElementById('newMemPhone').value = '';
+  document.getElementById('newMemPass').value = '';
+  alert('✅ Member Added!');
 }
 
 function renderAdminMembers() {
-    const search = document.getElementById('searchMember')?.value.toLowerCase() || '';
-    const filtered = DB.members.filter(m => m.name.toLowerCase().includes(search) || m.phone.includes(search));
-    document.getElementById('adminMembersList').innerHTML = filtered.map(m => `
-        <div class="member-item">
-            <div class="member-item-info">
-                <h4>${m.name}</h4>
-                <p><i class="ri-phone-line"></i> ${m.phone} | ₹${m.amount}/month</p>
-            </div>
-            <div class="member-actions">
-                <button class="small danger" onclick="deleteMember(${m.id})"><i class="ri-delete-bin-line"></i></button>
-            </div>
-        </div>
-    `).join('') || '<p style="text-align:center;color:#999">No members</p>';
+  const search = document.getElementById('searchMember')?.value.toLowerCase() || '';
+  const list = document.getElementById('adminMembersList');
+  const filtered = db.members.filter(m => m.name.toLowerCase().includes(search) || m.phone.includes(search));
+
+  list.innerHTML = filtered.map((m, i) => `
+    <div class="member-item">
+      <div class="member-item-info">
+        <h4>${m.name}</h4>
+        <p>📱 ${m.phone} | 💰 ₹${m.amount}/month</p>
+      </div>
+      <div class="member-actions">
+        <button class="small danger" onclick="deleteMember(${i})"><i class="ri-delete-bin-line"></i></button>
+      </div>
+    </div>
+  `).join('');
 }
 
-function deleteMember(id) {
-    if (!confirm('Delete this member?')) return;
-    DB.members = DB.members.filter(m => m.id!== id);
+function deleteMember(index) {
+  if(confirm('Delete ചെയ്യണോ?')) {
+    db.members.splice(index, 1);
     saveDB();
     renderAdminMembers();
-    renderDashboard();
+    updateStats();
+  }
+}
+
+// Collection
+function loadMonths() {
+  const months = [];
+  for(let i = 0; i < 12; i++) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - i);
+    months.push(d.toISOString().slice(0,7));
+  }
+  document.getElementById('colMonth').innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+  document.getElementById('reportMonth').innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
 }
 
 function renderCollection() {
-    const month = document.getElementById('colMonth').value;
-    if (!DB.payments[month]) DB.payments[month] = {};
-    document.getElementById('collectionList').innerHTML = DB.members.map(m => {
-        const paid = DB.payments[month][m.id]?.paid || false;
-        return `
-            <div class="member-item">
-                <div class="member-item-info">
-                    <h4>${m.name}</h4>
-                    <p>₹${m.amount}</p>
-                </div>
-                <button class="${paid?'secondary':'info'}" onclick="togglePayment(${m.id},'${month}')">
-                    ${paid?'✓ Paid':'Mark Paid'}
-                </button>
-            </div>
-        `;
-    }).join('');
+  const month = document.getElementById('colMonth').value;
+  const payments = db.payments[month] || {};
+  const list = document.getElementById('collectionList');
+
+  list.innerHTML = db.members.map(m => {
+    const paid = payments[m.phone] || 0;
+    const isPaid = paid >= m.amount;
+    return `
+      <div class="member-item">
+        <div class="member-item-info">
+          <h4>${m.name}</h4>
+          <p>💰 ₹${paid}/${m.amount} ${isPaid? '✅' : '⏳'}</p>
+        </div>
+        <div class="member-actions">
+          ${!isPaid? `<button class="small" onclick="markPaid('${m.phone}', ${m.amount})">Mark Paid</button>` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
 }
 
-function togglePayment(memberId, month) {
-    if (!DB.payments[month]) DB.payments[month] = {};
-    if (!DB.payments[month][memberId]) DB.payments[month][memberId] = {paid:false,amount:0,date:''};
-    const member = DB.members.find(m => m.id === memberId);
-    DB.payments[month][memberId].paid =!DB.payments[month][memberId].paid;
-    DB.payments[month][memberId].amount = member.amount;
-    DB.payments[month][memberId].date = new Date().toISOString();
-    saveDB();
-    renderCollection();
-    renderDashboard();
+function markPaid(phone, amount) {
+  const month = document.getElementById('colMonth').value;
+  if(!db.payments[month]) db.payments[month] = {};
+  db.payments[month][phone] = amount;
+  saveDB();
+  renderCollection();
+  updateStats();
 }
 
 function markAllPaid() {
-    const month = document.getElementById('colMonth').value;
-    if (!DB.payments[month]) DB.payments[month] = {};
-    DB.members.forEach(m => {
-        DB.payments[month][m.id] = {paid:true,amount:m.amount,date:new Date().toISOString()};
-    });
-    saveDB();
-    renderCollection();
-    renderDashboard();
-    alert('All marked as paid!');
+  const month = document.getElementById('colMonth').value;
+  if(!db.payments[month]) db.payments[month] = {};
+  db.members.forEach(m => {
+    db.payments[month][m.phone] = m.amount;
+  });
+  saveDB();
+  renderCollection();
+  updateStats();
+  alert('✅ എല്ലാവരും Paid ആയി Mark ചെയ്തു!');
 }
 
-function sendWhatsAppReminders() {
-    const month = document.getElementById('colMonth').value;
-    const unpaid = DB.members.filter(m =>!DB.payments[month]?.[m.id]?.paid);
-    if (!unpaid.length) return alert('All paid!');
-    const msg = encodeURIComponent(`Mashood കുറി - ${month} മാസ അടവ് ₹${unpaid[0].amount} ബാക്കിയുണ്ട്. ദയവായി അടയ്ക്കുക.`);
-    unpaid.forEach(m => {
-        window.open(`https://wa.me/${m.phone}?text=${msg}`, '_blank');
-    });
-}
-
+// Draw - Full Color Wheel
 function doRandomDraw() {
-    const month = document.getElementById('colMonth').value;
-    const eligible = DB.members.filter(m => DB.payments[month]?.[m.id]?.paid);
-    if (!eligible.length) return alert('No paid members!');
-    const winner = eligible[Math.floor(Math.random() * eligible.length)];
-    DB.draws.push({id:Date.now(),month,winnerId:winner.id,date:new Date().toISOString(),type:'random'});
-    saveDB();
-    document.getElementById('winnerDisplay').innerHTML = `<div class="card" style="background:#fff3cd;border:2px solid var(--gold);text-align:center"><h2>🎉 Winner 🎉</h2><h1 style="color:var(--green);margin:20px 0">${winner.name}</h1><p>${winner.phone}</p><p>${month}</p></div>`;
-    renderDashboard();
+  const eligible = db.members.filter(m => {
+    const payments = db.payments[currentMonth] || {};
+    return payments[m.phone] >= m.amount;
+  });
+
+  if(eligible.length === 0) {
+    alert('❌ Paid Members ഇല്ല!');
+    return;
+  }
+
+  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7'];
+  const winner = eligible[Math.floor(Math.random() * eligible.length)];
+
+  const display = document.getElementById('winnerDisplay');
+  display.innerHTML = `
+    <div class="card" style="background: linear-gradient(135deg, ${colors[Math.floor(Math.random()*colors.length)]}, ${colors[Math.floor(Math.random()*colors.length)]}); color: white; text-align: center; padding: 40px;">
+      <h2 style="font-size: 40px; margin-bottom: 20px;">🎉 WINNER 🎉</h2>
+      <h1 style="font-size: 50px; margin: 20px 0;">${winner.name}</h1>
+      <p style="font-size: 24px;">📱 ${winner.phone}</p>
+      <p style="font-size: 28px; margin-top: 20px;">💰 ₹${winner.amount}</p>
+      <p style="margin-top: 30px; font-size: 18px;">${currentMonth}</p>
+    </div>
+  `;
+
+  db.winners.push({name: winner.name, phone: winner.phone, amount: winner.amount, month: currentMonth});
+  saveDB();
+  updateStats();
 }
 
 function selectManualWinner() {
-    const winnerId = parseInt(document.getElementById('manualWinner').value);
-    const month = document.getElementById('colMonth').value;
-    const winner = DB.members.find(m => m.id === winnerId);
-    if (!winner) return;
-    DB.draws.push({id:Date.now(),month,winnerId:winner.id,date:new Date().toISOString(),type:'manual'});
-    saveDB();
-    document.getElementById('winnerDisplay').innerHTML = `<div class="card" style="background:#fff3cd;border:2px solid var(--gold);text-align:center"><h2>👑 Admin Selected Winner 👑</h2><h1 style="color:var(--green);margin:20px 0">${winner.name}</h1><p>${winner.phone}</p><p>${month}</p></div>`;
-    renderDashboard();
+  const select = document.getElementById('manualWinner');
+  const member = db.members.find(m => m.phone === select.value);
+  if(!member) return;
+
+  db.winners.push({name: member.name, phone: member.phone, amount: member.amount, month: currentMonth});
+  saveDB();
+  updateStats();
+  alert(`✅ Winner: ${member.name}`);
 }
 
+// Reports + PDF Save
 function renderReport() {
-    const month = document.getElementById('reportMonth').value;
-    const payments = DB.payments[month] || {};
-    const paid = Object.values(payments).filter(p => p.paid).length;
-    const total = Object.values(payments).filter(p => p.paid).reduce((s,p) => s + p.amount, 0);
-    document.getElementById('reportSummary').innerHTML = `
-        <div class="stats-grid">
-            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2>${paid}</h2><p>Paid</p></div></div>
-            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2>₹${total}</h2><p>Total</p></div></div>
-        </div>
-    `;
-    document.getElementById('reportTable').innerHTML = `
-        <div class="card">
-            <table style="width:100%;border-collapse:collapse">
-                <tr style="background:var(--green);color:white">
-                    <th style="padding:10px;text-align:left">Name</th>
-                    <th style="padding:10px;text-align:left">Phone</th>
-                    <th style="padding:10px;text-align:left">Amount</th>
-                    <th style="padding:10px;text-align:left">Status</th>
-                </tr>
-                ${DB.members.map(m => {
-                    const p = payments[m.id];
-                    return `<tr style="border-bottom:1px solid #ddd">
-                        <td style="padding:10px">${m.name}</td>
-                        <td style="padding:10px">${m.phone}</td>
-                        <td style="padding:10px">₹${m.amount}</td>
-                        <td style="padding:10px">${p?.paid?'<span style="color:green">✓ Paid</span>':'<span style="color:red">Pending</span>'}</td>
-                    </tr>`;
-                }).join('')}
-            </table>
-        </div>
-    `;
+  const month = document.getElementById('reportMonth').value;
+  const payments = db.payments[month] || {};
+  const paid = Object.keys(payments).length;
+  const total = Object.values(payments).reduce((sum, amt) => sum + amt, 0);
+
+  document.getElementById('reportSummary').innerHTML = `
+    <div class="stats-grid">
+      <div class="stat-card"><i class="ri-group-fill"></i><div><h2>${db.members.length}</h2><p>Total Members</p></div></div>
+      <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2>${paid}</h2><p>Paid</p></div></div>
+      <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2>₹${total}</h2><p>Collection</p></div></div>
+    </div>
+  `;
+
+  const table = db.members.map(m => {
+    const paidAmt = payments[m.phone] || 0;
+    const status = paidAmt >= m.amount? '✅ Paid' : '⏳ Pending';
+    return `<tr><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td>₹${paidAmt}</td><td>${status}</td></tr>`;
+  }).join('');
+
+  document.getElementById('reportTable').innerHTML = `
+    <div class="card">
+      <table style="width:100%; border-collapse: collapse;">
+        <thead><tr style="background:#f0f0f0;"><th style="padding:10px;text-align:left;">Name</th><th style="padding:10px;">Phone</th><th style="padding:10px;">Amount</th><th style="padding:10px;">Paid</th><th style="padding:10px;">Status</th></tr></thead>
+        <tbody>${table}</tbody>
+      </table>
+    </div>
+  `;
 }
 
 function exportCSV() {
-    const month = document.getElementById('reportMonth').value;
-    const payments = DB.payments[month] || {};
-    let csv = 'Name,Phone,Amount,Status,Date\n';
-    DB.members.forEach(m => {
-        const p = payments[m.id];
-        csv += `${m.name},${m.phone},${m.amount},${p?.paid?'Paid':'Pending'},${p?.date||''}\n`;
-    });
-    const blob = new Blob([csv], {type:'text/csv'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Mashood-Kuri-${month}.csv`;
-    a.click();
+  const month = document.getElementById('reportMonth').value;
+  const payments = db.payments[month] || {};
+  let csv = 'Name,Phone,Amount,Paid,Status\n';
+
+  db.members.forEach(m => {
+    const paidAmt = payments[m.phone] || 0;
+    const status = paidAmt >= m.amount? 'Paid' : 'Pending';
+    csv += `${m.name},${m.phone},${m.amount},${paidAmt},${status}\n`;
+  });
+
+  const blob = new Blob([csv], {type: 'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `Mashood-Kuri-${month}.csv`;
+  a.click();
 }
 
-function exportPDF() {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    const month = document.getElementById('reportMonth').value;
-    doc.setFontSize(18);
-    doc.text('Mashood കുറി - Monthly Report', 20, 20);
-    doc.setFontSize(12);
-    doc.text(`Month: ${month}`, 20, 30);
-    let y = 45;
-    DB.members.forEach((m,i) => {
-        const p = DB.payments[month]?.[m.id];
-        doc.text(`${i+1}. ${m.name} - ${m.phone} - ₹${m.amount} - ${p?.paid?'Paid':'Pending'}`, 20, y);
-        y += 10;
-        if (y > 270) { doc.addPage(); y = 20; }
-    });
-    doc.save(`Mashood-Kuri-${month}.pdf`);
+// Notice Alert System
+function addNotice() {
+  const title = document.getElementById('noticeTitle').value;
+  const msg = document.getElementById('noticeMsg').value;
+  if(!title ||!msg) {
+    alert('❌ Title & Message Fill ചെയ്യൂ!');
+    return;
+  }
+  db.notices.push({title, msg, date: new Date().toLocaleString()});
+  saveDB();
+  document.getElementById('noticeTitle').value = '';
+  document.getElementById('noticeMsg').value = '';
+  alert('✅ Notice Added!');
 }
 
-function addRule() {
-    const rule = document.getElementById('newRule').value.trim();
-    if (!rule) return;
-    DB.rules.push(rule);
-    saveDB();
-    document.getElementById('newRule').value = '';
-    renderRules();
+function showNoticeAlert() {
+  if(db.notices.length > 0) {
+    const latest = db.notices[db.notices.length - 1];
+    setTimeout(() => {
+      alert(`📢 NOTICE: ${latest.title}\n\n${latest.msg}\n\n${latest.date}`);
+    }, 1000);
+  }
 }
 
-function renderRules() {
-    document.getElementById('rulesList').innerHTML = DB.rules.map((r,i) => `
-        <div class="member-item">
-            <div class="member-item-info"><p>${i+1}. ${r}</p></div>
-            <button class="small danger" onclick="deleteRule(${i})"><i class="ri-delete-bin-line"></i></button>
-        </div>
-    `).join('');
+// Member Page
+function showMemberPage() {
+  document.querySelectorAll('.login-box, #loginPage, #adminPage').forEach(el => el.classList.add('hidden'));
+  document.getElementById('memberPage').classList.remove('hidden');
+
+  document.getElementById('memberNameNav').textContent = currentUser.name;
+  document.getElementById('memName').textContent = currentUser.name;
+  document.getElementById('memPhone').textContent = currentUser.phone;
+  document.getElementById('memAmount').textContent = '₹' + currentUser.amount;
+
+  let paidCount = 0;
+  Object.keys(db.payments).forEach(month => {
+    if(db.payments[month][currentUser.phone] >= currentUser.amount) paidCount++;
+  });
+
+  document.getElementById('memPaidCount').textContent = paidCount;
+  document.getElementById('memDueCount').textContent = Object.keys(db.payments).length - paidCount;
+
+  const payments = db.payments[currentMonth] || {};
+  const paid = payments[currentUser.phone] || 0;
+  const status = paid >= currentUser.amount? '✅ Paid' : '⏳ Pending';
+
+  document.getElementById('memPaymentStatus').innerHTML = `
+    <p><strong>This Month (${currentMonth}):</strong> ${status}</p>
+    <p>Paid: ₹${paid} / ₹${currentUser.amount}</p>
+  `;
 }
 
-function deleteRule(i) {
-    DB.rules.splice(i,1);
-    saveDB();
-    renderRules();
+function logout() {
+  currentUser = null;
+  location.reload();
 }
 
-function renderMemberDashboard() {
-    const m = DB.currentUser;
-    document.getElementById('memberNameNav').textContent = m.name;
-    document.getElementById('memName').textContent = m.name;
-    document.getElementById('memPhone').textContent = m.phone;
-    document.getElementById('memAmount').textContent = '₹' + m.amount;
-    let paidCount = 0, dueCount = 0;
-    months.forEach(month => {
-        if (DB.payments[month]?.[m.id]?.paid) paidCount++;
-        else dueCount++;
-    });
-    document.getElementById('memPaidCount').textContent = paidCount;
-    document.getElementById('memDueCount').textContent = dueCount;
-    const currentMonth = new Date().toISOString().slice(0,7);
-    const paid = DB.payments[currentMonth]?.[m.id]?.paid;
-    document.getElementById('memPaymentStatus').innerHTML = paid
-      ? `<p style="color:green"><i class="ri-checkbox-circle-fill"></i> Paid for ${currentMonth}</p>`
-        : `<p style="color:red"><i class="ri-time-fill"></i> Pending for ${currentMonth} - ₹${m.amount}</p>`;
-    renderMemberChat();
-}
-
-function renderMemberChat() {
-    const msgs = DB.chats[DB.currentUser.id] || [];
-    document.getElementById('memChatBox').innerHTML = msgs.map(m => `
-        <div class="chat-msg ${m.from}">${m.text}<div class="time">${new Date(m.time).toLocaleTimeString()}</div></div>
-    `).join('');
-    document.getElementById('memChatBox').scrollTop = document.getElementById('memChatBox').scrollHeight;
-}
-
-function sendMemberChat() {
-    const msg = document.getElementById('memChatMsg').value.trim();
-    if (!msg) return;
-    if (!DB.chats[DB.currentUser.id]) DB.chats[DB.currentUser.id] = [];
-    DB.chats[DB.currentUser.id].push({from:'member',text:msg,time:new Date().toISOString()});
-    saveDB();
-    document.getElementById('memChatMsg').value = '';
-    renderMemberChat();
-}
-
-function submitMemberFeedback() {
-    const text = document.getElementById('memFeedback').value.trim();
-    if (!text) return;
-    DB.feedback.push({name:DB.currentUser.name,text,date:new Date().toISOString()});
-    saveDB();
-    document.getElementById('memFeedback').value = '';
-    alert('Feedback Submitted!');
-}
+// Load manual winner options
+setTimeout(() => {
+  const select = document.getElementById('manualWinner');
+  if(select) {
+    select.innerHTML = db.members.map(m => `<option value="${m.phone}">${m.name} - ${m.phone}</option>`).join('');
+  }
+}, 1000);
