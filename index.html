@@ -21,7 +21,7 @@
       --success: #6BCF7F;
     }
 
-    body { background: linear-gradient(135deg, #0a1f1c 0%, #0d2d28 50%, #0a1f1c 100%); padding: 15px; }
+    body { background: linear-gradient(135deg, #0a1f1c 0%, #0d2d28 50%, #0a1f1c 100%); background-attachment: fixed; padding: 15px; }
     .container { max-width: 1400px; margin: 0 auto; }
 
     .card {
@@ -34,6 +34,7 @@
     .btn.primary { background: linear-gradient(135deg, var(--primary), #3ba99c); color: #0a1f1c; box-shadow: 0 4px 20px var(--primary-glow); }
     .btn.secondary { background: linear-gradient(135deg, var(--secondary), #ffb700); color: #0a1f1c; }
     .btn.danger { background: linear-gradient(135deg, var(--danger), #ff5252); color: white; }
+    .btn.success { background: linear-gradient(135deg, var(--success), #4caf50); color: white; }
     .btn.small { width: auto; padding: 8px 16px; font-size: 14px; }
 
     input, select, textarea {
@@ -41,7 +42,7 @@
       border-radius: 12px; font-size: 16px; background: rgba(10, 31, 28, 0.6);
       color: var(--text-light); backdrop-filter: blur(10px);
     }
-    input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+    input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 3px var(--primary-glow); }
 
     .top-bar {
       position: sticky; top: 0; background: rgba(10, 31, 28, 0.8); backdrop-filter: blur(20px);
@@ -86,42 +87,19 @@
       border-radius: 2px; box-shadow: 0 0 10px var(--primary-glow);
     }
 
-    .main-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    @media (min-width: 768px) {
-      .main-grid { grid-template-columns: 2fr 1fr; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    @media (max-width: 768px) {
-      .stats-grid { grid-template-columns: repeat(2, 1fr); }
-      .stat-card h2 { font-size: 24px; }
-      table { font-size: 12px; }
-      th, td { padding: 10px 8px; }
-    }
-
-    .secret-box { border: 2px dashed var(--secondary); background: rgba(255, 209, 102, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
-    .announcement-box textarea { min-height: 80px; resize: vertical; }
-
-    .wheel-container { text-align: center; padding: 30px 0; }
-    .wheel-box {
-      width: 280px; height: 280px; margin: 20px auto; position: relative; border-radius: 50%;
-      background: radial-gradient(circle, rgba(78,205,196,0.1), transparent);
-      border: 3px solid var(--primary);
-      box-shadow: 0 0 40px var(--primary-glow), inset 0 0 40px rgba(78,205,196,0.1);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .wheel-center { color: var(--primary); font-size: 24px; font-weight: bold; text-shadow: 0 0 20px var(--primary-glow); }
-    .wheel-pointer {
-      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
-      border-top: 25px solid var(--secondary); filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
-    }
-
     .modal {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8);
       z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
     }
     .modal .card { max-width: 500px; width: 100%; }
     .hidden { display: none!important; }
+
+    @media (max-width: 768px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-card h2 { font-size: 24px; }
+      table { font-size: 12px; }
+      th, td { padding: 10px 8px; }
+    }
   </style>
 </head>
 <body>
@@ -169,28 +147,137 @@
       </div>
     </div>
 
-    <!-- Main Grid -->
-    <div class="main-grid">
-      <!-- Left: Table + Wheel -->
-      <div>
-        <div class="card">
-          <div class="section-title">
-            <i class="ri-file-list-3-line"></i>
-            <span>കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ</span>
-          </div>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Name</th>
-                  <th>Mobile</th>
-                  <th>Amount</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="membersTable"></tbody>
-            </table>
-          </div>
-          <button class="btn primary" onclick="showAddMember()" style="margin-top:15px;">+ Add Member</button
+    <!-- Member Table -->
+    <div class="card">
+      <div class="section-title">
+        <i class="ri-file-list-3-line"></i>
+        <span>കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ</span>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="membersTable"></tbody>
+        </table>
+      </div>
+      <button class="btn primary" onclick="showAddMember()" style="margin-top:15px;">+ Add Member</button>
+    </div>
+  </div>
+
+  <!-- Add Member Modal -->
+  <div id="addMemberModal" class="modal hidden">
+    <div class="card">
+      <h3 style="color:var(--primary); margin-bottom:15px;">Add New Member</h3>
+      <input type="text" id="newMemName" placeholder="Name">
+      <input type="tel" id="newMemPhone" placeholder="Phone">
+      <input type="number" id="newMemAmount" placeholder="Amount" value="10000">
+      <div style="display:flex; gap:10px; margin-top:15px;">
+        <button class="btn primary" onclick="addMember()">Save</button>
+        <button class="btn danger" onclick="closeAddMember()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
+      members: [
+        {id:1001, name:'Ramesh Kumar', phone:'9876543210', amount:10000, paid:true},
+        {id:1002, name:'Suresh P.', phone:'9876543211', amount:10000, paid:false}
+      ],
+      nextId: 1003
+    };
+
+    // AUTO INIT
+    (function init() {
+      updateStats();
+      renderTable();
+    })();
+
+    function saveDB() { localStorage.setItem('mashoodKuriDB', JSON.stringify(db)); }
+
+    function updateStats() {
+      const total = db.members.length;
+      const paid = db.members.filter(m => m.paid).length;
+      const pending = total - paid;
+      const collection = db.members.filter(m => m.paid).reduce((s,m) => s+m.amount, 0);
+      
+      document.getElementById('totalMembers').textContent = total;
+      document.getElementById('totalCollection').textContent = '₹' + collection.toLocaleString();
+      document.getElementById('paidMembers').textContent = paid;
+      document.getElementById('pendingMembers').textContent = pending;
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('membersTable');
+      if(db.members.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">Members ഇല്ല. Add ചെയ്യൂ.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = db.members.map(m => `
+        <tr>
+          <td>#${m.id}</td>
+          <td>${m.name}</td>
+          <td>${m.phone}</td>
+          <td>₹${m.amount.toLocaleString()}</td>
+          <td><span class="badge ${m.paid?'paid':'pending'}">${m.paid?'PAID':'PENDING'}</span></td>
+          <td><button class="btn small ${m.paid?'danger':'success'}" onclick="togglePaid(${m.id})">മാറ്റുക</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function togglePaid(id) {
+      const m = db.members.find(x => x.id === id);
+      m.paid = !m.paid;
+      saveDB();
+      renderTable();
+      updateStats();
+    }
+
+    function showAddMember() {
+      document.getElementById('addMemberModal').classList.remove('hidden');
+    }
+
+    function closeAddMember() {
+      document.getElementById('addMemberModal').classList.add('hidden');
+    }
+
+    function addMember() {
+      const name = document.getElementById('newMemName').value.trim();
+      const phone = document.getElementById('newMemPhone').value.trim();
+      const amount = parseInt(document.getElementById('newMemAmount').value) || 10000;
+      
+      if(!name || !phone) return alert('Name & Phone required!');
+      
+      db.members.push({
+        id: db.nextId++,
+        name: name,
+        phone: phone,
+        amount: amount,
+        paid: false
+      });
+      saveDB();
+      renderTable();
+      updateStats();
+      closeAddMember();
+      document.getElementById('newMemName').value = '';
+      document.getElementById('newMemPhone').value = '';
+      document.getElementById('newMemAmount').value = '10000';
+    }
+
+    function resetApp() {
+      if(confirm('Reset all data?')) {
+        localStorage.removeItem('mashoodKuriDB');
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
