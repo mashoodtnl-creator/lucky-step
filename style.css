@@ -247,4 +247,11 @@ html, body {
 #recentWinners {
   max-height: 300px;
   overflow-y: auto;
+}.admin-tab {
+  min-height: calc(100vh - 60px);
+  padding-bottom: 20px;
+}
+
+.card {
+  margin-bottom: 15px;
 }
