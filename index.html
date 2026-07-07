@@ -1,762 +1,247 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Mashood Kuri - Premium Chitty Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #050b07 0%, #0a140f 100%);
-            --card-bg: rgba(18, 30, 23, 0.95);
-            --gold: #dfb73c;
-            --gold-glow: rgba(223, 183, 60, 0.3);
-            --text-main: #f0f5f2;
-            --text-dark: #0a140f;
-            --success: #2ecc71;
-            --danger: #e74c3c;
-            --border: rgba(223, 183, 60, 0.15);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            font-family: 'Poppins', 'Manjari', sans-serif; 
-            background: var(--bg-gradient); 
-            color: var(--text-main); 
-            min-height: 100vh; 
-            padding-bottom: 90px; 
-            width: 100%;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        .hidden { display: none !important; }
-        
-        .lang-switch-container { position: absolute; top: 12px; right: 12px; z-index: 10000; }
-        .lang-btn { background: rgba(0,0,0,0.6); border: 1px solid var(--gold); color: white; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: bold; backdrop-filter: blur(5px); }
-
-        .btn {
-            background: linear-gradient(135deg, #b89324, var(--gold)); color: var(--text-dark);
-            border: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px;
-            cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px var(--gold-glow); width: 100%;
-        }
-        .btn:active { transform: scale(0.98); }
-        .btn-secondary { background: transparent; color: var(--gold); border: 2px solid var(--gold); box-shadow: none; }
-        .btn-danger { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2); }
-
-        /* MENU BAR STYLING */
-        .menu-bar { display: flex; justify-content: space-around; background: #050b07; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
-        .menu-item { color: #8fa397; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; font-family: inherit; flex: 1; }
-        .menu-item.active { color: var(--gold); font-weight: bold; }
-        .menu-icon { font-size: 22px; }
-
-        /* SPLASH SCREEN FULL FIT */
-        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #11251a 0%, #040a06 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }
-        .splash-avatar { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 35px var(--gold-glow); margin-bottom: 25px; overflow: hidden; background: #000; }
-        .splash-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .splash-h1 { font-size: 30px; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
-        .splash-p { font-size: 12px; color: #8fa397; letter-spacing: 2px; margin: 5px 0 20px 0; text-align: center; }
-        .badge-credits { background: rgba(223, 183, 60, 0.1); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; color: var(--gold); font-size: 12px; font-style: italic; }
-        .bar-container { width: 160px; height: 3px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 30px; overflow: hidden; }
-        .bar-fill { width: 0%; height: 100%; background: var(--gold); animation: fillUp 1.5s forwards; }
-        @keyframes fillUp { to { width: 100%; } }
-
-        /* FIXED: LOGIN CARD FULL SCREEN FOR MOBILE */
-        #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; width: 100%; padding: 0; background: var(--bg-gradient); }
-        .login-card { width: 100%; height: 100vh; min-height: 100vh; background: var(--bg-gradient); padding: 60px 20px 30px 20px; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow-y: auto; }
-        .login-photo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px auto; overflow: hidden; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .login-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .login-card h2 { color: var(--gold); font-size: 28px; font-weight: 700; margin-bottom: 5px; }
-        .login-card subtitle { color: #8fa397; font-size: 14px; display: block; margin-bottom: 30px; }
-        
-        .nav-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 4px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
-        .tab-btn { flex: 1; background: none; border: none; padding: 14px; color: #8fa397; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 14px; transition: 0.3s; }
-        .tab-btn.active { background: var(--gold); color: var(--text-dark); }
-        
-        .input-box { text-align: left; margin-bottom: 20px; width: 100%; }
-        .input-box label { display: block; font-size: 13px; color: #8fa397; margin-bottom: 8px; padding-left: 2px; }
-        .input-box input { width: 100%; padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; color: white; font-size: 16px; }
-
-        /* FIXED: CONTAINER STRETCHED TO FULL MOBILE WIDTH */
-        .container { width: 100%; max-width: 100%; margin: 0; padding: 12px; }
-        
-        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--card-bg); padding: 12px; border-radius: 14px; border: 1px solid var(--border); width: 100%; }
-        .profile-section { display: flex; align-items: center; gap: 10px; }
-        .avatar-frame { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #000; position: relative; }
-        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.7); color: var(--gold); font-size: 9px; text-align: center; padding: 2px 0; cursor: pointer; font-weight: bold; }
-        .profile-text h3 { font-size: 15px; color: var(--gold); font-weight: 600; }
-        .profile-text p { font-size: 11px; color: #8fa397; }
-
-        /* STATS GRID - PERFECT 2x2 FOR MOBILE FULL FIT */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; width: 100%; }
-        .stat-box { background: var(--card-bg); border: 1px solid rgba(223, 183, 60, 0.1); border-radius: 14px; padding: 16px 10px; text-align: center; border-bottom: 3px solid var(--border); }
-        .stat-box p { font-size: 12px; color: #8fa397; margin-bottom: 4px; }
-        .stat-box h2 { font-size: 22px; font-weight: 700; color: var(--gold); }
-
-        .main-layout { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-        .box-panel { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 16px; margin-bottom: 15px; width: 100%; }
-        .box-panel h4 { color: var(--gold); font-size: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); padding-left: 8px; font-weight: 600; }
-
-        /* LUCKY WHEEL STRETCHED FOR SCREEN FIT */
-        .wheel-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 15px 0; position: relative; width: 100%; }
-        .wheel-container { width: 290px; height: 290px; border-radius: 50%; border: 6px solid var(--gold); position: relative; overflow: hidden; background: radial-gradient(circle, #1a3c26 0%, #08140d 100%); box-shadow: 0 0 35px var(--gold-glow); transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); display: flex; align-items: center; justify-content: center; }
-        .wheel-center-pin { width: 22px; height: 22px; background: var(--gold); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        .wheel-pointer { width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 22px solid var(--danger); position: absolute; top: -8px; z-index: 12; }
-        .wheel-text-anim { font-size: 22px; color: #fff; font-weight: bold; text-align: center; padding: 10px; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
-
-        /* TABLES SCROLL FOR MOBILE */
-        .table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; white-space: nowrap; }
-        th { background: rgba(0,0,0,0.4); color: var(--gold); font-weight: 600; }
-
-        .badge { padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; display: inline-block; }
-        .badge-paid { background: rgba(46, 204, 113, 0.15); color: var(--success); border: 1px solid var(--success); }
-        .badge-pending { background: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); }
-
-        .row-inputs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
-        input, select, textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-family: inherit; font-size: 15px; }
-        input:focus, select:focus, textarea:focus { border-color: var(--gold); outline: none; }
-
-        .rules-list { padding-left: 18px; color: #c4d4cc; font-size: 14px; }
-        .rules-list li { margin-bottom: 10px; line-height: 1.6; }
-        .feedback-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 13px; }
-
-        /* RESPONSIVE LAYOUT FOR WIDER SCREENS (PC/TABLET) */
-        @media (min-width: 768px) {
-            .login-card { max-width: 440px; height: auto; min-height: auto; border-radius: 24px; padding: 40px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
-            .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 15px; }
-            .main-layout { grid-template-columns: 2fr 1fr; gap: 20px; }
-            .row-inputs { grid-template-columns: 1fr 1fr; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#4ECDC4">
+  <title>Mashood Kuri</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
+  <!-- Splash Screen -->
+  <div id="splash" class="splash-screen">
+    <div class="splash-content">
+      <img src="logo.png" alt="Logo" class="splash-logo" onerror="this.style.display='none'">
+      <img src="photo.jpg" alt="Mashood" class="splash-photo" onerror="this.style.display='none'">
+      <h1 data-ml="സ്വാഗതം Mashood കുറിയിലേക്ക്" data-en="Welcome to Mashood Kuri">സ്വാഗതം Mashood കുറിയിലേക്ക്</h1>
+      <div class="loader"></div>
+    </div>
+  </div>
 
-    <div class="lang-switch-container">
-        <button class="lang-btn" onclick="toggleLanguage()">🌐 EN / മലയ</button>
+  <div id="mainContainer" style="display:none;">
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <button onclick="toggleLang()" id="langBtn">EN</button>
+      <button onclick="toggleDarkMode()" id="darkBtn"><i class="ri-moon-line"></i></button>
     </div>
 
-    <div id="splash-screen">
-        <div class="splash-avatar"><img class="user-photo-src" src="photo.jpg" alt="Mashood" id="splash-img"></div>
-        <div class="splash-h1">MASHOOD KURI</div>
-        <div class="splash-p">LUCKY STEP CHITTY MANAGEMENT</div>
-        <div class="badge-credits">Created by Mashood Thennala</div>
-        <div class="bar-container"><div class="bar-fill"></div></div>
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+      <div class="card login-card">
+        <img src="logo.png" alt="Logo" class="login-logo" onerror="this.style.display='none'">
+        <h2 data-ml="Mashood Kuri" data-en="Mashood Kuri">Mashood Kuri</h2>
+        <button class="btn primary" onclick="showLogin('admin')"><i class="ri-admin-line"></i> <span data-ml="അഡ്മിൻ ലോഗിൻ" data-en="Admin Login">അഡ്മിൻ ലോഗിൻ</span></button>
+        <button class="btn secondary" onclick="showLogin('member')"><i class="ri-user-line"></i> <span data-ml="മെമ്പർ ലോഗിൻ" data-en="Member Login">മെമ്പർ ലോഗിൻ</span></button>
+        <button class="btn outline" onclick="showRegister()"><i class="ri-user-add-line"></i> <span data-ml="പുതിയ രജിസ്ട്രേഷൻ" data-en="New Registration">പുതിയ രജിസ്ട്രേഷൻ</span></button>
+      </div>
     </div>
 
-    <div id="auth-screen" class="hidden">
-        <div class="login-card">
-            <div class="login-photo"><img class="user-photo-src" src="photo.jpg" alt="Admin" id="login-img"></div>
-            <h2>MASHOOD KURI</h2>
-            <subtitle id="lg-sub">Chitty Hub Management System</subtitle>
-            
-            <div class="nav-tabs">
-                <button class="tab-btn active" id="tab-member" onclick="switchAuthTab('member')">Member Login</button>
-                <button class="tab-btn" id="tab-admin" onclick="switchAuthTab('admin')">Admin Hub</button>
-            </div>
-
-            <form onsubmit="handleLogin(event)">
-                <div class="input-box">
-                    <label id="login-username-label">Member Phone or ID</label>
-                    <input type="text" id="login-username" required placeholder="Phone / ID...">
-                </div>
-                <div class="input-box">
-                    <label id="lg-pass-lbl">Secret Password</label>
-                    <input type="password" id="login-password" required placeholder="••••••••">
-                </div>
-                <button type="submit" class="btn" id="lg-btn-text" style="margin-top: 10px;">Login 🔐</button>
-            </form>
-        </div>
+    <!-- Admin Login -->
+    <div id="adminLoginBox" class="login-box hidden">
+      <div class="card">
+        <h3 data-ml="അഡ്മിൻ ലോഗിൻ" data-en="Admin Login">അഡ്മിൻ ലോഗിൻ</h3>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="btn primary" onclick="adminLogin()">Login</button>
+        <button class="btn text" onclick="backToLogin()">← Back</button>
+      </div>
     </div>
 
-    <div id="admin-dashboard" class="hidden">
-        <div class="container">
-            <nav>
-                <div class="profile-section">
-                    <div class="avatar-frame">
-                        <img class="user-photo-src" src="photo.jpg" alt="Mashood" id="admin-profile-img">
-                        <div class="photo-upload-overlay" onclick="triggerPhotoUpload('admin')">Edit 📷</div>
-                    </div>
-                    <div class="profile-text"><h3>Mashood Thennala</h3><p id="adm-panel-title">Authorized Administrator Panel</p></div>
-                </div>
-                <button class="btn btn-danger" id="logout-btn-1" style="padding: 8px 14px; font-size: 12px; width:auto;" onclick="logout()">Logout 🚪</button>
-            </nav>
-
-            <input type="file" id="photo-file-input" class="hidden" accept="image/*" onchange="processPhotoUpload(event)">
-
-            <div class="stats-grid">
-                <div class="stat-box"><p id="st-total">Total Members</p><h2 id="stat-total-members">0</h2></div>
-                <div class="stat-box"><p id="st-coll">Total Collection</p><h2 id="stat-total-collection">₹0</h2></div>
-                <div class="stat-box"><p id="st-paid">Paid Members</p><h2 id="stat-paid-members" style="color: var(--success);">0</h2></div>
-                <div class="stat-box"><p id="st-pend">Pending Members</p><h2 id="stat-pending-members" style="color: var(--danger);">0</h2></div>
-            </div>
-
-            <div id="admin-sect-home">
-                <div class="main-layout">
-                    <div>
-                        <div class="box-panel">
-                            <h4 id="lbl-group-info">📋 Chitty Group Members Info</h4>
-                            <div class="table-responsive">
-                                <table id="admin-members-table"></table>
-                            </div>
-                        </div>
-                        
-                        <div class="box-panel">
-                            <h4 id="lbl-draw-title">🎲 Lucky Wheel Draw</h4>
-                            <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed var(--gold);">
-                                <label style="color: var(--gold); font-size: 12px; font-weight: bold; display: block; margin-bottom: 6px;">
-                                    🤫 Secret Winner Controller:
-                                </label>
-                                <select id="secret-winner-select" style="background: #111; color: #fff; font-size: 13px; padding: 8px;"></select>
-                            </div>
-
-                            <div class="wheel-area">
-                                <div class="wheel-pointer"></div>
-                                <div class="wheel-container" id="lucky-wheel-element">
-                                    <div class="wheel-center-pin"></div>
-                                    <div class="wheel-text-anim" id="wheel-inner-text">Mashood Kuri</div>
-                                </div>
-                                
-                                <div style="margin-top: 20px; width: 100%; display: flex; flex-direction: column; gap: 10px;">
-                                    <select id="draw-month-select" style="background: rgba(0,0,0,0.5);">
-                                        <option value="Month 1">Month 1</option>
-                                        <option value="Month 2">Month 2</option>
-                                        <option value="Month 3">Month 3</option>
-                                        <option value="Month 4">Month 4</option>
-                                        <option value="Month 5">Month 5</option>
-                                    </select>
-                                    <button class="btn" id="btn-draw-winner" onclick="drawLuckyWinner()">Spin & Save Winner 🎲</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div>
-                        <div class="box-panel" style="border-color: var(--danger);">
-                            <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
-                            <textarea id="input-important-msg" rows="2" style="margin-bottom:10px;"></textarea>
-                            <button class="btn btn-danger" id="btn-up-msg" onclick="updateImportantMessage()">Publish Message 🚨</button>
-                        </div>
-
-                        <div class="box-panel">
-                            <h4 id="lbl-ann-title">📢 Announcement Banner</h4>
-                            <textarea id="input-announcement" rows="2" style="margin-bottom:10px;"></textarea>
-                            <button class="btn btn-secondary" id="btn-up-banner" onclick="updateBanners()">Update Banner 📢</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="admin-sect-reports" class="hidden">
-                <div class="box-panel">
-                    <h4>📊 Chitty Winners Report</h4>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr><th>മാസം</th><th>വിജയി Name</th><th>ഫോൺ നമ്പർ</th><th>തുക</th></tr>
-                            </thead>
-                            <tbody id="kuri-report-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="admin-sect-settings" class="hidden">
-                <div class="box-panel">
-                    <h4 id="lbl-add-member">👤 Add New Member</h4>
-                    <form onsubmit="adminAddMember(event)">
-                        <div class="row-inputs">
-                            <input type="text" id="add-name" placeholder="Member Name" required>
-                            <input type="text" id="add-phone" placeholder="Mobile Number" required>
-                        </div>
-                        <div class="row-inputs">
-                            <input type="number" id="add-amount" value="10000" required>
-                            <input type="password" id="add-password" value="123" required>
-                        </div>
-                        <button type="submit" class="btn" id="btn-save-mbr" style="margin-top: 5px;">Save Member ✅</button>
-                    </form>
-                </div>
-
-                <div class="box-panel">
-                    <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
-                    <textarea id="input-rules" rows="4" style="margin-bottom:12px;"></textarea>
-                    <button class="btn" id="btn-rules" onclick="saveRules()">Save Rules 💾</button>
-                </div>
-
-                <div class="box-panel">
-                    <h4 id="lbl-view-feedback">💬 Members Feedback</h4>
-                    <div id="admin-feedback-container"></div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="menu-bar">
-            <button class="menu-item active" id="nav-adm-home" onclick="switchTab('admin', 'home')">
-                <span class="menu-icon">🏠</span><span class="nav-text-home">Home</span>
-            </button>
-            <button class="menu-item" id="nav-adm-reports" onclick="switchTab('admin', 'reports')">
-                <span class="menu-icon">📊</span><span class="nav-text-report">Report</span>
-            </button>
-            <button class="menu-item" id="nav-adm-settings" onclick="switchTab('admin', 'settings')">
-                <span class="menu-icon">⚙️</span><span class="nav-text-settings">Control</span>
-            </button>
-        </div>
+    <!-- Member Login -->
+    <div id="memberLoginBox" class="login-box hidden">
+      <div class="card">
+        <h3 data-ml="മെമ്പർ ലോഗിൻ" data-en="Member Login">മെമ്പർ ലോഗിൻ</h3>
+        <input type="tel" id="memberPhone" placeholder="Phone Number">
+        <input type="password" id="memberPass" placeholder="Password">
+        <button class="btn primary" onclick="memberLogin()">Login</button>
+        <button class="btn text" onclick="backToLogin()">← Back</button>
+      </div>
     </div>
 
-    <div id="member-dashboard" class="hidden">
-        <div class="container">
-            <nav>
-                <div class="profile-section">
-                    <div class="avatar-frame">
-                        <img src="" alt="User" id="member-profile-img">
-                        <div class="photo-upload-overlay" onclick="triggerPhotoUpload('member')">Upload 📷</div>
-                    </div>
-                    <div class="profile-text"><h3 id="member-display-name"></h3><p id="member-display-id"></p></div>
-                </div>
-                <div style="display:flex; gap:6px;">
-                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="background:#2ecc71; color:white; border:none; padding: 6px 12px; font-size: 11px; width:auto;">Admin 💬</a>
-                    <button class="btn btn-danger" id="logout-btn-2" style="padding: 6px 12px; font-size: 11px; width:auto;" onclick="logout()">Logout 🚪</button>
-                </div>
-            </nav>
-
-            <div id="member-sect-home">
-                <div id="member-important-msg-box" class="box-panel hidden" style="background: linear-gradient(90deg, #3a1313, #1c0a0a); border-left: 5px solid var(--danger);">
-                    <h5 style="color: var(--danger); margin-bottom:5px; font-weight: bold; font-size: 13px;">🚨 IMPORTANT MESSAGE</h5>
-                    <p id="member-important-text" style="font-size:14px; color:#fcc; font-weight: bold;"></p>
-                </div>
-
-                <div class="box-panel" style="background: linear-gradient(90deg, #1b3524, #0f2216); border-left: 5px solid var(--gold);">
-                    <h5 id="lbl-m-ann" style="color: var(--gold); margin-bottom:5px; font-size: 13px;">📢 Important Announcement</h5>
-                    <p id="member-announcement-text" style="font-size:13px;"></p>
-                </div>
-
-                <div class="main-layout">
-                    <div class="box-panel">
-                        <h4 id="lbl-m-status">💰 Your Payment Status</h4>
-                        <p style="font-size: 14px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
-                        <p style="margin:12px 0 0 0; font-size: 14px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
-                    </div>
-                    
-                    <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center; padding: 25px 15px;">
-                        <h4 id="lbl-m-win">🏆 Lucky Winner of Selected Month</h4>
-                        <div id="member-winner-box" style="font-size:20px; font-weight:bold; color:var(--gold); margin-top: 15px;">Not Drawn 🎲</div>
-                    </div>
-
-                    <div class="box-panel">
-                        <h4 id="lbl-send-feed">💬 Send Feedback to Admin</h4>
-                        <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;"></textarea>
-                        <button class="btn btn-secondary" onclick="submitFeedback()">Submit Feedback 📤</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="member-sect-reports" class="hidden">
-                <div class="box-panel">
-                    <h4>📊 Chitty Winners Report</h4>
-                    <div class="table-responsive">
-                        <table>
-                            <thead>
-                                <tr><th>മാസം</th><th>വിജയി Name</th><th>തുക</th></tr>
-                            </thead>
-                            <tbody id="member-report-table-body"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div id="member-sect-rules" class="hidden">
-                <div class="box-panel">
-                    <h4 id="lbl-m-rules">📜 Chitty Rules & Regulations</h4>
-                    <ol class="rules-list" id="member-rules-display"></ol>
-                </div>
-            </div>
-        </div>
-
-        <div class="menu-bar">
-            <button class="menu-item active" id="nav-mbr-home" onclick="switchTab('member', 'home')">
-                <span class="menu-icon">🏠</span><span class="nav-text-home">Home</span>
-            </button>
-            <button class="menu-item" id="nav-mbr-reports" onclick="switchTab('member', 'reports')">
-                <span class="menu-icon">📊</span><span class="nav-text-report">Report</span>
-            </button>
-            <button class="menu-item" id="nav-mbr-rules" onclick="switchTab('member', 'rules')">
-                <span class="menu-icon">📜</span><span class="nav-text-rules">Rules</span>
-            </button>
-        </div>
+    <!-- Register -->
+    <div id="registerBox" class="login-box hidden">
+      <div class="card">
+        <h3 data-ml="പുതിയ മെമ്പർ" data-en="New Member">പുതിയ മെമ്പർ</h3>
+        <input type="text" id="regName" placeholder="പേര് / Name">
+        <input type="tel" id="regPhone" placeholder="ഫോൺ / Phone">
+        <input type="password" id="regPass" placeholder="പാസ്‌വേഡ് / Password">
+        <input type="number" id="regAmount" placeholder="മാസ അടവ് / Monthly Amount">
+        <label class="checkbox-label">
+          <input type="checkbox" id="termsCheck"> 
+          <span data-ml="Terms & Conditions അംഗീകരിക്കുന്നു" data-en="I agree to Terms & Conditions">Terms & Conditions അംഗീകരിക്കുന്നു</span>
+        </label>
+        <button class="btn primary" onclick="memberRegister()">Register</button>
+        <button class="btn text" onclick="backToLogin()">← Back</button>
+      </div>
     </div>
 
-    <script>
-        let currentLang = 'ml'; 
-        let currentUploadTarget = 'admin'; 
-        const ADMIN_WA_NUMBER = "919876543210"; 
-        let isSpinning = false;
+    <!-- Admin Page -->
+    <div id="adminPage" class="hidden">
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img src="logo.png" class="sidebar-logo" onerror="this.style.display='none'">
+          <h3>Mashood Kuri</h3>
+          <button onclick="toggleSidebar()" class="close-btn"><i class="ri-close-line"></i></button>
+        </div>
+        <a onclick="showAdminTab('home')" class="active"><i class="ri-dashboard-line"></i> <span data-ml="ഡാഷ്ബോർഡ്" data-en="Dashboard">ഡാഷ്ബോർഡ്</span></a>
+        <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> <span data-ml="മെമ്പർമാർ" data-en="Members">മെമ്പർമാർ</span></a>
+        <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> <span data-ml="കളക്ഷൻ" data-en="Collection">കളക്ഷൻ</span></a>
+        <a onclick="showAdminTab('draw')"><i class="ri-gamepad-line"></i> <span data-ml="നറുക്കെടുപ്പ്" data-en="Draw">നറുക്കെടുപ്പ്</span></a>
+        <a onclick="showAdminTab('winners')"><i class="ri-trophy-line"></i> <span data-ml="വിജയികൾ" data-en="Winners">വിജയികൾ</span></a>
+        <a onclick="showAdminTab('reports')"><i class="ri-file-chart-line"></i> <span data-ml="റിപ്പോർട്ട്" data-en="Reports">റിപ്പോർട്ട്</span></a>
+        <a onclick="showAdminTab('chat')"><i class="ri-chat-3-line"></i> <span data-ml="ചാറ്റ്" data-en="Chat">ചാറ്റ്</span></a>
+        <a onclick="showAdminTab('settings')"><i class="ri-settings-line"></i> <span data-ml="സെറ്റിംഗ്സ്" data-en="Settings">സെറ്റിംഗ്സ്</span></a>
+        <a onclick="logout()"><i class="ri-logout-box-line"></i> <span data-ml="ലോഗൗട്ട്" data-en="Logout">ലോഗൗട്ട്</span></a>
+      </div>
 
-        let appImages = {
-            adminPhoto: "photo.jpg", 
-            defaultMember: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dfb73c'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>"
-        };
+      <div class="main-content">
+        <div class="mobile-header">
+          <button onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
+          <h2>Mashood Kuri</h2>
+        </div>
 
-        let appState = {
-            currentView: 'auth', currentRole: 'member', loggedInUser: null,
-            announcement: "The chitty lucky draw will start soon. Stay tuned!",
-            announcement_ml: "ഈ മാസത്തെ കുറി നറുക്കെടുപ്പ് ഉടൻ ആരംഭിക്കുന്നതാണ്.",
-            importantMsg: "", importantMsg_ml: "",
-            rules: ["Every member must pay the installment before 10th.","Live draw on 12th."],
-            rules_ml: ["എല്ലാ മാസവും 10-ാം തീയതിക്ക് മുൻപായി കുറി തുക അടക്കേണ്ടതാണ്.","എല്ലാ മാസവും 12-ാം തീയതി ലൈവ് നറുക്കെടുപ്പ് ഉണ്ടായിരിക്കുന്നതാണ്."],
-            feedbacks: [],
-            historyReport: [
-                { month: "Month 1", name: "Ramesh Kumar", phone: "9876543210", amount: 10000 }
-            ],
-            members: [
-                { id: 1001, name: "Ramesh Kumar", phone: "9876543210", amount: 10000, status: "Paid", password: "123", photo: "" },
-                { id: 1002, name: "Suresh P.", phone: "9876543211", amount: 10000, status: "Paid", password: "123", photo: "" },
-                { id: 1003, name: "Prakashan K.", phone: "9876543212", amount: 10000, status: "Pending", password: "123", photo: "" }
-            ]
-        };
+        <div id="adminHome" class="admin-tab">
+          <div class="stats-grid">
+            <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p data-ml="മൊത്തം മെമ്പർമാർ" data-en="Total Members">മൊത്തം മെമ്പർമാർ</p></div></div>
+            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p data-ml="Paid" data-en="Paid">Paid</p></div></div>
+            <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p data-ml="Pending" data-en="Pending">Pending</p></div></div>
+            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p data-ml="കളക്ഷൻ" data-en="Collection">കളക്ഷൻ</p></div></div>
+          </div>
+          <div class="card"><h3 data-ml="ഏറ്റവും പുതിയ വിജയികൾ" data-en="Recent Winners">ഏറ്റവും പുതിയ വിജയികൾ</h3><div id="recentWinners"></div></div>
+        </div>
 
-        const langData = {
-            en: {
-                lg_sub: "Chitty Hub Management System", tab_member: "Member Login", tab_admin: "Admin Hub",
-                lbl_phone: "Member Phone Number or ID", lbl_pass: "Secret Password", btn_login: "Login 🔐",
-                adm_title: "Authorized Administrator Panel", btn_logout: "Logout 🚪",
-                st_tot: "Total Members", st_col: "Total Collection", st_paid: "Paid Members", st_pend: "Pending Members",
-                grp_info: "📋 Chitty Group Members Info", add_mbr: "👤 Add New Member", btn_save: "Save Member ✅",
-                m_ann: "📢 Important Announcement", m_stat: "💰 Your Payment Status", m_amt: "Monthly Installment:", m_cur: "Current Status:", m_win: "🏆 Lucky Winner",
-                not_drawn: "Not Drawn Yet 🎲", change_btn: "Change 🔄",
-                adm_rules: "📝 Write & Edit Chitty Rules", msg_title: "🚨 Set Important Message", btn_msg: "Publish Message 🚨", view_feed: "💬 Members Feedback",
-                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback to Admin",
-                draw_title: "🎲 Lucky Wheel Draw", h_home: "Home", h_rep: "Report", h_set: "Control", h_rul: "Rules"
-            },
-            ml: {
-                lg_sub: "കുറി മാനേജ്‌മെന്റ് സിസ്റ്റം", tab_member: "മെമ്പർ ലോഗിൻ", tab_admin: "അഡ്മിൻ ഹബ്",
-                lbl_phone: "മെമ്പർ ഫോൺ നമ്പർ അല്ലെങ്കിൽ ID", lbl_pass: "രഹസ്യ പാസ്‌വേഡ്", btn_login: "ലോഗിൻ ചെയ്യുക 🔐",
-                adm_title: "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ", btn_logout: "ലോഗ് ഔട്ട് 🚪",
-                st_tot: "ആകെ മെമ്പർമാർ", st_col: "ആകെ കളക്ഷൻ", st_paid: "തുക അടച്ചവർ", st_pend: "ബാക്കി നിൽക്കുന്നവർ",
-                grp_info: "📋 കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ", add_mbr: "👤 പുതിയ അംഗത്തെ ചേർക്കുക", btn_save: "അംഗത്തെ സേവ് ചെയ്യുക ✅",
-                m_ann: "📢 പ്രധാന അറിയിപ്പ്", m_stat: "💰 നിങ്ങളുടെ അടവ് സ്റ്റാറ്റസ്", m_amt: "ഈ മാസത്തെ അടവ് തുക:", m_cur: "നിലവിലെ സ്റ്റാറ്റസ്:", m_win: "🏆 കുറി വിജയി",
-                not_drawn: "നറുക്കെടുത്തിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄",
-                adm_rules: "📝 കുറി നിയമങ്ങൾ എഴുതുക", msg_title: "🚨 പ്രധാന സന്ദേശം നൽകുക", btn_msg: "സന്ദേശം പബ്ലിഷ് ചെയ്യുക 🚨", view_feed: "💬 മെമ്പർമാരുടെ അഭിപ്രായങ്ങൾ",
-                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് അയക്കുക",
-                draw_title: "🎲 ലക്കി വീൽ നറുക്കെടുപ്പ്", h_home: "ഹോം", h_rep: "റിപ്പോർട്ട്", h_set: "നിയന്ത്രണം", h_rul: "നിയമങ്ങൾ"
-            }
-        };
+        <div id="adminMembers" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="മെമ്പർമാർ ചേർക്കുക" data-en="Add Members">മെമ്പർമാർ ചേർക്കുക</h3>
+            <input type="text" id="newMemName" placeholder="പേര്">
+            <input type="tel" id="newMemPhone" placeholder="ഫോൺ">
+            <input type="password" id="newMemPass" placeholder="പാസ്‌വേഡ്">
+            <input type="number" id="newMemAmount" placeholder="മാസ അടവ്">
+            <button class="btn primary" onclick="addMemberByAdmin()">Add Member</button>
+          </div>
+          <div class="card">
+            <input type="text" id="searchMember" placeholder="Search..." onkeyup="renderAdminMembers()">
+            <div id="adminMembersList"></div>
+          </div>
+        </div>
 
-        function switchTab(role, section) {
-            if (role === 'admin') {
-                document.getElementById('admin-sect-home').classList.add('hidden');
-                document.getElementById('admin-sect-reports').classList.add('hidden');
-                document.getElementById('admin-sect-settings').classList.add('hidden');
-                document.getElementById(`admin-sect-${section}`).classList.remove('hidden');
-                document.getElementById('nav-adm-home').classList.remove('active');
-                document.getElementById('nav-adm-reports').classList.remove('active');
-                document.getElementById('nav-adm-settings').classList.remove('active');
-                document.getElementById(`nav-adm-${section}`).classList.add('active');
-            } else {
-                document.getElementById('member-sect-home').classList.add('hidden');
-                document.getElementById('member-sect-reports').classList.add('hidden');
-                document.getElementById('member-sect-rules').classList.add('hidden');
-                document.getElementById(`member-sect-${section}`).classList.remove('hidden');
-                document.getElementById('nav-mbr-home').classList.remove('active');
-                document.getElementById('nav-mbr-reports').classList.remove('active');
-                document.getElementById('nav-mbr-rules').classList.remove('active');
-                document.getElementById(`nav-mbr-${section}`).classList.add('active');
-            }
-        }
+        <div id="adminCollection" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="മാസ കളക്ഷൻ" data-en="Monthly Collection">മാസ കളക്ഷൻ</h3>
+            <select id="colMonth" onchange="renderCollection()"></select>
+            <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
+            <button class="btn outline" onclick="sendWhatsAppReminder()"><i class="ri-whatsapp-line"></i> WhatsApp Reminder</button>
+          </div>
+          <div class="card"><div id="collectionList"></div></div>
+        </div>
 
-        function triggerPhotoUpload(target) {
-            currentUploadTarget = target;
-            document.getElementById('photo-file-input').click();
-        }
+        <div id="adminDraw" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="നറുക്കെടുപ്പ്" data-en="Lucky Draw">നറുക്കെടുപ്പ്</h3>
+            <button class="btn primary" onclick="doRandomDraw()">🎲 Random Draw</button>
+            <h4 style="margin-top:20px;" data-ml="Manual Winner" data-en="Manual Winner">Manual Winner</h4>
+            <select id="manualWinner"></select>
+            <button class="btn secondary" onclick="selectManualWinner()">Select Winner</button>
+          </div>
+          <div id="wheelContainer" style="display:none; text-align:center; margin:30px 0;">
+            <div style="position:relative; width:300px; height:300px; margin:0 auto;">
+              <div id="pointer" style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-top:40px solid #ff4757; z-index:10;"></div>
+              <canvas id="wheelCanvas" width="300" height="300"></canvas>
+            </div>
+            <button class="btn primary" onclick="spinWheelNow()" style="margin-top:20px; padding:15px 40px; font-size:18px;">🎰 SPIN THE WHEEL</button>
+          </div>
+          <div id="winnerDisplay"></div>
+        </div>
 
-        function processPhotoUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const base64Img = e.target.result;
-                if (currentUploadTarget === 'admin') {
-                    appImages.adminPhoto = base64Img;
-                    updateAllAvatarElements();
-                } else if (currentUploadTarget === 'member' && appState.loggedInUser) {
-                    appState.loggedInUser.photo = base64Img;
-                    const targetIndex = appState.members.findIndex(m => m.id === appState.loggedInUser.id);
-                    if(targetIndex > -1) appState.members[targetIndex].photo = base64Img;
-                    updateAllAvatarElements();
-                }
-            };
-            reader.readAsDataURL(file);
-        }
+        <div id="adminWinners" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="25 മാസ വിജയികൾ" data-en="25 Months Winners">25 മാസ വിജയികൾ</h3>
+            <div id="allWinnersList"></div>
+          </div>
+        </div>
 
-        function updateAllAvatarElements() {
-            document.getElementById('splash-img').src = appImages.adminPhoto;
-            document.getElementById('login-img').src = appImages.adminPhoto;
-            document.getElementById('admin-profile-img').src = appImages.adminPhoto;
-            if (appState.loggedInUser) {
-                document.getElementById('member-profile-img').src = appState.loggedInUser.photo || appImages.defaultMember;
-            }
-        }
+        <div id="adminReports" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="റിപ്പോർട്ട്" data-en="Reports">റിപ്പോർട്ട്</h3>
+            <select id="reportMonth" onchange="renderReport()"></select>
+            <button class="btn primary" onclick="exportCSV()">📊 Export CSV</button>
+            <button class="btn secondary" onclick="exportPDF()">📄 Export PDF</button>
+          </div>
+          <div id="reportSummary"></div>
+          <div id="reportTable"></div>
+        </div>
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'ml' : 'en';
-            applyLanguage();
-            if(!document.getElementById('admin-dashboard').classList.contains('hidden')) renderAdminDashboard();
-            if(!document.getElementById('member-dashboard').classList.contains('hidden')) renderMemberDashboard();
-        }
+        <div id="adminChat" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="Live Chat" data-en="Live Chat">Live Chat</h3>
+            <div id="chatMessages" class="chat-box"></div>
+            <div class="chat-input">
+              <input type="text" id="chatInput" placeholder="Type message...">
+              <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
+            </div>
+          </div>
+          <div class="card">
+            <h3 data-ml="Feedback" data-en="Feedback">Feedback</h3>
+            <div id="feedbackList"></div>
+          </div>
+        </div>
 
-        function applyLanguage() {
-            const d = langData[currentLang];
-            document.getElementById('lg-sub').innerText = d.lg_sub;
-            document.getElementById('tab-member').innerText = d.tab_member;
-            document.getElementById('tab-admin').innerText = d.tab_admin;
-            document.getElementById('lg-pass-lbl').innerText = d.lbl_pass;
-            document.getElementById('lg-btn-text').innerText = d.btn_login;
-            switchAuthTab(appState.currentRole);
+        <div id="adminSettings" class="admin-tab hidden">
+          <div class="card">
+            <h3 data-ml="Backup & Restore" data-en="Backup & Restore">Backup & Restore</h3>
+            <button class="btn primary" onclick="backupData()">💾 Backup Data</button>
+            <input type="file" id="restoreFile" accept=".json" style="display:none;" onchange="restoreData(event)">
+            <button class="btn secondary" onclick="document.getElementById('restoreFile').click()">📂 Restore Data</button>
+          </div>
+          <div class="card">
+            <h3 data-ml="Notification" data-en="Notification">Notification</h3>
+            <button class="btn outline" onclick="requestNotification()">Enable Notifications</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            document.getElementById('adm-panel-title').innerText = d.adm_title;
-            document.getElementById('logout-btn-1').innerText = d.btn_logout;
-            document.getElementById('logout-btn-2').innerText = d.btn_logout;
+    <!-- Member Page -->
+    <div id="memberPage" class="hidden">
+      <div class="mobile-header">
+        <h2 id="memberNameNav">Member</h2>
+        <button onclick="logout()"><i class="ri-logout-box-line"></i></button>
+      </div>
+      <div class="container">
+        <div class="card">
+          <h3 data-ml="എന്റെ വിവരങ്ങൾ" data-en="My Details">എന്റെ വിവരങ്ങൾ</h3>
+          <p><strong data-ml="പേര്" data-en="Name">പേര്:</strong> <span id="memName"></span></p>
+          <p><strong data-ml="ഫോൺ" data-en="Phone">ഫോൺ:</strong> <span id="memPhone"></span></p>
+          <p><strong data-ml="മാസ അടവ്" data-en="Monthly">മാസ അടവ്:</strong> <span id="memAmount"></span></p>
+        </div>
+        <div class="card">
+          <h3 data-ml="Payment Status" data-en="Payment Status">Payment Status</h3>
+          <div id="memPaymentStatus"></div>
+          <p><strong data-ml="Paid Months" data-en="Paid Months">Paid Months:</strong> <span id="paidMonths">0</span>/25</p>
+          <button class="btn primary" onclick="downloadReceipt()">📄 Receipt Download</button>
+        </div>
+        <div class="card">
+          <h3 data-ml="Winners" data-en="Winners">Winners</h3>
+          <div id="memberWinnersList"></div>
+        </div>
+        <div class="card">
+          <h3 data-ml="Chat & Feedback" data-en="Chat & Feedback">Chat & Feedback</h3>
+          <div id="memberChatBox" class="chat-box" style="height:200px;"></div>
+          <div class="chat-input">
+            <input type="text" id="memberChatInput" placeholder="Message...">
+            <button onclick="memberSendChat()"><i class="ri-send-plane-fill"></i></button>
+          </div>
+          <textarea id="feedbackText" placeholder="നിങ്ങളുടെ അഭിപ്രായം..." rows="3"></textarea>
+          <button class="btn secondary" onclick="submitFeedback()">Submit Feedback</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            document.getElementById('st-total').innerText = d.st_tot;
-            document.getElementById('st-coll').innerText = d.st_col;
-            document.getElementById('st-paid').innerText = d.st_paid;
-            document.getElementById('st-pend').innerText = d.st_pend;
-
-            document.getElementById('lbl-group-info').innerText = d.grp_info;
-            document.getElementById('lbl-add-member').innerText = d.add_mbr;
-            document.getElementById('btn-save-mbr').innerText = d.btn_save;
-            document.getElementById('lbl-draw-title').innerText = d.draw_title;
-
-            document.getElementById('lbl-ann-title').innerText = currentLang === 'en' ? "📢 Announcement Banner" : "📢 മെമ്പർ അറിയിപ്പുകൾ";
-            document.getElementById('lbl-m-ann').innerText = d.m_ann;
-            document.getElementById('lbl-m-status').innerText = d.m_stat;
-            document.getElementById('lbl-m-amt').innerText = d.m_amt;
-            document.getElementById('lbl-m-cur').innerText = d.m_cur;
-            document.getElementById('lbl-m-win').innerText = d.m_win;
-
-            document.getElementById('lbl-adm-rules').innerText = d.adm_rules;
-            document.getElementById('lbl-msg-title').innerText = d.msg_title;
-            document.getElementById('btn-up-msg').innerText = d.btn_msg;
-            document.getElementById('lbl-view-feedback').innerText = d.view_feed;
-            document.getElementById('lbl-m-rules').innerText = d.m_rules;
-            document.getElementById('lbl-send-feed').innerText = d.send_feed;
-
-            document.querySelectorAll('.nav-text-home').forEach(el => el.innerText = d.h_home);
-            document.querySelectorAll('.nav-text-report').forEach(el => el.innerText = d.h_rep);
-            document.querySelectorAll('.nav-text-settings').forEach(el => el.innerText = d.h_set);
-            document.querySelectorAll('.nav-text-rules').forEach(el => el.innerText = d.h_rul);
-            
-            const drawBtn = document.getElementById('btn-draw-winner');
-            if(drawBtn) drawBtn.innerText = currentLang === 'en' ? "Spin & Save Winner 🎲" : "വിജയിയെ സേവ് ചെയ്യുക 🎲";
-        }
-
-        window.addEventListener('DOMContentLoaded', () => {
-            updateAllAvatarElements();
-            applyLanguage();
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = '0';
-                setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; showView('auth'); }, 500);
-            }, 1200);
-        });
-
-        function showView(viewName) {
-            document.getElementById('auth-screen').classList.add('hidden');
-            document.getElementById('admin-dashboard').classList.add('hidden');
-            document.getElementById('member-dashboard').classList.add('hidden');
-            if(viewName === 'auth') document.getElementById('auth-screen').classList.remove('hidden');
-            if(viewName === 'admin') { document.getElementById('admin-dashboard').classList.remove('hidden'); switchTab('admin', 'home'); renderAdminDashboard(); }
-            if(viewName === 'member') { document.getElementById('member-dashboard').classList.remove('hidden'); switchTab('member', 'home'); renderMemberDashboard(); }
-        }
-
-        function switchAuthTab(role) {
-            appState.currentRole = role;
-            document.getElementById('tab-member').classList.toggle('active', role === 'member');
-            document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
-            document.getElementById('login-username-label').innerText = role === 'admin' ? "Admin User ID" : langData[currentLang].lbl_phone;
-        }
-
-        function handleLogin(event) {
-            event.preventDefault();
-            const user = document.getElementById('login-username').value.trim();
-            const pass = document.getElementById('login-password').value;
-            if(appState.currentRole === 'admin') {
-                if(user === 'admin' && pass === '1234') showView('admin');
-                else alert('Invalid Admin Credentials!');
-            } else {
-                const member = appState.members.find(m => (m.phone === user || m.id.toString() === user) && m.password === pass);
-                if(member) { appState.loggedInUser = member; updateAllAvatarElements(); showView('member'); }
-                else alert('Login Failed!');
-            }
-        }
-
-        function logout() { appState.loggedInUser = null; showView('auth'); }
-
-        function updateSecretDropdown() {
-            const select = document.getElementById('secret-winner-select');
-            select.innerHTML = `<option value="random">-- Let it Spin Randomly --</option>`;
-            appState.members.forEach(m => {
-                select.innerHTML += `<option value="${m.id}">${m.name} (#${m.id})</option>`;
-            });
-        }
-
-        function renderReports() {
-            const adminTbody = document.getElementById('kuri-report-table-body');
-            adminTbody.innerHTML = '';
-            const memberTbody = document.getElementById('member-report-table-body');
-            memberTbody.innerHTML = '';
-            appState.historyReport.forEach(r => {
-                adminTbody.innerHTML += `<tr><td><b>${r.month}</b></td><td>🎉 ${r.name}</td><td>${r.phone}</td><td>₹${r.amount}</td></tr>`;
-                memberTbody.innerHTML += `<tr><td><b>${r.month}</b></td><td>🎉 ${r.name}</td><td>₹${r.amount}</td></tr>`;
-            });
-        }
-
-        function renderAdminDashboard() {
-            let paid = 0, pending = 0, coll = 0;
-            const table = document.getElementById('admin-members-table');
-            table.innerHTML = `<tr><th>ID</th><th>Name</th><th>Mobile</th><th>Amount</th><th>Status</th><th>Action</th></tr>`;
-
-            appState.members.forEach(m => {
-                if(m.status === 'Paid') { coll += Number(m.amount); paid++; } else { pending++; }
-                table.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px; width:auto;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td></tr>`;
-            });
-
-            document.getElementById('stat-total-members').innerText = appState.members.length;
-            document.getElementById('stat-total-collection').innerText = '₹' + coll.toLocaleString();
-            document.getElementById('stat-paid-members').innerText = paid;
-            document.getElementById('stat-pending-members').innerText = pending;
-            
-            document.getElementById('input-announcement').value = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
-            document.getElementById('input-important-msg').value = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
-            document.getElementById('input-rules').value = (currentLang === 'en' ? appState.rules : appState.rules_ml).join('\n');
-
-            updateSecretDropdown();
-            renderReports();
-            renderFeedbacks();
-        }
-
-        function toggleStatus(id) {
-            const m = appState.members.find(x => x.id === id);
-            if(m) m.status = m.status === 'Paid' ? 'Pending' : 'Paid';
-            renderAdminDashboard();
-        }
-
-        function drawLuckyWinner() {
-            if (isSpinning || appState.members.length === 0) return;
-            isSpinning = true;
-
-            const wheel = document.getElementById('lucky-wheel-element');
-            const innerText = document.getElementById('wheel-inner-text');
-            const targetMonth = document.getElementById('draw-month-select').value;
-            const secretChoice = document.getElementById('secret-winner-select').value;
-
-            let finalWinner = null;
-            if (secretChoice !== 'random') {
-                finalWinner = appState.members.find(m => m.id.toString() === secretChoice);
-            }
-            if (!finalWinner) {
-                finalWinner = appState.members[Math.floor(Math.random() * appState.members.length)];
-            }
-
-            const randomDegrees = Math.floor(Math.random() * 360) + 1440; 
-            wheel.style.transform = `rotate(${randomDegrees}deg)`;
-            innerText.innerText = "Spinning... 🌀";
-
-            setTimeout(() => {
-                innerText.style.transform = `rotate(-${randomDegrees}deg)`; 
-                innerText.innerText = finalWinner.name;
-                const existingIndex = appState.historyReport.findIndex(r => r.month === targetMonth);
-                const reportPayload = { month: targetMonth, name: finalWinner.name, phone: finalWinner.phone, amount: finalWinner.amount };
-
-                if(existingIndex > -1) appState.historyReport[existingIndex] = reportPayload;
-                else appState.historyReport.push(reportPayload);
-
-                alert((currentLang === 'en' ? `Winner saved for ${targetMonth}: ` : `${targetMonth} ലെ വിജയിയെ സേവ് ചെയ്തു: `) + finalWinner.name);
-                isSpinning = false;
-                document.getElementById('secret-winner-select').value = 'random';
-                renderAdminDashboard();
-            }, 4000); 
-        }
-
-        function updateBanners() {
-            const txt = document.getElementById('input-announcement').value;
-            if(currentLang === 'en') appState.announcement = txt; else appState.announcement_ml = txt;
-            alert("Updated!");
-        }
-
-        function updateImportantMessage() {
-            const txt = document.getElementById('input-important-msg').value;
-            if(currentLang === 'en') appState.importantMsg = txt; else appState.importantMsg_ml = txt;
-            alert("Published!");
-        }
-
-        function saveRules() {
-            const text = document.getElementById('input-rules').value;
-            const lines = text.split('\n').filter(line => line.trim() !== "");
-            if(currentLang === 'en') appState.rules = lines; else appState.rules_ml = lines;
-            alert("Rules Saved!");
-        }
-
-        function renderFeedbacks() {
-            const container = document.getElementById('admin-feedback-container');
-            container.innerHTML = appState.feedbacks.length === 0 ? `<p style='font-size:13px; color:#8fa397; text-align:center;'>No feedback.</p>` : '';
-            appState.feedbacks.forEach(f => {
-                container.innerHTML += `<div class="feedback-item"><strong>${f.name}:</strong> <span>${f.text}</span></div>`;
-            });
-        }
-
-        function adminAddMember(e) {
-            e.preventDefault();
-            const name = document.getElementById('add-name').value;
-            const phone = document.getElementById('add-phone').value;
-            const amount = document.getElementById('add-amount').value;
-            const password = document.getElementById('add-password').value;
-            const id = appState.members.length > 0 ? appState.members[appState.members.length-1].id + 1 : 1001;
-            appState.members.push({id, name, phone, amount, status:"Pending", password, photo:""});
-            renderAdminDashboard(); e.target.reset();
-        }
-
-        function renderMemberDashboard() {
-            const m = appState.loggedInUser;
-            document.getElementById('member-display-name').innerText = m.name;
-            document.getElementById('member-display-id').innerText = `Member ID: #${m.id}`;
-            document.getElementById('member-panel-amount').innerText = '₹' + Number(m.amount).toLocaleString();
-            document.getElementById('member-panel-status').innerText = m.status;
-            document.getElementById('member-panel-status').className = `badge ${m.status === 'Paid' ? 'badge-paid' : 'badge-pending'}`;
-            
-            document.getElementById('member-wa-btn').href = `https://wa.me/${ADMIN_WA_NUMBER}?text=Hello`;
-            document.getElementById('member-announcement-text').innerText = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
-            
-            const activeImpMsg = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
-            const impBox = document.getElementById('member-important-msg-box');
-            if(activeImpMsg && activeImpMsg.trim() !== "") {
-                impBox.classList.remove('hidden');
-                document.getElementById('member-important-text').innerText = activeImpMsg;
-            } else {
-                impBox.classList.add('hidden');
-            }
-
-            const rDisplay = document.getElementById('member-rules-display');
-            rDisplay.innerHTML = '';
-            (currentLang === 'en' ? appState.rules : appState.rules_ml).forEach(r => { rDisplay.innerHTML += `<li>${r}</li>`; });
-
-            if(appState.historyReport.length > 0) {
-                const latest = appState.historyReport[appState.historyReport.length - 1];
-                document.getElementById('member-winner-box').innerText = `🎉 ${latest.name} (${latest.month})`;
-            } else {
-                document.getElementById('member-winner-box').innerText = langData[currentLang].not_drawn;
-            }
-            renderReports();
-        }
-
-        function submitFeedback() {
-            const input = document.getElementById('member-feedback-input');
-            if(input.value.trim() === "") return;
-            appState.feedbacks.unshift({ name: appState.loggedInUser.name, text: input.value });
-            input.value = ''; alert("Submitted!");
-        }
-    </script>
+  <audio id="winSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_1b6a7b5a4f.mp3"></audio>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
