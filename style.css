@@ -181,4 +181,31 @@ th { background: var(--bg); font-weight: 600; }
   .splash-content h1 { font-size: 20px; }
   .member-item { flex-direction: column; align-items: flex-start; gap: 10px; }
   .member-actions { width: 100%; justify-content: flex-end; }
+}/* Body + Container full height fix */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#mainContainer {
+  min-height: 100vh;
+  padding-bottom: 20px;
+}
+
+.main-content {
+  padding-top: 60px;
+  min-height: calc(100vh - 60px);
+  padding-bottom: 20px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+/* Card-ന് താഴെ extra space കളയാൻ */
+.card:last-child {
+  margin-bottom: 0;
 }
