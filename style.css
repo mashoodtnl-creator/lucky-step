@@ -208,4 +208,43 @@ html, body {
 /* Card-ന് താഴെ extra space കളയാൻ */
 .card:last-child {
   margin-bottom: 0;
+}/* White Space Fix - Mobile Fit */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#mainContainer {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  padding-top: 60px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-tab {
+  flex: 1;
+}
+
+.container {
+  padding: 15px;
+  flex: 1;
+}
+
+.card:last-child {
+  margin-bottom: 0;
+}
+
+/* Recent Winners card height limit */
+#recentWinners {
+  max-height: 300px;
+  overflow-y: auto;
 }
