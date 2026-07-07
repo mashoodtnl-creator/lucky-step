@@ -19,14 +19,12 @@
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Poppins', 'Manjari', sans-serif; background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; }
+        body { font-family: 'Poppins', 'Manjari', sans-serif; background: var(--bg-gradient); color: var(--text-main); min-height: 100vh; padding-bottom: 60px; }
         .hidden { display: none !important; }
         
-        /* LANGUAGE SELECTOR */
         .lang-switch-container { position: absolute; top: 20px; right: 20px; z-index: 10000; }
         .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: white; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
 
-        /* BUTTONS */
         .btn {
             background: linear-gradient(135deg, #b89324, var(--gold)); color: var(--text-dark);
             border: none; padding: 12px 20px; border-radius: 30px; font-weight: 700; font-size: 14px;
@@ -37,7 +35,12 @@
         .btn-secondary:hover { background: var(--gold); color: var(--text-dark); }
         .btn-danger { background: var(--danger); color: white; box-shadow: rgba(231, 76, 60, 0.3); }
 
-        /* SPLASH SCREEN */
+        /* MENU BAR STYLING */
+        .menu-bar { display: flex; justify-content: space-around; background: #07120a; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999; padding: 10px 0; }
+        .menu-item { color: #8fa397; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; font-family: inherit; }
+        .menu-item.active { color: var(--gold); font-weight: bold; }
+        .menu-icon { font-size: 18px; }
+
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #11251a 0%, #040a06 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }
         .splash-avatar { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 35px var(--gold-glow); margin-bottom: 25px; overflow: hidden; background: #000; }
         .splash-avatar img { width: 100%; height: 100%; object-fit: cover; }
@@ -48,7 +51,6 @@
         .bar-fill { width: 0%; height: 100%; background: var(--gold); animation: fillUp 1.8s forwards; }
         @keyframes fillUp { to { width: 100%; } }
 
-        /* LOGIN SCREEN */
         #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; position: relative; }
         .login-card { width: 100%; max-width: 400px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 40px 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(10px); text-align: center; }
         .login-photo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px auto; overflow: hidden; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
@@ -62,29 +64,35 @@
         .input-box label { display: block; font-size: 13px; color: #8fa397; margin-bottom: 6px; padding-left: 4px; }
         .input-box input { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; color: white; font-size: 15px; }
 
-        /* DASHBOARD */
         .container { max-width: 1280px; margin: 0 auto; padding: 25px; }
         nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: var(--card-bg); padding: 15px 25px; border-radius: 20px; border: 1px solid var(--border); backdrop-filter: blur(10px); }
         .profile-section { display: flex; align-items: center; gap: 15px; }
-        .avatar-frame { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #000; }
+        .avatar-frame { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #000; position: relative; }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+        
+        /* Photo Overlay Upload Trigger */
+        .photo-upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: var(--gold); font-size: 10px; text-align: center; padding: 2px 0; cursor: pointer; font-weight: bold; }
+
         .profile-text h3 { font-size: 20px; color: var(--gold); }
         .profile-text p { font-size: 12px; color: #8fa397; }
 
-        /* GRID STATS */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
         .stat-box { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.03); border-radius: 18px; padding: 25px 20px; text-align: center; border-bottom: 3px solid var(--border); }
         .stat-box p { font-size: 13px; color: #8fa397; margin-bottom: 8px; }
         .stat-box h2 { font-size: 30px; font-weight: 700; color: var(--gold); }
 
-        /* WORKSPACE BLOCKS */
         .main-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
         @media (max-width: 950px) { .main-layout { grid-template-columns: 1fr; } }
         
         .box-panel { background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); padding: 30px; margin-bottom: 30px; backdrop-filter: blur(10px); }
         .box-panel h4 { color: var(--gold); font-size: 18px; margin-bottom: 20px; border-left: 4px solid var(--gold); padding-left: 10px; }
 
-        /* TABLES */
+        .wheel-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px 0; position: relative; }
+        .wheel-container { width: 200px; height: 200px; border-radius: 50%; border: 5px solid var(--gold); position: relative; overflow: hidden; background: radial-gradient(circle, #1a3c26 0%, #08140d 100%); box-shadow: 0 0 25px var(--gold-glow); transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); display: flex; align-items: center; justify-content: center; }
+        .wheel-center-pin { width: 20px; height: 20px; background: var(--gold); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .wheel-pointer { width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid var(--danger); position: absolute; top: -10px; z-index: 12; }
+        .wheel-text-anim { font-size: 16px; color: #fff; font-weight: bold; text-align: center; padding: 10px; }
+
         .table-responsive { overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; text-align: left; }
         th, td { padding: 14px 16px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 14px; }
@@ -97,22 +105,9 @@
         .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
         input, select, textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: inherit; }
 
-        /* REPORT PAGE */
-        .report-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px dashed var(--border); padding-bottom: 15px; margin-bottom: 20px; }
-        .report-header-left { display: flex; align-items: center; gap: 15px; }
-        .report-photo { width: 65px; height: 65px; border-radius: 12px; border: 2px solid var(--gold); overflow: hidden; }
-        .report-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .report-item-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px; }
-        .report-card-mini { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); }
-        .report-card-mini span { font-size: 12px; color: #8fa397; display: block; }
-        .report-card-mini p { font-size: 18px; color: var(--gold); font-weight: bold; margin-top: 4px; }
-
-        /* LIST STYLE FOR RULES */
         .rules-list { padding-left: 20px; color: #c4d4cc; font-size: 14px; }
         .rules-list li { margin-bottom: 10px; line-height: 1.6; }
-
         .feedback-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--gold); }
-        .feedback-item small { color: #8fa397; font-size: 11px; display: block; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -121,17 +116,19 @@
         <button class="lang-btn" onclick="toggleLanguage()">🌐 EN / മലയാളം</button>
     </div>
 
+    <!-- SPLASH SCREEN -->
     <div id="splash-screen">
-        <div class="splash-avatar"><img class="user-photo-src" src="photo.jpg" alt="Mashood"></div>
+        <div class="splash-avatar"><img class="user-photo-src" src="photo.jpg" alt="Mashood" id="splash-img"></div>
         <div class="splash-h1">MASHOOD KURI</div>
         <div class="splash-p">LUCKY STEP CHITTY MANAGEMENT</div>
         <div class="badge-credits">Created by Mashood Thennala</div>
         <div class="bar-container"><div class="bar-fill"></div></div>
     </div>
 
+    <!-- LOGIN SCREEN -->
     <div id="auth-screen" class="hidden">
         <div class="login-card">
-            <div class="login-photo"><img class="user-photo-src" src="photo.jpg" alt="Admin"></div>
+            <div class="login-photo"><img class="user-photo-src" src="photo.jpg" alt="Admin" id="login-img"></div>
             <h2>MASHOOD KURI</h2>
             <subtitle id="lg-sub">Chitty Hub Management System</subtitle>
             
@@ -154,15 +151,23 @@
         </div>
     </div>
 
+    <!-- ADMIN PANEL -->
     <div id="admin-dashboard" class="hidden">
         <div class="container">
             <nav>
                 <div class="profile-section">
-                    <div class="avatar-frame"><img class="user-photo-src" src="photo.jpg" alt="Mashood"></div>
+                    <div class="avatar-frame">
+                        <img class="user-photo-src" src="photo.jpg" alt="Mashood" id="admin-profile-img">
+                        <!-- Admin can change their main app display picture -->
+                        <div class="photo-upload-overlay" onclick="triggerPhotoUpload('admin')">Edit 📷</div>
+                    </div>
                     <div class="profile-text"><h3>Mashood Thennala</h3><p id="adm-panel-title">Authorized Administrator Panel</p></div>
                 </div>
                 <button class="btn btn-danger" id="logout-btn-1" onclick="logout()">Logout 🚪</button>
             </nav>
+
+            <!-- Hidden File Input for Image Upload -->
+            <input type="file" id="photo-file-input" class="hidden" accept="image/*" onchange="processPhotoUpload(event)">
 
             <div class="stats-grid">
                 <div class="stat-box"><p id="st-total">Total Members</p><h2 id="stat-total-members">0</h2></div>
@@ -171,172 +176,236 @@
                 <div class="stat-box"><p id="st-pend">Pending Members</p><h2 id="stat-pending-members" style="color: var(--danger);">0</h2></div>
             </div>
 
-            <div class="main-layout">
-                <div>
-                    <div class="box-panel">
-                        <h4 id="lbl-group-info">📋 Chitty Group Members Info</h4>
-                        <div class="table-responsive">
-                            <table>
-                                <thead id="table-head-row">
-                                    <tr><th>ID</th><th>Name</th><th>Mobile</th><th>Amount</th><th>Status</th><th>Action</th><th>Chat</th></tr>
-                                </thead>
-                                <tbody id="admin-members-table"></tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div class="box-panel" id="report-section-panel">
-                        <div class="report-header">
-                            <div class="report-header-left">
-                                <div class="report-photo"><img class="user-photo-src" src="photo.jpg" alt="Mashood"></div>
-                                <div>
-                                    <h3 id="rep-title" style="color: var(--gold); font-size: 18px;">📊 Chitty Live Report Page</h3>
-                                    <p id="rep-sub" style="font-size: 12px; color: #8fa397;">Financial Status Summary</p>
-                                </div>
+            <!-- ADMIN SECTIONS FOR NAVIGATION -->
+            <div id="admin-sect-home">
+                <div class="main-layout">
+                    <div>
+                        <div class="box-panel">
+                            <h4 id="lbl-group-info">📋 Chitty Group Members Info</h4>
+                            <div class="table-responsive">
+                                <table>
+                                    <tbody id="admin-members-table"></tbody>
+                                </table>
                             </div>
-                            <button class="btn btn-secondary" id="rep-print-btn" style="padding: 6px 15px; font-size: 11px;" onclick="window.print()">Print Report 🖨️</button>
                         </div>
                         
-                        <div class="report-item-grid">
-                            <div class="report-card-mini"><span id="rp-box-1">Total Income Received</span><p id="rep-income">₹0</p></div>
-                            <div class="report-card-mini"><span id="rp-box-2">Pending Dues</span><p id="rep-pending" style="color: var(--danger);">₹0</p></div>
-                            <div class="report-card-mini"><span id="rp-box-3">Completed Paid Count</span><p id="rep-paid-count">0 Members</p></div>
-                            <div class="report-card-mini"><span id="rp-box-4">Current Month Winner</span><p id="rep-winner" style="color: #2ecc71;">Not Drawn</p></div>
+                        <div class="box-panel">
+                            <h4 id="lbl-draw-title">🎲 Lucky Wheel Draw</h4>
+                            <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 12px; margin-bottom: 20px; border: 1px dashed var(--gold);">
+                                <label style="color: var(--gold); font-size: 13px; font-weight: bold; display: block; margin-bottom: 8px;">
+                                    🤫 Secret Winner Controller (മറ്റുള്ളവർ അറിയില്ല):
+                                </label>
+                                <select id="secret-winner-select" style="background: #111; color: #fff;"></select>
+                            </div>
+
+                            <div class="wheel-area">
+                                <div class="wheel-pointer"></div>
+                                <div class="wheel-container" id="lucky-wheel-element">
+                                    <div class="wheel-center-pin"></div>
+                                    <div class="wheel-text-anim" id="wheel-inner-text">Mashood Kuri</div>
+                                </div>
+                                
+                                <div class="row-inputs" style="margin-top: 25px; width: 100%;">
+                                    <select id="draw-month-select" style="background: rgba(0,0,0,0.5);">
+                                        <option value="Month 1">Month 1</option>
+                                        <option value="Month 2">Month 2</option>
+                                        <option value="Month 3">Month 3</option>
+                                        <option value="Month 4">Month 4</option>
+                                        <option value="Month 5">Month 5</option>
+                                    </select>
+                                    <button class="btn" id="btn-draw-winner" style="width:100%;" onclick="drawLuckyWinner()">Spin & Save Winner 🎲</button>
+                                </div>
+                            </div>
                         </div>
-                        <button class="btn btn-secondary" id="btn-draw-winner" style="width:100%; margin-top:10px;" onclick="drawLuckyWinner()">Draw Month's Lucky Winner 🎲</button>
                     </div>
 
-                    <div class="box-panel">
-                        <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
-                        <p style="font-size:12px; color:#8fa397; margin-bottom:10px;" id="lbl-adm-rules-sub">Write each rule on a new line.</p>
-                        <textarea id="input-rules" rows="5" style="margin-bottom:12px;"></textarea>
-                        <button class="btn" id="btn-rules" onclick="saveRules()">Save Rules 💾</button>
-                    </div>
+                    <div>
+                        <div class="box-panel" style="border-color: var(--danger);">
+                            <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
+                            <textarea id="input-important-msg" rows="2" style="margin-bottom:10px;"></textarea>
+                            <button class="btn btn-danger" id="btn-up-msg" style="width:100%;" onclick="updateImportantMessage()">Publish Message 🚨</button>
+                        </div>
 
-                    <div class="box-panel">
-                        <h4 id="lbl-add-member">👤 Add New Member</h4>
-                        <form onsubmit="adminAddMember(event)">
-                            <div class="row-inputs">
-                                <input type="text" id="add-name" placeholder="Member Name" required>
-                                <input type="text" id="add-phone" placeholder="Mobile Number" required>
-                            </div>
-                            <div class="row-inputs">
-                                <input type="number" id="add-amount" value="10000" required>
-                                <input type="password" id="add-password" value="123" required>
-                            </div>
-                            <button type="submit" class="btn" id="btn-save-mbr">Save Member ✅</button>
-                        </form>
-                    </div>
-                </div>
-
-                <div>
-                    <div class="box-panel" style="border-color: var(--danger);">
-                        <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
-                        <textarea id="input-important-msg" rows="2" style="margin-bottom:10px; border-color: rgba(231,76,60,0.3);" placeholder="Type critical message here..."></textarea>
-                        <button class="btn btn-danger" id="btn-up-msg" style="width:100%;" onclick="updateImportantMessage()">Publish Message 🚨</button>
-                    </div>
-
-                    <div class="box-panel">
-                        <h4 id="lbl-ann-title">📢 Announcement Banner</h4>
-                        <textarea id="input-announcement" rows="2" style="margin-bottom:10px; resize:none;"></textarea>
-                        <button class="btn btn-secondary" id="btn-up-banner" style="width:100%;" onclick="updateBanners()">Update Banner 📢</button>
-                    </div>
-
-                    <div class="box-panel">
-                        <h4 id="lbl-view-feedback">💬 Members Feedback</h4>
-                        <div id="admin-feedback-container" style="max-height: 250px; overflow-y: auto;">
-                            <p style="font-size:13px; color:#8fa397; text-align:center;">No feedback received yet.</p>
+                        <div class="box-panel">
+                            <h4 id="lbl-ann-title">📢 Announcement Banner</h4>
+                            <textarea id="input-announcement" rows="2" style="margin-bottom:10px;"></textarea>
+                            <button class="btn btn-secondary" id="btn-up-banner" style="width:100%;" onclick="updateBanners()">Update Banner 📢</button>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div id="admin-sect-reports" class="hidden">
+                <div class="box-panel">
+                    <h4>📊 Chitty Winners Report (മാസ റിപ്പോർട്ട്)</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr><th>മാസം (Month)</th><th>വിജയി (Winner Name)</th><th>ഫോൺ നമ്പർ (Phone)</th><th>തുക (Amount)</th></tr>
+                            </thead>
+                            <tbody id="kuri-report-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="admin-sect-settings" class="hidden">
+                <div class="box-panel">
+                    <h4 id="lbl-add-member">👤 Add New Member</h4>
+                    <form onsubmit="adminAddMember(event)">
+                        <div class="row-inputs">
+                            <input type="text" id="add-name" placeholder="Member Name" required>
+                            <input type="text" id="add-phone" placeholder="Mobile Number" required>
+                        </div>
+                        <div class="row-inputs">
+                            <input type="number" id="add-amount" value="10000" required>
+                            <input type="password" id="add-password" value="123" required>
+                        </div>
+                        <button type="submit" class="btn" id="btn-save-mbr">Save Member ✅</button>
+                    </form>
+                </div>
+
+                <div class="box-panel">
+                    <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
+                    <textarea id="input-rules" rows="4" style="margin-bottom:12px;"></textarea>
+                    <button class="btn" id="btn-rules" onclick="saveRules()">Save Rules 💾</button>
+                </div>
+
+                <div class="box-panel">
+                    <h4 id="lbl-view-feedback">💬 Members Feedback</h4>
+                    <div id="admin-feedback-container"></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ADMIN BOTTOM MENU BAR -->
+        <div class="menu-bar">
+            <button class="menu-item active" id="nav-adm-home" onclick="switchTab('admin', 'home')">
+                <span class="menu-icon">🏠</span><span class="nav-text-home">Home</span>
+            </button>
+            <button class="menu-item" id="nav-adm-reports" onclick="switchTab('admin', 'reports')">
+                <span class="menu-icon">📊</span><span class="nav-text-report">Report</span>
+            </button>
+            <button class="menu-item" id="nav-adm-settings" onclick="switchTab('admin', 'settings')">
+                <span class="menu-icon">⚙️</span><span class="nav-text-settings">Control</span>
+            </button>
         </div>
     </div>
 
+    <!-- MEMBER HUB -->
     <div id="member-dashboard" class="hidden">
         <div class="container">
             <nav>
                 <div class="profile-section">
-                    <div class="avatar-frame" style="background:var(--gold); display:flex; align-items:center; justify-content:center; color:#000; font-weight:bold; font-size:20px;">👤</div>
+                    <div class="avatar-frame">
+                        <img src="" alt="User" id="member-profile-img">
+                        <div class="photo-upload-overlay" onclick="triggerPhotoUpload('member')">Upload 📷</div>
+                    </div>
                     <div class="profile-text"><h3 id="member-display-name"></h3><p id="member-display-id"></p></div>
                 </div>
                 <div style="display:flex; gap:10px;">
-                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="padding: 8px 15px; font-size:13px; background:#2ecc71; color:white; border:none;">Message Admin 💬</a>
+                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="background:#2ecc71; color:white; border:none;">Message Admin 💬</a>
                     <button class="btn btn-danger" id="logout-btn-2" onclick="logout()">Logout 🚪</button>
                 </div>
             </nav>
 
-            <div id="member-important-msg-box" class="box-panel hidden" style="background: linear-gradient(90deg, #3a1313, #1c0a0a); border-left: 5px solid var(--danger);">
-                <h5 id="lbl-m-imp-title" style="color: var(--danger); margin-bottom:5px; font-weight: bold;">🚨 IMPORTANT MESSAGE</h5>
-                <p id="member-important-text" style="font-size:15px; color:#fcc; font-weight: bold;"></p>
-            </div>
-
-            <div class="box-panel" style="background: linear-gradient(90deg, #1b3524, #0f2216); border-left: 5px solid var(--gold);">
-                <h5 id="lbl-m-ann" style="color: var(--gold); margin-bottom:5px;">📢 Important Announcement</h5>
-                <p id="member-announcement-text" style="font-size:14px;"></p>
-            </div>
-
-            <div class="main-layout" style="grid-template-columns: 1fr 1fr;">
-                <div>
-                    <div class="box-panel">
-                        <h4 id="lbl-m-status">💰 Your Payment Status</h4>
-                        <p style="font-size: 16px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
-                        <p style="margin:15px 0 20px 0; font-size: 16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
-                        <button class="btn" id="btn-download" style="width:100%;" onclick="alert('Receipt Download Initialized...')">Download Receipt 📄</button>
-                    </div>
-
-                    <div class="box-panel">
-                        <h4 id="lbl-send-feed">💬 Send Feedback / Comment to Admin</h4>
-                        <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;" placeholder="Type your suggestions, comments or complaints here..."></textarea>
-                        <button class="btn btn-secondary" id="btn-submit-feed" style="width: 100%;" onclick="submitFeedback()">Submit Feedback 📤</button>
-                    </div>
+            <div id="member-sect-home">
+                <div id="member-important-msg-box" class="box-panel hidden" style="background: linear-gradient(90deg, #3a1313, #1c0a0a); border-left: 5px solid var(--danger);">
+                    <h5 style="color: var(--danger); margin-bottom:5px; font-weight: bold;">🚨 IMPORTANT MESSAGE</h5>
+                    <p id="member-important-text" style="font-size:15px; color:#fcc; font-weight: bold;"></p>
                 </div>
 
-                <div>
-                    <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center; padding: 40px 20px;">
-                        <h4 id="lbl-m-win">🏆 Lucky Winner of This Month</h4>
-                        <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 25px;">Not Drawn 🎲</div>
-                    </div>
+                <div class="box-panel" style="background: linear-gradient(90deg, #1b3524, #0f2216); border-left: 5px solid var(--gold);">
+                    <h5 id="lbl-m-ann" style="color: var(--gold); margin-bottom:5px;">📢 Important Announcement</h5>
+                    <p id="member-announcement-text" style="font-size:14px;"></p>
+                </div>
 
-                    <div class="box-panel">
-                        <h4 id="lbl-m-rules">📜 Chitty Rules & Regulations</h4>
-                        <ol class="rules-list" id="member-rules-display">
-                            <li>Rules loading...</li>
-                        </ol>
+                <div class="main-layout" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="box-panel">
+                            <h4 id="lbl-m-status">💰 Your Payment Status</h4>
+                            <p style="font-size: 16px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
+                            <p style="margin:15px 0 20px 0; font-size: 16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
+                        </div>
+                        <div class="box-panel">
+                            <h4 id="lbl-send-feed">💬 Send Feedback / Comment to Admin</h4>
+                            <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;"></textarea>
+                            <button class="btn btn-secondary" style="width: 100%;" onclick="submitFeedback()">Submit Feedback 📤</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center; padding: 40px 20px;">
+                            <h4 id="lbl-m-win">🏆 Lucky Winner of Selected Month</h4>
+                            <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 25px;">Not Drawn 🎲</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div id="member-sect-reports" class="hidden">
+                <div class="box-panel">
+                    <h4>📊 Chitty Winners Report (കഴിഞ്ഞ മാസങ്ങളിലെ വിജയികൾ)</h4>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr><th>മാസം (Month)</th><th>വിജയി (Winner Name)</th><th>തുക (Amount)</th></tr>
+                            </thead>
+                            <tbody id="member-report-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div id="member-sect-rules" class="hidden">
+                <div class="box-panel">
+                    <h4 id="lbl-m-rules">📜 Chitty Rules & Regulations</h4>
+                    <ol class="rules-list" id="member-rules-display"></ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEMBER BOTTOM MENU BAR -->
+        <div class="menu-bar">
+            <button class="menu-item active" id="nav-mbr-home" onclick="switchTab('member', 'home')">
+                <span class="menu-icon">🏠</span><span class="nav-text-home">Home</span>
+            </button>
+            <button class="menu-item" id="nav-mbr-reports" onclick="switchTab('member', 'reports')">
+                <span class="menu-icon">📊</span><span class="nav-text-report">Report</span>
+            </button>
+            <button class="menu-item" id="nav-mbr-rules" onclick="switchTab('member', 'rules')">
+                <span class="menu-icon">📜</span><span class="nav-text-rules">Rules</span>
+            </button>
         </div>
     </div>
 
     <script>
-        let currentLang = 'en'; 
-        const YOUR_PHOTO_FILENAME = "photo.jpg"; 
-        const ADMIN_WA_NUMBER = "919876543210"; // ⚠️ നിങ്ങളുടെ ഒറിജിനൽ വാട്സാപ്പ് നമ്പർ ഇവിടെ മാറ്റിയെഴുതുക (91 ചേർക്കണം)
+        let currentLang = 'ml'; 
+        let currentUploadTarget = 'admin'; 
+        const ADMIN_WA_NUMBER = "919876543210"; 
+        let isSpinning = false;
+
+        // Default local assets fallback or uploaded base64 data strings
+        let appImages = {
+            adminPhoto: "photo.jpg", 
+            defaultMember: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dfb73c'><path d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z'/></svg>"
+        };
 
         let appState = {
-            currentView: 'auth', currentRole: 'member', loggedInUser: null, winner: null,
+            currentView: 'auth', currentRole: 'member', loggedInUser: null,
             announcement: "The chitty lucky draw will start soon. Stay tuned!",
             announcement_ml: "ഈ മാസത്തെ കുറി നറുക്കെടുപ്പ് ഉടൻ ആരംഭിക്കുന്നതാണ്.",
-            importantMsg: "", 
-            importantMsg_ml: "",
-            rules: [
-                "Every member must pay the installment before 10th of every month.",
-                "The lucky draw winner will be announced live on the 12th.",
-                "Defaulting payments for 2 consecutive months will lead to termination."
-            ],
-            rules_ml: [
-                "എല്ലാ മാസവും 10-ാം തീയതിക്ക് മുൻപായി കുറി തുക അടക്കേണ്ടതാണ്.",
-                "എല്ലാ മാസവും 12-ാം തീയതി ലൈവ് നറുക്കെടുപ്പ് ഉണ്ടായിരിക്കുന്നതാണ്.",
-                "തുടർച്ചയായി രണ്ട് മാസം അടവ് മുടങ്ങിയാൽ ഗ്രൂപ്പിൽ നിന്നും ഒഴിവാക്കുന്നതാണ്."
-            ],
-            feedbacks: [
-                { name: "Ramesh Kumar", text: "Excellent management hub, very transparent!", time: "Just now" }
+            importantMsg: "", importantMsg_ml: "",
+            rules: ["Every member must pay the installment before 10th.","Live draw on 12th."],
+            rules_ml: ["എല്ലാ മാസവും 10-ാം തീയതിക്ക് മുൻപായി കുറി തുക അടക്കേണ്ടതാണ്.","എല്ലാ മാസവും 12-ാം തീയതി ലൈവ് നറുക്കെടുപ്പ് ഉണ്ടായിരിക്കുന്നതാണ്."],
+            feedbacks: [],
+            historyReport: [
+                { month: "Month 1", name: "Ramesh Kumar", phone: "9876543210", amount: 10000 }
             ],
             members: [
-                { id: 1001, name: "Ramesh Kumar", phone: "9876543210", amount: 10000, status: "Paid", password: "123" },
-                { id: 1002, name: "Suresh P.", phone: "9876543211", amount: 10000, status: "Paid", password: "123" },
-                { id: 1003, name: "Prakashan K.", phone: "9876543212", amount: 10000, status: "Pending", password: "123" }
+                { id: 1001, name: "Ramesh Kumar", phone: "9876543210", amount: 10000, status: "Paid", password: "123", photo: "" },
+                { id: 1002, name: "Suresh P.", phone: "9876543211", amount: 10000, status: "Paid", password: "123", photo: "" },
+                { id: 1003, name: "Prakashan K.", phone: "9876543212", amount: 10000, status: "Pending", password: "123", photo: "" }
             ]
         };
 
@@ -347,16 +416,11 @@
                 adm_title: "Authorized Administrator Panel", btn_logout: "Logout 🚪",
                 st_tot: "Total Members", st_col: "Total Collection", st_paid: "Paid Members", st_pend: "Pending Members",
                 grp_info: "📋 Chitty Group Members Info", add_mbr: "👤 Add New Member", btn_save: "Save Member ✅",
-                th_1: "ID", th_2: "Name", th_3: "Mobile", th_4: "Amount", th_5: "Status", th_6: "Action", th_7: "Chat",
-                rep_title: "📊 Chitty Live Report Page", rep_sub: "Financial Status Summary", rep_print: "Print Report 🖨️",
-                r_b1: "Total Income Received", r_b2: "Pending Dues", r_b3: "Completed Paid Count", r_b4: "Current Month Winner",
-                ann_t: "📢 Announcement Banner", ann_b: "Update Banner 📢",
-                m_ann: "📢 Important Announcement", m_stat: "💰 Your Payment Status", m_amt: "Monthly Installment:", m_cur: "Current Status:", m_dwn: "Download Receipt 📄", m_win: "🏆 Lucky Winner of This Month",
-                not_drawn: "Not Drawn 🎲", change_btn: "Change 🔄",
-                adm_rules: "📝 Write & Edit Chitty Rules", adm_rules_sub: "Write each rule on a new line.", btn_rules: "Save Rules 💾",
-                msg_title: "🚨 Set Important Message", btn_msg: "Publish Message 🚨", view_feed: "💬 Members Feedback",
-                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback / Comment to Admin", btn_feed: "Submit Feedback 📤",
-                msg_placeholder: "Type critical message here...", feed_placeholder: "Type your suggestions or comments..."
+                m_ann: "📢 Important Announcement", m_stat: "💰 Your Payment Status", m_amt: "Monthly Installment:", m_cur: "Current Status:", m_win: "🏆 Lucky Winner",
+                not_drawn: "Not Drawn Yet 🎲", change_btn: "Change 🔄",
+                adm_rules: "📝 Write & Edit Chitty Rules", msg_title: "🚨 Set Important Message", btn_msg: "Publish Message 🚨", view_feed: "💬 Members Feedback",
+                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback / Comment to Admin",
+                draw_title: "🎲 Lucky Wheel Draw", h_home: "Home", h_rep: "Report", h_set: "Control", h_rul: "Rules"
             },
             ml: {
                 lg_sub: "കുറി മാനേജ്‌മെന്റ് സിസ്റ്റം", tab_member: "മെമ്പർ ലോഗിൻ", tab_admin: "അഡ്മിൻ ഹബ്",
@@ -364,18 +428,77 @@
                 adm_title: "അഡ്മിനിസ്ട്രേറ്റർ പാനൽ", btn_logout: "ലോഗ് ഔട്ട് 🚪",
                 st_tot: "ആകെ മെമ്പർമാർ", st_col: "ആകെ കളക്ഷൻ", st_paid: "തുക അടച്ചവർ", st_pend: "ബാക്കി നിൽക്കുന്നവർ",
                 grp_info: "📋 കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ", add_mbr: "👤 പുതിയ അംഗത്തെ ചേർക്കുക", btn_save: "അംഗത്തെ സേവ് ചെയ്യുക ✅",
-                th_1: "ഐഡി", th_2: "പേര്", th_3: "മൊബൈൽ", th_4: "തുക", th_5: "സ്റ്റാറ്റസ്", th_6: "മാറ്റുക", th_7: "ചാറ്റ്",
-                rep_title: "📊 കുറി ലൈവ് റിപ്പോർട്ട് പേജ്", rep_sub: "സാമ്പത്തിക വിവരങ്ങളുടെ ചുരുക്കം", rep_print: "പ്രിന്റ് റിപ്പോർട്ട് 🖨️",
-                r_b1: "ലഭിച്ച ആകെ വരുമാനം", r_b2: "കിട്ടാനുള്ള കുടിശ്ശിക", r_b3: "അടവ് പൂർത്തിയാക്കിയവർ", r_b4: "നിലവിലെ വിജയി",
-                ann_t: "📢 മെമ്പർ അറിയിപ്പുകൾ", ann_b: "അറിയിപ്പ് പുതുക്കുക 📢",
-                m_ann: "📢 പ്രധാന അറിയിപ്പ്", m_stat: "💰 നിങ്ങളുടെ അടവ് സ്റ്റാറ്റസ്", m_amt: "ഈ മാസത്തെ അടവ് തുക:", m_cur: "നിലവിലെ സ്റ്റാറ്റസ്:", m_dwn: "രസീത് ഡൗൺലോഡ് ചെയ്യുക 📄", m_win: "🏆 ഈ മാസത്തെ കുറി വിജയി",
-                not_drawn: "തീരുമാനിച്ചിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄",
-                adm_rules: "📝 കുറി നിയമങ്ങൾ എഴുതുക", adm_rules_sub: "ഓരോ നിയമങ്ങളും ഓരോ വരിയായി എഴുതുക.", btn_rules: "നിയമങ്ങൾ സേവ് ചെയ്യുക 💾",
-                msg_title: "🚨 പ്രധാന സന്ദേശം നൽകുക (Important Message)", btn_msg: "സന്ദേശം പബ്ലിഷ് ചെയ്യുക 🚨", view_feed: "💬 മെമ്പർമാരുടെ അഭിപ്രായങ്ങൾ",
-                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് / കമന്റ് അയക്കുക", btn_feed: "സമർപ്പിക്കുക 📤",
-                msg_placeholder: "അടിയന്തിര പ്രാധാന്യമുള്ള സന്ദേശങ്ങൾ ഇവിടെ നൽകാം...", feed_placeholder: "നിങ്ങളുടെ നിർദ്ദേശങ്ങളും പരാതികളും കമന്റുകളും ഇവിടെ എഴുതാം..."
+                m_ann: "📢 പ്രധാന അറിയിപ്പ്", m_stat: "💰 നിങ്ങളുടെ അടവ് സ്റ്റാറ്റസ്", m_amt: "ഈ മാസത്തെ അടവ് തുക:", m_cur: "നിലവിലെ സ്റ്റാറ്റസ്:", m_win: "🏆 കുറി വിജയി",
+                not_drawn: "നറുക്കെടുത്തിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄",
+                adm_rules: "📝 കുറി നിയമങ്ങൾ എഴുതുക", msg_title: "🚨 പ്രധാന സന്ദേശം നൽകുക", btn_msg: "സന്ദേശം പബ്ലിഷ് ചെയ്യുക 🚨", view_feed: "💬 മെമ്പർമാരുടെ അഭിപ്രായങ്ങൾ",
+                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് അയക്കുക",
+                draw_title: "🎲 ലക്കി വീൽ നറുക്കെടുപ്പ്", h_home: "ഹോം", h_rep: "റിപ്പോർട്ട്", h_set: "നിയന്ത്രണം", h_rul: "നിയമങ്ങൾ"
             }
         };
+
+        // NAVIGATION TABS CONTROL SYSTEM
+        function switchTab(role, section) {
+            if (role === 'admin') {
+                document.getElementById('admin-sect-home').classList.add('hidden');
+                document.getElementById('admin-sect-reports').classList.add('hidden');
+                document.getElementById('admin-sect-settings').classList.add('hidden');
+                
+                document.getElementById(`admin-sect-${section}`).classList.remove('hidden');
+
+                document.getElementById('nav-adm-home').classList.remove('active');
+                document.getElementById('nav-adm-reports').classList.remove('active');
+                document.getElementById('nav-adm-settings').classList.remove('active');
+                document.getElementById(`nav-adm-${section}`).classList.add('active');
+            } else {
+                document.getElementById('member-sect-home').classList.add('hidden');
+                document.getElementById('member-sect-reports').classList.add('hidden');
+                document.getElementById('member-sect-rules').classList.add('hidden');
+                
+                document.getElementById(`member-sect-${section}`).classList.remove('hidden');
+
+                document.getElementById('nav-mbr-home').classList.remove('active');
+                document.getElementById('nav-mbr-reports').classList.remove('active');
+                document.getElementById('nav-mbr-rules').classList.remove('active');
+                document.getElementById(`nav-mbr-${section}`).classList.add('active');
+            }
+        }
+
+        // PHOTO UPLOAD INTERACTION LAYER
+        function triggerPhotoUpload(target) {
+            currentUploadTarget = target;
+            document.getElementById('photo-file-input').click();
+        }
+
+        function processPhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const base64Img = e.target.result;
+                if (currentUploadTarget === 'admin') {
+                    appImages.adminPhoto = base64Img;
+                    updateAllAvatarElements();
+                } else if (currentUploadTarget === 'member' && appState.loggedInUser) {
+                    appState.loggedInUser.photo = base64Img;
+                    // update mirror copy within global state pool
+                    const targetIndex = appState.members.findIndex(m => m.id === appState.loggedInUser.id);
+                    if(targetIndex > -1) appState.members[targetIndex].photo = base64Img;
+                    updateAllAvatarElements();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateAllAvatarElements() {
+            document.getElementById('splash-img').src = appImages.adminPhoto;
+            document.getElementById('login-img').src = appImages.adminPhoto;
+            document.getElementById('admin-profile-img').src = appImages.adminPhoto;
+            
+            if (appState.loggedInUser) {
+                document.getElementById('member-profile-img').src = appState.loggedInUser.photo || appImages.defaultMember;
+            }
+        }
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'ml' : 'en';
@@ -405,48 +528,34 @@
             document.getElementById('lbl-group-info').innerText = d.grp_info;
             document.getElementById('lbl-add-member').innerText = d.add_mbr;
             document.getElementById('btn-save-mbr').innerText = d.btn_save;
+            document.getElementById('lbl-draw-title').innerText = d.draw_title;
 
-            document.getElementById('table-head-row').innerHTML = `<tr><th>${d.th_1}</th><th>${d.th_2}</th><th>${d.th_3}</th><th>${d.th_4}</th><th>${d.th_5}</th><th>${d.th_6}</th><th>${d.th_7}</th></tr>`;
-
-            document.getElementById('rep-title').innerText = d.rep_title;
-            document.getElementById('rep-sub').innerText = d.rep_sub;
-            document.getElementById('rep-print-btn').innerText = d.rep_print;
-            document.getElementById('rp-box-1').innerText = d.r_b1;
-            document.getElementById('rp-box-2').innerText = d.r_b2;
-            document.getElementById('rp-box-3').innerText = d.r_b3;
-            document.getElementById('rp-box-4').innerText = d.r_b4;
-
-            document.getElementById('lbl-ann-title').innerText = d.ann_t;
-            document.getElementById('btn-up-banner').innerText = d.ann_b;
-
+            document.getElementById('lbl-ann-title').innerText = currentLang === 'en' ? "📢 Announcement Banner" : "📢 മെമ്പർ അറിയിപ്പുകൾ";
             document.getElementById('lbl-m-ann').innerText = d.m_ann;
             document.getElementById('lbl-m-status').innerText = d.m_stat;
             document.getElementById('lbl-m-amt').innerText = d.m_amt;
             document.getElementById('lbl-m-cur').innerText = d.m_cur;
-            document.getElementById('btn-download').innerText = d.m_dwn;
             document.getElementById('lbl-m-win').innerText = d.m_win;
 
             document.getElementById('lbl-adm-rules').innerText = d.adm_rules;
-            document.getElementById('lbl-adm-rules-sub').innerText = d.adm_rules_sub;
-            document.getElementById('btn-rules').innerText = d.btn_rules;
             document.getElementById('lbl-msg-title').innerText = d.msg_title;
             document.getElementById('btn-up-msg').innerText = d.btn_msg;
             document.getElementById('lbl-view-feedback').innerText = d.view_feed;
             document.getElementById('lbl-m-rules').innerText = d.m_rules;
             document.getElementById('lbl-send-feed').innerText = d.send_feed;
-            document.getElementById('btn-submit-feed').innerText = d.btn_feed;
-            document.getElementById('input-important-msg').placeholder = d.msg_placeholder;
-            document.getElementById('member-feedback-input').placeholder = d.feed_placeholder;
+
+            // Bottom Menus Text Mapping
+            document.querySelectorAll('.nav-text-home').forEach(el => el.innerText = d.h_home);
+            document.querySelectorAll('.nav-text-report').forEach(el => el.innerText = d.h_rep);
+            document.querySelectorAll('.nav-text-settings').forEach(el => el.innerText = d.h_set);
+            document.querySelectorAll('.nav-text-rules').forEach(el => el.innerText = d.h_rul);
             
             const drawBtn = document.getElementById('btn-draw-winner');
-            if(drawBtn) drawBtn.innerText = currentLang === 'en' ? "Draw Month's Lucky Winner 🎲" : "ഈ മാസത്തെ നറുക്കെടുപ്പ് നടത്തുക 🎲";
-            
-            const waBtn = document.getElementById('member-wa-btn');
-            if(waBtn) waBtn.innerText = currentLang === 'en' ? "Message Admin 💬" : "അഡ്മിന് മെസ്സേജ് ചെയ്യുക 💬";
+            if(drawBtn) drawBtn.innerText = currentLang === 'en' ? "Spin & Save Winner 🎲" : "കറക്കി വിജയിയെ സേവ് ചെയ്യുക 🎲";
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.user-photo-src').forEach(img => { img.src = YOUR_PHOTO_FILENAME; });
+            updateAllAvatarElements();
             applyLanguage();
             setTimeout(() => {
                 document.getElementById('splash-screen').style.opacity = '0';
@@ -459,15 +568,15 @@
             document.getElementById('admin-dashboard').classList.add('hidden');
             document.getElementById('member-dashboard').classList.add('hidden');
             if(viewName === 'auth') document.getElementById('auth-screen').classList.remove('hidden');
-            if(viewName === 'admin') { document.getElementById('admin-dashboard').classList.remove('hidden'); renderAdminDashboard(); }
-            if(viewName === 'member') { document.getElementById('member-dashboard').classList.remove('hidden'); renderMemberDashboard(); }
+            if(viewName === 'admin') { document.getElementById('admin-dashboard').classList.remove('hidden'); switchTab('admin', 'home'); renderAdminDashboard(); }
+            if(viewName === 'member') { document.getElementById('member-dashboard').classList.remove('hidden'); switchTab('member', 'home'); renderMemberDashboard(); }
         }
 
         function switchAuthTab(role) {
             appState.currentRole = role;
             document.getElementById('tab-member').classList.toggle('active', role === 'member');
             document.getElementById('tab-admin').classList.toggle('active', role === 'admin');
-            document.getElementById('login-username-label').innerText = role === 'admin' ? (currentLang==='en'?"Admin User ID":"അഡ്മിൻ യൂസർ ഐഡി") : langData[currentLang].lbl_phone;
+            document.getElementById('login-username-label').innerText = role === 'admin' ? "Admin User ID" : langData[currentLang].lbl_phone;
         }
 
         function handleLogin(event) {
@@ -479,22 +588,41 @@
                 else alert('Invalid Admin Credentials!');
             } else {
                 const member = appState.members.find(m => (m.phone === user || m.id.toString() === user) && m.password === pass);
-                if(member) { appState.loggedInUser = member; showView('member'); }
+                if(member) { appState.loggedInUser = member; updateAllAvatarElements(); showView('member'); }
                 else alert('Login Failed!');
             }
         }
 
-        function logout() { showView('auth'); }
+        function logout() { appState.loggedInUser = null; showView('auth'); }
 
-        /* ADMIN CONTROL FUNCTIONS */
+        function updateSecretDropdown() {
+            const select = document.getElementById('secret-winner-select');
+            select.innerHTML = `<option value="random">-- Let it Spin Randomly --</option>`;
+            appState.members.forEach(m => {
+                select.innerHTML += `<option value="${m.id}">${m.name} (#${m.id})</option>`;
+            });
+        }
+
+        function renderReports() {
+            const adminTbody = document.getElementById('kuri-report-table-body');
+            adminTbody.innerHTML = '';
+            const memberTbody = document.getElementById('member-report-table-body');
+            memberTbody.innerHTML = '';
+
+            appState.historyReport.forEach(r => {
+                adminTbody.innerHTML += `<tr><td><b>${r.month}</b></td><td>🎉 ${r.name}</td><td>${r.phone}</td><td>₹${r.amount}</td></tr>`;
+                memberTbody.innerHTML += `<tr><td><b>${r.month}</b></td><td>🎉 ${r.name}</td><td>₹${r.amount}</td></tr>`;
+            });
+        }
+
         function renderAdminDashboard() {
-            let paid = 0, pending = 0, coll = 0, pendingAmount = 0;
+            let paid = 0, pending = 0, coll = 0;
             const tbody = document.getElementById('admin-members-table');
-            tbody.innerHTML = '';
+            tbody.innerHTML = `<tr><th>ID</th><th>Name</th><th>Mobile</th><th>Amount</th><th>Status</th><th>Action</th></tr>`;
 
             appState.members.forEach(m => {
-                if(m.status === 'Paid') { coll += Number(m.amount); paid++; } else { pendingAmount += Number(m.amount); pending++; }
-                tbody.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td><td><a href="https://wa.me/91${m.phone}" target="_blank" style="color:#2ecc71; text-decoration:none;">WhatsApp 💬</a></td></tr>`;
+                if(m.status === 'Paid') { coll += Number(m.amount); paid++; } else { pending++; }
+                tbody.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td></tr>`;
             });
 
             document.getElementById('stat-total-members').innerText = appState.members.length;
@@ -504,15 +632,10 @@
             
             document.getElementById('input-announcement').value = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
             document.getElementById('input-important-msg').value = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
-            
-            const currentRulesList = currentLang === 'en' ? appState.rules : appState.rules_ml;
-            document.getElementById('input-rules').value = currentRulesList.join('\n');
+            document.getElementById('input-rules').value = (currentLang === 'en' ? appState.rules : appState.rules_ml).join('\n');
 
-            document.getElementById('rep-income').innerText = '₹' + coll.toLocaleString();
-            document.getElementById('rep-pending').innerText = '₹' + pendingAmount.toLocaleString();
-            document.getElementById('rep-paid-count').innerText = paid + (currentLang==='en'?" Members":" പേർ");
-            document.getElementById('rep-winner').innerText = appState.winner ? appState.winner.name : langData[currentLang].not_drawn;
-
+            updateSecretDropdown();
+            renderReports();
             renderFeedbacks();
         }
 
@@ -523,41 +646,67 @@
         }
 
         function drawLuckyWinner() {
-            if(appState.members.length === 0) return;
-            const randomIndex = Math.floor(Math.random() * appState.members.length);
-            appState.winner = appState.members[randomIndex];
-            alert((currentLang==='en'?"Lucky Winner Drawn: ":"ഈ മാസത്തെ ഭാഗ്യശാലി: ") + appState.winner.name);
-            renderAdminDashboard();
+            if (isSpinning || appState.members.length === 0) return;
+            isSpinning = true;
+
+            const wheel = document.getElementById('lucky-wheel-element');
+            const innerText = document.getElementById('wheel-inner-text');
+            const targetMonth = document.getElementById('draw-month-select').value;
+            const secretChoice = document.getElementById('secret-winner-select').value;
+
+            let finalWinner = null;
+            if (secretChoice !== 'random') {
+                finalWinner = appState.members.find(m => m.id.toString() === secretChoice);
+            }
+            if (!finalWinner) {
+                finalWinner = appState.members[Math.floor(Math.random() * appState.members.length)];
+            }
+
+            const randomDegrees = Math.floor(Math.random() * 360) + 1440; 
+            wheel.style.transform = `rotate(${randomDegrees}deg)`;
+            innerText.innerText = "Spinning... 🌀";
+
+            setTimeout(() => {
+                innerText.style.transform = `rotate(-${randomDegrees}deg)`; 
+                innerText.innerText = finalWinner.name;
+                
+                const existingIndex = appState.historyReport.findIndex(r => r.month === targetMonth);
+                const reportPayload = { month: targetMonth, name: finalWinner.name, phone: finalWinner.phone, amount: finalWinner.amount };
+
+                if(existingIndex > -1) appState.historyReport[existingIndex] = reportPayload;
+                else appState.historyReport.push(reportPayload);
+
+                alert((currentLang === 'en' ? `Winner saved for ${targetMonth}: ` : `${targetMonth} ലെ വിജയിയെ വിജയകരമായി സേവ് ചെയ്തു: `) + finalWinner.name);
+                isSpinning = false;
+                document.getElementById('secret-winner-select').value = 'random';
+                renderAdminDashboard();
+            }, 4000); 
         }
 
         function updateBanners() {
             const txt = document.getElementById('input-announcement').value;
             if(currentLang === 'en') appState.announcement = txt; else appState.announcement_ml = txt;
-            alert(currentLang === 'en' ? "Announcement Updated!" : "അറിയിപ്പ് പുതുക്കിയിരിക്കുന്നു!");
+            alert("Updated!");
         }
 
         function updateImportantMessage() {
             const txt = document.getElementById('input-important-msg').value;
             if(currentLang === 'en') appState.importantMsg = txt; else appState.importantMsg_ml = txt;
-            alert(currentLang === 'en' ? "Important Message Published!" : "പ്രധാന അടിയന്തിര സന്ദേശം പബ്ലിഷ് ചെയ്തു!");
+            alert("Published!");
         }
 
         function saveRules() {
             const text = document.getElementById('input-rules').value;
             const lines = text.split('\n').filter(line => line.trim() !== "");
             if(currentLang === 'en') appState.rules = lines; else appState.rules_ml = lines;
-            alert(currentLang === 'en' ? "Chitty Rules Updated!" : "കുറി നിയമങ്ങൾ പുതുക്കി സേവ് ചെയ്തു!");
+            alert("Rules Saved!");
         }
 
         function renderFeedbacks() {
             const container = document.getElementById('admin-feedback-container');
-            if(appState.feedbacks.length === 0) {
-                container.innerHTML = `<p style="font-size:13px; color:#8fa397; text-align:center;">No feedback received.</p>`;
-                return;
-            }
-            container.innerHTML = '';
+            container.innerHTML = appState.feedbacks.length === 0 ? `<p style='font-size:13px; color:#8fa397; text-align:center;'>No feedback.</p>` : '';
             appState.feedbacks.forEach(f => {
-                container.innerHTML += `<div class="feedback-item"><strong>${f.name}:</strong> <span>${f.text}</span><small>${f.time}</small></div>`;
+                container.innerHTML += `<div class="feedback-item"><strong>${f.name}:</strong> <span>${f.text}</span></div>`;
             });
         }
 
@@ -568,11 +717,10 @@
             const amount = document.getElementById('add-amount').value;
             const password = document.getElementById('add-password').value;
             const id = appState.members.length > 0 ? appState.members[appState.members.length-1].id + 1 : 1001;
-            appState.members.push({id, name, phone, amount, status:"Pending", password});
+            appState.members.push({id, name, phone, amount, status:"Pending", password, photo:""});
             renderAdminDashboard(); e.target.reset();
         }
 
-        /* MEMBER PAGE (ONLY VIEW, COMMENT & WHATSAPP) */
         function renderMemberDashboard() {
             const m = appState.loggedInUser;
             document.getElementById('member-display-name').innerText = m.name;
@@ -581,14 +729,9 @@
             document.getElementById('member-panel-status').innerText = m.status;
             document.getElementById('member-panel-status').className = `badge ${m.status === 'Paid' ? 'badge-paid' : 'badge-pending'}`;
             
-            // Set WhatsApp Link Dynamic for current user text
-            const waMsg = encodeURIComponent(`Hello Admin, I am ${m.name} (ID: ${m.id}). Regarding my chitty payment...`);
-            document.getElementById('member-wa-btn').href = `https://wa.me/${ADMIN_WA_NUMBER}?text=${waMsg}`;
-            
-            // Announcement
+            document.getElementById('member-wa-btn').href = `https://wa.me/${ADMIN_WA_NUMBER}?text=Hello`;
             document.getElementById('member-announcement-text').innerText = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
             
-            // Important message
             const activeImpMsg = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
             const impBox = document.getElementById('member-important-msg-box');
             if(activeImpMsg && activeImpMsg.trim() !== "") {
@@ -598,33 +741,25 @@
                 impBox.classList.add('hidden');
             }
 
-            // Rules Display
             const rDisplay = document.getElementById('member-rules-display');
             rDisplay.innerHTML = '';
-            const activeRules = currentLang === 'en' ? appState.rules : appState.rules_ml;
-            if(activeRules.length === 0) {
-                rDisplay.innerHTML = `<li>No rules registered.</li>`;
+            (currentLang === 'en' ? appState.rules : appState.rules_ml).forEach(r => { rDisplay.innerHTML += `<li>${r}</li>`; });
+
+            if(appState.historyReport.length > 0) {
+                const latest = appState.historyReport[appState.historyReport.length - 1];
+                document.getElementById('member-winner-box').innerText = `🎉 ${latest.name} (${latest.month})`;
             } else {
-                activeRules.forEach(r => { rDisplay.innerHTML += `<li>${r}</li>`; });
+                document.getElementById('member-winner-box').innerText = langData[currentLang].not_drawn;
             }
 
-            document.getElementById('member-winner-box').innerText = appState.winner ? `🎉 ${appState.winner.name} (#${appState.winner.id})` : langData[currentLang].not_drawn;
+            renderReports();
         }
 
         function submitFeedback() {
             const input = document.getElementById('member-feedback-input');
-            const txt = input.value.trim();
-            if(txt === "") {
-                alert(currentLang === 'en' ? "Please enter text before submitting!" : "ദയവായി എന്തെങ്കിലും എഴുതിയ ശേഷം സബ്മിറ്റ് ചെയ്യുക!");
-                return;
-            }
-            appState.feedbacks.unshift({
-                name: appState.loggedInUser.name,
-                text: txt,
-                time: currentLang === 'en' ? "Just now" : "ഇപ്പോൾ"
-            });
-            input.value = '';
-            alert(currentLang === 'en' ? "Comment sent to Admin dashboard!" : "നിങ്ങളുടെ അഭിപ്രായം അഡ്മിൻ പാനലിലേക്ക് അയച്ചിട്ടുണ്ട്!");
+            if(input.value.trim() === "") return;
+            appState.feedbacks.unshift({ name: appState.loggedInUser.name, text: input.value });
+            input.value = ''; alert("Submitted!");
         }
     </script>
 </body>
