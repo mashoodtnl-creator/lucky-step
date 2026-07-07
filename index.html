@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Mashood Kuri - Premium Chitty Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Manjari:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-gradient: linear-gradient(135deg, #050b07 0%, #0a140f 100%);
-            --card-bg: rgba(18, 30, 23, 0.85);
+            --card-bg: rgba(18, 30, 23, 0.95);
             --gold: #dfb73c;
             --gold-glow: rgba(223, 183, 60, 0.3);
             --text-main: #f0f5f2;
@@ -20,114 +20,116 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* SCREEN FIT UPDATE: ബോഡിയിലെ അനാവശ്യ മാർജിനുകൾ ഒഴിവാക്കി */
         body { 
             font-family: 'Poppins', 'Manjari', sans-serif; 
             background: var(--bg-gradient); 
             color: var(--text-main); 
             min-height: 100vh; 
-            padding-bottom: 80px; 
+            padding-bottom: 90px; 
             width: 100%;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
         .hidden { display: none !important; }
         
-        .lang-switch-container { position: absolute; top: 15px; right: 15px; z-index: 10000; }
-        .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: white; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .lang-switch-container { position: absolute; top: 12px; right: 12px; z-index: 10000; }
+        .lang-btn { background: rgba(0,0,0,0.6); border: 1px solid var(--gold); color: white; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 11px; font-weight: bold; backdrop-filter: blur(5px); }
 
         .btn {
             background: linear-gradient(135deg, #b89324, var(--gold)); color: var(--text-dark);
-            border: none; padding: 12px 20px; border-radius: 30px; font-weight: 700; font-size: 14px;
-            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px var(--gold-glow);
+            border: none; padding: 14px 20px; border-radius: 12px; font-weight: 700; font-size: 15px;
+            cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px var(--gold-glow); width: 100%;
         }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--gold-glow); opacity: 0.95; }
+        .btn:active { transform: scale(0.98); }
         .btn-secondary { background: transparent; color: var(--gold); border: 2px solid var(--gold); box-shadow: none; }
-        .btn-secondary:hover { background: var(--gold); color: var(--text-dark); }
-        .btn-danger { background: var(--danger); color: white; box-shadow: rgba(231, 76, 60, 0.3); }
+        .btn-danger { background: var(--danger); color: white; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2); }
 
         /* MENU BAR STYLING */
-        .menu-bar { display: flex; justify-content: space-around; background: #07120a; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999; padding: 12px 0; }
+        .menu-bar { display: flex; justify-content: space-around; background: #050b07; border-top: 1px solid var(--border); position: fixed; bottom: 0; left: 0; width: 100%; z-index: 999; padding: 12px 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.5); }
         .menu-item { color: #8fa397; text-decoration: none; font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; font-family: inherit; flex: 1; }
         .menu-item.active { color: var(--gold); font-weight: bold; }
-        .menu-icon { font-size: 20px; }
+        .menu-icon { font-size: 22px; }
 
+        /* SPLASH SCREEN FULL FIT */
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #11251a 0%, #040a06 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }
-        .splash-avatar { width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 35px var(--gold-glow); margin-bottom: 25px; overflow: hidden; background: #000; }
+        .splash-avatar { width: 130px; height: 130px; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 35px var(--gold-glow); margin-bottom: 25px; overflow: hidden; background: #000; }
         .splash-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .splash-h1 { font-size: 32px; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
+        .splash-h1 { font-size: 30px; color: var(--gold); font-weight: 700; letter-spacing: 1px; }
         .splash-p { font-size: 12px; color: #8fa397; letter-spacing: 2px; margin: 5px 0 20px 0; text-align: center; }
         .badge-credits { background: rgba(223, 183, 60, 0.1); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; color: var(--gold); font-size: 12px; font-style: italic; }
         .bar-container { width: 160px; height: 3px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 30px; overflow: hidden; }
-        .bar-fill { width: 0%; height: 100%; background: var(--gold); animation: fillUp 1.8s forwards; }
+        .bar-fill { width: 0%; height: 100%; background: var(--gold); animation: fillUp 1.5s forwards; }
         @keyframes fillUp { to { width: 100%; } }
 
-        #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 15px; width: 100%; }
-        .login-card { width: 100%; max-width: 420px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 35px 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(10px); text-align: center; }
-        .login-photo { width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px auto; overflow: hidden; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        /* FIXED: LOGIN CARD FULL SCREEN FOR MOBILE */
+        #auth-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; width: 100%; padding: 0; background: var(--bg-gradient); }
+        .login-card { width: 100%; height: 100vh; min-height: 100vh; background: var(--bg-gradient); padding: 60px 20px 30px 20px; display: flex; flex-direction: column; justify-content: center; text-align: center; overflow-y: auto; }
+        .login-photo { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin: 0 auto 20px auto; overflow: hidden; background: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
         .login-photo img { width: 100%; height: 100%; object-fit: cover; }
-        .login-card h2 { color: var(--gold); font-size: 26px; margin-bottom: 5px; }
-        .login-card subtitle { color: #8fa397; font-size: 13px; display: block; margin-bottom: 25px; }
-        .nav-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 30px; padding: 4px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
-        .tab-btn { flex: 1; background: none; border: none; padding: 12px; color: #8fa397; font-weight: bold; cursor: pointer; border-radius: 30px; font-size: 14px; transition: 0.3s; }
-        .tab-btn.active { background: var(--gold); color: var(--text-dark); }
-        .input-box { text-align: left; margin-bottom: 20px; }
-        .input-box label { display: block; font-size: 13px; color: #8fa397; margin-bottom: 6px; padding-left: 4px; }
-        .input-box input { width: 100%; padding: 14px 18px; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; color: white; font-size: 15px; }
-
-        /* SCREEN FIT UPDATE: മൊബൈൽ സ്ക്രീൻ ഫുൾ സൈസ് ഫിറ്റ് ചെയ്യാനുള്ള മാറ്റങ്ങൾ */
-        .container { width: 100%; max-width: 100%; margin: 0 auto; padding: 12px; }
+        .login-card h2 { color: var(--gold); font-size: 28px; font-weight: 700; margin-bottom: 5px; }
+        .login-card subtitle { color: #8fa397; font-size: 14px; display: block; margin-bottom: 30px; }
         
-        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: var(--card-bg); padding: 12px 15px; border-radius: 16px; border: 1px solid var(--border); backdrop-filter: blur(10px); width: 100%; }
+        .nav-tabs { display: flex; background: rgba(0,0,0,0.4); border-radius: 12px; padding: 4px; margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.05); }
+        .tab-btn { flex: 1; background: none; border: none; padding: 14px; color: #8fa397; font-weight: bold; cursor: pointer; border-radius: 10px; font-size: 14px; transition: 0.3s; }
+        .tab-btn.active { background: var(--gold); color: var(--text-dark); }
+        
+        .input-box { text-align: left; margin-bottom: 20px; width: 100%; }
+        .input-box label { display: block; font-size: 13px; color: #8fa397; margin-bottom: 8px; padding-left: 2px; }
+        .input-box input { width: 100%; padding: 16px; background: rgba(0,0,0,0.4); border: 1px solid var(--border); border-radius: 12px; color: white; font-size: 16px; }
+
+        /* FIXED: CONTAINER STRETCHED TO FULL MOBILE WIDTH */
+        .container { width: 100%; max-width: 100%; margin: 0; padding: 12px; }
+        
+        nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--card-bg); padding: 12px; border-radius: 14px; border: 1px solid var(--border); width: 100%; }
         .profile-section { display: flex; align-items: center; gap: 10px; }
-        .avatar-frame { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #000; position: relative; }
+        .avatar-frame { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--gold); overflow: hidden; background: #000; position: relative; }
         .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.6); color: var(--gold); font-size: 9px; text-align: center; padding: 2px 0; cursor: pointer; font-weight: bold; }
-        .profile-text h3 { font-size: 16px; color: var(--gold); font-weight: 600; }
+        .photo-upload-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.7); color: var(--gold); font-size: 9px; text-align: center; padding: 2px 0; cursor: pointer; font-weight: bold; }
+        .profile-text h3 { font-size: 15px; color: var(--gold); font-weight: 600; }
         .profile-text p { font-size: 11px; color: #8fa397; }
 
-        /* STATS GRID FIXED FOR MOBILE SCREEN FIT */
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
-        .stat-box { background: var(--card-bg); border: 1px solid rgba(223, 183, 60, 0.1); border-radius: 14px; padding: 15px 10px; text-align: center; border-bottom: 3px solid var(--border); }
-        .stat-box p { font-size: 11px; color: #8fa397; margin-bottom: 5px; }
-        .stat-box h2 { font-size: 20px; font-weight: 700; color: var(--gold); }
+        /* STATS GRID - PERFECT 2x2 FOR MOBILE FULL FIT */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; width: 100%; }
+        .stat-box { background: var(--card-bg); border: 1px solid rgba(223, 183, 60, 0.1); border-radius: 14px; padding: 16px 10px; text-align: center; border-bottom: 3px solid var(--border); }
+        .stat-box p { font-size: 12px; color: #8fa397; margin-bottom: 4px; }
+        .stat-box h2 { font-size: 22px; font-weight: 700; color: var(--gold); }
 
         .main-layout { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-        
-        .box-panel { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 18px 15px; margin-bottom: 15px; backdrop-filter: blur(10px); width: 100%; }
-        .box-panel h4 { color: var(--gold); font-size: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); padding-left: 8px; }
+        .box-panel { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); padding: 16px; margin-bottom: 15px; width: 100%; }
+        .box-panel h4 { color: var(--gold); font-size: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); padding-left: 8px; font-weight: 600; }
 
-        /* LUCKY WHEEL PERFECT FIT SIZE UPDATE */
+        /* LUCKY WHEEL STRETCHED FOR SCREEN FIT */
         .wheel-area { display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 15px 0; position: relative; width: 100%; }
-        .wheel-container { width: 270px; height: 270px; border-radius: 50%; border: 6px solid var(--gold); position: relative; overflow: hidden; background: radial-gradient(circle, #1a3c26 0%, #08140d 100%); box-shadow: 0 0 30px var(--gold-glow); transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); display: flex; align-items: center; justify-content: center; }
-        .wheel-center-pin { width: 20px; height: 20px; background: var(--gold); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
-        .wheel-pointer { width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 20px solid var(--danger); position: absolute; top: -10px; z-index: 12; }
-        .wheel-text-anim { font-size: 19px; color: #fff; font-weight: bold; text-align: center; padding: 10px; text-shadow: 0 2px 5px rgba(0,0,0,0.8); }
+        .wheel-container { width: 290px; height: 290px; border-radius: 50%; border: 6px solid var(--gold); position: relative; overflow: hidden; background: radial-gradient(circle, #1a3c26 0%, #08140d 100%); box-shadow: 0 0 35px var(--gold-glow); transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1); display: flex; align-items: center; justify-content: center; }
+        .wheel-center-pin { width: 22px; height: 22px; background: var(--gold); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        .wheel-pointer { width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 22px solid var(--danger); position: absolute; top: -8px; z-index: 12; }
+        .wheel-text-anim { font-size: 22px; color: #fff; font-weight: bold; text-align: center; padding: 10px; text-shadow: 0 2px 6px rgba(0,0,0,0.9); }
 
-        .table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 100%; }
-        th, td { padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; white-space: nowrap; }
-        th { background: rgba(0,0,0,0.3); color: var(--gold); font-weight: 600; }
+        /* TABLES SCROLL FOR MOBILE */
+        .table-responsive { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 14px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; white-space: nowrap; }
+        th { background: rgba(0,0,0,0.4); color: var(--gold); font-weight: 600; }
 
-        .badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: bold; text-transform: uppercase; display: inline-block; }
+        .badge { padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: bold; text-transform: uppercase; display: inline-block; }
         .badge-paid { background: rgba(46, 204, 113, 0.15); color: var(--success); border: 1px solid var(--success); }
         .badge-pending { background: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); }
 
         .row-inputs { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 12px; }
-        @media (min-width: 480px) { .row-inputs { grid-template-columns: 1fr 1fr; } }
-        input, select, textarea { width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: inherit; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 14px; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; font-family: inherit; font-size: 15px; }
+        input:focus, select:focus, textarea:focus { border-color: var(--gold); outline: none; }
 
-        .rules-list { padding-left: 15px; color: #c4d4cc; font-size: 13px; }
-        .rules-list li { margin-bottom: 8px; line-height: 1.5; }
-        .feedback-item { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 13px; }
+        .rules-list { padding-left: 18px; color: #c4d4cc; font-size: 14px; }
+        .rules-list li { margin-bottom: 10px; line-height: 1.6; }
+        .feedback-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--gold); font-size: 13px; }
 
-        /* SCREEN RESPONSIVE LAPTOP VIEW (IF OPENED IN LAPTOP) */
-        @media (min-width: 950px) {
-            .container { max-width: 1200px; padding: 25px; }
-            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; }
-            .main-layout { grid-template-columns: 2fr 1fr; gap: 25px; }
+        /* RESPONSIVE LAYOUT FOR WIDER SCREENS (PC/TABLET) */
+        @media (min-width: 768px) {
+            .login-card { max-width: 440px; height: auto; min-height: auto; border-radius: 24px; padding: 40px; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+            .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+            .stats-grid { grid-template-columns: repeat(4, 1fr); gap: 15px; }
+            .main-layout { grid-template-columns: 2fr 1fr; gap: 20px; }
             .row-inputs { grid-template-columns: 1fr 1fr; }
-            nav { padding: 15px 25px; }
-            .profile-text h3 { font-size: 19px; }
         }
     </style>
 </head>
@@ -165,7 +167,7 @@
                     <label id="lg-pass-lbl">Secret Password</label>
                     <input type="password" id="login-password" required placeholder="••••••••">
                 </div>
-                <button type="submit" class="btn" id="lg-btn-text" style="width: 100%; margin-top: 10px;">Login 🔐</button>
+                <button type="submit" class="btn" id="lg-btn-text" style="margin-top: 10px;">Login 🔐</button>
             </form>
         </div>
     </div>
@@ -180,7 +182,7 @@
                     </div>
                     <div class="profile-text"><h3>Mashood Thennala</h3><p id="adm-panel-title">Authorized Administrator Panel</p></div>
                 </div>
-                <button class="btn btn-danger" id="logout-btn-1" style="padding: 8px 14px; font-size: 12px;" onclick="logout()">Logout 🚪</button>
+                <button class="btn btn-danger" id="logout-btn-1" style="padding: 8px 14px; font-size: 12px; width:auto;" onclick="logout()">Logout 🚪</button>
             </nav>
 
             <input type="file" id="photo-file-input" class="hidden" accept="image/*" onchange="processPhotoUpload(event)">
@@ -206,7 +208,7 @@
                             <h4 id="lbl-draw-title">🎲 Lucky Wheel Draw</h4>
                             <div style="background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; margin-bottom: 15px; border: 1px dashed var(--gold);">
                                 <label style="color: var(--gold); font-size: 12px; font-weight: bold; display: block; margin-bottom: 6px;">
-                                    🤫 Secret Winner Controller (മറ്റുള്ളവർ അറിയില്ല):
+                                    🤫 Secret Winner Controller:
                                 </label>
                                 <select id="secret-winner-select" style="background: #111; color: #fff; font-size: 13px; padding: 8px;"></select>
                             </div>
@@ -226,7 +228,7 @@
                                         <option value="Month 4">Month 4</option>
                                         <option value="Month 5">Month 5</option>
                                     </select>
-                                    <button class="btn" id="btn-draw-winner" style="width:100%;" onclick="drawLuckyWinner()">Spin & Save Winner 🎲</button>
+                                    <button class="btn" id="btn-draw-winner" onclick="drawLuckyWinner()">Spin & Save Winner 🎲</button>
                                 </div>
                             </div>
                         </div>
@@ -236,13 +238,13 @@
                         <div class="box-panel" style="border-color: var(--danger);">
                             <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
                             <textarea id="input-important-msg" rows="2" style="margin-bottom:10px;"></textarea>
-                            <button class="btn btn-danger" id="btn-up-msg" style="width:100%;" onclick="updateImportantMessage()">Publish Message 🚨</button>
+                            <button class="btn btn-danger" id="btn-up-msg" onclick="updateImportantMessage()">Publish Message 🚨</button>
                         </div>
 
                         <div class="box-panel">
                             <h4 id="lbl-ann-title">📢 Announcement Banner</h4>
                             <textarea id="input-announcement" rows="2" style="margin-bottom:10px;"></textarea>
-                            <button class="btn btn-secondary" id="btn-up-banner" style="width:100%;" onclick="updateBanners()">Update Banner 📢</button>
+                            <button class="btn btn-secondary" id="btn-up-banner" onclick="updateBanners()">Update Banner 📢</button>
                         </div>
                     </div>
                 </div>
@@ -250,7 +252,7 @@
 
             <div id="admin-sect-reports" class="hidden">
                 <div class="box-panel">
-                    <h4>📊 Chitty Winners Report (മാസ റിപ്പോർട്ട്)</h4>
+                    <h4>📊 Chitty Winners Report</h4>
                     <div class="table-responsive">
                         <table>
                             <thead>
@@ -270,18 +272,18 @@
                             <input type="text" id="add-name" placeholder="Member Name" required>
                             <input type="text" id="add-phone" placeholder="Mobile Number" required>
                         </div>
-                        <div class="row-inputs" style="grid-template-columns: 1fr 1fr; display: grid;">
+                        <div class="row-inputs">
                             <input type="number" id="add-amount" value="10000" required>
                             <input type="password" id="add-password" value="123" required>
                         </div>
-                        <button type="submit" class="btn" id="btn-save-mbr" style="width: 100%; margin-top: 5px;">Save Member ✅</button>
+                        <button type="submit" class="btn" id="btn-save-mbr" style="margin-top: 5px;">Save Member ✅</button>
                     </form>
                 </div>
 
                 <div class="box-panel">
                     <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
                     <textarea id="input-rules" rows="4" style="margin-bottom:12px;"></textarea>
-                    <button class="btn" id="btn-rules" style="width: 100%;" onclick="saveRules()">Save Rules 💾</button>
+                    <button class="btn" id="btn-rules" onclick="saveRules()">Save Rules 💾</button>
                 </div>
 
                 <div class="box-panel">
@@ -316,8 +318,8 @@
                     <div class="profile-text"><h3 id="member-display-name"></h3><p id="member-display-id"></p></div>
                 </div>
                 <div style="display:flex; gap:6px;">
-                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="background:#2ecc71; color:white; border:none; padding: 6px 10px; font-size: 11px;">Admin 💬</a>
-                    <button class="btn btn-danger" id="logout-btn-2" style="padding: 6px 10px; font-size: 11px;" onclick="logout()">Logout 🚪</button>
+                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="background:#2ecc71; color:white; border:none; padding: 6px 12px; font-size: 11px; width:auto;">Admin 💬</a>
+                    <button class="btn btn-danger" id="logout-btn-2" style="padding: 6px 12px; font-size: 11px; width:auto;" onclick="logout()">Logout 🚪</button>
                 </div>
             </nav>
 
@@ -347,7 +349,7 @@
                     <div class="box-panel">
                         <h4 id="lbl-send-feed">💬 Send Feedback to Admin</h4>
                         <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;"></textarea>
-                        <button class="btn btn-secondary" style="width: 100%;" onclick="submitFeedback()">Submit Feedback 📤</button>
+                        <button class="btn btn-secondary" onclick="submitFeedback()">Submit Feedback 📤</button>
                     </div>
                 </div>
             </div>
@@ -618,7 +620,7 @@
 
             appState.members.forEach(m => {
                 if(m.status === 'Paid') { coll += Number(m.amount); paid++; } else { pending++; }
-                table.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td></tr>`;
+                table.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px; width:auto;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td></tr>`;
             });
 
             document.getElementById('stat-total-members').innerText = appState.members.length;
