@@ -23,13 +23,8 @@
         .hidden { display: none !important; }
         
         /* LANGUAGE SELECTOR */
-        .lang-switch-container {
-            position: absolute; top: 20px; right: 20px; z-index: 10000;
-        }
-        .lang-btn {
-            background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: white;
-            padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold;
-        }
+        .lang-switch-container { position: absolute; top: 20px; right: 20px; z-index: 10000; }
+        .lang-btn { background: rgba(255,255,255,0.1); border: 1px solid var(--gold); color: white; padding: 6px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; font-weight: bold; }
 
         /* BUTTONS */
         .btn {
@@ -43,15 +38,11 @@
         .btn-danger { background: var(--danger); color: white; box-shadow: rgba(231, 76, 60, 0.3); }
 
         /* SPLASH SCREEN */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #11251a 0%, #040a06 100%);
-            display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease;
-        }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #11251a 0%, #040a06 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s ease; }
         .splash-avatar { width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--gold); box-shadow: 0 0 35px var(--gold-glow); margin-bottom: 25px; overflow: hidden; background: #000; }
         .splash-avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .splash-h1 { font-size: 36px; color: var(--gold); letter-spacing: 1px; font-weight: 700; }
-        .splash-p { font-size: 14px; color: #8fa397; letter-spacing: 3px; margin: 5px 0 20px 0; letter-spacing: 3px; }
+        .splash-h1 { font-size: 36px; color: var(--gold); font-weight: 700; }
+        .splash-p { font-size: 14px; color: #8fa397; letter-spacing: 3px; margin: 5px 0 20px 0; }
         .badge-credits { background: rgba(223, 183, 60, 0.1); border: 1px solid var(--border); padding: 6px 16px; border-radius: 20px; color: var(--gold); font-size: 13px; font-style: italic; }
         .bar-container { width: 180px; height: 3px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 30px; overflow: hidden; }
         .bar-fill { width: 0%; height: 100%; background: var(--gold); animation: fillUp 1.8s forwards; }
@@ -104,12 +95,7 @@
         .badge-pending { background: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); }
 
         .row-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        input, select, textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; }
-
-        /* SPIN WHEEL */
-        .wheel-box { display: flex; flex-direction: column; align-items: center; position: relative; margin: 25px 0; }
-        #wheel-canvas { border: 6px solid var(--gold); border-radius: 50%; background: #050b07; }
-        .wheel-pin { position: absolute; top: -8px; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 24px solid #e74c3c; z-index: 10; }
+        input, select, textarea { width: 100%; padding: 12px 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-family: inherit; }
 
         /* REPORT PAGE */
         .report-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 2px dashed var(--border); padding-bottom: 15px; margin-bottom: 20px; }
@@ -121,7 +107,12 @@
         .report-card-mini span { font-size: 12px; color: #8fa397; display: block; }
         .report-card-mini p { font-size: 18px; color: var(--gold); font-weight: bold; margin-top: 4px; }
 
-        .footer-bar { text-align: center; padding: 30px; color: #5a6e62; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.02); margin-top: 40px; }
+        /* LIST STYLE FOR RULES */
+        .rules-list { padding-left: 20px; color: #c4d4cc; font-size: 14px; }
+        .rules-list li { margin-bottom: 10px; line-height: 1.6; }
+
+        .feedback-item { background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 10px; border-left: 3px solid var(--gold); }
+        .feedback-item small { color: #8fa397; font-size: 11px; display: block; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -220,6 +211,14 @@
                         </div>
                     </div>
 
+                    <!-- WRITE CHITTY RULES PAGE -->
+                    <div class="box-panel">
+                        <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
+                        <p style="font-size:12px; color:#8fa397; margin-bottom:10px;" id="lbl-adm-rules-sub">Write each rule on a new line.</p>
+                        <textarea id="input-rules" rows="6" style="margin-bottom:12px;"></textarea>
+                        <button class="btn" id="btn-save-rules" onclick="saveRules()">Save Rules 💾</button>
+                    </div>
+
                     <!-- ADD MEMBER -->
                     <div class="box-panel">
                         <h4 id="lbl-add-member">👤 Add New Member</h4>
@@ -239,33 +238,25 @@
 
                 <!-- RIGHT SIDEBAR -->
                 <div>
-                    <div class="box-panel" style="border-color: var(--gold);">
-                        <h4 id="lbl-wheel-title">🎲 Spin Wheel Draw</h4>
-                        <p id="lbl-wheel-sub" style="font-size:12px; color:#8fa397; margin-bottom:15px;">Select preferred draw mode system.</p>
-                        
-                        <select id="draw-mode" onchange="toggleManualWinnerSelect()" style="margin-bottom:15px; background: #000;">
-                            <option value="random">Random Mode (Auto System)</option>
-                            <option value="manual">Secret Choice (Admin Secret)</option>
-                        </select>
-
-                        <div id="manual-winner-select-wrapper" class="hidden" style="margin-bottom: 15px;">
-                            <label id="lbl-choose-winner" style="font-size:12px; color:#8fa397; display:block; margin-bottom:5px;">Target Winner:</label>
-                            <select id="manual-winner-dropdown" style="background: #000;"></select>
-                        </div>
-
-                        <div class="wheel-box">
-                            <div class="wheel-pin"></div>
-                            <canvas id="wheel-canvas" width="280" height="280"></canvas>
-                        </div>
-
-                        <button class="btn" id="spin-button" style="width: 100%;" onclick="startWheelSpin()">Spin Now 🔄</button>
-                        <div id="draw-result-box" style="margin-top:15px; padding:12px; background:rgba(0,0,0,0.5); border-radius:10px; font-weight:bold; text-align:center;" class="hidden"></div>
+                    <!-- IMPORTANT MESSAGE BANNER SETUP -->
+                    <div class="box-panel" style="border-color: var(--danger);">
+                        <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
+                        <textarea id="input-important-msg" rows="2" style="margin-bottom:10px; border-color: rgba(231,76,60,0.3);" placeholder="Type critical message here..."></textarea>
+                        <button class="btn btn-danger" id="btn-up-msg" style="width:100%;" onclick="updateImportantMessage()">Publish Message 🚨</button>
                     </div>
 
                     <div class="box-panel">
                         <h4 id="lbl-ann-title">📢 Announcement Banner</h4>
                         <textarea id="input-announcement" rows="2" style="margin-bottom:10px; resize:none;"></textarea>
                         <button class="btn btn-secondary" id="btn-up-banner" style="width:100%;" onclick="updateBanners()">Update Banner 📢</button>
+                    </div>
+
+                    <!-- FEEDBACK VIEW PANEL -->
+                    <div class="box-panel">
+                        <h4 id="lbl-view-feedback">💬 Members Feedback</h4>
+                        <div id="admin-feedback-container" style="max-height: 250px; overflow-y: auto;">
+                            <p style="font-size:13px; color:#8fa397; text-align:center;">No feedback received yet.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -283,35 +274,75 @@
                 <button class="btn btn-danger" id="logout-btn-2" onclick="logout()">Logout 🚪</button>
             </nav>
 
+            <!-- LIVE IMPORTANT MESSAGE DISPLAY -->
+            <div id="member-important-msg-box" class="box-panel hidden" style="background: linear-gradient(90deg, #3a1313, #1c0a0a); border-left: 5px solid var(--danger);">
+                <h5 id="lbl-m-imp-title" style="color: var(--danger); margin-bottom:5px; font-weight: bold;">🚨 IMPORTANT MESSAGE</h5>
+                <p id="member-important-text" style="font-size:15px; color:#fcc; font-weight: bold;"></p>
+            </div>
+
             <div class="box-panel" style="background: linear-gradient(90deg, #1b3524, #0f2216); border-left: 5px solid var(--gold);">
                 <h5 id="lbl-m-ann" style="color: var(--gold); margin-bottom:5px;">📢 Important Announcement</h5>
                 <p id="member-announcement-text" style="font-size:14px;"></p>
             </div>
 
             <div class="main-layout" style="grid-template-columns: 1fr 1fr;">
-                <div class="box-panel">
-                    <h4 id="lbl-m-status">💰 Your Payment Status</h4>
-                    <p style="font-size: 16px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
-                    <p style="margin:15px 0 20px 0; font-size:16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
-                    <button class="btn" id="btn-download" style="width:100%;" onclick="alert('PDF System Active')">Download Receipt 📄</button>
+                <div>
+                    <div class="box-panel">
+                        <h4 id="lbl-m-status">💰 Your Payment Status</h4>
+                        <p style="font-size: 16px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
+                        <p style="margin:15px 0 20px 0; font-size:16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
+                        <button class="btn" id="btn-download" style="width:100%;" onclick="alert('PDF System Active')">Download Receipt 📄</button>
+                    </div>
+
+                    <!-- SUBMIT FEEDBACK BOX -->
+                    <div class="box-panel">
+                        <h4 id="lbl-send-feed">💬 Send Feedback to Admin</h4>
+                        <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;" placeholder="Type your suggestions or complaints..."></textarea>
+                        <button class="btn btn-secondary" id="btn-submit-feed" style="width: 100%;" onclick="submitFeedback()">Submit Feedback 📤</button>
+                    </div>
                 </div>
-                <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center;">
-                    <h4 id="lbl-m-win">🏆 Lucky Winner of This Month</h4>
-                    <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 30px;">Not Drawn 🎲</div>
+
+                <div>
+                    <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center;">
+                        <h4 id="lbl-m-win">🏆 Lucky Winner of This Month</h4>
+                        <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 30px;">Not Drawn 🎲</div>
+                    </div>
+
+                    <!-- READ CHITTY RULES PANEL -->
+                    <div class="box-panel">
+                        <h4 id="lbl-m-rules">📜 Chitty Rules & Regulations</h4>
+                        <ol class="rules-list" id="member-rules-display">
+                            <li>Rules not set by administrator.</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentLang = 'en'; // default language
+        let currentLang = 'en'; 
         const YOUR_PHOTO_FILENAME = "photo.jpg"; 
 
         let appState = {
             currentView: 'auth', currentRole: 'member', loggedInUser: null,
             announcement: "The chitty lucky draw will start soon. Stay tuned!",
             announcement_ml: "ഈ മാസത്തെ കുറി നറുക്കെടുപ്പ് ഉടൻ ആരംഭിക്കുന്നതാണ്.",
-            winner: null,
+            importantMsg: "", 
+            importantMsg_ml: "",
+            rules: [
+                "Every member must pay the installment before 10th of every month.",
+                "The lucky draw winner will be announced live on the 12th.",
+                "Defaulting payments for 2 consecutive months will lead to termination."
+            ],
+            rules_ml: [
+                "എല്ലാ മാസവും 10-ാം തീയതിക്ക് മുൻപായി കുറി തുക അടക്കേണ്ടതാണ്.",
+                "എല്ലാ മാസവും 12-ാം തീയതി ലൈവ് നറുക്കെടുപ്പ് ഉണ്ടായിരിക്കുന്നതാണ്.",
+                "തുടർച്ചയായി രണ്ട് മാസം അടവ് മുടങ്ങിയാൽ ഗ്രൂപ്പിൽ നിന്നും ഒഴിവാക്കുന്നതാണ്."
+            ],
+            feedbacks: [
+                { name: "Ramesh Kumar", text: "Excellent management hub, very transparent!", time: "Just now" }
+            ],
             members: [
                 { id: 1001, name: "Ramesh Kumar", phone: "9876543210", amount: 10000, status: "Paid", password: "123" },
                 { id: 1002, name: "Suresh P.", phone: "9876543211", amount: 10000, status: "Paid", password: "123" },
@@ -329,10 +360,15 @@
                 th_1: "ID", th_2: "Name", th_3: "Mobile", th_4: "Amount", th_5: "Status", th_6: "Action", th_7: "Chat",
                 rep_title: "📊 Chitty Live Report Page", rep_sub: "Financial Status Summary", rep_print: "Print Report 🖨️",
                 r_b1: "Total Income Received", r_b2: "Pending Dues", r_b3: "Completed Paid Count", r_b4: "Current Month Winner",
-                w_t: "🎲 Spin Wheel Draw", w_s: "Select preferred draw mode system.", w_c: "Target Winner:", w_btn: "Spin Now 🔄",
                 ann_t: "📢 Announcement Banner", ann_b: "Update Banner 📢",
                 m_ann: "📢 Important Announcement", m_stat: "💰 Your Payment Status", m_amt: "Monthly Installment:", m_cur: "Current Status:", m_dwn: "Download Receipt 📄", m_win: "🏆 Lucky Winner of This Month",
-                opt_r: "Random Mode (Auto System)", opt_m: "Secret Choice (Admin Secret)", not_drawn: "Not Drawn 🎲", change_btn: "Change 🔄"
+                not_drawn: "Not Drawn 🎲", change_btn: "Change 🔄",
+                
+                // New Keys
+                adm_rules: "📝 Write & Edit Chitty Rules", adm_rules_sub: "Write each rule on a new line.", btn_rules: "Save Rules 💾",
+                msg_title: "🚨 Set Important Message", btn_msg: "Publish Message 🚨", view_feed: "💬 Members Feedback",
+                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback to Admin", btn_feed: "Submit Feedback 📤",
+                msg_placeholder: "Type critical message here...", feed_placeholder: "Type your suggestions..."
             },
             ml: {
                 lg_sub: "കുറി മാനേജ്‌മെന്റ് സിസ്റ്റം", tab_member: "മെമ്പർ ലോഗിൻ", tab_admin: "അഡ്മിൻ ഹബ്",
@@ -343,18 +379,23 @@
                 th_1: "ഐഡി", th_2: "പേര്", th_3: "മൊബൈൽ", th_4: "തുക", th_5: "സ്റ്റാറ്റസ്", th_6: "മാറ്റുക", th_7: "ചാറ്റ്",
                 rep_title: "📊 കുറി ലൈവ് റിപ്പോർട്ട് പേജ്", rep_sub: "സാമ്പത്തിക വിവരങ്ങളുടെ ചുരുക്കം", rep_print: "പ്രിന്റ് റിപ്പോർട്ട് 🖨️",
                 r_b1: "ലഭിച്ച ആകെ വരുമാനം", r_b2: "കിട്ടാനുള്ള കുടിശ്ശിക", r_b3: "അടവ് പൂർത്തിയാക്കിയവർ", r_b4: "നിലവിലെ വിജയി",
-                w_t: "🎲 ഭാഗ്യ ചക്രം (Spin Wheel)", w_s: "നിങ്ങൾക്ക് ആവശ്യമുള്ള വിന്നർ മോഡ് തിരഞ്ഞെടുക്കാം.", w_c: "വിജയിക്കേണ്ട ആൾ:", w_btn: "കറക്കുക 🔄",
                 ann_t: "📢 മെമ്പർ അറിയിപ്പുകൾ", ann_b: "അറിയിപ്പ് പുതുക്കുക 📢",
                 m_ann: "📢 പ്രധാന അറിയിപ്പ്", m_stat: "💰 നിങ്ങളുടെ അടവ് സ്റ്റാറ്റസ്", m_amt: "ഈ മാസത്തെ അടവ് തുക:", m_cur: "നിലവിലെ സ്റ്റാറ്റസ്:", m_dwn: "രസീത് ഡൗൺലോഡ് ചെയ്യുക 📄", m_win: "🏆 ഈ മാസത്തെ കുറി വിജയി",
-                opt_r: "Random Mode (സിസ്റ്റം തീരുമാനിക്കും)", opt_m: "Secret Choice (അഡ്മിൻ ചോയ്സ്)", not_drawn: "തീരുമാനിച്ചിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄"
+                not_drawn: "തീരുമാനിച്ചിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄",
+
+                // New Keys
+                adm_rules: "📝 കുറി നിയമങ്ങൾ എഴുതുക", adm_rules_sub: "ഓരോ നിയമങ്ങളും ഓരോ വരിയായി എഴുതുക.", btn_rules: "നിയമങ്ങൾ സേവ് ചെയ്യുക 💾",
+                msg_title: "🚨 പ്രധാന സന്ദേശം നൽകുക (Important Message)", btn_msg: "സന്ദേശം പബ്ലിഷ് ചെയ്യുക 🚨", view_feed: "💬 മെമ്പർമാരുടെ അഭിപ്രായങ്ങൾ",
+                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് അയക്കുക", btn_feed: "ഫീഡ്‌ബാക്ക് സമർപ്പിക്കുക 📤",
+                msg_placeholder: "അടിയന്തിര പ്രാധാന്യമുള്ള സന്ദേശങ്ങൾ ഇവിടെ നൽകാം...", feed_placeholder: "നിങ്ങളുടെ നിർദ്ദേശങ്ങളും പരാതികളും ഇവിടെ എഴുതാം..."
             }
         };
 
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'ml' : 'en';
             applyLanguage();
-            if(document.getElementById('admin-dashboard').classList.contains('hidden') === false) renderAdminDashboard();
-            if(document.getElementById('member-dashboard').classList.contains('hidden') === false) renderMemberDashboard();
+            if(!document.getElementById('admin-dashboard').classList.contains('hidden')) renderAdminDashboard();
+            if(!document.getElementById('member-dashboard').classList.contains('hidden')) renderMemberDashboard();
         }
 
         function applyLanguage() {
@@ -389,13 +430,6 @@
             document.getElementById('rp-box-3').innerText = d.r_b3;
             document.getElementById('rp-box-4').innerText = d.r_b4;
 
-            document.getElementById('lbl-wheel-title').innerText = d.w_t;
-            document.getElementById('lbl-wheel-sub').innerText = d.w_s;
-            document.getElementById('lbl-choose-winner').innerText = d.w_c;
-            document.getElementById('spin-button').innerText = d.w_btn;
-            document.getElementById('draw-mode').options[0].text = d.opt_r;
-            document.getElementById('draw-mode').options[1].text = d.opt_m;
-
             document.getElementById('lbl-ann-title').innerText = d.ann_t;
             document.getElementById('btn-up-banner').innerText = d.ann_b;
 
@@ -405,6 +439,19 @@
             document.getElementById('lbl-m-cur').innerText = d.m_cur;
             document.getElementById('btn-download').innerText = d.m_dwn;
             document.getElementById('lbl-m-win').innerText = d.m_win;
+
+            // New Elements Translate
+            document.getElementById('lbl-adm-rules').innerText = d.adm_rules;
+            document.getElementById('lbl-adm-rules-sub').innerText = d.adm_rules_sub;
+            document.getElementById('btn-rules').innerText = d.btn_rules;
+            document.getElementById('lbl-msg-title').innerText = d.msg_title;
+            document.getElementById('btn-up-msg').innerText = d.btn_msg;
+            document.getElementById('lbl-view-feedback').innerText = d.view_feed;
+            document.getElementById('lbl-m-rules').innerText = d.m_rules;
+            document.getElementById('lbl-send-feed').innerText = d.send_feed;
+            document.getElementById('btn-submit-feed').innerText = d.btn_feed;
+            document.getElementById('input-important-msg').placeholder = d.msg_placeholder;
+            document.getElementById('member-feedback-input').placeholder = d.feed_placeholder;
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -421,7 +468,7 @@
             document.getElementById('admin-dashboard').classList.add('hidden');
             document.getElementById('member-dashboard').classList.add('hidden');
             if(viewName === 'auth') document.getElementById('auth-screen').classList.remove('hidden');
-            if(viewName === 'admin') { document.getElementById('admin-dashboard').classList.remove('hidden'); renderAdminDashboard(); drawWheel(); }
+            if(viewName === 'admin') { document.getElementById('admin-dashboard').classList.remove('hidden'); renderAdminDashboard(); }
             if(viewName === 'member') { document.getElementById('member-dashboard').classList.remove('hidden'); renderMemberDashboard(); }
         }
 
@@ -448,82 +495,72 @@
 
         function logout() { showView('auth'); }
 
+        /* ADMIN FUNCTIONS */
         function renderAdminDashboard() {
             let paid = 0, pending = 0, coll = 0, pendingAmount = 0;
             const tbody = document.getElementById('admin-members-table');
             tbody.innerHTML = '';
-            const drop = document.getElementById('manual-winner-dropdown');
-            drop.innerHTML = '';
 
             appState.members.forEach(m => {
                 if(m.status === 'Paid') { coll += Number(m.amount); paid++; } else { pendingAmount += Number(m.amount); pending++; }
                 tbody.innerHTML += `<tr><td><b>#${m.id}</b></td><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><span class="badge ${m.status==='Paid'?'badge-paid':'badge-pending'}">${m.status}</span></td><td><button class="btn btn-secondary" style="padding:4px 10px; font-size:11px;" onclick="toggleStatus(${m.id})">${langData[currentLang].change_btn}</button></td><td><a href="https://wa.me/91${m.phone}" target="_blank" style="color:#2ecc71; text-decoration:none;">WhatsApp 💬</a></td></tr>`;
-                drop.innerHTML += `<option value="${m.id}">${m.name} (#${m.id})</option>`;
             });
 
             document.getElementById('stat-total-members').innerText = appState.members.length;
             document.getElementById('stat-total-collection').innerText = '₹' + coll.toLocaleString();
             document.getElementById('stat-paid-members').innerText = paid;
             document.getElementById('stat-pending-members').innerText = pending;
+            
             document.getElementById('input-announcement').value = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
+            document.getElementById('input-important-msg').value = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
+            
+            // Populate Rules Textarea
+            const currentRulesList = currentLang === 'en' ? appState.rules : appState.rules_ml;
+            document.getElementById('input-rules').value = currentRulesList.join('\n');
 
             document.getElementById('rep-income').innerText = '₹' + coll.toLocaleString();
             document.getElementById('rep-pending').innerText = '₹' + pendingAmount.toLocaleString();
             document.getElementById('rep-paid-count').innerText = paid + (currentLang==='en'?" Members":" പേർ");
             document.getElementById('rep-winner').innerText = appState.winner ? appState.winner.name : langData[currentLang].not_drawn;
+
+            renderFeedbacks();
         }
 
         function toggleStatus(id) {
             const m = appState.members.find(x => x.id === id);
             if(m) m.status = m.status === 'Paid' ? 'Pending' : 'Paid';
-            renderAdminDashboard(); drawWheel();
-        }
-
-        function toggleManualWinnerSelect() {
-            const mode = document.getElementById('draw-mode').value;
-            document.getElementById('manual-winner-select-wrapper').classList.toggle('hidden', mode !== 'manual');
+            renderAdminDashboard();
         }
 
         function updateBanners() {
             const txt = document.getElementById('input-announcement').value;
             if(currentLang === 'en') appState.announcement = txt; else appState.announcement_ml = txt;
-            alert("Banner Updated!");
+            alert(currentLang === 'en' ? "Announcement Updated!" : "അറിയിപ്പ് പുതുക്കിയിരിക്കുന്നു!");
         }
 
-        // SPIN WHEEL SYSTEM
-        const wheelColors = ["#b89324", "#2c3e50", "#16a085", "#27ae60", "#2980b9", "#8e44ad"];
-        let startAngle = 0; let targetIndex = -1;
-
-        function drawWheel() {
-            const canvas = document.getElementById("wheel-canvas"); if (!canvas) return;
-            const ctx = canvas.getContext("2d"); ctx.clearRect(0,0,280,280);
-            const numSegments = appState.members.length; if(numSegments === 0) return;
-            const arc = Math.PI / (numSegments / 2);
-            for(let i = 0; i < numSegments; i++) {
-                const angle = startAngle + i * arc; ctx.fillStyle = wheelColors[i % wheelColors.length];
-                ctx.beginPath(); ctx.arc(140, 140, 130, angle, angle + arc, false); ctx.arc(140, 140, 20, angle + arc, angle, true); ctx.fill(); ctx.stroke();
-                ctx.save(); ctx.fillStyle = "white"; ctx.font = "bold 11px sans-serif";
-                ctx.translate(140 + Math.cos(angle + arc / 2) * 95, 140 + Math.sin(angle + arc / 2) * 95);
-                ctx.rotate(angle + arc / 2 + Math.PI / 2); const text = appState.members[i].name.split(" ")[0];
-                ctx.fillText(text, -ctx.measureText(text).width / 2, 0); ctx.restore();
-            }
+        function updateImportantMessage() {
+            const txt = document.getElementById('input-important-msg').value;
+            if(currentLang === 'en') appState.importantMsg = txt; else appState.importantMsg_ml = txt;
+            alert(currentLang === 'en' ? "Important Message Published!" : "പ്രധാന അടിയന്തിര സന്ദേശം പബ്ലിഷ് ചെയ്തു!");
         }
 
-        function startWheelSpin() {
-            const mode = document.getElementById('draw-mode').value;
-            if (mode === 'manual') {
-                const selectedId = document.getElementById('manual-winner-dropdown').value;
-                targetIndex = appState.members.findIndex(m => m.id.toString() === selectedId.toString());
-            } else {
-                targetIndex = Math.floor(Math.random() * appState.members.length);
+        function saveRules() {
+            const text = document.getElementById('input-rules').value;
+            const lines = text.split('\n').filter(line => line.trim() !== "");
+            if(currentLang === 'en') appState.rules = lines; else appState.rules_ml = lines;
+            alert(currentLang === 'en' ? "Chitty Rules Updated!" : "കുറി നിയമങ്ങൾ പുതുക്കി സേവ് ചെയ്തു!");
+        }
+
+        function renderFeedbacks() {
+            const container = document.getElementById('admin-feedback-container');
+            if(appState.feedbacks.length === 0) {
+                container.innerHTML = `<p style="font-size:13px; color:#8fa397; text-align:center;">No feedback received.</p>`;
+                return;
             }
-            document.getElementById('draw-result-box').classList.remove('hidden');
-            document.getElementById('draw-result-box').innerText = currentLang==='en'?"🎲 Spinning...":"🎲 ചക്രം കറങ്ങുന്നു...";
-            setTimeout(() => {
-                appState.winner = appState.members[targetIndex];
-                document.getElementById('draw-result-box').innerHTML = `🎉 Winner: <span style="color:var(--gold);">${appState.winner.name}</span>`;
-                renderAdminDashboard();
-            }, 2000);
+            container.innerHTML = '';
+            appState.feedbacks.forEach(f => {
+                container.innerHTML += `<div class="feedback-item"><strong>${f.name}:</strong> <span>${f.text}</span><small>${f.time}</small></div>`;
+            });
         }
 
         function adminAddMember(e) {
@@ -534,9 +571,10 @@
             const password = document.getElementById('add-password').value;
             const id = appState.members.length > 0 ? appState.members[appState.members.length-1].id + 1 : 1001;
             appState.members.push({id, name, phone, amount, status:"Pending", password});
-            renderAdminDashboard(); drawWheel(); e.target.reset();
+            renderAdminDashboard(); e.target.reset();
         }
 
+        /* MEMBER FUNCTIONS */
         function renderMemberDashboard() {
             const m = appState.loggedInUser;
             document.getElementById('member-display-name').innerText = m.name;
@@ -544,8 +582,47 @@
             document.getElementById('member-panel-amount').innerText = '₹' + Number(m.amount).toLocaleString();
             document.getElementById('member-panel-status').innerText = m.status;
             document.getElementById('member-panel-status').className = `badge ${m.status === 'Paid' ? 'badge-paid' : 'badge-pending'}`;
+            
+            // Announcement
             document.getElementById('member-announcement-text').innerText = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
+            
+            // Important Message Display Control
+            const activeImpMsg = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
+            const impBox = document.getElementById('member-important-msg-box');
+            if(activeImpMsg && activeImpMsg.trim() !== "") {
+                impBox.classList.remove('hidden');
+                document.getElementById('member-important-text').innerText = activeImpMsg;
+            } else {
+                impBox.classList.add('hidden');
+            }
+
+            // Rules Display
+            const rDisplay = document.getElementById('member-rules-display');
+            rDisplay.innerHTML = '';
+            const activeRules = currentLang === 'en' ? appState.rules : appState.rules_ml;
+            if(activeRules.length === 0) {
+                rDisplay.innerHTML = `<li>No rules registered.</li>`;
+            } else {
+                activeRules.forEach(r => { rDisplay.innerHTML += `<li>${r}</li>`; });
+            }
+
             document.getElementById('member-winner-box').innerText = appState.winner ? `🎉 ${appState.winner.name} (#${appState.winner.id})` : langData[currentLang].not_drawn;
+        }
+
+        function submitFeedback() {
+            const input = document.getElementById('member-feedback-input');
+            const txt = input.value.trim();
+            if(txt === "") {
+                alert(currentLang === 'en' ? "Please enter feedback text!" : "ദയവായി അഭിപ്രായം എഴുതിയ ശേഷം സബ്മിറ്റ് ചെയ്യുക!");
+                return;
+            }
+            appState.feedbacks.unshift({
+                name: appState.loggedInUser.name,
+                text: txt,
+                time: currentLang === 'en' ? "Just now" : "ഇപ്പോൾ"
+            });
+            input.value = '';
+            alert(currentLang === 'en' ? "Feedback sent successfully!" : "അഭിപ്രായം വിജയകരമായി അഡ്മിന് അയച്ചു!");
         }
     </script>
 </body>
