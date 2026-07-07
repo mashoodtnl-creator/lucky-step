@@ -1,447 +1,298 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0d8a4d">
-    <title>Mashood കുറി - Lucky Step v15 Pro</title>
-    <style>
-        *{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);min-height:100vh;padding:15px}#splash{position:fixed;top:0;left:0;width:100%;height:100%;background:linear-gradient(135deg,#0d8a4d 0%,#00a884 100%);display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;animation:fadeOut.5s ease 2s forwards}.splash-logo{width:120px;height:120px;border-radius:30px;margin-bottom:20px;animation:bounce 1s ease infinite}.splash-text{color:white;font-size:28px;font-weight:bold}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-15px)}}@keyframes fadeOut{to{opacity:0;visibility:hidden}}.container{background:white;padding:20px;border-radius:20px;box-shadow:0 10px 40px rgba(0,0,0,0.2);max-width:750px;margin:0 auto;animation:slideUp.5s ease 2.2s backwards}@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.lang-switch{display:flex;gap:5px}.lang-btn{padding:6px 12px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;border-radius:6px;font-size:13px;cursor:pointer;width:auto;margin:0}.lang-btn.active{background:#0d8a4d;color:white}.login-header{text-align:center;margin-bottom:25px}.login-logo{width:80px;height:80px;border-radius:20px;margin:0 auto 15px;display:block}h1{color:#0d8a4d;text-align:center;margin-bottom:10px;font-size:26px}.subtitle{text-align:center;color:#666;margin-bottom:25px;font-size:14px}h2{color:#0d8a4d;margin:20px 0 15px;font-size:20px}h3{color:#0d8a4d;margin:15px 0 10px;font-size:18px}input,textarea,select{width:100%;padding:12px;margin:8px 0;border:2px solid #ddd;border-radius:10px;font-size:15px;font-family:inherit}textarea{min-height:100px;resize:vertical}input:focus,textarea:focus,select:focus{outline:none;border-color:#0d8a4d}button{width:100%;padding:14px;background:#0d8a4d;color:white;border:none;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;margin:10px 0;transition:background.3s}button:hover{background:#0a6e3d}button:disabled{background:#ccc;cursor:not-allowed}button.secondary{background:#6c757d}button.danger{background:#dc3545}button.warning{background:#ffc107;color:#000}button.info{background:#17a2b8}button.small{width:auto;padding:8px 14px;font-size:14px;margin:5px}.hidden{display:none!important}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:15px;border-bottom:2px solid #f0f0f0}.header-logo{width:45px;height:45px;border-radius:12px}.user-badge{background:#0d8a4d;color:white;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:bold}.user-badge.guest{background:#6c757d}.nav-menu{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}.nav-btn{padding:10px;background:#f8f9fa;color:#0d8a4d;border:2px solid #0d8a4d;font-size:12px}.nav-btn.active{background:#0d8a4d;color:white}.card,.member,.rule-item,.feedback-item,.report-item{background:#f8f9fa;padding:15px;margin:10px 0;border-radius:10px;border-left:4px solid #0d8a4d}.member-name{font-weight:bold;color:#0d8a4d;font-size:16px;margin-bottom:5px}.whatsapp-btn{background:#25D366;padding:8px 16px;font-size:14px;width:auto;margin-top:8px;display:inline-block}.feedback-item{border-left-color:#ffc107}.feedback-name{font-weight:bold;color:#856404}.feedback-date{font-size:12px;color:#999;margin-top:5px}.letter-box{background:#f8f9fa;padding:20px;border-radius:10px;border:2px solid #0d8a4d;margin:15px 0;white-space:pre-wrap;font-family:'Courier New',monospace;line-height:1.6}.admin-only{display:none}.admin-mode.admin-only{display:block}.footer{text-align:center;margin-top:30px;padding-top:20px;border-top:2px solid #f0f0f0}.footer-img{width:70px;height:70px;border-radius:50%;margin:10px auto;display:block;border:3px solid #0d8a4d}.footer-text{color:#666;font-size:13px;margin-top:8px;font-weight:600}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:15px 0}.stat-box{background:linear-gradient(135deg,#0d8a4d,#00a884);color:white;padding:15px;border-radius:10px;text-align:center}.stat-num{font-size:28px;font-weight:bold}.stat-label{font-size:12px;margin-top:5px}.winner-box{background:gold;padding:20px;border-radius:15px;text-align:center;margin:15px 0;border:3px solid #ff9800;animation:pulse 1s infinite}@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}.paid{color:#0d8a4d;font-weight:bold}.unpaid{color:#dc3545;font-weight:bold}.modal{display:none;position:fixed;z-index:1000;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.5)}.modal-content{background:white;margin:5% auto;padding:20px;border-radius:15px;width:90%;max-width:600px;max-height:85vh;overflow-y:auto}.close{color:#aaa;float:right;font-size:28px;font-weight:bold;cursor:pointer}.close:hover{color:#000}.receipt{border:2px dashed #0d8a4d;padding:20px;margin:10px 0;background:white}@media print{body{background:white}.no-print{display:none}.receipt{border:1px solid #000;page-break-inside:avoid}}table{width:100%;border-collapse:collapse;margin:15px 0;font-size:14px}th,td{padding:10px;text-align:left;border-bottom:1px solid #ddd}th{background:#0d8a4d;color:white}.badge{display:inline-block;padding:4px 8px;border-radius:5px;font-size:12px;font-weight:bold}.badge-success{background:#d4edda;color:#155724}.badge-danger{background:#f8d7da;color:#721c24}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashood കുറി</title>
+
+<link rel="stylesheet" href="style.css">
+
+<meta name="theme-color" content="#0d8a4d">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 </head>
+
 <body>
-    <div id="splash">
-        <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="splash-logo">
-        <div class="splash-text">Welcome to Mashood കുറി</div>
-    </div>
-    <div class="container" id="mainContainer">
-        <div class="top-bar no-print">
-            <div class="lang-switch">
-                <button class="lang-btn active" onclick="setLang('ml')">മലയാളം</button>
-                <button class="lang-btn" onclick="setLang('en')">English</button>
-            </div>
-            <div class="user-badge guest" id="userBadge">👤 Guest</div>
-        </div>
-        <div id="loginPage">
-            <div class="login-header">
-                <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="login-logo">
-                <h1>Mashood കുറി</h1>
-                <p class="subtitle">Lucky Step Chitty Management v15</p>
-            </div>
-            <input type="password" id="password" placeholder="Admin Password അടിക്കുക">
-            <button onclick="adminLogin()">🔐 Admin Login</button>
-            <button class="secondary" onclick="guestLogin()">👤 Guest ആയി കാണുക</button>
-            <p style="text-align:center;color:#999;font-size:12px;margin-top:15px">Admin: admin123 / mashood456</p>
-        </div>
-        <div id="mainPage" class="hidden">
-            <div class="header no-print">
-                <div style="display:flex;align-items:center;gap:10px">
-                    <img src="https://i.ibb.co/b3Lk6pH/whatsapp-logo.png" alt="Logo" class="header-logo">
-                    <h1 style="margin:0;font-size:20px">Mashood കുറി</h1>
-                </div>
-                <button class="danger small" onclick="logout()">Logout</button>
-            </div>
-            <div class="nav-menu no-print">
-                <button class="nav-btn active" onclick="showPage('dashboard')">🏠 Home</button>
-                <button class="nav-btn" onclick="showPage('members')">👥 Members</button>
-                <button class="nav-btn" onclick="showPage('collection')">💰 Collection</button>
-                <button class="nav-btn" onclick="showPage('random')">🎲 Draw</button>
-                <button class="nav-btn" onclick="showPage('report')">📊 Reports</button>
-                <button class="nav-btn" onclick="showPage('rules')">📋 Rules</button>
-                <button class="nav-btn" onclick="showPage('feedback')">💬 Feedback</button>
-                <button class="nav-btn" onclick="showPage('letter')">🚨 Letter</button>
-            </div>
 
-            <div id="dashboardPage">
-                <h2>📊 Dashboard</h2>
-                <div class="stats">
-                    <div class="stat-box"><div class="stat-num" id="totalMembers">0</div><div class="stat-label">Total Members</div></div>
-                    <div class="stat-box"><div class="stat-num" id="totalCollection">₹0</div><div class="stat-label">This Month</div></div>
-                    <div class="stat-box" style="background:#0d8a4d"><div class="stat-num" id="paidMembers">0</div><div class="stat-label">Paid</div></div>
-                    <div class="stat-box" style="background:#dc3545"><div class="stat-num" id="unpaidMembers">0</div><div class="stat-label">Pending</div></div>
-                </div>
-                <h3>📅 Current Month: <span id="currentMonth"></span></h3>
-                <div class="card">
-                    <h3>⚡ Quick Actions</h3>
-                    <button onclick="showPage('collection')" class="info">💰 Add Collection Entry</button>
-                    <button onclick="showPage('random')" class="warning">🎲 Start Lucky Draw</button>
-                    <button onclick="showPage('report')" class="secondary">📊 View Full Report</button>
-                </div>
-            </div>
+<!-- Splash Screen -->
 
-            <div id="membersPage" class="hidden">
-                <h2>👥 Member Management</h2>
-                <div class="admin-only card">
-                    <h3 id="memberFormTitle">Add New Member</h3>
-                    <input type="hidden" id="editMemberId">
-                    <input type="text" id="memberName" placeholder="Member പേര് *">
-                    <input type="text" id="memberPhone" placeholder="WhatsApp നമ്പർ (91...) *">
-                    <input type="number" id="memberAmount" placeholder="മാസ തുക (₹) *" value="1000">
-                    <input type="text" id="memberAddress" placeholder="Address (Optional)">
-                    <button onclick="saveMember()" id="saveMemberBtn">➕ Add Member</button>
-                    <button class="secondary" onclick="cancelEdit()" id="cancelEditBtn" style="display:none">Cancel</button>
-                </div>
-                <input type="text" id="searchMember" placeholder="🔍 Search Member..." onkeyup="searchMembers()">
-                <div id="membersList"></div>
-            </div>
+<div id="splash">
 
-            <div id="collectionPage" class="hidden">
-                <h2>💰 Monthly Collection Entry</h2>
-                <div class="admin-only card">
-                    <select id="collectionMonth" onchange="renderCollection()"></select>
-                    <button onclick="markAllPaid()">✅ Mark All Paid</button>
-                    <button onclick="resetMonth()" class="warning">🔄 Reset This Month</button>
-                </div>
-                <div id="collectionList"></div>
-            </div>
+<div class="splash-content">
 
-            <div id="randomPage" class="hidden">
-                <h2>🎲 Lucky Draw</h2>
-                <div class="card">
-                    <p style="text-align:center;color:#666;margin:15px 0">Click below to select random winner</p>
-                    <button onclick="doRandomDraw()" style="background:#ff9800;font-size:18px">🎯 Start Lucky Draw</button>
-                    <button onclick="doRandomDrawExcludePaid()" class="info">🎯 Draw from Unpaid Only</button>
-                </div>
-                <div id="winnerDisplay"></div>
-                <h3 style="margin-top:20px">📜 Draw History</h3>
-                <button class="danger small" onclick="clearDrawHistory()">Clear History</button>
-                <div id="drawHistory"></div>
-            </div>
+<img src="logo.png" class="logo">
 
-            <div id="reportPage" class="hidden">
-                <h2>📊 Reports</h2>
-                <select id="reportMonth" onchange="renderReport()"></select>
-                <button onclick="exportReport()" class="secondary">📥 Download TXT</button>
-                <button onclick="printReport()" class="warning">🖨️ Print Report</button>
-                <button onclick="exportCSV()" class="info">📊 Export CSV</button>
-                <div id="reportSummary"></div>
-                <div id="reportList"></div>
-            </div>
+<h1>മഷ്ഹൂദ് കുറിയിലേക്ക് സ്വാഗതം</h1>
 
-            <div id="rulesPage" class="hidden">
-                <h2>📋 കുറിയുടെ നിയമങ്ങൾ</h2>
-                <div id="rulesList"></div>
-                <div class="admin-only card">
-                    <input type="text" id="newRule" placeholder="പുതിയ നിയമം എഴുതുക">
-                    <button onclick="addRule()">➕ നിയമം Add ചെയ്യുക</button>
-                </div>
-            </div>
+<p>Lucky Step Chitty Management System</p>
 
-            <div id="feedbackPage" class="hidden">
-                <h2>💬 Customer അഭിപ്രായം</h2>
-                <div class="card">
-                    <input type="text" id="feedbackName" placeholder="നിങ്ങളുടെ പേര്">
-                    <textarea id="feedbackText" placeholder="നിങ്ങളുടെ അഭിപ്രായം എഴുതുക..."></textarea>
-                    <button onclick="addFeedback()">📝 Submit ചെയ്യുക</button>
-                </div>
-                <h3 style="margin-top:20px">📢 എല്ലാ അഭിപ്രായങ്ങളും</h3>
-                <div id="feedbackList"></div>
-            </div>
+<h3>Created By Mashood Thennala</h3>
 
-            <div id="letterPage" class="hidden">
-                <h2>🚨 Emergency Letter</h2>
-                <div class="admin-only card">
-                    <input type="text" id="letterTo" placeholder="ആർക്ക്? (പേര്)">
-                    <input type="text" id="letterSubject" placeholder="വിഷയം">
-                    <textarea id="letterBody" placeholder="കത്തിന്റെ ഉള്ളടക്കം എഴുതുക..."></textarea>
-                    <button onclick="generateLetter()">📄 Letter Generate ചെയ്യുക</button>
-                </div>
-                <div id="letterOutput" class="hidden">
-                    <h3>Generated Letter:</h3>
-                    <div class="letter-box" id="letterContent"></div>
-                    <div class="admin-only no-print">
-                        <button onclick="copyLetter()">📋 Copy ചെയ്യുക</button>
-                        <button class="secondary" onclick="shareLetter()">📱 WhatsApp-ൽ Share</button>
-                        <button class="warning" onclick="window.print()">🖨️ Print</button>
-                    </div>
-                </div>
-            </div>
+</div>
 
-            <div class="footer no-print">
-                <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Mashood" class="footer-img">
-                <div class="footer-text">App Created by Mashood Thennala</div>
-            </div>
-        </div>
-    </div>
+</div>
 
-    <div id="receiptModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <div id="receiptContent"></div>
-            <button onclick="window.print()" class="no-print warning">🖨️ Print Receipt</button>
-        </div>
-    </div>
+<!-- Login -->
 
-    <script>
-        const ADMIN_PASSWORDS=['admin123','mashood456'];
-        let currentLang='ml',isAdmin=false;
-        let members=JSON.parse(localStorage.getItem('members')||'[]');
-        let rules=JSON.parse(localStorage.getItem('rules')||'["1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുമ്പ് പണം അടക്കണം","2. വൈകിയാൽ 100 രൂപ പിഴ","3. കുറി എടുത്താൽ പിന്നെ പിൻമാറാൻ പറ്റില്ല"]');
-        let feedbacks=JSON.parse(localStorage.getItem('feedbacks')||'[]');
-        let draws=JSON.parse(localStorage.getItem('draws')||'[]');
-        let payments=JSON.parse(localStorage.getItem('payments')||'{}');
+<div id="loginPage">
 
-        const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
-        const currentMonthKey=()=>new Date().getFullYear()+'-'+String(new Date().getMonth()+1).padStart(2,'0');
+<div class="login-box">
 
-        if(localStorage.getItem('isAdmin')==='true'){isAdmin=true;showMainPage();}
+<img src="logo.png" class="login-logo">
 
-        function initMonthSelects(){
-            const now=new Date(),year=now.getFullYear();
-            ['collectionMonth','reportMonth'].forEach(id=>{
-                const sel=document.getElementById(id);
-                sel.innerHTML='';
-                for(let i=0;i<12;i++){
-                    const key=year+'-'+String(i+1).padStart(2,'0');
-                    const opt=document.createElement('option');
-                    opt.value=key;
-                    opt.textContent=months[i]+' '+year;
-                    if(key===currentMonthKey()) opt.selected=true;
-                    sel.appendChild(opt);
-                }
-            });
-            document.getElementById('currentMonth').textContent=months[now.getMonth()]+' '+year;
-        }
+<h2>Mashood കുറി</h2>
 
-        function setLang(lang){currentLang=lang;document.querySelectorAll('.lang-btn').forEach(btn=>btn.classList.remove('active'));event.target.classList.add('active');}
-        function adminLogin(){if(ADMIN_PASSWORDS.includes(document.getElementById('password').value)){isAdmin=true;localStorage.setItem('isAdmin','true');showMainPage();}else{alert('Password തെറ്റ്!');}}
-        function guestLogin(){isAdmin=false;localStorage.setItem('isAdmin','false');showMainPage();}
+<input type="text" id="phone" placeholder="ഫോൺ നമ്പർ">
 
-        function showMainPage(){
-            document.getElementById('loginPage').classList.add('hidden');
-            document.getElementById('mainPage').classList.remove('hidden');
-            document.getElementById('userBadge').textContent=isAdmin?'👑 Admin':'👤 Guest';
-            document.getElementById('userBadge').className='user-badge '+(isAdmin?'':'guest');
-            if(isAdmin) document.getElementById('mainContainer').classList.add('admin-mode');
-            initMonthSelects();renderAll();
-        }
+<input type="password" id="password" placeholder="Password">
 
-        function logout(){
-            isAdmin=false;localStorage.setItem('isAdmin','false');
-            document.getElementById('loginPage').classList.remove('hidden');
-            document.getElementById('mainPage').classList.add('hidden');
-            document.getElementById('password').value='';
-            document.getElementById('mainContainer').classList.remove('admin-mode');
-        }
+<button onclick="login()">Login</button>
 
-        function showPage(page){
-            document.querySelectorAll('.nav-btn').forEach(btn=>btn.classList.remove('active'));
-            event.target.classList.add('active');
-            ['dashboard','members','collection','random','report','rules','feedback','letter'].forEach(p=>{
-                document.getElementById(p+'Page').classList.add('hidden');
-            });
-            document.getElementById(page+'Page').classList.remove('hidden');
-            if(page==='collection') renderCollection();
-            if(page==='report') renderReport();
-        }
+<button onclick="guestLogin()" class="guest">
+Guest Login
+</button>
 
-        function renderAll(){renderMembers();renderRules();renderFeedbacks();renderReport();updateStats();renderDrawHistory();}
-        function updateStats(){
-            const month=currentMonthKey();
-            const monthPayments=payments[month]||{};
-            document.getElementById('totalMembers').textContent=members.length;
-            document.getElementById('totalCollection').textContent='₹'+members.reduce((s,m)=>s+(monthPayments[m.id]?m.amount:0),0);
-            document.getElementById('paidMembers').textContent=Object.keys(monthPayments).length;
-            document.getElementById('unpaidMembers').textContent=members.length-Object.keys(monthPayments).length;
-        }
+</div>
 
-        function saveMember(){
-            const id=document.getElementById('editMemberId').value;
-            const name=document.getElementById('memberName').value;
-            const phone=document.getElementById('memberPhone').value;
-            const amount=parseInt(document.getElementById('memberAmount').value)||1000;
-            const address=document.getElementById('memberAddress').value;
-            if(!name||!phone){alert('Name and Phone required');return;}
-            if(id){
-                const m=members.find(x=>x.id==id);
-                Object.assign(m,{name,phone,amount,address});
-            }else{
-                members.push({id:Date.now(),name,phone,amount,address,date:new Date().toLocaleDateString()});
-            }
-            localStorage.setItem('members',JSON.stringify(members));
-            cancelEdit();renderMembers();updateStats();
-        }
+</div>
 
-        function editMember(id){
-            const m=members.find(x=>x.id==id);
-            document.getElementById('editMemberId').value=m.id;
-            document.getElementById('memberName').value=m.name;
-            document.getElementById('memberPhone').value=m.phone;
-            document.getElementById('memberAmount').value=m.amount;
-            document.getElementById('memberAddress').value=m.address||'';
-            document.getElementById('memberFormTitle').textContent='Edit Member';
-            document.getElementById('saveMemberBtn').textContent='💾 Update Member';
-            document.getElementById('cancelEditBtn').style.display='block';
-            window.scrollTo(0,0);
-        }
+<!-- Dashboard -->
 
-        function cancelEdit(){
-            document.getElementById('editMemberId').value='';
-            document.getElementById('memberName').value='';
-            document.getElementById('memberPhone').value='';
-            document.getElementById('memberAmount').value='1000';
-            document.getElementById('memberAddress').value='';
-            document.getElementById('memberFormTitle').textContent='Add New Member';
-            document.getElementById('saveMemberBtn').textContent='➕ Add Member';
-            document.getElementById('cancelEditBtn').style.display='none';
-        }
+<div id="dashboard" style="display:none;">
 
-        function deleteMember(id){
-            if(confirm('Delete this member?')){
-                members=members.filter(x=>x.id!=id);
-                localStorage.setItem('members',JSON.stringify(members));
-                renderMembers();updateStats();
-            }
-        }
+<header>
 
-        function searchMembers(){
-            const q=document.getElementById('searchMember').value.toLowerCase();
-            const filtered=members.filter(m=>m.name.toLowerCase().includes(q)||m.phone.includes(q));
-            document.getElementById('membersList').innerHTML=filtered.map(m=>memberCard(m)).join('')||'<p style="text-align:center;color:#999">No members found</p>';
-        }
+<h2>Mashood കുറി Dashboard</h2>
 
-        function memberCard(m){
-            return `<div class="member">
-                <div class="member-name">${m.name}</div>
-                <div>📱 ${m.phone} | 💰 ₹${m.amount}/month</div>
-                ${m.address?`<div>📍 ${m.address}</div>`:''}
-                <div>📅 Joined: ${m.date}</div>
-                ${isAdmin?`
-                <button class="small warning" onclick="editMember(${m.id})">✏️ Edit</button>
-                <button class="small danger" onclick="deleteMember(${m.id})">🗑️ Delete</button>
-                <button class="small info" onclick="showReceipt(${m.id})">🧾 Receipt</button>
-                `:''}
-                <a href="https://wa.me/${m.phone}" target="_blank" class="whatsapp-btn small">WhatsApp</a>
-            </div>`;
-        }
+<button onclick="logout()">Logout</button>
 
-        function renderMembers(){
-            document.getElementById('membersList').innerHTML=members.map(m=>memberCard(m)).join('')||'<p style="text-align:center;color:#999">No members yet. Add one!</p>';
-        }
+</header>
 
-        function renderCollection(){
-            const month=document.getElementById('collectionMonth').value;
-            const monthPayments=payments[month]||{};
-            document.getElementById('collectionList').innerHTML=members.map(m=>`
-                <div class="card">
-                    <strong>${m.name}</strong> - ₹${m.amount}
-                    <div>Status: <span class="badge ${monthPayments[m.id]?'badge-success':'badge-danger'}">${monthPayments[m.id]?'PAID ✅':'UNPAID ❌'}</span></div>
-                    ${monthPayments[m.id]?`<div style="font-size:12px;color:#666">Paid on: ${new Date(monthPayments[m.id]).toLocaleDateString()}</div>`:''}
-                    ${isAdmin?`<button class="small" onclick="togglePayment('${month}',${m.id})" style="background:${monthPayments[m.id]?'#dc3545':'#0d8a4d'}">${monthPayments[m.id]?'Mark Unpaid':'Mark Paid'}</button>`:''}
-                </div>
-            `).join('')||'<p style="text-align:center;color:#999">No members</p>';
-        }
+<nav>
 
-        function togglePayment(month,id){
-            if(!payments[month]) payments[month]={};
-            if(payments[month][id]) delete payments[month][id];
-            else payments[month][id]=new Date().toISOString();
-            localStorage.setItem('payments',JSON.stringify(payments));
-            renderCollection();updateStats();
-        }
+<button onclick="showPage('home')">🏠 Home</button>
 
-        function markAllPaid(){
-            const month=document.getElementById('collectionMonth').value;
-            if(!confirm('Mark all members as paid for '+month+'?'))return;
-            if(!payments[month]) payments[month]={};
-            members.forEach(m=>payments[month][m.id]=new Date().toISOString());
-            localStorage.setItem('payments',JSON.stringify(payments));
-            renderCollection();updateStats();
-        }
+<button onclick="showPage('members')">👥 Members</button>
 
-        function resetMonth(){
-            const month=document.getElementById('collectionMonth').value;
-            if(confirm('Reset all payments for '+month+'? This cannot be undone!')){
-                delete payments[month];
-                localStorage.setItem('payments',JSON.stringify(payments));
-                renderCollection();updateStats();
-            }
-        }
+<button onclick="showPage('collection')">💰 Collection</button>
 
-        function doRandomDraw(){
-            if(members.length===0){alert('Add members first!');return;}
-            const winner=members[Math.floor(Math.random()*members.length)];
-            saveDraw(winner);
-        }
+<button onclick="showPage('draw')">🎲 Lucky Draw</button>
 
-        function doRandomDrawExcludePaid(){
-            const month=currentMonthKey();
-            const monthPayments=payments[month]||{};
-            const unpaid=members.filter(m=>!monthPayments[m.id]);
-            if(unpaid.length===0){alert('All members have paid!');return;}
-            const winner=unpaid[Math.floor(Math.random()*unpaid.length)];
-            saveDraw(winner);
-        }
+<button onclick="showPage('report')">📊 Report</button>
 
-        function saveDraw(winner){
-            const draw={winner:winner.name,phone:winner.phone,amount:winner.amount,date:new Date().toLocaleString()};
-            draws.unshift(draw);
-            localStorage.setItem('draws',JSON.stringify(draws));
-            document.getElementById('winnerDisplay').innerHTML=`<div class="winner-box"><h2>🎉 Winner 🎉</h2><h1>${winner.name}</h1><p>📱 ${winner.phone}</p><p>💰 ₹${winner.amount}</p></div>`;
-            renderDrawHistory();
-        }
+<button onclick="showPage('feedback')">💬 Feedback</button>
 
-        function renderDrawHistory(){
-            document.getElementById('drawHistory').innerHTML=draws.map(d=>`
-                <div class="report-item">🏆 <strong>${d.winner}</strong> - ${d.phone} - ${d.date}</div>
-            `).join('')||'<p style="text-align:center;color:#999">No draws yet</p>';
-        }
+<button onclick="showPage('chat')">💬 Chat</button>
 
-        function clearDrawHistory(){
-            if(confirm('Clear all draw history?')){
-                draws=[];localStorage.setItem('draws',JSON.stringify(draws));renderDrawHistory();
-            }
-        }
+<button onclick="showPage('settings')">⚙ Settings</button>
 
-        function renderReport(){
-            const month=document.getElementById('reportMonth').value;
-            const monthPayments=payments[month]||{};
-            const paid=members.filter(m=>monthPayments[m.id]);
-            const unpaid=members.filter(m=>!monthPayments[m.id]);
-            const totalCollected=paid.reduce((s,m)=>s+m.amount,0);
-            const totalPending=unpaid.reduce((s,m)=>s+m.amount,0);
-            document.getElementById('reportSummary').innerHTML=`
-                <div class="stats">
-                    <div class="stat-box" style="background:#0d8a4d"><div class="stat-num">${paid.length}</div><div class="stat-label">Paid</div></div>
-                    <div class="stat-box" style="background:#dc3545"><div class="stat-num">${unpaid.length}</div><div class="stat-label">Unpaid</div></div>
-                    <div class="stat-box"><div class="stat-num">₹${totalCollected}</div><div class="stat-label">Collected</div></div>
-                    <div class="stat-box" style="background:#ffc107;color:#000"><div class="stat-num">₹${totalPending}</div><div class="stat-label">Pending</div></div>
-                </div>`;
-            document.getElementById('reportList').innerHTML=`
-                <h3>✅ Paid Members (${paid.length})</h3>
-                <table><tr><th>Name</th><th>Phone</th><th>Amount</th><th>Date</th></tr>
-                ${paid.map(m=>`<tr><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td>${new Date(monthPayments[m.id]).toLocaleDateString()}</td></tr>`).join('')||'<tr><td colspan="4">None</td></tr>'}
-                </table>
-                <h3>❌ Unpaid Members (${unpaid.length})</h3>
-                <table><tr><th>Name</th><th>Phone</th><th>Amount</th><th>Action</th></tr>
-                ${unpaid.map(m=>`<tr><td>${m.name}</td><td>${m.phone}</td><td>₹${m.amount}</td><td><a href="https://wa.me/${m.phone}?text=Hi ${m.name}, your chitty payment of ₹${m.amount} for ${month} is pending. Please pay soon." target="_blank">Send Reminder</a></td></tr>`).join('')||'<tr><td colspan="4">None</td></tr>'}
-                </table>`;
-        }
+</nav>
 
-        function exportReport(){
-            const month=document.getElementById('reportMonth').value;
-            const monthPayments=payments[month]||{};
-            let text=`Mashood കുറി - Monthly Report\nMonth: ${month}\n\nPAID MEMBERS:\n`;
-            members.filter(m=>monthPayments[m.id]).forEach(m=>text+=`${m.name}, ${m.phone}, ₹${m.amount}, ${new Date(monthPayments[m.id]).toLocaleDateString()}\n`);
-            text+=`\nUNPAID MEMBERS:\n`;
-            members.filter(m=>!monthPayments[m.id]).forEach(m=>text+=`${m.name}, ${m.phone}, ₹${m.amount}\n`);
-            const blob=new Blob([text],{type:'text/plain'});
-            const url=URL.createObjectURL(blob);
-            const a=document.createElement('a');
-            a.href=url;a.download=`chitty_report_${month}.txt`;a.click();
-        }
+<!-- HOME -->
 
-        function exportCSV(){
-            const month=document.getElementById('reportMonth').value;
-            const monthPayments=payments[month]||{};
-            let csv='Name,Phone,Amount,Status,PaidDate\n';
-            members.forEach(m=>{
-                csv+=`"${m.name}","${m.phone}",${m.amount},${monthPayments[m.id]?'Paid':'Unpaid'},"${monthPayments[m.id]?new Date(monthPayments[m.id]).toLocaleDateString():''}"\n`;
-            });
-            const blob=new Blob([csv],{type:'text/csv'});
-            const url=URL.createObjectURL(blob);
-            const a=document.createElement('a');
-            a.href=url;a.download=`chitty_report_${month}.csv`;a.click();
-        }
+<section id="home" class="page">
 
-        function printReport(){window.print();}
+<h2>Dashboard</h2>
+
+<div class="card">
+
+<h3>Total Members</h3>
+
+<h1 id="totalMembers">0</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Total Collection</h3>
+
+<h1 id="totalCollection">₹0</h1>
+
+</div><!-- MEMBERS PAGE -->
+
+<section id="members" class="page" style="display:none;">
+
+<h2>👥 Member Management</h2>
+
+<div class="card">
+
+<input type="text" id="memberName" placeholder="Member Name">
+
+<input type="text" id="memberPhone" placeholder="Phone Number">
+
+<input type="number" id="memberAmount" placeholder="Monthly Amount">
+
+<button onclick="addMember()">➕ Add Member</button>
+
+</div>
+
+<div id="memberList"></div>
+
+</section>
+
+<!-- COLLECTION PAGE -->
+
+<section id="collection" class="page" style="display:none;">
+
+<h2>💰 Monthly Collection</h2>
+
+<div id="collectionList"></div>
+
+</section>
+
+<!-- LUCKY DRAW -->
+
+<section id="draw" class="page" style="display:none;">
+
+<h2>🎲 Lucky Draw</h2>
+
+<div class="card">
+
+<button onclick="randomWinner()">
+🎲 Random Winner
+</button>
+
+<button onclick="selectWinner()">
+👑 Admin Select Winner
+</button>
+
+<h1 id="winnerResult">
+No Winner Selected
+</h1>
+
+</div>
+
+</section>
+
+<!-- REPORT PAGE -->
+
+<section id="report" class="page" style="display:none;">
+
+<h2>📊 Reports</h2>
+
+<div class="card">
+
+<p>Total Members :
+<span id="reportMembers">0</span></p>
+
+<p>Total Collection :
+<span id="reportCollection">₹0</span></p>
+
+<p>Pending Amount :
+<span id="reportPending">₹0</span></p>
+
+<button onclick="downloadReport()">
+📄 Download Report
+</button>
+
+</div>
+
+</section>
+<div class="card">
+
+<h3>Winner</h3>
+
+<h1 id="winnerName">---</h1>
+
+</div>
+
+<div class="card">
+
+<h3>Pending Members</h3>
+
+<h1 id="pendingMembers">0</h1>
+
+</div>
+
+</section><!-- FEEDBACK PAGE -->
+
+<section id="feedback" class="page" style="display:none;">
+
+<h2>💬 Feedback</h2>
+
+<div class="card">
+
+<input type="text"
+id="feedbackName"
+placeholder="നിങ്ങളുടെ പേര്">
+
+<textarea
+id="feedbackMessage"
+placeholder="നിങ്ങളുടെ അഭിപ്രായം എഴുതുക"></textarea>
+
+<button onclick="sendFeedback()">
+📨 Submit Feedback
+</button>
+
+</div>
+
+<div id="feedbackList"></div>
+
+</section>
+
+<!-- CHAT PAGE -->
+
+<section id="chat" class="page" style="display:none;">
+
+<h2>💬 Member Chat</h2>
+
+<div id="chatMessages" class="chat-box"></div>
+
+<input type="text"
+id="chatInput"
+placeholder="Message എഴുതുക">
+
+<button onclick="sendMessage()">
+Send
+</button>
+
+</section>
+
+<!-- SETTINGS PAGE -->
+
+<section id="settings" class="page" style="display:none;">
+
+<h2>⚙️ Settings</h2>
+
+<div class="card">
+
+<button onclick="backupData()">
+💾 Backup Data
+</button>
+
+<button onclick="restoreData()">
+📂 Restore Data
+</button>
+
+<button onclick="changePassword()">
+🔐 Change Password
+</button>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+</section>
+
+<footer>
+
+<img src="logo.png"
+class="footer-logo">
+
+<h3>Mashood കുറി</h3>
+
+<p>Created by <b>Mashood Thennala</b></p>
+
+<p>© 2026 All Rights Reserved</p>
+
+</footer>
+
+</div>
+
+<script src="app.js"></script>
+
+</body>
+</html>
