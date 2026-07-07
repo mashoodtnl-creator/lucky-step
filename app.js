@@ -146,7 +146,14 @@ function memberRegister() {
     return;
   }
 
-  db.members.push({ name, phone, password: pass, amount, joinDate: new Date().toISOString() });
+  db.members.push({
+    name,
+    phone,
+    password: pass,
+    amount,
+    active: true,
+    joinDate: new Date().toISOString()
+  });
   saveDB();
   alert('✅ Registration Successful');
   backToLogin();
@@ -228,7 +235,7 @@ function updateStats() {
   }
 }
 
-// ===== MEMBERS CRUD =====
+// ===== MEMBERS CRUD - WITH HIDE/SHOW =====
 function addMemberByAdmin() {
   if(db.members.length >= TOTAL_MONTHS) {
     alert(`❌ Maximum ${TOTAL_MONTHS} members only!`);
@@ -249,7 +256,15 @@ function addMemberByAdmin() {
     return;
   }
 
-  db.members.push({name, phone, password: pass, amount, joinDate: new Date().toISOString()});
+  db.members.push({
+    name,
+    phone,
+    password: pass,
+    amount,
+    active: true,
+    joinDate: new Date().toISOString()
+  });
+
   if(saveDB()) {
     renderAdminMembers();
     updateStats();
@@ -277,18 +292,35 @@ function renderAdminMembers() {
 
   list.innerHTML = filtered.map((m) => {
     const realIndex = db.members.findIndex(mem => mem.phone === m.phone);
+    const isActive = m.active!== false;
     return `
       <div class="member-item">
         <div class="member-item-info">
-          <h4>${m.name}</h4>
+          <h4>${m.name} ${!isActive? '<span style="color:red; font-size:12px;">(Hidden)</span>' : ''}</h4>
           <p>📱 ${m.phone} | 💰 ₹${m.amount}/month</p>
         </div>
         <div class="member-actions">
-          <button class="small danger" onclick="deleteMember(${realIndex})"><i class="ri-delete-bin-line"></i> Delete</button>
+          <button class="small ${isActive? 'secondary' : 'success'}" onclick="toggleMemberStatus(${realIndex})">
+            <i class="ri-${isActive? 'eye-off' : 'eye'}-line"></i> ${isActive? 'Hide' : 'Show'}
+          </button>
+          <button class="small danger" onclick="deleteMember(${realIndex})"><i class="ri-delete-bin-line"></i></button>
         </div>
       </div>
     `;
   }).join('');
+}
+
+function toggleMemberStatus(index) {
+  const member = db.members[index];
+  if(!member) return;
+
+  if(member.active === undefined) member.active = true;
+  member.active =!member.active;
+
+  if(saveDB()) {
+    renderAdminMembers();
+    alert(`${member.name} ${member.active? 'Wheel-ൽ കാണിക്കും ✅' : 'Wheel-ൽ നിന്ന് മറച്ചു ❌'}`);
+  }
 }
 
 function deleteMember(index) {
@@ -390,15 +422,18 @@ function sendWhatsAppReminder() {
   });
 }
 
-// ===== WHEEL & DRAW =====
+// ===== WHEEL & DRAW - ACTIVE MEMBERS ONLY =====
 function doRandomDraw() {
+  // Active + Paid members മാത്രം
   const eligible = db.members.filter(m => {
     const payments = db.payments[currentMonth] || {};
-    return payments[m.phone] >= m.amount;
+    const isPaid = payments[m.phone] >= m.amount;
+    const isActive = m.active!== false;
+    return isPaid && isActive;
   });
 
   if(eligible.length === 0) {
-    alert('❌ Paid Members ഇല്ല! Collection-ൽ പോയി Mark Paid ചെയ്യൂ');
+    alert('❌ Active + Paid Members ഇല്ല! Collection-ൽ Mark Paid ചെയ്യൂ, Members-ൽ Show ചെയ്യൂ');
     return;
   }
 
@@ -411,7 +446,7 @@ function drawWheel(members) {
   const canvas = document.getElementById('wheelCanvas');
   if(!canvas) return;
   const ctx = canvas.getContext('2d');
-  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7','#FF9FF3','#54A0FF'];
+  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7','#FF9FF3','#54A0FF','#5F27CD','#00D2D3','#FF6B9D'];
   const arc = Math.PI * 2 / members.length;
 
   ctx.clearRect(0, 0, 300, 300);
@@ -449,7 +484,9 @@ function spinWheelNow() {
 
   const eligible = db.members.filter(m => {
     const payments = db.payments[currentMonth] || {};
-    return payments[m.phone] >= m.amount;
+    const isPaid = payments[m.phone] >= m.amount;
+    const isActive = m.active!== false;
+    return isPaid && isActive;
   });
 
   const canvas = document.getElementById('wheelCanvas');
@@ -489,7 +526,6 @@ function showWinnerCard(winner) {
     </div>
   `;
 
-  // Winner save ചെയ്യുമ്പോൾ month number add ചെയ്യുക
   const monthNum = db.winners.length + 1;
   db.winners.push({
     name: winner.name,
