@@ -7,31 +7,349 @@
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { min-height: 100vh; background: #f5f5f5; font-family: Arial; }
-   .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-   .card { background: #fff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-   .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-   .btn.primary { background: #4ECDC4; color: white; }
-   .btn.secondary { background: #45B7D1; color: white; }
-   .btn.danger { background: #FF6B6B; color: white; }
-   .btn.small { width: auto; padding: 8px 15px; font-size: 14px; }
-    input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-   .hidden { display: none!important; }
-   .mobile-header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; padding: 0 15px; gap: 15px; z-index: 100; }
-   .mobile-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
-   .sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100vh; background: #fff; box-shadow: 2px 0 10px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; overflow-y: auto; }
-   .sidebar.active { left: 0; }
-   .sidebar-header { padding: 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px; }
-   .sidebar a { display: flex; align-items: center; gap: 15px; padding: 15px 20px; color: #333; text-decoration: none; cursor: pointer; }
-   .sidebar a:hover,.sidebar a.active { background: #4ECDC4; color: white; }
-   .main-content { padding-top: 60px; min-height: calc(100vh - 60px); background: #f5f5f5; }
-   .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
-   .stat-card { background: #fff; padding: 16px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-   .stat-card i { font-size: 36px; color: #4ECDC4; }
-   .member-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #ddd; }
-   .member-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-    @media (max-width: 768px) {.stats-grid { grid-template-columns: 1fr; }.member-item { flex-direction: column; align-items: flex-start; gap: 8px; } }
-   .main-content,.admin-tab, #adminDashboard { min-height: calc(100vh - 60px)!important; height: auto!important; }
+    html, body { 
+      min-height: 100vh; 
+      background: #0a1f1c; 
+      font-family: 'Segoe UI', Arial; 
+      color: #e0f2f1;
+      overflow-x: hidden;
+    }
+    
+    :root {
+      --bg-dark: #0a1f1c;
+      --card-bg: rgba(13, 45, 40, 0.7);
+      --card-border: rgba(78, 205, 196, 0.3);
+      --primary: #4ECDC4;
+      --primary-glow: rgba(78, 205, 196, 0.5);
+      --secondary: #FFD166;
+      --text-light: #e0f2f1;
+      --text-dim: #80cbc4;
+      --danger: #FF6B6B;
+      --success: #6BCF7F;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a1f1c 0%, #0d2d28 50%, #0a1f1c 100%);
+      background-attachment: fixed;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 15px; }
+
+    /* GLASS CARD EFFECT */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--primary), #3ba99c);
+      color: #0a1f1c;
+      box-shadow: 0 4px 20px var(--primary-glow);
+    }
+    .btn.primary:active { transform: scale(0.97); box-shadow: 0 2px 10px var(--primary-glow); }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, var(--secondary), #ffb700);
+      color: #0a1f1c;
+      box-shadow: 0 4px 20px rgba(255, 209, 102, 0.4);
+    }
+
+    .btn.danger { background: linear-gradient(135deg, var(--danger), #ff5252); color: white; }
+    .btn.success { background: linear-gradient(135deg, var(--success), #4caf50); color: white; }
+    .btn.small { width: auto; padding: 8px 16px; font-size: 14px; }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(10, 31, 28, 0.6);
+      color: var(--text-light);
+      backdrop-filter: blur(10px);
+    }
+    input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+
+    .hidden { display: none!important; }
+
+    /* TOP BAR */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      background: rgba(10, 31, 28, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 12px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      z-index: 100;
+    }
+
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      object-fit: cover;
+    }
+
+    .profile-info h3 { color: var(--primary); font-size: 18px; }
+    .profile-info p { color: var(--text-dim); font-size: 12px; }
+
+    .top-bar .btn-group {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+
+    .top-bar .btn {
+      width: auto;
+      padding: 8px 16px;
+      margin: 0;
+    }
+
+    /* STATS GRID */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+
+    .stat-card i {
+      font-size: 32px;
+      color: var(--primary);
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 10px var(--primary-glow));
+    }
+
+    .stat-card h2 {
+      font-size: 32px;
+      color: var(--primary);
+      margin: 5px 0;
+      text-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .stat-card p {
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+
+    /* TABLE */
+    .table-wrapper {
+      overflow-x: auto;
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(10, 31, 28, 0.4);
+    }
+
+    th {
+      background: rgba(78, 205, 196, 0.15);
+      color: var(--primary);
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--card-border);
+    }
+
+    td {
+      padding: 14px;
+      border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+      color: var(--text-light);
+    }
+
+    tr:hover {
+      background: rgba(78, 205, 196, 0.05);
+    }
+
+    .badge {
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .badge.paid {
+      background: rgba(107, 207, 127, 0.2);
+      color: var(--success);
+      border: 1px solid var(--success);
+    }
+
+    .badge.pending {
+      background: rgba(255, 107, 107, 0.2);
+      color: var(--danger);
+      border: 1px solid var(--danger);
+    }
+
+    /* WHEEL */
+    .wheel-container {
+      text-align: center;
+      padding: 30px 0;
+    }
+
+    .wheel-box {
+      width: 280px;
+      height: 280px;
+      margin: 20px auto;
+      position: relative;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(78,205,196,0.1), transparent);
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 40px var(--primary-glow), inset 0 0 40px rgba(78,205,196,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wheel-center {
+      color: var(--primary);
+      font-size: 24px;
+      font-weight: bold;
+      text-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .wheel-pointer {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 15px solid transparent;
+      border-right: 15px solid transparent;
+      border-top: 25px solid var(--secondary);
+      filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
+    }
+
+    /* SECTION TITLE */
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+      color: var(--primary);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: var(--primary);
+      border-radius: 2px;
+      box-shadow: 0 0 10px var(--primary-glow);
+    }
+
+    /* GRID LAYOUT */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 31, 28, 0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-around;
+      padding: 10px 0;
+      z-index: 100;
+    }
+
+    .bottom-nav button {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 5px 15px;
+    }
+
+    .bottom-nav button.active {
+      color: var(--primary);
+    }
+
+    .bottom-nav button i {
+      font-size: 24px;
+    }
+
+    .main-content {
+      padding-bottom: 80px;
+    }
+
+    /* ANNOUNCEMENT */
+    .announcement-box textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    /* SECRET CONTROLLER */
+    .secret-box {
+      border: 2px dashed var(--secondary);
+      background: rgba(255, 209, 102, 0.05);
+    }
   </style>
 </head>
 <body>
@@ -39,7 +357,7 @@
     <!-- Login Page -->
     <div id="loginPage" class="container">
       <div class="card" style="text-align:center; margin-top:80px;">
-        <h2>Mashood Kuri</h2>
+        <h2 style="color:var(--primary); margin-bottom:20px;">Mashood Kuri</h2>
         <button class="btn primary" onclick="adminLogin()">Admin Login</button>
       </div>
     </div>
@@ -47,8 +365,8 @@
     <!-- Admin Login -->
     <div id="adminLoginBox" class="container hidden">
       <div class="card">
-        <button class="btn" style="width:auto; background:transparent; color:#4ECDC4;" onclick="backToLogin()">← Back</button>
-        <h3>Admin Login</h3>
+        <button class="btn" style="width:auto; background:transparent; color:var(--primary);" onclick="backToLogin()">← Back</button>
+        <h3 style="color:var(--primary); margin:15px 0;">Admin Login</h3>
         <input type="password" id="adminPass" placeholder="Password">
         <button class="btn primary" onclick="checkAdmin()">Login</button>
       </div>
@@ -56,75 +374,163 @@
 
     <!-- Admin Page -->
     <div id="adminPage" class="hidden">
-      <div class="mobile-header">
-        <button onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
-        <h3>Mashood Kuri - Admin</h3>
-        <button onclick="logout()" style="margin-left:auto;"><i class="ri-logout-box-line"></i></button>
+      <div class="container main-content">
+        <!-- Top Bar -->
+        <div class="top-bar">
+          <img src="https://ui-avatars.com/api/?name=Mashood&background=4ECDC4&color=0a1f1c" class="profile-pic" alt="Profile">
+          <div class="profile-info">
+            <h3>Mashood Thennala</h3>
+            <p>അഡ്മിനിസ്ട്രേറ്റർ പാനൽ</p>
+          </div>
+          <div class="btn-group">
+            <button class="btn primary small" onclick="toggleLang()">EN / മലയാളം</button>
+            <button class="btn secondary small" onclick="logout()">ലോഗ് ഔട്ട്</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <i class="ri-group-fill"></i>
+            <div>
+              <h2 id="totalMembers">0</h2>
+              <p>ആകെ മെമ്പർമാർ</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="ri-checkbox-circle-fill"></i>
+            <div>
+              <h2 id="paidMembers">0</h2>
+              <p>ആകെ കളക്ഷൻ</p>
+            </div>
+          <div class="stat-card">
+            <i class="ri-time-fill"></i>
+            <div>
+              <h2 id="pendingMembers">0</h2>
+              <p>ഇനി അടച്ചവർ</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="ri-money-rupee-circle-fill"></i>
+            <div>
+              <h2 id="totalCollection">₹0</h2>
+              <p>ബാക്കി നിൽക്കുന്നവർ</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid Layout -->
+        <div class="grid-2">
+          <!-- Left: Table + Wheel -->
+          <div>
+            <!-- Member Table -->
+            <div class="card">
+              <div class="section-title">
+                <i class="ri-file-list-3-line"></i>
+                <span>കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ</span>
+              </div>
+              <div class="table-wrapper">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Name</th>
+                      <th>Mobile</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody id="membersTable"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Lucky Wheel -->
+            <div class="card">
+              <div class="section-title">
+                <i class="ri-wheel-line"></i>
+                <span>ലക്കി വിൽ നടുക്കെടുപ്പ്</span>
+              </div>
+              <div class="secret-box" style="padding:15px; border-radius:12px; margin-bottom:15px;">
+                <p style="color:var(--secondary); font-size:14px; margin-bottom:10px;">
+                  <i class="ri-lock-line"></i> Secret Winner Controller (മറ്റുള്ളവർ അറിയില്ല):
+                </p>
+                <select id="winnerSelect">
+                  <option value="">-- Let it Spin Randomly --</option>
+                </select>
+              </div>
+              <div class="wheel-container">
+                <div class="wheel-box">
+                  <div class="wheel-pointer"></div>
+                  <div class="wheel-center">Mashood Kuri</div>
+                </div>
+                <select id="monthSelect" style="width:200px; margin:10px auto; display:block;"></select>
+                <button class="btn secondary" onclick="spinWheel()">കറക്കി വിജയിയെ സേവ് ചെയ്യുക 🎲</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Announcements -->
+          <div>
+            <!-- Admin Message -->
+            <div class="card">
+              <div class="section-title" style="color:var(--danger);">
+                <i class="ri-megaphone-line"></i>
+                <span>പ്രധാന സന്ദേശം</span>
+              </div>
+              <p style="color:var(--text-dim); font-size:13px; margin-bottom:10px;">നൽകുക</p>
+              <div class="announcement-box">
+                <textarea id="adminMsg" placeholder="സന്ദേശം എഴുതുക..."></textarea>
+                <button class="btn danger" onclick="saveMsg()">സന്ദേശം പബ്ലിഷ് ചെയ്യുക 📢</button>
+              </div>
+            </div>
+
+            <!-- Member Announcement -->
+            <div class="card">
+              <div class="section-title">
+                <i class="ri-notification-3-line"></i>
+                <span>മെമ്പർ അറിയിപ്പുകൾ</span>
+              </div>
+              <textarea id="memberMsg" placeholder="ഈ മാസത്തെ കുറി നടുക്കെടുപ്പ് ഉടൻ അറിയിക്കുന്നതാണ്"></textarea>
+              <button class="btn primary" onclick="updateBanner()">Update Banner 📣</button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <h3>Mashood Kuri</h3>
-          <button onclick="toggleSidebar()" style="margin-left:auto; background:none; border:none; font-size:24px;">×</button>
-        </div>
-        <a class="active" onclick="showTab('dashboard')"><i class="ri-dashboard-line"></i> Dashboard</a>
-        <a onclick="showTab('members')"><i class="ri-group-line"></i> Members</a>
-        <a onclick="showTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
-        <a onclick="showTab('winners')"><i class="ri-trophy-line"></i> Winners</a>
-        <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
-      </div>
-      <div class="main-content">
-        <div id="adminDashboard" class="container">
-          <div class="stats-grid">
-            <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
-            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid This Month</p></div></div>
-            <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending</p></div></div>
-            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>Collection</p></div></div>
-          </div>
-          <div class="card">
-            <h3>Recent Winners</h3>
-            <div id="recentWinners"></div>
-          </div>
-        </div>
-        <div id="adminMembers" class="container hidden">
-          <div class="card">
-            <h3>Add Member</h3>
-            <input type="text" id="newMemName" placeholder="Name">
-            <input type="tel" id="newMemPhone" placeholder="Phone">
-            <input type="password" id="newMemPass" placeholder="Password">
-            <input type="number" id="newMemAmount" placeholder="Amount">
-            <button class="btn primary" onclick="addMember()">Add Member</button>
-          </div>
-          <div class="card">
-            <h3>Members List</h3>
-            <div id="adminMembersList"></div>
-          </div>
-        </div>
-        <div id="adminCollection" class="container hidden">
-          <div class="card">
-            <h3>Collection</h3>
-            <select id="colMonth" onchange="renderCollection()"></select>
-            <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
-            <div id="collectionList"></div>
-          </div>
-        </div>
-        <div id="adminWinners" class="container hidden">
-          <div class="card">
-            <h3>Random Draw</h3>
-            <button class="btn primary" onclick="doDraw()">Pick Winner</button>
-            <div id="winnerDisplay"></div>
-          </div>
-          <div class="card">
-            <h3>All Winners</h3>
-            <button class="btn danger" onclick="clearWinners()">Clear All Winners</button>
-            <div id="allWinnersList"></div>
-          </div>
-        </div>
+
+      <!-- Bottom Nav -->
+      <div class="bottom-nav">
+        <button class="active" onclick="showView('home')">
+          <i class="ri-home-5-line"></i>
+          <span>ഹോം</span>
+        </button>
+        <button onclick="showView('report')">
+          <i class="ri-bar-chart-line"></i>
+          <span>റിപ്പോർട്ട്</span>
+        </button>
+        <button onclick="showView('settings')">
+          <i class="ri-settings-3-line"></i>
+          <span>സെറ്റിംഗ്സ്</span>
+        </button>
       </div>
     </div>
   </div>
 
   <script>
-    let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {admin:{password:'mashood123'},members:[],payments:{},winners:[],excludedWinners:[]};
+    let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
+      admin: { password: 'mashood123' },
+      members: [
+        {id:1001, name:'Ramesh Kumar', phone:'9876543210', amount:10000, paid:true},
+        {id:1002, name:'Suresh P.', phone:'9876543211', amount:10000, paid:true},
+        {id:1003, name:'Prakashan K.', phone:'9876543212', amount:10000, paid:false}
+      ],
+      payments: {},
+      winners: [],
+      excludedWinners: [],
+      messages: { admin:'', member:'ഈ മാസത്തെ കുറി നടുക്കെടുപ്പ് ഉടൻ അറിയിക്കുന്നതാണ്' }
+    };
+
     let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
     let currentMonth = new Date().toISOString().slice(0,7);
 
@@ -133,8 +539,14 @@
     };
 
     function saveDB() { localStorage.setItem('mashoodKuriDB', JSON.stringify(db)); }
-    function adminLogin() { document.getElementById('loginPage').classList.add('hidden'); document.getElementById('adminLoginBox').classList.remove('hidden'); }
-    function backToLogin() { document.querySelectorAll('#adminLoginBox').forEach(el => el.classList.add('hidden')); document.getElementById('loginPage').classList.remove('hidden'); }
+    function adminLogin() { 
+      document.getElementById('loginPage').classList.add('hidden'); 
+      document.getElementById('adminLoginBox').classList.remove('hidden'); 
+    }
+    function backToLogin() { 
+      document.querySelectorAll('#adminLoginBox').forEach(el => el.classList.add('hidden')); 
+      document.getElementById('loginPage').classList.remove('hidden'); 
+    }
     function checkAdmin() {
       if(document.getElementById('adminPass').value === db.admin.password) {
         currentUser = 'admin';
@@ -148,149 +560,106 @@
       document.querySelectorAll('#loginPage, #adminLoginBox').forEach(el => el.classList.add('hidden'));
       document.getElementById('adminPage').classList.remove('hidden');
       updateStats();
-      renderMembers();
+      renderTable();
       loadMonths();
-      renderWinners();
+      loadWinnerSelect();
+      loadMessages();
     }
-
-    function showTab(tab) {
-      document.querySelectorAll('#adminDashboard, #adminMembers, #adminCollection, #adminWinners').forEach(el => el.classList.add('hidden'));
-      document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
-      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-      event.target.closest('a').classList.add('active');
-      if(window.innerWidth < 768) toggleSidebar();
-    }
-
-    function toggleSidebar() { document.getElementById('sidebar').classList.toggle('active'); }
 
     function updateStats() {
-      document.getElementById('totalMembers').textContent = db.members.length;
-      const payments = db.payments[currentMonth] || {};
-      document.getElementById('paidMembers').textContent = Object.keys(payments).length;
-      document.getElementById('pendingMembers').textContent = db.members.length - Object.keys(payments).length;
-      document.getElementById('totalCollection').textContent = '₹' + Object.values(payments).reduce((s,a) => s+a, 0);
-      const recent = db.winners.slice(-5).reverse();
-      document.getElementById('recentWinners').innerHTML = recent.length? recent.map(w=>`<div class="member-item"><div><h4>🏆 ${w.name}</h4><p>📱 ${w.phone} | 💰 ₹${w.amount}</p></div></div>`).join('') : '<p>ഇതുവരെ Winners ഇല്ല</p>';
+      const total = db.members.length;
+      const paid = db.members.filter(m => m.paid).length;
+      const pending = total - paid;
+      const collection = db.members.filter(m => m.paid).reduce((s,m) => s+m.amount, 0);
+      
+      document.getElementById('totalMembers').textContent = total;
+      document.getElementById('paidMembers').textContent = paid;
+      document.getElementById('pendingMembers').textContent = pending;
+      document.getElementById('totalCollection').textContent = '₹' + collection.toLocaleString();
     }
 
-    function addMember() {
-      const name = document.getElementById('newMemName').value.trim();
-      const phone = document.getElementById('newMemPhone').value.trim();
-      const pass = document.getElementById('newMemPass').value;
-      const amount = parseInt(document.getElementById('newMemAmount').value);
-      if(!name ||!phone ||!pass ||!amount) return alert('എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
-      db.members.push({name,phone,password:pass,amount,active:true});
+    function renderTable() {
+      const tbody = document.getElementById('membersTable');
+      tbody.innerHTML = db.members.map(m => `
+        <tr>
+          <td>#${m.id}</td>
+          <td>${m.name}</td>
+          <td>${m.phone}</td>
+          <td>₹${m.amount.toLocaleString()}</td>
+          <td><span class="badge ${m.paid?'paid':'pending'}">${m.paid?'PAID':'PENDING'}</span></td>
+          <td><button class="btn small ${m.paid?'danger':'success'}" onclick="togglePaid(${m.id})">${m.paid?'മാറ്റുക':'മാറ്റുക'}</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function togglePaid(id) {
+      const m = db.members.find(x => x.id === id);
+      m.paid = !m.paid;
       saveDB();
-      renderMembers();
+      renderTable();
       updateStats();
-      document.getElementById('newMemName').value = '';
-      document.getElementById('newMemPhone').value = '';
-      document.getElementById('newMemPass').value = '';
-      document.getElementById('newMemAmount').value = '';
     }
-
-    function renderMembers() {
-      const list = document.getElementById('adminMembersList');
-      list.innerHTML = db.members.length === 0? '<p style="text-align:center;padding:20px;">Members ഇല്ല</p>' : db.members.map((m,i)=>`
-        <div class="member-item">
-          <div><h4>${m.name} ${m.active===false?'<span style="color:red;font-size:12px;">(Hidden)</span>':''}</h4><p>📱 ${m.phone} | 💰 ₹${m.amount}/month</p></div>
-          <div class="member-actions">
-            <button class="btn small ${m.active!==false?'secondary':'success'}" onclick="toggleMember(${i})">${m.active!==false?'Hide':'Show'}</button>
-            <button class="btn small danger" onclick="deleteMember(${i})">Delete</button>
-          </div>
-        </div>`).join('');
-    }
-
-    function toggleMember(i) { db.members[i].active = db.members[i].active === false? true : false; saveDB(); renderMembers(); }
-    function deleteMember(i) { if(confirm('Delete ചെയ്യണോ?')) { db.members.splice(i,1); saveDB(); renderMembers(); updateStats(); } }
 
     function loadMonths() {
-      const months = [];
-      for(let i = 0; i < 25; i++) {
-        const d = new Date();
-        d.setMonth(d.getMonth() - i);
-        months.push(d.toISOString().slice(0,7));
+      const select = document.getElementById('monthSelect');
+      let html = '';
+      for(let i=1; i<=25; i++) {
+        html += `<option value="${i}">Month ${i}</option>`;
       }
-      document.getElementById('colMonth').innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
-      renderCollection();
+      select.innerHTML = html;
     }
 
-    function renderCollection() {
-      const month = document.getElementById('colMonth').value || currentMonth;
-      const payments = db.payments[month] || {};
-      document.getElementById('collectionList').innerHTML = db.members.map(m => {
-        const paid = payments[m.phone] || 0;
-        const isPaid = paid >= m.amount;
-        return `<div class="member-item"><div><h4>${m.name}</h4><p>💰 ₹${paid}/${m.amount} ${isPaid?'✅':'⏳'}</p></div><div>${!isPaid?`<button class="btn small" onclick="markPaid('${m.phone}',${m.amount})">Mark Paid</button>`:'<span style="color:green;">Paid</span>'}</div></div>`;
-      }).join('');
+    function loadWinnerSelect() {
+      const select = document.getElementById('winnerSelect');
+      select.innerHTML = '<option value="">-- Let it Spin Randomly --</option>' + 
+        db.members.map(m => `<option value="${m.id}">${m.name} - ${m.phone}</option>`).join('');
     }
 
-    function markPaid(phone, amount) {
-      const month = document.getElementById('colMonth').value;
-      if(!db.payments[month]) db.payments[month] = {};
-      db.payments[month][phone] = amount;
-      saveDB();
-      renderCollection();
-      updateStats();
-    }
-
-    function markAllPaid() {
-      const month = document.getElementById('colMonth').value;
-      if(!db.payments[month]) db.payments[month] = {};
-      db.members.forEach(m => db.payments[month][m.phone] = m.amount);
-      saveDB();
-      renderCollection();
-      updateStats();
-    }
-
-    function doDraw() {
-      const winnerPhones = db.winners.map(w => w.phone);
-      if(!db.excludedWinners) db.excludedWinners = [];
-      const eligible = db.members.filter(m => {
-        const payments = db.payments[currentMonth] || {};
-        return payments[m.phone] >= m.amount && m.active!==false &&!winnerPhones.includes(m.phone) &&!db.excludedWinners.includes(m.phone);
-      });
-      if(eligible.length === 0) return alert('Eligible Members ഇല്ല!');
-      const winner = eligible[Math.floor(Math.random() * eligible.length)];
-      db.winners.push({name:winner.name,phone:winner.phone,amount:winner.amount,month:currentMonth,monthNum:db.winners.length+1});
-      saveDB();
-      document.getElementById('winnerDisplay').innerHTML = `
-        <div class="card" style="background:linear-gradient(135deg,#FF6B6B,#4ECDC4);color:white;text-align:center;padding:40px;margin-top:20px;">
-          <h2 style="font-size:40px;">🎉 WINNER 🎉</h2>
-          <h1 style="font-size:50px;margin:20px 0;">${winner.name}</h1>
-          <p style="font-size:24px;">📱 ${winner.phone}</p>
-          <p style="font-size:28px;margin-top:20px;font-weight:bold;">💰 ₹${winner.amount}</p>
-        </div>`;
-      updateStats();
-      renderWinners();
-    }
-
-    function renderWinners() {
-      const div = document.getElementById('allWinnersList');
-      if(!db.excludedWinners) db.excludedWinners = [];
-      div.innerHTML = db.winners.length === 0? '<p>ഇതുവരെ Winners ഇല്ല</p>' : db.winners.map((w,i) => {
-        const isExcluded = db.excludedWinners.includes(w.phone);
-        return `<div class="member-item"><div><h4>Month ${i+1}: 🏆 ${w.name} ${isExcluded?'<span style="color:red;font-size:12px;">(Excluded)</span>':''}</h4><p>📱 ${w.phone} | 💰 ₹${w.amount}</p></div><div><button class="btn small ${isExcluded?'success':'secondary'}" onclick="toggleExclude('${w.phone}')">${isExcluded?'Include':'Exclude'}</button></div></div>`;
-      }).join('');
-    }
-
-    function toggleExclude(phone) {
-      if(!db.excludedWinners) db.excludedWinners = [];
-      const idx = db.excludedWinners.indexOf(phone);
-      if(idx === -1) db.excludedWinners.push(phone);
-      else db.excludedWinners.splice(idx, 1);
-      saveDB();
-      renderWinners();
-    }
-
-    function clearWinners() {
-      if(confirm('All Winners Clear ചെയ്യണോ?')) {
-        db.winners = [];
-        db.excludedWinners = [];
-        saveDB();
-        renderWinners();
-        updateStats();
+    function spinWheel() {
+      const winnerId = document.getElementById('winnerSelect').value;
+      const month = document.getElementById('monthSelect').value;
+      let winner;
+      
+      if(winnerId) {
+        winner = db.members.find(m => m.id == winnerId);
+      } else {
+        const eligible = db.members.filter(m => m.paid);
+        winner = eligible[Math.floor(Math.random() * eligible.length)];
       }
+      
+      if(!winner) return alert('No eligible members!');
+      
+      db.winners.push({name:winner.name, phone:winner.phone, amount:winner.amount, month:month});
+      saveDB();
+      alert(`🎉 Winner: ${winner.name}!\nMonth ${month} saved!`);
+      updateStats();
+    }
+
+    function saveMsg() {
+      db.messages.admin = document.getElementById('adminMsg').value;
+      saveDB();
+      alert('സന്ദേശം പബ്ലിഷ് ചെയ്തു!');
+    }
+
+    function updateBanner() {
+      db.messages.member = document.getElementById('memberMsg').value;
+      saveDB();
+      alert('Banner Updated!');
+    }
+
+    function loadMessages() {
+      document.getElementById('adminMsg').value = db.messages.admin || '';
+      document.getElementById('memberMsg').value = db.messages.member || '';
+    }
+
+    function showView(view) {
+      document.querySelectorAll('.bottom-nav button').forEach(b => b.classList.remove('active'));
+      event.target.closest('button').classList.add('active');
+      alert(view + ' - Coming Soon!');
+    }
+
+    function toggleLang() {
+      alert('Language Toggle - Coming Soon!');
     }
   </script>
 </body>
