@@ -117,12 +117,10 @@
 </head>
 <body>
 
-    <!-- GLOBAL LANGUAGE CONTROLLER -->
     <div class="lang-switch-container">
         <button class="lang-btn" onclick="toggleLanguage()">🌐 EN / മലയാളം</button>
     </div>
 
-    <!-- 1. SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-avatar"><img class="user-photo-src" src="photo.jpg" alt="Mashood"></div>
         <div class="splash-h1">MASHOOD KURI</div>
@@ -131,7 +129,6 @@
         <div class="bar-container"><div class="bar-fill"></div></div>
     </div>
 
-    <!-- 2. LOGIN SCREEN -->
     <div id="auth-screen" class="hidden">
         <div class="login-card">
             <div class="login-photo"><img class="user-photo-src" src="photo.jpg" alt="Admin"></div>
@@ -157,7 +154,6 @@
         </div>
     </div>
 
-    <!-- 3. ADMIN PANEL -->
     <div id="admin-dashboard" class="hidden">
         <div class="container">
             <nav>
@@ -177,7 +173,6 @@
 
             <div class="main-layout">
                 <div>
-                    <!-- MEMBERS LIST -->
                     <div class="box-panel">
                         <h4 id="lbl-group-info">📋 Chitty Group Members Info</h4>
                         <div class="table-responsive">
@@ -190,7 +185,6 @@
                         </div>
                     </div>
                     
-                    <!-- REPORT PAGE -->
                     <div class="box-panel" id="report-section-panel">
                         <div class="report-header">
                             <div class="report-header-left">
@@ -209,17 +203,16 @@
                             <div class="report-card-mini"><span id="rp-box-3">Completed Paid Count</span><p id="rep-paid-count">0 Members</p></div>
                             <div class="report-card-mini"><span id="rp-box-4">Current Month Winner</span><p id="rep-winner" style="color: #2ecc71;">Not Drawn</p></div>
                         </div>
+                        <button class="btn btn-secondary" id="btn-draw-winner" style="width:100%; margin-top:10px;" onclick="drawLuckyWinner()">Draw Month's Lucky Winner 🎲</button>
                     </div>
 
-                    <!-- WRITE CHITTY RULES PAGE -->
                     <div class="box-panel">
                         <h4 id="lbl-adm-rules">📝 Write & Edit Chitty Rules</h4>
                         <p style="font-size:12px; color:#8fa397; margin-bottom:10px;" id="lbl-adm-rules-sub">Write each rule on a new line.</p>
-                        <textarea id="input-rules" rows="6" style="margin-bottom:12px;"></textarea>
-                        <button class="btn" id="btn-save-rules" onclick="saveRules()">Save Rules 💾</button>
+                        <textarea id="input-rules" rows="5" style="margin-bottom:12px;"></textarea>
+                        <button class="btn" id="btn-rules" onclick="saveRules()">Save Rules 💾</button>
                     </div>
 
-                    <!-- ADD MEMBER -->
                     <div class="box-panel">
                         <h4 id="lbl-add-member">👤 Add New Member</h4>
                         <form onsubmit="adminAddMember(event)">
@@ -236,9 +229,7 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SIDEBAR -->
                 <div>
-                    <!-- IMPORTANT MESSAGE BANNER SETUP -->
                     <div class="box-panel" style="border-color: var(--danger);">
                         <h4 id="lbl-msg-title" style="color: var(--danger);">🚨 Set Important Message</h4>
                         <textarea id="input-important-msg" rows="2" style="margin-bottom:10px; border-color: rgba(231,76,60,0.3);" placeholder="Type critical message here..."></textarea>
@@ -251,7 +242,6 @@
                         <button class="btn btn-secondary" id="btn-up-banner" style="width:100%;" onclick="updateBanners()">Update Banner 📢</button>
                     </div>
 
-                    <!-- FEEDBACK VIEW PANEL -->
                     <div class="box-panel">
                         <h4 id="lbl-view-feedback">💬 Members Feedback</h4>
                         <div id="admin-feedback-container" style="max-height: 250px; overflow-y: auto;">
@@ -263,7 +253,6 @@
         </div>
     </div>
 
-    <!-- 4. MEMBER HUB -->
     <div id="member-dashboard" class="hidden">
         <div class="container">
             <nav>
@@ -271,10 +260,12 @@
                     <div class="avatar-frame" style="background:var(--gold); display:flex; align-items:center; justify-content:center; color:#000; font-weight:bold; font-size:20px;">👤</div>
                     <div class="profile-text"><h3 id="member-display-name"></h3><p id="member-display-id"></p></div>
                 </div>
-                <button class="btn btn-danger" id="logout-btn-2" onclick="logout()">Logout 🚪</button>
+                <div style="display:flex; gap:10px;">
+                    <a id="member-wa-btn" href="#" target="_blank" class="btn btn-secondary" style="padding: 8px 15px; font-size:13px; background:#2ecc71; color:white; border:none;">Message Admin 💬</a>
+                    <button class="btn btn-danger" id="logout-btn-2" onclick="logout()">Logout 🚪</button>
+                </div>
             </nav>
 
-            <!-- LIVE IMPORTANT MESSAGE DISPLAY -->
             <div id="member-important-msg-box" class="box-panel hidden" style="background: linear-gradient(90deg, #3a1313, #1c0a0a); border-left: 5px solid var(--danger);">
                 <h5 id="lbl-m-imp-title" style="color: var(--danger); margin-bottom:5px; font-weight: bold;">🚨 IMPORTANT MESSAGE</h5>
                 <p id="member-important-text" style="font-size:15px; color:#fcc; font-weight: bold;"></p>
@@ -290,29 +281,27 @@
                     <div class="box-panel">
                         <h4 id="lbl-m-status">💰 Your Payment Status</h4>
                         <p style="font-size: 16px;"><span id="lbl-m-amt">Monthly Installment:</span> <span id="member-panel-amount" style="font-weight:bold; color:var(--gold);"></span></p>
-                        <p style="margin:15px 0 20px 0; font-size:16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
-                        <button class="btn" id="btn-download" style="width:100%;" onclick="alert('PDF System Active')">Download Receipt 📄</button>
+                        <p style="margin:15px 0 20px 0; font-size: 16px;"><span id="lbl-m-cur">Current Status:</span> <span id="member-panel-status" class="badge"></span></p>
+                        <button class="btn" id="btn-download" style="width:100%;" onclick="alert('Receipt Download Initialized...')">Download Receipt 📄</button>
                     </div>
 
-                    <!-- SUBMIT FEEDBACK BOX -->
                     <div class="box-panel">
-                        <h4 id="lbl-send-feed">💬 Send Feedback to Admin</h4>
-                        <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;" placeholder="Type your suggestions or complaints..."></textarea>
+                        <h4 id="lbl-send-feed">💬 Send Feedback / Comment to Admin</h4>
+                        <textarea id="member-feedback-input" rows="3" style="margin-bottom:10px;" placeholder="Type your suggestions, comments or complaints here..."></textarea>
                         <button class="btn btn-secondary" id="btn-submit-feed" style="width: 100%;" onclick="submitFeedback()">Submit Feedback 📤</button>
                     </div>
                 </div>
 
                 <div>
-                    <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center;">
+                    <div class="box-panel" style="background: radial-gradient(circle, #142a1d 0%, #0a1710 100%); text-align: center; padding: 40px 20px;">
                         <h4 id="lbl-m-win">🏆 Lucky Winner of This Month</h4>
-                        <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 30px;">Not Drawn 🎲</div>
+                        <div id="member-winner-box" style="font-size:24px; font-weight:bold; color:var(--gold); margin-top: 25px;">Not Drawn 🎲</div>
                     </div>
 
-                    <!-- READ CHITTY RULES PANEL -->
                     <div class="box-panel">
                         <h4 id="lbl-m-rules">📜 Chitty Rules & Regulations</h4>
                         <ol class="rules-list" id="member-rules-display">
-                            <li>Rules not set by administrator.</li>
+                            <li>Rules loading...</li>
                         </ol>
                     </div>
                 </div>
@@ -323,9 +312,10 @@
     <script>
         let currentLang = 'en'; 
         const YOUR_PHOTO_FILENAME = "photo.jpg"; 
+        const ADMIN_WA_NUMBER = "919876543210"; // ⚠️ നിങ്ങളുടെ ഒറിജിനൽ വാട്സാപ്പ് നമ്പർ ഇവിടെ മാറ്റിയെഴുതുക (91 ചേർക്കണം)
 
         let appState = {
-            currentView: 'auth', currentRole: 'member', loggedInUser: null,
+            currentView: 'auth', currentRole: 'member', loggedInUser: null, winner: null,
             announcement: "The chitty lucky draw will start soon. Stay tuned!",
             announcement_ml: "ഈ മാസത്തെ കുറി നറുക്കെടുപ്പ് ഉടൻ ആരംഭിക്കുന്നതാണ്.",
             importantMsg: "", 
@@ -363,12 +353,10 @@
                 ann_t: "📢 Announcement Banner", ann_b: "Update Banner 📢",
                 m_ann: "📢 Important Announcement", m_stat: "💰 Your Payment Status", m_amt: "Monthly Installment:", m_cur: "Current Status:", m_dwn: "Download Receipt 📄", m_win: "🏆 Lucky Winner of This Month",
                 not_drawn: "Not Drawn 🎲", change_btn: "Change 🔄",
-                
-                // New Keys
                 adm_rules: "📝 Write & Edit Chitty Rules", adm_rules_sub: "Write each rule on a new line.", btn_rules: "Save Rules 💾",
                 msg_title: "🚨 Set Important Message", btn_msg: "Publish Message 🚨", view_feed: "💬 Members Feedback",
-                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback to Admin", btn_feed: "Submit Feedback 📤",
-                msg_placeholder: "Type critical message here...", feed_placeholder: "Type your suggestions..."
+                m_rules: "📜 Chitty Rules & Regulations", send_feed: "💬 Send Feedback / Comment to Admin", btn_feed: "Submit Feedback 📤",
+                msg_placeholder: "Type critical message here...", feed_placeholder: "Type your suggestions or comments..."
             },
             ml: {
                 lg_sub: "കുറി മാനേജ്‌മെന്റ് സിസ്റ്റം", tab_member: "മെമ്പർ ലോഗിൻ", tab_admin: "അഡ്മിൻ ഹബ്",
@@ -382,12 +370,10 @@
                 ann_t: "📢 മെമ്പർ അറിയിപ്പുകൾ", ann_b: "അറിയിപ്പ് പുതുക്കുക 📢",
                 m_ann: "📢 പ്രധാന അറിയിപ്പ്", m_stat: "💰 നിങ്ങളുടെ അടവ് സ്റ്റാറ്റസ്", m_amt: "ഈ മാസത്തെ അടവ് തുക:", m_cur: "നിലവിലെ സ്റ്റാറ്റസ്:", m_dwn: "രസീത് ഡൗൺലോഡ് ചെയ്യുക 📄", m_win: "🏆 ഈ മാസത്തെ കുറി വിജയി",
                 not_drawn: "തീരുമാനിച്ചിട്ടില്ല 🎲", change_btn: "മാറ്റുക 🔄",
-
-                // New Keys
                 adm_rules: "📝 കുറി നിയമങ്ങൾ എഴുതുക", adm_rules_sub: "ഓരോ നിയമങ്ങളും ഓരോ വരിയായി എഴുതുക.", btn_rules: "നിയമങ്ങൾ സേവ് ചെയ്യുക 💾",
                 msg_title: "🚨 പ്രധാന സന്ദേശം നൽകുക (Important Message)", btn_msg: "സന്ദേശം പബ്ലിഷ് ചെയ്യുക 🚨", view_feed: "💬 മെമ്പർമാരുടെ അഭിപ്രായങ്ങൾ",
-                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് അയക്കുക", btn_feed: "ഫീഡ്‌ബാക്ക് സമർപ്പിക്കുക 📤",
-                msg_placeholder: "അടിയന്തിര പ്രാധാന്യമുള്ള സന്ദേശങ്ങൾ ഇവിടെ നൽകാം...", feed_placeholder: "നിങ്ങളുടെ നിർദ്ദേശങ്ങളും പരാതികളും ഇവിടെ എഴുതാം..."
+                m_rules: "📜 കുറി നിയമങ്ങളും നിബന്ധനകളും", send_feed: "💬 അഡ്മിന് ഫീഡ്‌ബാക്ക് / കമന്റ് അയക്കുക", btn_feed: "സമർപ്പിക്കുക 📤",
+                msg_placeholder: "അടിയന്തിര പ്രാധാന്യമുള്ള സന്ദേശങ്ങൾ ഇവിടെ നൽകാം...", feed_placeholder: "നിങ്ങളുടെ നിർദ്ദേശങ്ങളും പരാതികളും കമന്റുകളും ഇവിടെ എഴുതാം..."
             }
         };
 
@@ -440,7 +426,6 @@
             document.getElementById('btn-download').innerText = d.m_dwn;
             document.getElementById('lbl-m-win').innerText = d.m_win;
 
-            // New Elements Translate
             document.getElementById('lbl-adm-rules').innerText = d.adm_rules;
             document.getElementById('lbl-adm-rules-sub').innerText = d.adm_rules_sub;
             document.getElementById('btn-rules').innerText = d.btn_rules;
@@ -452,6 +437,12 @@
             document.getElementById('btn-submit-feed').innerText = d.btn_feed;
             document.getElementById('input-important-msg').placeholder = d.msg_placeholder;
             document.getElementById('member-feedback-input').placeholder = d.feed_placeholder;
+            
+            const drawBtn = document.getElementById('btn-draw-winner');
+            if(drawBtn) drawBtn.innerText = currentLang === 'en' ? "Draw Month's Lucky Winner 🎲" : "ഈ മാസത്തെ നറുക്കെടുപ്പ് നടത്തുക 🎲";
+            
+            const waBtn = document.getElementById('member-wa-btn');
+            if(waBtn) waBtn.innerText = currentLang === 'en' ? "Message Admin 💬" : "അഡ്മിന് മെസ്സേജ് ചെയ്യുക 💬";
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -495,7 +486,7 @@
 
         function logout() { showView('auth'); }
 
-        /* ADMIN FUNCTIONS */
+        /* ADMIN CONTROL FUNCTIONS */
         function renderAdminDashboard() {
             let paid = 0, pending = 0, coll = 0, pendingAmount = 0;
             const tbody = document.getElementById('admin-members-table');
@@ -514,7 +505,6 @@
             document.getElementById('input-announcement').value = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
             document.getElementById('input-important-msg').value = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
             
-            // Populate Rules Textarea
             const currentRulesList = currentLang === 'en' ? appState.rules : appState.rules_ml;
             document.getElementById('input-rules').value = currentRulesList.join('\n');
 
@@ -529,6 +519,14 @@
         function toggleStatus(id) {
             const m = appState.members.find(x => x.id === id);
             if(m) m.status = m.status === 'Paid' ? 'Pending' : 'Paid';
+            renderAdminDashboard();
+        }
+
+        function drawLuckyWinner() {
+            if(appState.members.length === 0) return;
+            const randomIndex = Math.floor(Math.random() * appState.members.length);
+            appState.winner = appState.members[randomIndex];
+            alert((currentLang==='en'?"Lucky Winner Drawn: ":"ഈ മാസത്തെ ഭാഗ്യശാലി: ") + appState.winner.name);
             renderAdminDashboard();
         }
 
@@ -574,7 +572,7 @@
             renderAdminDashboard(); e.target.reset();
         }
 
-        /* MEMBER FUNCTIONS */
+        /* MEMBER PAGE (ONLY VIEW, COMMENT & WHATSAPP) */
         function renderMemberDashboard() {
             const m = appState.loggedInUser;
             document.getElementById('member-display-name').innerText = m.name;
@@ -583,10 +581,14 @@
             document.getElementById('member-panel-status').innerText = m.status;
             document.getElementById('member-panel-status').className = `badge ${m.status === 'Paid' ? 'badge-paid' : 'badge-pending'}`;
             
+            // Set WhatsApp Link Dynamic for current user text
+            const waMsg = encodeURIComponent(`Hello Admin, I am ${m.name} (ID: ${m.id}). Regarding my chitty payment...`);
+            document.getElementById('member-wa-btn').href = `https://wa.me/${ADMIN_WA_NUMBER}?text=${waMsg}`;
+            
             // Announcement
             document.getElementById('member-announcement-text').innerText = currentLang === 'en' ? appState.announcement : appState.announcement_ml;
             
-            // Important Message Display Control
+            // Important message
             const activeImpMsg = currentLang === 'en' ? appState.importantMsg : appState.importantMsg_ml;
             const impBox = document.getElementById('member-important-msg-box');
             if(activeImpMsg && activeImpMsg.trim() !== "") {
@@ -613,7 +615,7 @@
             const input = document.getElementById('member-feedback-input');
             const txt = input.value.trim();
             if(txt === "") {
-                alert(currentLang === 'en' ? "Please enter feedback text!" : "ദയവായി അഭിപ്രായം എഴുതിയ ശേഷം സബ്മിറ്റ് ചെയ്യുക!");
+                alert(currentLang === 'en' ? "Please enter text before submitting!" : "ദയവായി എന്തെങ്കിലും എഴുതിയ ശേഷം സബ്മിറ്റ് ചെയ്യുക!");
                 return;
             }
             appState.feedbacks.unshift({
@@ -622,7 +624,7 @@
                 time: currentLang === 'en' ? "Just now" : "ഇപ്പോൾ"
             });
             input.value = '';
-            alert(currentLang === 'en' ? "Feedback sent successfully!" : "അഭിപ്രായം വിജയകരമായി അഡ്മിന് അയച്ചു!");
+            alert(currentLang === 'en' ? "Comment sent to Admin dashboard!" : "നിങ്ങളുടെ അഭിപ്രായം അഡ്മിൻ പാനലിലേക്ക് അയച്ചിട്ടുണ്ട്!");
         }
     </script>
 </body>
