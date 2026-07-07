@@ -121,6 +121,11 @@ function updateStats() {
       `<p><strong>${w.name}</strong> - ${w.month} - ₹${w.amount}</p>`
     ).join('');
   }
+
+  const select = document.getElementById('manualWinner');
+  if(select) {
+    select.innerHTML = db.members.map(m => `<option value="${m.phone}">${m.name} - ${m.phone}</option>`).join('');
+  }
 }
 
 function addMemberByAdmin() {
@@ -141,6 +146,7 @@ function addMemberByAdmin() {
   document.getElementById('newMemName').value = '';
   document.getElementById('newMemPhone').value = '';
   document.getElementById('newMemPass').value = '';
+  document.getElementById('newMemAmount').value = '';
   alert('✅ Member Added!');
 }
 
@@ -234,22 +240,31 @@ function doRandomDraw() {
   });
 
   if(eligible.length === 0) {
-    alert('❌ Paid Members ഇല്ല!');
+    alert('❌ Paid Members ഇല്ല! ആദ്യം Collection-ൽ പോയി Mark Paid ചെയ്യൂ');
     return;
   }
 
-  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7'];
+  const colors = ['#FF6B6B','#4ECDC4','#45B7D1','#FFA07A','#98D8C8','#F7DC6F','#BB8FCE','#85C1E9','#F8B500','#6C5CE7','#FF9FF3','#54A0FF'];
   const winner = eligible[Math.floor(Math.random() * eligible.length)];
+  const color1 = colors[Math.floor(Math.random()*colors.length)];
+  const color2 = colors[Math.floor(Math.random()*colors.length)];
 
   const display = document.getElementById('winnerDisplay');
   display.innerHTML = `
-    <div class="card" style="background: linear-gradient(135deg, ${colors[Math.floor(Math.random()*colors.length)]}, ${colors[Math.floor(Math.random()*colors.length)]}); color: white; text-align: center; padding: 40px;">
+    <div class="card" style="background: linear-gradient(135deg, ${color1}, ${color2}); color: white; text-align: center; padding: 40px; margin-top: 20px; animation: winnerPop 0.5s;">
       <h2 style="font-size: 40px; margin-bottom: 20px;">🎉 WINNER 🎉</h2>
-      <h1 style="font-size: 50px; margin: 20px 0;">${winner.name}</h1>
+      <h1 style="font-size: 50px; margin: 20px 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">${winner.name}</h1>
       <p style="font-size: 24px;">📱 ${winner.phone}</p>
-      <p style="font-size: 28px; margin-top: 20px;">💰 ₹${winner.amount}</p>
+      <p style="font-size: 28px; margin-top: 20px; font-weight: bold;">💰 ₹${winner.amount}</p>
       <p style="margin-top: 30px; font-size: 18px;">${currentMonth}</p>
     </div>
+    <style>
+      @keyframes winnerPop {
+        0% { transform: scale(0); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
+      }
+    </style>
   `;
 
   db.winners.push({name: winner.name, phone: winner.phone, amount: winner.amount, month: currentMonth});
@@ -268,7 +283,7 @@ function selectManualWinner() {
   alert(`✅ Winner: ${member.name}`);
 }
 
-// Reports + PDF Save
+// Reports + CSV Save
 function renderReport() {
   const month = document.getElementById('reportMonth').value;
   const payments = db.payments[month] || {};
@@ -316,6 +331,7 @@ function exportCSV() {
   a.href = url;
   a.download = `Mashood-Kuri-${month}.csv`;
   a.click();
+  alert('✅ CSV File Download ആയി! Excel-ൽ തുറക്കാം');
 }
 
 // Notice Alert System
@@ -330,7 +346,7 @@ function addNotice() {
   saveDB();
   document.getElementById('noticeTitle').value = '';
   document.getElementById('noticeMsg').value = '';
-  alert('✅ Notice Added!');
+  alert('✅ Notice Added! Login ചെയ്യുമ്പോൾ എല്ലാവർക്കും കാണാം');
 }
 
 function showNoticeAlert() {
@@ -374,11 +390,3 @@ function logout() {
   currentUser = null;
   location.reload();
 }
-
-// Load manual winner options
-setTimeout(() => {
-  const select = document.getElementById('manualWinner');
-  if(select) {
-    select.innerHTML = db.members.map(m => `<option value="${m.phone}">${m.name} - ${m.phone}</option>`).join('');
-  }
-}, 1000);
