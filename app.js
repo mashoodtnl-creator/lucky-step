@@ -100,4 +100,160 @@ function memberLogin() {
   } else {
     alert('തെറ്റായ Login വിവരങ്ങൾ');
   }
+}function showRegister() {
+  document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
+  document.getElementById('registerBox').classList.remove('hidden');
+}
+
+function memberRegister() {
+  const name = document.getElementById('regName').value;
+  const phone = document.getElementById('regPhone').value;
+  const pass = document.getElementById('regPass').value;
+  const amount = document.getElementById('regAmount').value;
+
+  if (!name || !phone || !pass || !amount) {
+    alert('എല്ലാ വിവരങ്ങളും നൽകുക');
+    return;
+  }
+
+  db.members.push({
+    name: name,
+    phone: phone,
+    password: pass,
+    amount: amount
+  });
+
+  saveDB();
+  alert('Registration Successful');
+  backToLogin();
+}
+
+function memberLogin() {
+  const phone = document.getElementById('memberPhone').value;
+  const pass = document.getElementById('memberPass').value;
+
+  const member = db.members.find(
+    m => m.phone === phone && m.password === pass
+  );
+
+  if (member) {
+    currentUser = member;
+
+    document.querySelectorAll('.login-box,#loginPage').forEach(
+      el => el.classList.add('hidden')
+    );
+
+    document.getElementById('memberPage').classList.remove('hidden');
+
+    document.getElementById('memberNameNav').textContent = member.name;
+    document.getElementById('memName').textContent = member.name;
+    document.getElementById('memPhone').textContent = member.phone;
+    document.getElementById('memAmount').textContent = "₹" + member.amount;
+  } else {
+    alert('തെറ്റായ Login വിവരങ്ങൾ');
+  }
+}function showRegister() {
+  document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
+  document.getElementById('registerBox').classList.remove('hidden');
+}
+
+function memberRegister() {
+  const name = document.getElementById('regName').value;
+  const phone = document.getElementById('regPhone').value;
+  const pass = document.getElementById('regPass').value;
+  const amount = document.getElementById('regAmount').value;
+
+  if (!name || !phone || !pass || !amount) {
+    alert('എല്ലാ വിവരങ്ങളും നൽകുക');
+    return;
+  }
+
+  db.members.push({
+    name: name,
+    phone: phone,
+    password: pass,
+    amount: amount
+  });
+
+  saveDB();
+  alert('Registration Successful');
+  backToLogin();
+}
+
+function memberLogin() {
+  const phone = document.getElementById('memberPhone').value;
+  const pass = document.getElementById('memberPass').value;
+
+  const member = db.members.find(
+    m => m.phone === phone && m.password === pass
+  );
+
+  if (member) {
+    currentUser = member;
+
+    document.querySelectorAll('.login-box,#loginPage').forEach(
+      el => el.classList.add('hidden')
+    );
+
+    document.getElementById('memberPage').classList.remove('hidden');
+
+    document.getElementById('memberNameNav').textContent = member.name;
+    document.getElementById('memName').textContent = member.name;
+    document.getElementById('memPhone').textContent = member.phone;
+    document.getElementById('memAmount').textContent = "₹" + member.amount;
+  } else {
+    alert('തെറ്റായ Login വിവരങ്ങൾ');
+  }
+}function showRegister() {
+  document.querySelectorAll('.login-box').forEach(el => el.classList.add('hidden'));
+  document.getElementById('registerBox').classList.remove('hidden');
+}
+
+function memberRegister() {
+  const name = document.getElementById('regName').value;
+  const phone = document.getElementById('regPhone').value;
+  const pass = document.getElementById('regPass').value;
+  const amount = document.getElementById('regAmount').value;
+
+  if (!name || !phone || !pass || !amount) {
+    alert('എല്ലാ വിവരങ്ങളും നൽകുക');
+    return;
+  }
+
+  db.members.push({
+    name: name,
+    phone: phone,
+    password: pass,
+    amount: amount
+  });
+
+  saveDB();
+  alert('Registration Successful');
+  backToLogin();
+}
+
+function memberLogin() {
+  const phone = document.getElementById('memberPhone').value;
+  const pass = document.getElementById('memberPass').value;
+
+  const member = db.members.find(
+    m => m.phone === phone && m.password === pass
+  );
+
+  if (member) {
+    currentUser = member;
+
+    document.querySelectorAll('.login-box,#loginPage').forEach(
+      el => el.classList.add('hidden')
+    );
+
+    document.getElementById('memberPage').classList.remove('hidden');
+
+    document.getElementById('memberNameNav').textContent = member.name;
+    document.getElementById('memName').textContent = member.name;
+    document.getElementById('memPhone').textContent = member.phone;
+    document.getElementById('memAmount').textContent = "₹" + member.amount;
+  } else {
+    alert('തെറ്റായ Login വിവരങ്ങൾ');
+  }
 }
