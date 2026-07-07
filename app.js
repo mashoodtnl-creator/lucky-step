@@ -7,7 +7,7 @@ let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
   notices: [],
   chat: [],
   feedback: [],
-  excludedWinners: [] // ← പുതിയത്: Win ആയിട്ടും wheel-ൽ വരേണ്ടവർ
+  excludedWinners: []
 };
 
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
@@ -18,13 +18,20 @@ const TOTAL_MONTHS = 25;
 
 // ===== INITIALIZE =====
 window.onload = () => {
+  console.log('App Loading...');
+
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js').catch(e => console.log('SW failed:', e));
   }
 
   setTimeout(() => {
-    document.getElementById('splash').style.display = 'none';
-    document.getElementById('mainContainer').style.display = 'block';
+    const splash = document.getElementById('splash');
+    const mainContainer = document.getElementById('mainContainer');
+
+    if(splash) splash.style.display = 'none';
+    if(mainContainer) mainContainer.style.display = 'block';
+
+    console.log('Splash hidden, loading app...');
     initApp();
   }, 3000);
 
@@ -35,10 +42,16 @@ window.onload = () => {
 };
 
 function initApp() {
-  if(currentUser === 'admin') {
-    showAdminPage();
-  } else if(currentUser && currentUser.phone) {
-    memberAutoLogin();
+  console.log('Init app, currentUser:', currentUser);
+  try {
+    if(currentUser === 'admin') {
+      showAdminPage();
+    } else if(currentUser && currentUser.phone) {
+      memberAutoLogin();
+    }
+  } catch(e) {
+    console.error('Init Error:', e);
+    document.getElementById('loginPage').classList.remove('hidden');
   }
 }
 
@@ -174,121 +187,4 @@ function memberAutoLogin() {
   if(statusDiv) {
     statusDiv.innerHTML = paid >= currentUser.amount?
       `<p style="color:green;">✅ ${currentMonth} - Paid ₹${paid}</p>` :
-      `<p style="color:orange;">⏳ ${currentMonth} - Pending ₹${paid}/${currentUser.amount}</p>`;
-  }
-
-  let paidCount = 0;
-  Object.values(db.payments).forEach(monthPayments => {
-    if(monthPayments[currentUser.phone] >= currentUser.amount) paidCount++;
-  });
-  document.getElementById('paidMonths').textContent = paidCount;
-
-  renderMemberWinners();
-  renderMemberChat();
-}
-
-function logout() {
-  currentUser = null;
-  localStorage.removeItem('currentUser');
-  location.reload();
-}
-
-// ===== ADMIN =====
-function showAdminPage() {
-  document.querySelectorAll('.login-box, #loginPage').forEach(el => el.classList.add('hidden'));
-  document.getElementById('adminPage').classList.remove('hidden');
-  updateStats();
-  renderAdminMembers();
-  renderCollection();
-  renderReport();
-  loadMonths();
-  renderRecentWinners();
-  renderAllWinners();
-  renderChat();
-  renderFeedback();
-}
-
-function showAdminTab(tab) {
-  document.querySelectorAll('.admin-tab').forEach(el => el.classList.add('hidden'));
-  const tabId = 'admin' + tab.charAt(0).toUpperCase() + tab.slice(1);
-  document.getElementById(tabId).classList.remove('hidden');
-  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
-  if(event && event.target) event.target.closest('a').classList.add('active');
-  if(window.innerWidth < 768) toggleSidebar();
-}
-
-function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('active');
-}
-
-function updateStats() {
-  const totalMembers = db.members.length;
-  const thisMonthPayments = db.payments[currentMonth] || {};
-  const paidCount = Object.keys(thisMonthPayments).length;
-  const totalCollection = Object.values(thisMonthPayments).reduce((sum, amt) => sum + amt, 0);
-  document.getElementById('totalMembers').textContent = totalMembers;
-  document.getElementById('paidMembers').textContent = paidCount;
-  document.getElementById('pendingMembers').textContent = totalMembers - paidCount;
-  document.getElementById('totalCollection').textContent = '₹' + totalCollection;
-  const select = document.getElementById('manualWinner');
-  if(select) {
-    select.innerHTML = db.members.map(m => `<option value="${m.phone}">${m.name} - ${m.phone}</option>`).join('');
-  }
-}
-
-// ===== MEMBERS CRUD =====
-function addMemberByAdmin() {
-  if(db.members.length >= TOTAL_MONTHS) {
-    alert(`❌ Maximum ${TOTAL_MONTHS} members only!`);
-    return;
-  }
-
-  const name = document.getElementById('newMemName').value.trim();
-  const phone = document.getElementById('newMemPhone').value.trim();
-  const pass = document.getElementById('newMemPass').value;
-  const amount = parseInt(document.getElementById('newMemAmount').value);
-
-  if(!name ||!phone ||!pass ||!amount) {
-    alert('❌ എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
-    return;
-  }
-  if(db.members.some(m => m.phone === phone)) {
-    alert('❌ ഈ Phone Number already ഉണ്ട്!');
-    return;
-  }
-
-  db.members.push({
-    name,
-    phone,
-    password: pass,
-    amount,
-    active: true,
-    joinDate: new Date().toISOString()
-  });
-
-  if(saveDB()) {
-    renderAdminMembers();
-    updateStats();
-    document.getElementById('newMemName').value = '';
-    document.getElementById('newMemPhone').value = '';
-    document.getElementById('newMemPass').value = '';
-    document.getElementById('newMemAmount').value = '';
-    alert(`✅ Member Added! Total: ${db.members.length}/${TOTAL_MONTHS}`);
-  }
-}
-
-function renderAdminMembers() {
-  const search = document.getElementById('searchMember')?.value.toLowerCase() || '';
-  const list = document.getElementById('adminMembersList');
-  if(!list) return;
-
-  const filtered = db.members.filter(m =>
-    m.name.toLowerCase().includes(search) || m.phone.includes(search)
-  );
-
-  if(filtered.length === 0) {
-    list.innerHTML = '<p style="text-align:center; padding:20px;">Members ഇല്ല. Add ചെയ്യൂ!</p>';
-    return;
-  }
-
-  list.innerHTML = filtered.map((m) => {
+      `<p style="color:orange;">⏳ ${currentMonth} - Pending ₹${paid}/${currentUser.amount}</p
