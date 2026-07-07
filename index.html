@@ -8,14 +8,422 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { min-height: 100vh; background: #f5f5f5; font-family: Arial; }
-    .container { max-width: 600px; margin: 0 auto; padding: 15px; }
-    .card { background: #fff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-    .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-    .btn.primary { background: #4ECDC4; color: white; }
-    .btn.secondary { background: #45B7D1; color: white; }
-    .btn.success { background: #6BCF7F; color: white; }
-    .btn.danger { background: #FF6B6B; color: white; }
-    .btn.small { width: auto; padding: 8px 15px; font-size: 14px; }
+   .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+   .card { background: #fff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+   .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+   .btn.primary { background: #4ECDC4; color: white; }
+   .btn.secondary { background: #45B7D1; color: white; }
+   .btn.success { background: #6BCF7F; color: white; }
+   .btn.danger { background: #FF6B6B; color: white; }
+   .btn.small { width: auto; padding: 8px 15px; font-size: 14px; }
     input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
-    .hidden { display: none!important; }
-    .mobile-header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; box-shadow: 0 2px 5px
+   .hidden { display: none!important; }
+   .mobile-header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; align-items: center; padding: 0 15px; gap: 15px; z-index: 100; }
+   .mobile-header button { background: none; border: none; font-size: 24px; cursor: pointer; }
+   .sidebar { position: fixed; left: -280px; top: 0; width: 280px; height: 100vh; background: #fff; box-shadow: 2px 0 10px rgba(0,0,0,0.1); transition: 0.3s; z-index: 1000; overflow-y: auto; }
+   .sidebar.active { left: 0; }
+   .sidebar-header { padding: 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 10px; }
+   .sidebar a { display: flex; align-items: center; gap: 15px; padding: 15px 20px; color: #333; text-decoration: none; cursor: pointer; }
+   .sidebar a:hover,.sidebar a.active { background: #4ECDC4; color: white; }
+   .main-content { padding-top: 60px; min-height: calc(100vh - 60px); background: #f5f5f5; }
+   .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 15px; }
+   .stat-card { background: #fff; padding: 16px; border-radius: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+   .stat-card i { font-size: 36px; color: #4ECDC4; }
+   .member-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; border-bottom: 1px solid #ddd; }
+   .member-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    @media (max-width: 768px) {.stats-grid { grid-template-columns: 1fr; }.member-item { flex-direction: column; align-items: flex-start; gap: 8px; } }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- Login Page -->
+    <div id="loginPage" class="container">
+      <div class="card" style="text-align:center; margin-top:80px;">
+        <h2>Mashood Kuri</h2>
+        <button class="btn primary" onclick="adminLogin()">Admin Login</button>
+        <button class="btn secondary" onclick="showMemberLogin()">Member Login</button>
+      </div>
+    </div>
+
+    <!-- Admin Login -->
+    <div id="adminLoginBox" class="container hidden">
+      <div class="card">
+        <button class="btn" style="width:auto; background:transparent; color:#4ECDC4;" onclick="backToLogin()">← Back</button>
+        <h3>Admin Login</h3>
+        <input type="password" id="adminPass" placeholder="Password">
+        <button class="btn primary" onclick="checkAdmin()">Login</button>
+      </div>
+    </div>
+
+    <!-- Member Login -->
+    <div id="memberLoginBox" class="container hidden">
+      <div class="card">
+        <button class="btn" style="width:auto; background:transparent; color:#4ECDC4;" onclick="backToLogin()">← Back</button>
+        <h3>Member Login</h3>
+        <input type="tel" id="memberPhone" placeholder="Phone Number">
+        <input type="password" id="memberPass" placeholder="Password">
+        <button class="btn primary" onclick="checkMember()">Login</button>
+      </div>
+    </div>
+
+    <!-- Admin Page -->
+    <div id="adminPage" class="hidden">
+      <div class="mobile-header">
+        <button onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
+        <h3>Mashood Kuri - Admin</h3>
+        <button onclick="logout()" style="margin-left:auto;"><i class="ri-logout-box-line"></i></button>
+      </div>
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <h3>Mashood Kuri</h3>
+          <button onclick="toggleSidebar()" style="margin-left:auto; background:none; border:none; font-size:24px;">×</button>
+        </div>
+        <a class="active" onclick="showTab('dashboard')"><i class="ri-dashboard-line"></i> Dashboard</a>
+        <a onclick="showTab('members')"><i class="ri-group-line"></i> Members</a>
+        <a onclick="showTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
+        <a onclick="showTab('winners')"><i class="ri-trophy-line"></i> Winners</a>
+        <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
+      </div>
+      <div class="main-content">
+        <!-- Dashboard -->
+        <div id="adminDashboard" class="container">
+          <div class="stats-grid">
+            <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
+            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid This Month</p></div></div>
+            <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending</p></div></div>
+            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>Collection</p></div></div>
+          </div>
+        </div>
+        <!-- Members -->
+        <div id="adminMembers" class="container hidden">
+          <div class="card">
+            <h3>Add Member</h3>
+            <input type="text" id="newMemName" placeholder="Name">
+            <input type="tel" id="newMemPhone" placeholder="Phone">
+            <input type="password" id="newMemPass" placeholder="Password">
+            <input type="number" id="newMemAmount" placeholder="Amount">
+            <button class="btn primary" onclick="addMember()">Add Member</button>
+          </div>
+          <div class="card">
+            <h3>Members List</h3>
+            <div id="adminMembersList"></div>
+          </div>
+        </div>
+        <!-- Collection -->
+        <div id="adminCollection" class="container hidden">
+          <div class="card">
+            <h3>Collection</h3>
+            <select id="colMonth" onchange="renderCollection()"></select>
+            <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
+            <div id="collectionList"></div>
+          </div>
+        <!-- Winners -->
+        <div id="adminWinners" class="container hidden">
+          <div class="card">
+            <h3>Random Draw</h3>
+            <button class="btn primary" onclick="doDraw()">Pick Winner</button>
+            <div id="winnerDisplay"></div>
+          </div>
+          <div class="card">
+            <h3>All Winners</h3>
+            <button class="btn danger" onclick="clearWinners()">Clear All Winners</button>
+            <div id="allWinnersList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Member Page -->
+    <div id="memberPage" class="hidden">
+      <div class="mobile-header">
+        <h3 id="memberNameNav"></h3>
+        <button onclick="logout()" style="margin-left:auto;"><i class="ri-logout-box-line"></i></button>
+      </div>
+      <div class="main-content">
+        <div class="container">
+          <div class="card">
+            <h3>Profile</h3>
+            <p><strong>Name:</strong> <span id="memName"></span></p>
+            <p><strong>Phone:</strong> <span id="memPhone"></span></p>
+            <p><strong>Monthly Amount:</strong> <span id="memAmount"></span></p>
+            <div id="memPaymentStatus"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DATABASE
+    let db = JSON.parse(localStorage.getItem('mashoodKuriDB')) || {
+      admin: { password: 'mashood123' },
+      members: [],
+      payments: {},
+      winners: [],
+      excludedWinners: []
+    };
+    let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+    let currentMonth = new Date().toISOString().slice(0,7);
+    const TOTAL_MONTHS = 25;
+
+    // START
+    window.onload = function() {
+      if(currentUser === 'admin') {
+        showAdminPage();
+      } else if(currentUser && currentUser.phone) {
+        memberAutoLogin();
+      }
+    };
+
+    function saveDB() {
+      localStorage.setItem('mashoodKuriDB', JSON.stringify(db));
+    }
+
+    // AUTH
+    function adminLogin() {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('adminLoginBox').classList.remove('hidden');
+    }
+
+    function showMemberLogin() {
+      document.getElementById('loginPage').classList.add('hidden');
+      document.getElementById('memberLoginBox').classList.remove('hidden');
+    }
+
+    function backToLogin() {
+      document.querySelectorAll('#adminLoginBox, #memberLoginBox').forEach(el => el.classList.add('hidden'));
+      document.getElementById('loginPage').classList.remove('hidden');
+    }
+
+    function checkAdmin() {
+      if(document.getElementById('adminPass').value === db.admin.password) {
+        currentUser = 'admin';
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        showAdminPage();
+      } else {
+        alert('തെറ്റായ Password!');
+      }
+    }
+
+    function checkMember() {
+      const phone = document.getElementById('memberPhone').value;
+      const pass = document.getElementById('memberPass').value;
+      const member = db.members.find(m => m.phone === phone && m.password === pass);
+      if(member){
+        currentUser = member;
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        memberAutoLogin();
+      } else {
+        alert('തെറ്റായ Login വിവരങ്ങൾ');
+      }
+    }
+
+    function memberAutoLogin() {
+      document.querySelectorAll('#loginPage, #adminLoginBox, #memberLoginBox').forEach(el => el.classList.add('hidden'));
+      document.getElementById('memberPage').classList.remove('hidden');
+      document.getElementById('memberNameNav').textContent = currentUser.name;
+      document.getElementById('memName').textContent = currentUser.name;
+      document.getElementById('memPhone').textContent = currentUser.phone;
+      document.getElementById('memAmount').textContent = "₹" + currentUser.amount;
+      const payments = db.payments[currentMonth] || {};
+      const paid = payments[currentUser.phone] || 0;
+      document.getElementById('memPaymentStatus').innerHTML = paid >= currentUser.amount?
+        `<p style="color:green;">✅ ${currentMonth} - Paid ₹${paid}</p>` :
+        `<p style="color:orange;">⏳ ${currentMonth} - Pending ₹${paid}/${currentUser.amount}</p>`;
+    }
+
+    function logout() {
+      currentUser = null;
+      localStorage.removeItem('currentUser');
+      location.reload();
+    }
+
+    // ADMIN
+    function showAdminPage() {
+      document.querySelectorAll('#loginPage, #adminLoginBox, #memberLoginBox').forEach(el => el.classList.add('hidden'));
+      document.getElementById('adminPage').classList.remove('hidden');
+      updateStats();
+      renderMembers();
+      loadMonths();
+      renderWinners();
+    }
+
+    function showTab(tab) {
+      document.querySelectorAll('#adminDashboard, #adminMembers, #adminCollection, #adminWinners').forEach(el => el.classList.add('hidden'));
+      document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.remove('hidden');
+      document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+      event.target.closest('a').classList.add('active');
+      if(window.innerWidth < 768) toggleSidebar();
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('active');
+    }
+
+    function updateStats() {
+      document.getElementById('totalMembers').textContent = db.members.length;
+      const payments = db.payments[currentMonth] || {};
+      document.getElementById('paidMembers').textContent = Object.keys(payments).length;
+      document.getElementById('pendingMembers').textContent = db.members.length - Object.keys(payments).length;
+      const total = Object.values(payments).reduce((sum, amt) => sum + amt, 0);
+      document.getElementById('totalCollection').textContent = '₹' + total;
+    }
+
+    function addMember() {
+      const name = document.getElementById('newMemName').value.trim();
+      const phone = document.getElementById('newMemPhone').value.trim();
+      const pass = document.getElementById('newMemPass').value;
+      const amount = parseInt(document.getElementById('newMemAmount').value);
+      if(!name ||!phone ||!pass ||!amount) return alert('എല്ലാ Fields-ഉം Fill ചെയ്യൂ!');
+      db.members.push({name,phone,password:pass,amount,active:true});
+      saveDB();
+      renderMembers();
+      updateStats();
+      document.getElementById('newMemName').value = '';
+      document.getElementById('newMemPhone').value = '';
+      document.getElementById('newMemPass').value = '';
+      document.getElementById('newMemAmount').value = '';
+      alert('Member Added!');
+    }
+
+    function renderMembers() {
+      const list = document.getElementById('adminMembersList');
+      if(db.members.length === 0) {
+        list.innerHTML = '<p style="text-align:center; padding:20px;">Members ഇല്ല</p>';
+        return;
+      }
+      list.innerHTML = db.members.map((m, i) => `
+        <div class="member-item">
+          <div>
+            <h4>${m.name} ${m.active===false?'<span style="color:red;font-size:12px;">(Hidden)</span>':''}</h4>
+            <p>📱 ${m.phone} | 💰 ₹${m.amount}/month</p>
+          </div>
+          <div class="member-actions">
+            <button class="btn small ${m.active!==false?'secondary':'success'}" onclick="toggleMember(${i})">${m.active!==false?'Hide':'Show'}</button>
+            <button class="btn small danger" onclick="deleteMember(${i})">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function toggleMember(i) {
+      db.members[i].active = db.members[i].active === false? true : false;
+      saveDB();
+      renderMembers();
+    }
+
+    function deleteMember(i) {
+      if(confirm('Delete ചെയ്യണോ?')) {
+        db.members.splice(i, 1);
+        saveDB();
+        renderMembers();
+        updateStats();
+      }
+    }
+
+    function loadMonths() {
+      const months = [];
+      for(let i = 0; i < TOTAL_MONTHS; i++) {
+        const d = new Date();
+        d.setMonth(d.getMonth() - i);
+        months.push(d.toISOString().slice(0,7));
+      }
+      document.getElementById('colMonth').innerHTML = months.map(m => `<option value="${m}">${m}</option>`).join('');
+      renderCollection();
+    }
+
+    function renderCollection() {
+      const month = document.getElementById('colMonth').value || currentMonth;
+      const payments = db.payments[month] || {};
+      const list = document.getElementById('collectionList');
+      list.innerHTML = db.members.map(m => {
+        const paid = payments[m.phone] || 0;
+        const isPaid = paid >= m.amount;
+        return `
+          <div class="member-item">
+            <div><h4>${m.name}</h4><p>💰 ₹${paid}/${m.amount} ${isPaid?'✅':'⏳'}</p></div>
+            <div>${!isPaid?`<button class="btn small" onclick="markPaid('${m.phone}',${m.amount})">Mark Paid</button>`:'<span style="color:green;">Paid</span>'}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function markPaid(phone, amount) {
+      const month = document.getElementById('colMonth').value;
+      if(!db.payments[month]) db.payments[month] = {};
+      db.payments[month][phone] = amount;
+      saveDB();
+      renderCollection();
+      updateStats();
+    }
+
+    function markAllPaid() {
+      const month = document.getElementById('colMonth').value;
+      if(!db.payments[month]) db.payments[month] = {};
+      db.members.forEach(m => db.payments[month][m.phone] = m.amount);
+      saveDB();
+      renderCollection();
+      updateStats();
+      alert('എല്ലാവരും Paid!');
+    }
+
+    function doDraw() {
+      const winnerPhones = db.winners.map(w => w.phone);
+      if(!db.excludedWinners) db.excludedWinners = [];
+      const eligible = db.members.filter(m => {
+        const payments = db.payments[currentMonth] || {};
+        return payments[m.phone] >= m.amount && m.active!==false &&!winnerPhones.includes(m.phone) &&!db.excludedWinners.includes(m.phone);
+      });
+      if(eligible.length === 0) return alert('Eligible Members ഇല്ല!');
+      const winner = eligible[Math.floor(Math.random() * eligible.length)];
+      db.winners.push({name:winner.name,phone:winner.phone,amount:winner.amount,month:currentMonth,monthNum:db.winners.length+1});
+      saveDB();
+      document.getElementById('winnerDisplay').innerHTML = `
+        <div class="card" style="background:linear-gradient(135deg,#FF6B6B,#4ECDC4);color:white;text-align:center;padding:40px;margin-top:20px;">
+          <h2 style="font-size:40px;">🎉 WINNER 🎉</h2>
+          <h1 style="font-size:50px;margin:20px 0;">${winner.name}</h1>
+          <p style="font-size:24px;">📱 ${winner.phone}</p>
+          <p style="font-size:28px;margin-top:20px;font-weight:bold;">💰 ₹${winner.amount}</p>
+        </div>
+      `;
+      updateStats();
+      renderWinners();
+    }
+
+    function renderWinners() {
+      const div = document.getElementById('allWinnersList');
+      if(!db.excludedWinners) db.excludedWinners = [];
+      div.innerHTML = db.winners.length === 0? '<p>ഇതുവരെ Winners ഇല്ല</p>' : db.winners.map((w,i) => {
+        const isExcluded = db.excludedWinners.includes(w.phone);
+        return `
+          <div class="member-item">
+            <div><h4>Month ${i+1}: 🏆 ${w.name} ${isExcluded?'<span style="color:red;font-size:12px;">(Excluded)</span>':''}</h4>
+            <p>📱 ${w.phone} | 💰 ₹${w.amount}</p></div>
+            <div><button class="btn small ${isExcluded?'success':'secondary'}" onclick="toggleExclude('${w.phone}')">${isExcluded?'Include':'Exclude'}</button></div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleExclude(phone) {
+      if(!db.excludedWinners) db.excludedWinners = [];
+      const idx = db.excludedWinners.indexOf(phone);
+      if(idx === -1) db.excludedWinners.push(phone);
+      else db.excludedWinners.splice(idx, 1);
+      saveDB();
+      renderWinners();
+    }
+
+    function clearWinners() {
+      if(confirm('All Winners Clear ചെയ്യണോ?')) {
+        db.winners = [];
+        db.excludedWinners = [];
+        saveDB();
+        renderWinners();
+        updateStats();
+        alert('Cleared!');
+      }
+    }
+  </script>
+</body>
+</html>
