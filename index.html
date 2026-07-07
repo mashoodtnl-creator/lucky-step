@@ -1,298 +1,227 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mashood കുറി</title>
-
-<link rel="stylesheet" href="style.css">
-
-<meta name="theme-color" content="#0d8a4d">
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0d5a2f">
+    <title>Mashood കുറി - Lucky Step Chitty Management</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
-
 <body>
-
-<!-- Splash Screen -->
-
-<div id="splash">
-
-<div class="splash-content">
-
-<img src="logo.png" class="logo">
-
-<h1>മഷ്ഹൂദ് കുറിയിലേക്ക് സ്വാഗതം</h1>
-
-<p>Lucky Step Chitty Management System</p>
-
-<h3>Created By Mashood Thennala</h3>
-
-</div>
-
-</div>
-
-<!-- Login -->
-
-<div id="loginPage">
-
-<div class="login-box">
-
-<img src="logo.png" class="login-logo">
-
-<h2>Mashood കുറി</h2>
-
-<input type="text" id="phone" placeholder="ഫോൺ നമ്പർ">
-
-<input type="password" id="password" placeholder="Password">
-
-<button onclick="login()">Login</button>
-
-<button onclick="guestLogin()" class="guest">
-Guest Login
-</button>
-
-</div>
-
-</div>
-
-<!-- Dashboard -->
-
-<div id="dashboard" style="display:none;">
-
-<header>
-
-<h2>Mashood കുറി Dashboard</h2>
-
-<button onclick="logout()">Logout</button>
-
-</header>
-
-<nav>
-
-<button onclick="showPage('home')">🏠 Home</button>
-
-<button onclick="showPage('members')">👥 Members</button>
-
-<button onclick="showPage('collection')">💰 Collection</button>
-
-<button onclick="showPage('draw')">🎲 Lucky Draw</button>
-
-<button onclick="showPage('report')">📊 Report</button>
-
-<button onclick="showPage('feedback')">💬 Feedback</button>
-
-<button onclick="showPage('chat')">💬 Chat</button>
-
-<button onclick="showPage('settings')">⚙ Settings</button>
-
-</nav>
-
-<!-- HOME -->
-
-<section id="home" class="page">
-
-<h2>Dashboard</h2>
-
-<div class="card">
-
-<h3>Total Members</h3>
-
-<h1 id="totalMembers">0</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Total Collection</h3>
-
-<h1 id="totalCollection">₹0</h1>
-
-</div><!-- MEMBERS PAGE -->
-
-<section id="members" class="page" style="display:none;">
-
-<h2>👥 Member Management</h2>
-
-<div class="card">
-
-<input type="text" id="memberName" placeholder="Member Name">
-
-<input type="text" id="memberPhone" placeholder="Phone Number">
-
-<input type="number" id="memberAmount" placeholder="Monthly Amount">
-
-<button onclick="addMember()">➕ Add Member</button>
-
-</div>
-
-<div id="memberList"></div>
-
-</section>
-
-<!-- COLLECTION PAGE -->
-
-<section id="collection" class="page" style="display:none;">
-
-<h2>💰 Monthly Collection</h2>
-
-<div id="collectionList"></div>
-
-</section>
-
-<!-- LUCKY DRAW -->
-
-<section id="draw" class="page" style="display:none;">
-
-<h2>🎲 Lucky Draw</h2>
-
-<div class="card">
-
-<button onclick="randomWinner()">
-🎲 Random Winner
-</button>
-
-<button onclick="selectWinner()">
-👑 Admin Select Winner
-</button>
-
-<h1 id="winnerResult">
-No Winner Selected
-</h1>
-
-</div>
-
-</section>
-
-<!-- REPORT PAGE -->
-
-<section id="report" class="page" style="display:none;">
-
-<h2>📊 Reports</h2>
-
-<div class="card">
-
-<p>Total Members :
-<span id="reportMembers">0</span></p>
-
-<p>Total Collection :
-<span id="reportCollection">₹0</span></p>
-
-<p>Pending Amount :
-<span id="reportPending">₹0</span></p>
-
-<button onclick="downloadReport()">
-📄 Download Report
-</button>
-
-</div>
-
-</section>
-<div class="card">
-
-<h3>Winner</h3>
-
-<h1 id="winnerName">---</h1>
-
-</div>
-
-<div class="card">
-
-<h3>Pending Members</h3>
-
-<h1 id="pendingMembers">0</h1>
-
-</div>
-
-</section><!-- FEEDBACK PAGE -->
-
-<section id="feedback" class="page" style="display:none;">
-
-<h2>💬 Feedback</h2>
-
-<div class="card">
-
-<input type="text"
-id="feedbackName"
-placeholder="നിങ്ങളുടെ പേര്">
-
-<textarea
-id="feedbackMessage"
-placeholder="നിങ്ങളുടെ അഭിപ്രായം എഴുതുക"></textarea>
-
-<button onclick="sendFeedback()">
-📨 Submit Feedback
-</button>
-
-</div>
-
-<div id="feedbackList"></div>
-
-</section>
-
-<!-- CHAT PAGE -->
-
-<section id="chat" class="page" style="display:none;">
-
-<h2>💬 Member Chat</h2>
-
-<div id="chatMessages" class="chat-box"></div>
-
-<input type="text"
-id="chatInput"
-placeholder="Message എഴുതുക">
-
-<button onclick="sendMessage()">
-Send
-</button>
-
-</section>
-
-<!-- SETTINGS PAGE -->
-
-<section id="settings" class="page" style="display:none;">
-
-<h2>⚙️ Settings</h2>
-
-<div class="card">
-
-<button onclick="backupData()">
-💾 Backup Data
-</button>
-
-<button onclick="restoreData()">
-📂 Restore Data
-</button>
-
-<button onclick="changePassword()">
-🔐 Change Password
-</button>
-
-<button onclick="logout()">
-🚪 Logout
-</button>
-
-</div>
-
-</section>
-
-<footer>
-
-<img src="logo.png"
-class="footer-logo">
-
-<h3>Mashood കുറി</h3>
-
-<p>Created by <b>Mashood Thennala</b></p>
-
-<p>© 2026 All Rights Reserved</p>
-
-</footer>
-
-</div>
-
-<script src="app.js"></script>
-
+    <div id="splash">
+        <div class="splash-logo">
+            <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Mashood">
+            <div class="logo-text">
+                <h1>MASHOOD കുറി</h1>
+                <p>LUCKY STEP CHITTY MANAGEMENT</p>
+            </div>
+        </div>
+        <h2>സ്വാഗതം</h2>
+        <h3>Mashood കുറിയിലേക്ക്</h3>
+        <p>വിശ്വാസം • സുതാര്യത • സൗഹൃദം</p>
+        <div class="loading-bar"><div class="loading-progress"></div></div>
+        <p class="created-by">Created by <strong>MASHOOD THENNALA</strong></p>
+    </div>
+
+    <div class="container" id="mainContainer">
+        <div id="loginPage">
+            <div class="login-header">
+                <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" alt="Logo" class="login-logo">
+                <h1>MASHOOD കുറി</h1>
+                <p>LUCKY STEP CHITTY MANAGEMENT</p>
+            </div>
+            <div class="login-cards">
+                <div class="login-card" onclick="showLogin('admin')">
+                    <i class="ri-admin-line"></i>
+                    <h3>ADMIN LOGIN</h3>
+                    <p>അഡ്മിൻ ലോഗിൻ</p>
+                </div>
+                <div class="login-card" onclick="showLogin('member')">
+                    <i class="ri-user-line"></i>
+                    <h3>MEMBER LOGIN</h3>
+                    <p>മെമ്പർ ലോഗിൻ</p>
+                </div>
+            </div>
+            <p class="footer-text">Created by <strong>MASHOOD THENNALA</strong></p>
+        </div>
+
+        <div id="adminLoginBox" class="hidden login-box">
+            <h2><i class="ri-shield-keyhole-line"></i> Admin Login</h2>
+            <input type="password" id="adminPass" placeholder="Admin Password">
+            <button onclick="adminLogin()">Login</button>
+            <button class="secondary" onclick="backToLogin()">Back</button>
+        </div>
+
+        <div id="memberLoginBox" class="hidden login-box">
+            <h2><i class="ri-user-line"></i> Member Login</h2>
+            <input type="text" id="memberPhone" placeholder="Phone Number">
+            <input type="password" id="memberPass" placeholder="Password">
+            <button onclick="memberLogin()">Login</button>
+            <button class="secondary" onclick="showRegister()">New Member? Register</button>
+            <button class="secondary" onclick="backToLogin()">Back</button>
+        </div>
+
+        <div id="registerBox" class="hidden login-box">
+            <h2><i class="ri-user-add-line"></i> Member Register</h2>
+            <input type="text" id="regName" placeholder="Full Name *">
+            <input type="text" id="regPhone" placeholder="Phone Number *">
+            <input type="password" id="regPass" placeholder="Create Password *">
+            <input type="number" id="regAmount" placeholder="Monthly Amount *" value="1000">
+            <button onclick="memberRegister()">Register</button>
+            <button class="secondary" onclick="backToLogin()">Back to Login</button>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <div id="adminPage" class="hidden">
+            <div class="top-nav">
+                <div class="nav-left"><i class="ri-menu-line" onclick="toggleSidebar()"></i><h3>MASHOOD കുറി</h3></div>
+                <div class="nav-right">
+                    <i class="ri-notification-line"></i>
+                    <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" class="nav-avatar">
+                </div>
+            <div class="sidebar" id="sidebar">
+                <a onclick="showAdminTab('home')" class="active"><i class="ri-home-line"></i> Home</a>
+                <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
+                <a onclick="showAdminTab('collection')"><i class="ri-wallet-3-line"></i> Collection</a>
+                <a onclick="showAdminTab('draw')"><i class="ri-trophy-line"></i> Draw</a>
+                <a onclick="showAdminTab('reports')"><i class="ri-bar-chart-line"></i> Reports</a>
+                <a onclick="showAdminTab('chat')"><i class="ri-chat-3-line"></i> Chat</a>
+                <a onclick="showAdminTab('feedback')"><i class="ri-star-line"></i> Feedback</a>
+                <a onclick="showAdminTab('rules')"><i class="ri-file-list-line"></i> Rules</a>
+                <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
+            </div>
+            
+            <div id="adminHome" class="admin-tab">
+                <div class="stats-grid">
+                    <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
+                    <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>This Month Collection</p></div></div>
+                    <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid Members</p></div></div>
+                    <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending Members</p></div></div>
+                </div>
+                <div class="quick-actions">
+                    <button onclick="showAdminTab('members')"><i class="ri-user-add-line"></i> Add Member</button>
+                    <button onclick="showAdminTab('collection')"><i class="ri-add-circle-line"></i> Add Collection</button>
+                    <button onclick="showAdminTab('draw')"><i class="ri-trophy-line"></i> Start Draw</button>
+                    <button onclick="showAdminTab('reports')"><i class="ri-file-chart-line"></i> View Report</button>
+                </div>
+                <div class="card">
+                    <h3><i class="ri-trophy-line"></i> Recent Winners</h3>
+                    <div id="recentWinners"></div>
+                </div>
+            </div>
+
+            <div id="adminMembers" class="admin-tab hidden">
+                <h2><i class="ri-group-line"></i> Members Management</h2>
+                <div class="card">
+                    <h3>Add New Member</h3>
+                    <input type="text" id="newMemName" placeholder="Name *">
+                    <input type="text" id="newMemPhone" placeholder="Phone *">
+                    <input type="password" id="newMemPass" placeholder="Password *">
+                    <input type="number" id="newMemAmount" placeholder="Monthly Amount *" value="1000">
+                    <button onclick="addMemberByAdmin()">Add Member</button>
+                </div>
+                <input type="text" id="searchMember" placeholder="🔍 Search Member..." onkeyup="renderAdminMembers()">
+                <div id="adminMembersList"></div>
+            </div>
+
+            <div id="adminCollection" class="admin-tab hidden">
+                <h2><i class="ri-wallet-3-line"></i> Monthly Collection</h2>
+                <div class="card">
+                    <select id="colMonth" onchange="renderCollection()"></select>
+                    <button onclick="markAllPaid()">✅ Mark All Paid</button>
+                    <button onclick="sendWhatsAppReminders()" class="warning"><i class="ri-whatsapp-line"></i> Send Reminders</button>
+                </div>
+                <div id="collectionList"></div>
+            </div>
+
+            <div id="adminDraw" class="admin-tab hidden">
+                <h2><i class="ri-trophy-line"></i> Lucky Draw</h2>
+                <div class="card">
+                    <button onclick="doRandomDraw()" style="background:#ff9800"><i class="ri-shuffle-line"></i> Random Draw</button>
+                    <h3>Manual Winner Select</h3>
+                    <select id="manualWinner"></select>
+                    <button onclick="selectManualWinner()" class="info">Select Winner</button>
+                </div>
+                <div id="winnerDisplay"></div>
+                <h3>Draw History</h3>
+                <div id="drawHistory"></div>
+            </div>
+
+            <div id="adminReports" class="admin-tab hidden">
+                <h2><i class="ri-bar-chart-line"></i> Reports</h2>
+                <select id="reportMonth" onchange="renderReport()"></select>
+                <button onclick="exportCSV()" class="secondary"><i class="ri-file-excel-line"></i> Export CSV</button>
+                <button onclick="exportPDF()" class="warning"><i class="ri-file-pdf-line"></i> Export PDF</button>
+                <div id="reportSummary"></div>
+                <div id="reportTable"></div>
+            </div>
+
+            <div id="adminChat" class="admin-tab hidden">
+                <h2><i class="ri-chat-3-line"></i> Chat</h2>
+                <select id="chatMember" onchange="loadChat()"></select>
+                <div class="chat-box" id="chatBox"></div>
+                <div class="chat-input">
+                    <input type="text" id="chatMsg" placeholder="Type message...">
+                    <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
+                </div>
+            </div>
+
+            <div id="adminFeedback" class="admin-tab hidden">
+                <h2><i class="ri-star-line"></i> Feedback</h2>
+                <div id="feedbackList"></div>
+            </div>
+
+            <div id="adminRules" class="admin-tab hidden">
+                <h2><i class="ri-file-list-line"></i> Rules</h2>
+                <div id="rulesList"></div>
+                <div class="card">
+                    <input type="text" id="newRule" placeholder="Add new rule">
+                    <button onclick="addRule()">Add Rule</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Dashboard -->
+        <div id="memberPage" class="hidden">
+            <div class="top-nav">
+                <div class="nav-left"><h3>MASHOOD കുറി</h3></div>
+                <div class="nav-right">
+                    <span id="memberNameNav"></span>
+                    <button class="small danger" onclick="logout()">Logout</button>
+                </div>
+            </div>
+            <div class="member-dashboard">
+                <div class="card member-info">
+                    <img src="https://i.ibb.co/XkY8y8Y/mashood.jpg" class="member-avatar">
+                    <h2 id="memName"></h2>
+                    <p id="memPhone"></p>
+                    <p>Monthly Amount: <strong id="memAmount"></strong></p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="memPaidCount">0</h2><p>Paid Months</p></div></div>
+                    <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="memDueCount">0</h2><p>Pending</p></div></div>
+                </div>
+                <div class="card">
+                    <h3><i class="ri-calendar-check-line"></i> Payment Status</h3>
+                    <div id="memPaymentStatus"></div>
+                </div>
+                <div class="card">
+                    <h3><i class="ri-chat-3-line"></i> Chat with Admin</h3>
+                    <div class="chat-box" id="memChatBox"></div>
+                    <div class="chat-input">
+                        <input type="text" id="memChatMsg" placeholder="Type message...">
+                        <button onclick="sendMemberChat()"><i class="ri-send-plane-fill"></i></button>
+                    </div>
+                <div class="card">
+                    <h3><i class="ri-star-line"></i> Send Feedback</h3>
+                    <textarea id="memFeedback" placeholder="Your feedback..."></textarea>
+                    <button onclick="submitMemberFeedback()">Submit Feedback</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
