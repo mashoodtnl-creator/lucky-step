@@ -23,7 +23,7 @@
     }
 
     body { background: linear-gradient(135deg, #0a1f1c 0%, #0d2d28 50%, #0a1f1c 100%); background-attachment: fixed; }
-    .container { max-width: 1400px; margin: 0 auto; padding: 15px; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 15px; min-height: 100vh; }
 
     .card {
       background: var(--card-bg); backdrop-filter: blur(20px); border: 1px solid var(--card-border);
@@ -33,7 +33,7 @@
 
     .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
     .btn.primary { background: linear-gradient(135deg, var(--primary), #3ba99c); color: #0a1f1c; box-shadow: 0 4px 20px var(--primary-glow); }
-    .btn.secondary { background: linear-gradient(135deg, var(--secondary), #ffb700); color: #0a1f1c; box-shadow: 0 4px 20px rgba(255, 209, 102, 0.4); }
+    .btn.secondary { background: linear-gradient(135deg, var(--secondary), #ffb700); color: #0a1f1c; }
     .btn.danger { background: linear-gradient(135deg, var(--danger), #ff5252); color: white; }
     .btn.success { background: linear-gradient(135deg, var(--success), #4caf50); color: white; }
     .btn.small { width: auto; padding: 8px 16px; font-size: 14px; }
@@ -51,7 +51,7 @@
       border: 1px solid var(--card-border); border-radius: 16px; padding: 12px 20px;
       margin-bottom: 20px; display: flex; align-items: center; gap: 15px; z-index: 100;
     }
-    .profile-pic { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); object-fit: cover; background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0a1f1c; }
+    .profile-pic { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary); background: var(--primary); display: flex; align-items: center; justify-content: center; font-weight: bold; color: #0a1f1c; }
     .profile-info h3 { color: var(--primary); font-size: 18px; }
     .profile-info p { color: var(--text-dim); font-size: 12px; }
     .top-bar .btn-group { margin-left: auto; display: flex; gap: 10px; }
@@ -78,22 +78,7 @@
 
     .badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
     .badge.paid { background: rgba(107, 207, 127, 0.2); color: var(--success); border: 1px solid var(--success); }
-    .badge.pending { background: rgba(255, 107, 0.2); color: var(--danger); border: 1px solid var(--danger); }
-
-    .wheel-container { text-align: center; padding: 30px 0; }
-    .wheel-box {
-      width: 280px; height: 280px; margin: 20px auto; position: relative; border-radius: 50%;
-      background: radial-gradient(circle, rgba(78,205,196,0.1), transparent);
-      border: 3px solid var(--primary);
-      box-shadow: 0 0 40px var(--primary-glow), inset 0 0 40px rgba(78,205,196,0.1);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .wheel-center { color: var(--primary); font-size: 24px; font-weight: bold; text-shadow: 0 0 20px var(--primary-glow); }
-    .wheel-pointer {
-      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-      width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
-      border-top: 25px solid var(--secondary); filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
-    }
+    .badge.pending { background: rgba(255, 107, 107, 0.2); color: var(--danger); border: 1px solid var(--danger); }
 
     .section-title {
       display: flex; align-items: center; gap: 10px; margin-bottom: 15px;
@@ -120,125 +105,38 @@
     .secret-box { border: 2px dashed var(--secondary); background: rgba(255, 209, 102, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 15px; }
     .announcement-box textarea { min-height: 80px; resize: vertical; }
 
-    .bottom-nav {
-      position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 31, 28, 0.95);
-      backdrop-filter: blur(20px); border-top: 1px solid var(--card-border);
-      display: flex; justify-content: space-around; padding: 10px 0; z-index: 100;
+    .wheel-container { text-align: center; padding: 30px 0; }
+    .wheel-box {
+      width: 280px; height: 280px; margin: 20px auto; position: relative; border-radius: 50%;
+      background: radial-gradient(circle, rgba(78,205,196,0.1), transparent);
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 40px var(--primary-glow), inset 0 0 40px rgba(78,205,196,0.1);
+      display: flex; align-items: center; justify-content: center;
     }
-    .bottom-nav button {
-      background: none; border: none; color: var(--text-dim); display: flex;
-      flex-direction: column; align-items: center; gap: 4px; font-size: 11px; cursor: pointer; padding: 5px 15px;
+    .wheel-center { color: var(--primary); font-size: 24px; font-weight: bold; text-shadow: 0 0 20px var(--primary-glow); }
+    .wheel-pointer {
+      position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
+      border-top: 25px solid var(--secondary); filter: drop-shadow(0 0 10px rgba(255, 209, 102, 0.8));
     }
-    .bottom-nav button.active { color: var(--primary); }
-    .bottom-nav button i { font-size: 24px; }
-    .main-content { padding-bottom: 80px; }
+
+    .modal {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8);
+      z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal .card { max-width: 500px; width: 100%; }
   </style>
 </head>
 <body>
   <div id="app">
-    <!-- Login Page -->
-    <div id="loginPage" class="container">
-      <div class="card" style="text-align:center; margin-top:80px;">
-        <h2 style="color:var(--primary); margin-bottom:20px;">Mashood Kuri</h2>
-        <button class="btn primary" onclick="adminLogin()">Admin Login</button>
-        <button class="btn secondary" onclick="showMemberLogin()">Member Login</button>
-      </div>
-    </div>
-
-    <!-- Admin Login -->
-    <div id="adminLoginBox" class="container hidden">
-      <div class="card">
-        <button class="btn" style="width:auto; background:transparent; color:var(--primary);" onclick="backToLogin()">← Back</button>
-        <h3 style="color:var(--primary); margin:15px 0;">Admin Login</h3>
-        <input type="password" id="adminPass" placeholder="Password">
-        <button class="btn primary" onclick="checkAdmin()">Login</button>
-      </div>
-    </div>
-
-    <!-- Member Login -->
-    <div id="memberLoginBox" class="container hidden">
-      <div class="card">
-        <button class="btn" style="width:auto; background:transparent; color:var(--primary);" onclick="backToLogin()">← Back</button>
-        <h3 style="color:var(--primary); margin:15px 0;">Member Login</h3>
-        <input type="tel" id="memberPhone" placeholder="Phone Number">
-        <input type="password" id="memberPass" placeholder="Password">
-        <button class="btn primary" onclick="checkMember()">Login</button>
-      </div>
-    </div>
-
-    <!-- Admin Page -->
-    <div id="adminPage" class="hidden">
-      <div class="container main-content">
-        <!-- Top Bar -->
-        <div class="top-bar">
-          <div class="profile-pic">MA</div>
-          <div class="profile-info">
-            <h3>Mashood Thennala</h3>
-            <p>അഡ്മിനിസ്ട്രേറ്റർ പാനൽ</p>
-          </div>
-          <div class="btn-group">
-            <button class="btn primary small" onclick="toggleLang()">EN / മലയാളം</button>
-            <button class="btn secondary small" onclick="logout()">ലോഗ് ഔട്ട്</button>
-          </div>
+    <div class="container">
+      <!-- Top Bar -->
+      <div class="top-bar">
+        <div class="profile-pic">MA</div>
+        <div class="profile-info">
+          <h3>Mashood Thennala</h3>
+          <p>അഡ്മിനിസ്ട്രേറ്റർ പാനൽ</p>
         </div>
-
-        <!-- Stats -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <i class="ri-group-fill"></i>
-            <div>
-              <h2 id="totalMembers">0</h2>
-              <p>ആകെ മെമ്പർമാർ</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <i class="ri-checkbox-circle-fill"></i>
-            <div>
-              <h2 id="totalCollection">₹0</h2>
-              <p>ആകെ കളക്ഷൻ</p>
-            </div>
-          <div class="stat-card">
-            <i class="ri-time-fill"></i>
-            <div>
-              <h2 id="paidMembers">0</h2>
-              <p>ഇനി അടച്ചവർ</p>
-            </div>
-          </div>
-          <div class="stat-card">
-            <i class="ri-money-rupee-circle-fill"></i>
-            <div>
-              <h2 id="pendingMembers">0</h2>
-              <p>ബാക്കി നിൽക്കുന്നവർ</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Main Grid -->
-        <div class="main-grid">
-          <!-- Left: Table + Wheel -->
-          <div>
-            <!-- Member Table -->
-            <div class="card">
-              <div class="section-title">
-                <i class="ri-file-list-3-line"></i>
-                <span>കുറി ഗ്രൂപ്പ് വിവരങ്ങൾ</span>
-              </div>
-              <div class="table-wrapper">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Name</th>
-                      <th>Mobile</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody id="membersTable"></tbody>
-                </table>
-              </div>
-              <button class="btn primary" onclick="showAddMember()" style="margin-top:15px;">+ Add Member</button>
-            </div>
-
-            <!-- Lucky
+        <div class="btn-group">
+          <button class="btn primary small" onclick="toggleLang()">EN / മലയാളം</button>
+          <button class="btn secondary small" onclick="resetApp()">റ
