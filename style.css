@@ -466,4 +466,37 @@ th {
   flex: 1;
   display: flex;
   flex-direction: column;
+}/* ULTIMATE WHITE SPACE FIX */
+html, body {
+  height: 100%!important;
+  margin: 0!important;
+  padding: 0!important;
+  background: var(--bg)!important;
+}
+
+#mainContainer {
+  min-height: 100vh!important;
+  display: flex!important;
+  flex-direction: column!important;
+}
+
+.main-content {
+  flex: 1!important;
+  min-height: calc(100vh - 60px)!important;
+  background: var(--bg)!important;
+}
+
+.admin-tab {
+  flex: 1!important;
+  display: flex!important;
+  flex-direction: column!important;
+}
+
+#adminDashboard {
+  flex: 1!important;
+  padding-bottom: 20px!important;
+}
+
+.card:last-child {
+  margin-bottom: 0!important;
 }
