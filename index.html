@@ -3,159 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#4ECDC4">
   <title>Mashood Kuri</title>
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-</head>
-<body>
-  <div id="app">
-    <!-- Login Page -->
-    <div id="loginPage" class="container">
-      <div class="card login-card">
-        <h2>Mashood Kuri</h2>
-        <button class="btn primary" onclick="adminLoginDirect()">Admin Login</button>
-        <button class="btn secondary" onclick="showMemberLogin()">Member Login</button>
-        <button class="btn text" onclick="showRegister()">പുതിയ Member? Register</button>
-      </div>
-    </div>
-
-    <!-- Admin Login -->
-    <div id="adminLoginBox" class="container login-box hidden">
-      <div class="card">
-        <button class="btn text" onclick="backToLogin()">← Back</button>
-        <h3>Admin Login</h3>
-        <input type="password" id="adminPass" placeholder="Password">
-        <button class="btn primary" onclick="adminLogin()">Login</button>
-      </div>
-    </div>
-
-    <!-- Member Login -->
-    <div id="memberLoginBox" class="container login-box hidden">
-      <div class="card">
-        <button class="btn text" onclick="backToLogin()">← Back</button>
-        <h3>Member Login</h3>
-        <input type="tel" id="memberPhone" placeholder="Phone Number">
-        <input type="password" id="memberPass" placeholder="Password">
-        <button class="btn primary" onclick="memberLogin()">Login</button>
-      </div>
-    </div>
-
-    <!-- Register -->
-    <div id="registerBox" class="container login-box hidden">
-      <div class="card">
-        <button class="btn text" onclick="backToLogin()">← Back</button>
-        <h3>Member Registration</h3>
-        <input type="text" id="regName" placeholder="Full Name">
-        <input type="tel" id="regPhone" placeholder="Phone Number">
-        <input type="password" id="regPass" placeholder="Password">
-        <input type="number" id="regAmount" placeholder="Monthly Amount">
-        <label class="checkbox-label">
-          <input type="checkbox" id="termsCheck">
-          <span>I agree to Terms & Conditions</span>
-        </label>
-        <button class="btn primary" onclick="memberRegister()">Register</button>
-      </div>
-    </div>
-
-    <!-- Admin Page -->
-    <div id="adminPage" class="hidden">
-      <div class="mobile-header">
-        <button onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
-        <h3>Mashood Kuri - Admin</h3>
-        <button onclick="logout()"><i class="ri-logout-box-line"></i></button>
-      </div>
-      <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-          <h3>Mashood Kuri</h3>
-          <button class="close-btn" onclick="toggleSidebar()">×</button>
-        </div>
-        <a class="active" onclick="showAdminTab('dashboard')"><i class="ri-dashboard-line"></i> Dashboard</a>
-        <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
-        <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
-        <a onclick="showAdminTab('draw')"><i class="ri-wheel-line"></i> Draw</a>
-        <a onclick="showAdminTab('winners')"><i class="ri-trophy-line"></i> Winners</a>
-        <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
-      </div>
-      <div class="main-content">
-        <div id="adminDashboard" class="admin-tab">
-          <div class="container">
-            <div class="stats-grid">
-              <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p>Total Members</p></div></div>
-              <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p>Paid This Month</p></div></div>
-              <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p>Pending</p></div></div>
-              <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p>Collection</p></div></div>
-            </div>
-          </div>
-        <div id="adminMembers" class="admin-tab hidden">
-          <div class="container">
-            <div class="card">
-              <h3>Add Member</h3>
-              <input type="text" id="newMemName" placeholder="Name">
-              <input type="tel" id="newMemPhone" placeholder="Phone">
-              <input type="password" id="newMemPass" placeholder="Password">
-              <input type="number" id="newMemAmount" placeholder="Amount">
-              <button class="btn primary" onclick="addMemberByAdmin()">Add Member</button>
-            </div>
-            <div class="card">
-              <h3>Members List</h3>
-              <div id="adminMembersList"></div>
-            </div>
-          </div>
-        </div>
-        <div id="adminCollection" class="admin-tab hidden">
-          <div class="container">
-            <div class="card">
-              <h3>Collection</h3>
-              <select id="colMonth" onchange="renderCollection()"></select>
-              <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
-              <div id="collectionList"></div>
-            </div>
-          </div>
-        </div>
-        <div id="adminDraw" class="admin-tab hidden">
-          <div class="container">
-            <div class="card">
-              <h3>Random Draw</h3>
-              <button class="btn primary" onclick="doRandomDraw()">Start Draw</button>
-              <div id="winnerDisplay"></div>
-            </div>
-          </div>
-        </div>
-        <div id="adminWinners" class="admin-tab hidden">
-          <div class="container">
-            <div class="card">
-              <h3>All Winners</h3>
-              <button class="btn danger" onclick="clearAllWinners()">Clear All Winners</button>
-              <div id="allWinnersList"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Member Page -->
-    <div id="memberPage" class="hidden">
-      <div class="mobile-header">
-        <h3 id="memberNameNav"></h3>
-        <button onclick="logout()"><i class="ri-logout-box-line"></i></button>
-      </div>
-      <div class="main-content">
-        <div class="container">
-          <div class="card">
-            <h3>Profile</h3>
-            <p><strong>Name:</strong> <span id="memName"></span></p>
-            <p><strong>Phone:</strong> <span id="memPhone"></span></p>
-            <p><strong>Monthly Amount:</strong> <span id="memAmount"></span></p>
-            <div id="memPaymentStatus"></div>
-            <p><strong>Paid Months:</strong> <span id="paidMonths">0</span></p>
-            <button class="btn primary" onclick="downloadReceipt()">Download Receipt</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="app.js"></script>
-</body>
-</html>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { min-height: 100vh; background: #f5f5f5; font-family: Arial; }
+    .container { max-width: 600px; margin: 0 auto; padding: 15px; }
+    .card { background: #fff; border-radius: 12px; padding: 18px; margin-bottom: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .btn { width: 100%; padding: 14px; margin: 8px 0; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .btn.primary { background: #4ECDC4; color: white; }
+    .btn.secondary { background: #45B7D1; color: white; }
+    .btn.success { background: #6BCF7F; color: white; }
+    .btn.danger { background: #FF6B6B; color: white; }
+    .btn.small { width: auto; padding: 8px 15px; font-size: 14px; }
+    input, select { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; }
+    .hidden { display: none!important; }
+    .mobile-header { position: fixed; top: 0; left: 0; right: 0; height: 60px; background: #fff; box-shadow: 0 2px 5px
