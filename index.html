@@ -6,74 +6,92 @@
   <meta name="theme-color" content="#4ECDC4">
   <title>Mashood Kuri</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="logo.png">
-  <link rel="stylesheet" href="style.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    /* Loading Fix - No white flash */
+    body { background: #4ECDC4; margin: 0; }
+    #mainContainer { display: none; }
+  </style>
 </head>
 <body>
   <!-- Splash Screen -->
   <div id="splash" class="splash-screen">
     <div class="splash-content">
-      <img src="logo.png" alt="Logo" class="splash-logo" onerror="this.style.display='none'">
-      <img src="photo.jpg" alt="Mashood" class="splash-photo" onerror="this.style.display='none'">
-      <h1 data-ml="സ്വാഗതം Mashood കുറിയിലേക്ക്" data-en="Welcome to Mashood Kuri">സ്വാഗതം Mashood കുറിയിലേക്ക്</h1>
+      <img src="logo.png" class="splash-logo" onerror="this.style.display='none'">
+      <img src="photo.jpg" class="splash-photo" onerror="this.style.display='none'">
+      <h1>സ്വാഗതം Mashood കുറിയിലേക്ക്</h1>
       <div class="loader"></div>
     </div>
   </div>
 
-  <div id="mainContainer" style="display:none;">
+  <!-- Main Container -->
+  <div id="mainContainer">
     <!-- Top Bar -->
     <div class="top-bar">
-      <button onclick="toggleLang()" id="langBtn">EN</button>
-      <button onclick="toggleDarkMode()" id="darkBtn"><i class="ri-moon-line"></i></button>
+      <button id="langBtn" onclick="toggleLang()">ML</button>
+      <button id="darkBtn" onclick="toggleDarkMode()"><i class="ri-moon-line"></i></button>
     </div>
 
     <!-- Login Page -->
     <div id="loginPage" class="container">
       <div class="card login-card">
-        <img src="logo.png" alt="Logo" class="login-logo" onerror="this.style.display='none'">
+        <img src="logo.png" class="login-logo" onerror="this.style.display='none'">
         <h2 data-ml="Mashood Kuri" data-en="Mashood Kuri">Mashood Kuri</h2>
-        <button class="btn primary" onclick="showLogin('admin')"><i class="ri-admin-line"></i> <span data-ml="അഡ്മിൻ ലോഗിൻ" data-en="Admin Login">അഡ്മിൻ ലോഗിൻ</span></button>
-        <button class="btn secondary" onclick="showLogin('member')"><i class="ri-user-line"></i> <span data-ml="മെമ്പർ ലോഗിൻ" data-en="Member Login">മെമ്പർ ലോഗിൻ</span></button>
-        <button class="btn outline" onclick="showRegister()"><i class="ri-user-add-line"></i> <span data-ml="പുതിയ രജിസ്ട്രേഷൻ" data-en="New Registration">പുതിയ രജിസ്ട്രേഷൻ</span></button>
+        <button class="btn primary" onclick="showLogin('admin')">
+          <i class="ri-admin-line"></i> <span data-ml="Admin Login" data-en="Admin Login">Admin Login</span>
+        </button>
+        <button class="btn secondary" onclick="showLogin('member')">
+          <i class="ri-user-line"></i> <span data-ml="Member Login" data-en="Member Login">Member Login</span>
+        </button>
+        <button class="btn text" onclick="showRegister()">
+          <span data-ml="പുതിയ Member? Register" data-en="New Member? Register">പുതിയ Member? Register</span>
+        </button>
       </div>
     </div>
 
     <!-- Admin Login -->
-    <div id="adminLoginBox" class="login-box hidden">
+    <div id="adminLoginBox" class="container login-box hidden">
       <div class="card">
-        <h3 data-ml="അഡ്മിൻ ലോഗിൻ" data-en="Admin Login">അഡ്മിൻ ലോഗിൻ</h3>
-        <input type="password" id="adminPass" placeholder="Password">
-        <button class="btn primary" onclick="adminLogin()">Login</button>
-        <button class="btn text" onclick="backToLogin()">← Back</button>
+        <button class="btn text" onclick="backToLogin()"><i class="ri-arrow-left-line"></i></button>
+        <h3 data-ml="Admin Login" data-en="Admin Login">Admin Login</h3>
+        <input type="password" id="adminPass" placeholder="Password" data-ml="Password" data-en="Password">
+        <button class="btn primary" onclick="adminLogin()">
+          <i class="ri-login-box-line"></i> <span data-ml="Login" data-en="Login">Login</span>
+        </button>
       </div>
     </div>
 
     <!-- Member Login -->
-    <div id="memberLoginBox" class="login-box hidden">
+    <div id="memberLoginBox" class="container login-box hidden">
       <div class="card">
-        <h3 data-ml="മെമ്പർ ലോഗിൻ" data-en="Member Login">മെമ്പർ ലോഗിൻ</h3>
-        <input type="tel" id="memberPhone" placeholder="Phone Number">
-        <input type="password" id="memberPass" placeholder="Password">
-        <button class="btn primary" onclick="memberLogin()">Login</button>
-        <button class="btn text" onclick="backToLogin()">← Back</button>
+        <button class="btn text" onclick="backToLogin()"><i class="ri-arrow-left-line"></i></button>
+        <h3 data-ml="Member Login" data-en="Member Login">Member Login</h3>
+        <input type="tel" id="memberPhone" placeholder="Phone Number" data-ml="Phone Number" data-en="Phone Number">
+        <input type="password" id="memberPass" placeholder="Password" data-ml="Password" data-en="Password">
+        <button class="btn primary" onclick="memberLogin()">
+          <i class="ri-login-box-line"></i> <span data-ml="Login" data-en="Login">Login</span>
+        </button>
       </div>
     </div>
 
     <!-- Register -->
-    <div id="registerBox" class="login-box hidden">
+    <div id="registerBox" class="container login-box hidden">
       <div class="card">
-        <h3 data-ml="പുതിയ മെമ്പർ" data-en="New Member">പുതിയ മെമ്പർ</h3>
-        <input type="text" id="regName" placeholder="പേര് / Name">
-        <input type="tel" id="regPhone" placeholder="ഫോൺ / Phone">
-        <input type="password" id="regPass" placeholder="പാസ്‌വേഡ് / Password">
-        <input type="number" id="regAmount" placeholder="മാസ അടവ് / Monthly Amount">
+        <button class="btn text" onclick="backToLogin()"><i class="ri-arrow-left-line"></i></button>
+        <h3 data-ml="Member Registration" data-en="Member Registration">Member Registration</h3>
+        <input type="text" id="regName" placeholder="Full Name" data-ml="Full Name" data-en="Full Name">
+        <input type="tel" id="regPhone" placeholder="Phone Number" data-ml="Phone Number" data-en="Phone Number">
+        <input type="password" id="regPass" placeholder="Password" data-ml="Password" data-en="Password">
+        <input type="number" id="regAmount" placeholder="Monthly Amount" data-ml="Monthly Amount" data-en="Monthly Amount">
         <label class="checkbox-label">
-          <input type="checkbox" id="termsCheck"> 
-          <span data-ml="Terms & Conditions അംഗീകരിക്കുന്നു" data-en="I agree to Terms & Conditions">Terms & Conditions അംഗീകരിക്കുന്നു</span>
+          <input type="checkbox" id="termsCheck">
+          <span data-ml="I agree to Terms & Conditions" data-en="I agree to Terms & Conditions">I agree to Terms & Conditions</span>
         </label>
-        <button class="btn primary" onclick="memberRegister()">Register</button>
-        <button class="btn text" onclick="backToLogin()">← Back</button>
+        <button class="btn primary" onclick="memberRegister()">
+          <i class="ri-user-add-line"></i> <span data-ml="Register" data-en="Register">Register</span>
+        </button>
       </div>
     </div>
 
@@ -83,121 +101,172 @@
         <div class="sidebar-header">
           <img src="logo.png" class="sidebar-logo" onerror="this.style.display='none'">
           <h3>Mashood Kuri</h3>
-          <button onclick="toggleSidebar()" class="close-btn"><i class="ri-close-line"></i></button>
+          <button class="close-btn" onclick="toggleSidebar()">×</button>
         </div>
-        <a onclick="showAdminTab('home')" class="active"><i class="ri-dashboard-line"></i> <span data-ml="ഡാഷ്ബോർഡ്" data-en="Dashboard">ഡാഷ്ബോർഡ്</span></a>
-        <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> <span data-ml="മെമ്പർമാർ" data-en="Members">മെമ്പർമാർ</span></a>
-        <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> <span data-ml="കളക്ഷൻ" data-en="Collection">കളക്ഷൻ</span></a>
-        <a onclick="showAdminTab('draw')"><i class="ri-gamepad-line"></i> <span data-ml="നറുക്കെടുപ്പ്" data-en="Draw">നറുക്കെടുപ്പ്</span></a>
-        <a onclick="showAdminTab('winners')"><i class="ri-trophy-line"></i> <span data-ml="വിജയികൾ" data-en="Winners">വിജയികൾ</span></a>
-        <a onclick="showAdminTab('reports')"><i class="ri-file-chart-line"></i> <span data-ml="റിപ്പോർട്ട്" data-en="Reports">റിപ്പോർട്ട്</span></a>
-        <a onclick="showAdminTab('chat')"><i class="ri-chat-3-line"></i> <span data-ml="ചാറ്റ്" data-en="Chat">ചാറ്റ്</span></a>
-        <a onclick="showAdminTab('settings')"><i class="ri-settings-line"></i> <span data-ml="സെറ്റിംഗ്സ്" data-en="Settings">സെറ്റിംഗ്സ്</span></a>
-        <a onclick="logout()"><i class="ri-logout-box-line"></i> <span data-ml="ലോഗൗട്ട്" data-en="Logout">ലോഗൗട്ട്</span></a>
+        <a class="active" onclick="showAdminTab('dashboard')"><i class="ri-dashboard-line"></i> Dashboard</a>
+        <a onclick="showAdminTab('members')"><i class="ri-group-line"></i> Members</a>
+        <a onclick="showAdminTab('collection')"><i class="ri-money-rupee-circle-line"></i> Collection</a>
+        <a onclick="showAdminTab('draw')"><i class="ri-wheel-line"></i> Draw</a>
+        <a onclick="showAdminTab('winners')"><i class="ri-trophy-line"></i> Winners</a>
+        <a onclick="showAdminTab('report')"><i class="ri-file-chart-line"></i> Reports</a>
+        <a onclick="showAdminTab('chat')"><i class="ri-chat-3-line"></i> Chat</a>
+        <a onclick="showAdminTab('feedback')"><i class="ri-feedback-line"></i> Feedback</a>
+        <a onclick="showAdminTab('settings')"><i class="ri-settings-3-line"></i> Settings</a>
+        <a onclick="logout()"><i class="ri-logout-box-line"></i> Logout</a>
       </div>
 
       <div class="main-content">
         <div class="mobile-header">
           <button onclick="toggleSidebar()"><i class="ri-menu-line"></i></button>
-          <h2>Mashood Kuri</h2>
+          <h3>Mashood Kuri</h3>
         </div>
 
-        <div id="adminHome" class="admin-tab">
-          <div class="stats-grid">
-            <div class="stat-card"><i class="ri-group-fill"></i><div><h2 id="totalMembers">0</h2><p data-ml="മൊത്തം മെമ്പർമാർ" data-en="Total Members">മൊത്തം മെമ്പർമാർ</p></div></div>
-            <div class="stat-card"><i class="ri-checkbox-circle-fill"></i><div><h2 id="paidMembers">0</h2><p data-ml="Paid" data-en="Paid">Paid</p></div></div>
-            <div class="stat-card"><i class="ri-time-fill"></i><div><h2 id="pendingMembers">0</h2><p data-ml="Pending" data-en="Pending">Pending</p></div></div>
-            <div class="stat-card"><i class="ri-money-rupee-circle-fill"></i><div><h2 id="totalCollection">₹0</h2><p data-ml="കളക്ഷൻ" data-en="Collection">കളക്ഷൻ</p></div></div>
+        <!-- Dashboard Tab -->
+        <div id="adminDashboard" class="admin-tab">
+          <div class="container">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <i class="ri-group-fill"></i>
+                <div><h2 id="totalMembers">0</h2><p>Total Members</p></div>
+              </div>
+              <div class="stat-card">
+                <i class="ri-checkbox-circle-fill"></i>
+                <div><h2 id="paidMembers">0</h2><p>Paid This Month</p></div>
+              </div>
+              <div class="stat-card">
+                <i class="ri-time-fill"></i>
+                <div><h2 id="pendingMembers">0</h2><p>Pending</p></div>
+              </div>
+              <div class="stat-card">
+                <i class="ri-money-rupee-circle-fill"></i>
+                <div><h2 id="totalCollection">₹0</h2><p>Collection</p></div>
+              </div>
+            </div>
+            <div class="card">
+              <h3>Recent Winners</h3>
+              <div id="recentWinners"></div>
+            </div>
           </div>
-          <div class="card"><h3 data-ml="ഏറ്റവും പുതിയ വിജയികൾ" data-en="Recent Winners">ഏറ്റവും പുതിയ വിജയികൾ</h3><div id="recentWinners"></div></div>
         </div>
 
+        <!-- Members Tab -->
         <div id="adminMembers" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="മെമ്പർമാർ ചേർക്കുക" data-en="Add Members">മെമ്പർമാർ ചേർക്കുക</h3>
-            <input type="text" id="newMemName" placeholder="പേര്">
-            <input type="tel" id="newMemPhone" placeholder="ഫോൺ">
-            <input type="password" id="newMemPass" placeholder="പാസ്‌വേഡ്">
-            <input type="number" id="newMemAmount" placeholder="മാസ അടവ്">
-            <button class="btn primary" onclick="addMemberByAdmin()">Add Member</button>
-          </div>
-          <div class="card">
-            <input type="text" id="searchMember" placeholder="Search..." onkeyup="renderAdminMembers()">
-            <div id="adminMembersList"></div>
+          <div class="container">
+            <div class="card">
+              <h3>Add Member</h3>
+              <input type="text" id="newMemName" placeholder="Name">
+              <input type="tel" id="newMemPhone" placeholder="Phone">
+              <input type="password" id="newMemPass" placeholder="Password">
+              <input type="number" id="newMemAmount" placeholder="Amount">
+              <button class="btn primary" onclick="addMemberByAdmin()">Add Member</button>
+            </div>
+            <div class="card">
+              <h3>Members List</h3>
+              <input type="text" id="searchMember" placeholder="Search..." onkeyup="renderAdminMembers()">
+              <div id="adminMembersList"></div>
+            </div>
           </div>
         </div>
 
+        <!-- Collection Tab -->
         <div id="adminCollection" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="മാസ കളക്ഷൻ" data-en="Monthly Collection">മാസ കളക്ഷൻ</h3>
-            <select id="colMonth" onchange="renderCollection()"></select>
-            <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
-            <button class="btn outline" onclick="sendWhatsAppReminder()"><i class="ri-whatsapp-line"></i> WhatsApp Reminder</button>
+          <div class="container">
+            <div class="card">
+              <h3>Collection</h3>
+              <select id="colMonth" onchange="renderCollection()"></select>
+              <button class="btn success" onclick="markAllPaid()">Mark All Paid</button>
+              <button class="btn secondary" onclick="sendWhatsAppReminder()"><i class="ri-whatsapp-line"></i> Send Reminder</button>
+              <div id="collectionList"></div>
+            </div>
           </div>
-          <div class="card"><div id="collectionList"></div></div>
         </div>
 
+        <!-- Draw Tab -->
         <div id="adminDraw" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="നറുക്കെടുപ്പ്" data-en="Lucky Draw">നറുക്കെടുപ്പ്</h3>
-            <button class="btn primary" onclick="doRandomDraw()">🎲 Random Draw</button>
-            <h4 style="margin-top:20px;" data-ml="Manual Winner" data-en="Manual Winner">Manual Winner</h4>
-            <select id="manualWinner"></select>
-            <button class="btn secondary" onclick="selectManualWinner()">Select Winner</button>
-          </div>
-          <div id="wheelContainer" style="display:none; text-align:center; margin:30px 0;">
-            <div style="position:relative; width:300px; height:300px; margin:0 auto;">
-              <div id="pointer" style="position:absolute; top:-10px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:20px solid transparent; border-right:20px solid transparent; border-top:40px solid #ff4757; z-index:10;"></div>
-              <canvas id="wheelCanvas" width="300" height="300"></canvas>
+          <div class="container">
+            <div class="card">
+              <h3>Random Draw</h3>
+              <button class="btn primary" onclick="doRandomDraw()">Start Draw</button>
+              <div id="wheelContainer" style="display:none;">
+                <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                <button class="btn success" onclick="spinWheelNow()">SPIN THE WHEEL</button>
+              </div>
+              <div id="winnerDisplay"></div>
             </div>
-            <button class="btn primary" onclick="spinWheelNow()" style="margin-top:20px; padding:15px 40px; font-size:18px;">🎰 SPIN THE WHEEL</button>
+            <div class="card">
+              <h3>Manual Winner</h3>
+              <select id="manualWinner"></select>
+              <button class="btn primary" onclick="selectManualWinner()">Select Winner</button>
+            </div>
           </div>
-          <div id="winnerDisplay"></div>
         </div>
 
+        <!-- Winners Tab -->
         <div id="adminWinners" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="25 മാസ വിജയികൾ" data-en="25 Months Winners">25 മാസ വിജയികൾ</h3>
-            <div id="allWinnersList"></div>
-          </div>
-        </div>
-
-        <div id="adminReports" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="റിപ്പോർട്ട്" data-en="Reports">റിപ്പോർട്ട്</h3>
-            <select id="reportMonth" onchange="renderReport()"></select>
-            <button class="btn primary" onclick="exportCSV()">📊 Export CSV</button>
-            <button class="btn secondary" onclick="exportPDF()">📄 Export PDF</button>
-          </div>
-          <div id="reportSummary"></div>
-          <div id="reportTable"></div>
-        </div>
-
-        <div id="adminChat" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="Live Chat" data-en="Live Chat">Live Chat</h3>
-            <div id="chatMessages" class="chat-box"></div>
-            <div class="chat-input">
-              <input type="text" id="chatInput" placeholder="Type message...">
-              <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
+          <div class="container">
+            <div class="card">
+              <h3>All Winners</h3>
+              <div id="allWinnersList"></div>
             </div>
           </div>
-          <div class="card">
-            <h3 data-ml="Feedback" data-en="Feedback">Feedback</h3>
-            <div id="feedbackList"></div>
+        </div>
+
+        <!-- Report Tab -->
+        <div id="adminReport" class="admin-tab hidden">
+          <div class="container">
+            <div class="card">
+              <h3>Reports</h3>
+              <select id="reportMonth" onchange="renderReport()"></select>
+              <button class="btn primary" onclick="exportCSV()">Export CSV</button>
+              <button class="btn secondary" onclick="exportPDF()">Export PDF</button>
+              <div id="reportSummary"></div>
+              <div id="reportTable"></div>
+            </div>
           </div>
         </div>
 
-        <div id="adminSettings" class="admin-tab hidden">
-          <div class="card">
-            <h3 data-ml="Backup & Restore" data-en="Backup & Restore">Backup & Restore</h3>
-            <button class="btn primary" onclick="backupData()">💾 Backup Data</button>
-            <input type="file" id="restoreFile" accept=".json" style="display:none;" onchange="restoreData(event)">
-            <button class="btn secondary" onclick="document.getElementById('restoreFile').click()">📂 Restore Data</button>
+        <!-- Chat Tab -->
+        <div id="adminChat" class="admin-tab hidden">
+          <div class="container">
+            <div class="card">
+              <h3>Chat</h3>
+              <div id="chatMessages" class="chat-box"></div>
+              <div class="chat-input">
+                <input type="text" id="chatInput" placeholder="Type message...">
+                <button onclick="sendChat()"><i class="ri-send-plane-fill"></i></button>
+              </div>
+            </div>
           </div>
-          <div class="card">
-            <h3 data-ml="Notification" data-en="Notification">Notification</h3>
-            <button class="btn outline" onclick="requestNotification()">Enable Notifications</button>
+        </div>
+
+        <!-- Feedback Tab -->
+        <div id="adminFeedback" class="admin-tab hidden">
+          <div class="container">
+            <div class="card">
+              <h3>Feedback</h3>
+              <div id="feedbackList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="adminSettings" class="admin-tab hidden">
+          <div class="container">
+            <div class="card">
+              <h3>Backup & Restore</h3>
+              <button class="btn primary" onclick="backupData()">Backup Data</button>
+              <input type="file" id="restoreFile" accept=".json" onchange="restoreData(event)">
+              <label for="restoreFile" class="btn secondary">Restore Data</label>
+            </div>
+            <div class="card">
+              <h3>Reset Winners</h3>
+              <p>പുതിയ കുറി start ചെയ്യാൻ എല്ലാ winners-ഉം clear ചെയ്യൂ</p>
+              <button class="btn danger" onclick="clearAllWinners()">Clear All Winners</button>
+            </div>
+            <div class="card">
+              <h3>Notifications</h3>
+              <button class="btn primary" onclick="requestNotification()">Enable Notifications</button>
+            </div>
           </div>
         </div>
       </div>
@@ -206,42 +275,43 @@
     <!-- Member Page -->
     <div id="memberPage" class="hidden">
       <div class="mobile-header">
-        <h2 id="memberNameNav">Member</h2>
+        <h3 id="memberNameNav"></h3>
         <button onclick="logout()"><i class="ri-logout-box-line"></i></button>
       </div>
-      <div class="container">
-        <div class="card">
-          <h3 data-ml="എന്റെ വിവരങ്ങൾ" data-en="My Details">എന്റെ വിവരങ്ങൾ</h3>
-          <p><strong data-ml="പേര്" data-en="Name">പേര്:</strong> <span id="memName"></span></p>
-          <p><strong data-ml="ഫോൺ" data-en="Phone">ഫോൺ:</strong> <span id="memPhone"></span></p>
-          <p><strong data-ml="മാസ അടവ്" data-en="Monthly">മാസ അടവ്:</strong> <span id="memAmount"></span></p>
-        </div>
-        <div class="card">
-          <h3 data-ml="Payment Status" data-en="Payment Status">Payment Status</h3>
-          <div id="memPaymentStatus"></div>
-          <p><strong data-ml="Paid Months" data-en="Paid Months">Paid Months:</strong> <span id="paidMonths">0</span>/25</p>
-          <button class="btn primary" onclick="downloadReceipt()">📄 Receipt Download</button>
-        </div>
-        <div class="card">
-          <h3 data-ml="Winners" data-en="Winners">Winners</h3>
-          <div id="memberWinnersList"></div>
-        </div>
-        <div class="card">
-          <h3 data-ml="Chat & Feedback" data-en="Chat & Feedback">Chat & Feedback</h3>
-          <div id="memberChatBox" class="chat-box" style="height:200px;"></div>
-          <div class="chat-input">
-            <input type="text" id="memberChatInput" placeholder="Message...">
-            <button onclick="memberSendChat()"><i class="ri-send-plane-fill"></i></button>
+      <div class="main-content">
+        <div class="container">
+          <div class="card">
+            <h3>Profile</h3>
+            <p><strong>Name:</strong> <span id="memName"></span></p>
+            <p><strong>Phone:</strong> <span id="memPhone"></span></p>
+            <p><strong>Monthly Amount:</strong> <span id="memAmount"></span></p>
+            <div id="memPaymentStatus"></div>
+            <p><strong>Paid Months:</strong> <span id="paidMonths">0</span></p>
+            <button class="btn primary" onclick="downloadReceipt()">Download Receipt</button>
           </div>
-          <textarea id="feedbackText" placeholder="നിങ്ങളുടെ അഭിപ്രായം..." rows="3"></textarea>
-          <button class="btn secondary" onclick="submitFeedback()">Submit Feedback</button>
+          <div class="card">
+            <h3>Winners</h3>
+            <div id="memberWinnersList"></div>
+          </div>
+          <div class="card">
+            <h3>Chat</h3>
+            <div id="memberChatBox" class="chat-box"></div>
+            <div class="chat-input">
+              <input type="text" id="memberChatInput" placeholder="Message...">
+              <button onclick="memberSendChat()"><i class="ri-send-plane-fill"></i></button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Feedback</h3>
+            <textarea id="feedbackText" placeholder="Your feedback..."></textarea>
+            <button class="btn primary" onclick="submitFeedback()">Submit</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <audio id="winSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_1b6a7b5a4f.mp3"></audio>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <audio id="winSound" src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3"></audio>
   <script src="app.js"></script>
 </body>
 </html>
