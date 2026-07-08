@@ -3,75 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ചിട്ടി മാനേജ്‌മെന്റ് ആപ്പ്</title>
-    <style>
-        body { font-family: sans-serif; background: #f4f4f9; text-align: center; padding: 20px; }
-        .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input { width: 90%; padding: 10px; margin: 10px 0; }
-        button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
-        #dashboard { display: none; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { border: 1px solid #ddd; padding: 10px; }
-    </style>
+    <title>ചിട്ടി മാനേജ്‌മെന്റ്</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="login-box" class="box">
+    <div id="login-box" class="container">
         <h2>ലോഗിൻ</h2>
         <input type="text" id="username" placeholder="യൂസർനെയിം">
-        <input type="password" id="password" placeholder="പാസ്‌വേഡ്">
         <button onclick="login()">ലോഗിൻ ചെയ്യുക</button>
     </div>
 
-    <div id="dashboard" class="box">
+    <div id="dashboard" class="container" style="display:none;">
         <h1>ചിട്ടി ഡാഷ്‌ബോർഡ്</h1>
         <input type="text" id="memberName" placeholder="അംഗത്തിന്റെ പേര്">
         <button onclick="addMember()">അംഗത്തെ ചേർക്കുക</button>
         
         <table id="memberTable">
-            <tr><th>പേര്</th></tr>
+            <tr><th>അംഗങ്ങൾ</th></tr>
         </table>
 
-        <h3 style="margin-top:20px;">ലക്കി ഡ്രോ</h3>
-        <button onclick="runDraw()" style="background:#007bff;">വിജയിയെ തിരഞ്ഞെടുക്കുക</button>
+        <button onclick="runDraw()" class="draw-btn">വിജയിയെ തിരഞ്ഞെടുക്കുക</button>
         <h2 id="winner"></h2>
     </div>
 
-    <script>
-        // ലോഗിൻ ലോജിക്
-        function login() {
-            let user = document.getElementById("username").value;
-            if (user === "admin") {
-                document.getElementById("login-box").style.display = "none";
-                document.getElementById("dashboard").style.display = "block";
-            } else {
-                alert("തെറ്റായ യൂസർനെയിം!");
-            }
-        }
-
-        // അംഗങ്ങളെ ചേർക്കാൻ
-        function addMember() {
-            let name = document.getElementById("memberName").value;
-            if (name) {
-                let table = document.getElementById("memberTable");
-                let row = table.insertRow();
-                row.insertCell(0).innerHTML = name;
-                document.getElementById("memberName").value = "";
-            }
-        }
-
-        // ലക്കി ഡ്രോ ലോജിക്
-        function runDraw() {
-            let table = document.getElementById("memberTable");
-            let rows = table.rows;
-            if (rows.length > 1) {
-                let randomIndex = Math.floor(Math.random() * (rows.length - 1)) + 1;
-                let winner = rows[randomIndex].cells[0].innerHTML;
-                document.getElementById("winner").innerHTML = "വിജയി: " + winner;
-            } else {
-                alert("അംഗങ്ങളെ ചേർക്കൂ!");
-            }
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
