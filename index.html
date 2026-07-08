@@ -6,19 +6,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>ചിട്ടി മാനേജ്‌മെന്റ്</h2>
-        <input type="text" id="name" placeholder="അംഗത്തിന്റെ പേര്">
-        <input type="number" id="amount" placeholder="തുക">
-        <button onclick="addMember()">ചേർക്കുക</button>
-
-        <table id="memberTable">
-            <tr>
-                <th>പേര്</th>
-                <th>തുക</th>
-            </tr>
-        </table>
+    <div id="login-box">
+        <h2>ലോഗിൻ ചെയ്യുക</h2>
+        <input type="text" placeholder="ഉപയോക്തൃനാമം" id="user">
+        <button onclick="login()">ലോഗിൻ</button>
     </div>
+
+    <div id="dashboard" style="display:none;">
+        <h1>ഡാഷ്‌ബോർഡ്</h1>
+        <button onclick="runDraw()">ലക്കി ഡ്രോ</button>
+        <div id="winner-display"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
