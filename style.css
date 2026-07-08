@@ -1,0 +1,6 @@
+body { font-family: sans-serif; background-color: #f4f4f9; padding: 10px; }
+.container { background: white; padding: 15px; border-radius: 10px; }
+input { width: 100%; padding: 10px; margin: 5px 0; }
+button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
+table { width: 100%; margin-top: 15px; border-collapse: collapse; }
+th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
