@@ -2,50 +2,58 @@
 <html lang="ml">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chit Fund Manager</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mashood ന്റെ കുറി</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html, body { width: 100%; height: 100%; overflow-x: hidden; }
         body { 
             font-family: system-ui, sans-serif; 
             background: #0f172a; 
             color: #e2e8f0; 
-            padding: 10px;
+            padding: 8px;
         }
-    .container { width: 100%; max-width: 500px; margin: 0 auto; }
-        h1 { text-align: center; margin: 15px 0; color: #60a5fa; font-size: 20px; }
-        h2 { font-size: 18px; margin-bottom: 12px; color: #cbd5e1; }
-    .card { 
+  .container { width: 100%; max-width: 100%; margin: 0; }
+        h1 { 
+            text-align: center; 
+            margin: 15px 0; 
+            color: #fbbf24; 
+            font-size: 22px; 
+            text-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+        }
+        h2 { font-size: 16px; margin-bottom: 10px; color: #cbd5e1; }
+  .card { 
             background: #1e293b; 
-            padding: 15px; 
+            padding: 12px; 
             border-radius: 12px; 
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             border: 1px solid #334155;
         }
-    .stats { 
+  .stats { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 8px; 
-            margin-bottom: 12px; 
+            margin-bottom: 10px; 
         }
-    .stat-box { 
+  .stat-box { 
             background: #334155; 
             padding: 10px; 
             border-radius: 8px; 
             text-align: center; 
         }
-    .stat-box h3 { color: #94a3b8; font-size: 11px; }
-    .stat-box p { font-size: 18px; font-weight: bold; color: #22d3ee; margin-top: 4px; }
-        input, button, select { 
+  .stat-box h3 { color: #94a3b8; font-size: 10px; }
+  .stat-box p { font-size: 17px; font-weight: bold; color: #22d3ee; margin-top: 4px; }
+        input, button, select, textarea { 
             width: 100%;
-            padding: 14px; 
+            padding: 13px; 
             border-radius: 8px; 
             border: 1px solid #475569; 
             background: #334155; 
             color: #e2e8f0; 
-            margin: 6px 0;
+            margin: 5px 0;
             font-size: 16px;
         }
+        textarea { min-height: 80px; font-family: system-ui, sans-serif; }
         button { 
             background: #22c55e; 
             cursor: pointer; 
@@ -53,431 +61,259 @@
             font-weight: 600;
         }
         button:active { background: #16a34a; transform: scale(0.98); }
-    .btn-danger { background: #ef4444; }
-    .btn-danger:active { background: #dc2626; }
-    .btn-blue { background: #3b82f6; }
-    .btn-blue:active { background: #2563eb; }
+        button:disabled { background: #475569; opacity: 0.5; cursor: not-allowed; }
+  .btn-danger { background: #ef4444; }
+  .btn-danger:active { background: #dc2626; }
+  .btn-blue { background: #3b82f6; }
+  .btn-blue:active { background: #2563eb; }
+  .btn-yellow { background: #f59e0b; }
+  .btn-yellow:active { background: #d97706; }
         table { 
             width: 100%; 
             border-collapse: collapse; 
-            margin-top: 10px; 
-            font-size: 13px;
+            margin-top: 8px; 
+            font-size: 12px;
         }
         th, td { 
-            padding: 10px 5px; 
+            padding: 8px 4px; 
             text-align: left; 
             border-bottom: 1px solid #334155; 
         }
-        th { background: #334155; color: #94a3b8; font-size: 12px; }
-    .paid { color: #22c55e; font-weight: bold; }
-    .unpaid { color: #f59e0b; }
-    .winner { background: #14532d!important; }
-    .winner-name { color: #fbbf24; font-weight: bold; }
-    .wheel-container {
+        th { background: #334155; color: #94a3b8; font-size: 11px; }
+  .paid { color: #22c55e; font-weight: bold; }
+  .unpaid { color: #f59e0b; }
+  .winner { background: #14532d!important; }
+  .winner-name { color: #fbbf24; font-weight: bold; }
+  .eligible { background: #1e40af!important; }
+  .wheel-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 10px 0;
+            gap: 10px;
+            padding: 8px 0;
         }
         #wheelCanvas {
-            border: 4px solid #60a5fa;
+            border: 3px solid #fbbf24;
             border-radius: 50%;
             background: #1e293b;
-            width: 280px;
-            height: 280px;
+            width: 260px;
+            height: 260px;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
         }
-    .pointer {
+  .pointer {
             width: 0;
             height: 0;
-            border-left: 12px solid transparent;
-            border-right: 12px solid transparent;
-            border-top: 25px solid #ef4444;
-            margin-bottom: -10px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 20px solid #ef4444;
+            margin-bottom: -8px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
         #winnerText {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #fbbf24;
-            min-height: 28px;
+            min-height: 24px;
             text-align: center;
         }
-     .small-btn {
-            padding: 8px; 
-            font-size: 13px;
+   .small-btn {
+            padding: 7px; 
+            font-size: 12px;
             width: auto;
             margin: 2px;
         }
-     .badge {
+   .badge {
             background: #fbbf24;
             color: #0f172a;
             padding: 2px 8px;
             border-radius: 12px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             margin-left: 5px;
         }
-     .sound-toggle {
+   .header-btns {
             position: fixed;
-            top: 15px;
-            right: 15px;
-            width: auto;
-            padding: 8px 12px;
-            font-size: 20px;
-            background: #334155;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
             z-index: 100;
+        }
+   .header-btn {
+            width: auto;
+            padding: 7px 10px;
+            font-size: 18px;
+            background: #334155;
+        }
+   .login-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+   .login-box {
+            background: #1e293b;
+            padding: 30px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #fbbf24;
+        }
+   .login-box h2 {
+            text-align: center;
+            color: #fbbf24;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+   .user-badge {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            background: #334155;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            z-index: 100;
+        }
+   .admin-badge { background: #ef4444; }
+   .member-badge { background: #3b82f6; }
+   .hidden { display: none!important; }
+   .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: #334155;
+            border-radius: 6px;
+            margin: 4px 0;
+        }
+   .checkbox-row input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+   .info-text {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 5px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <button class="sound-toggle" id="soundToggle">🔊</button>
-    <div class="container">
-        <h1>Chit Fund Manager + Lottery</h1>
+    <div id="loginScreen" class="login-screen">
+        <div class="login-box">
+            <h2>🔐 Mashood ന്റെ കുറി</h2>
+            <input type="password" id="loginPassword" placeholder="Password Enter ചെയ്യൂ">
+            <button id="loginBtn" class="btn-blue">Login</button>
+            <p style="text-align:center; margin-top:15px; font-size:12px; color:#94a3b8;">
+                Admin: Full Control | Member: View Only
+            </p>
+        </div>
+    </div>
+
+    <div id="mainApp" class="hidden">
+        <div class="user-badge" id="userBadge"></div>
+        <div class="header-btns">
+            <button class="header-btn" id="soundToggle">🔊</button>
+            <button class="header-btn btn-danger" id="logoutBtn">🚪</button>
+        </div>
         
-        <div class="stats">
-            <div class="stat-box">
-                <h3>മൊത്തം അംഗങ്ങൾ</h3>
-                <p id="totalMembers">0</p>
+        <div class="container">
+            <h1>Mashood ന്റെ കുറി 💰</h1>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <h3>മൊത്തം അംഗങ്ങൾ</h3>
+                    <p id="totalMembers">0</p>
+                </div>
+                <div class="stat-box">
+                    <h3>മാസ അടവ്</h3>
+                    <p>₹<span id="monthlyAmount">5000</span></p>
+                </div>
+                <div class="stat-box">
+                    <h3>ഈ മാസം കിട്ടിയത്</h3>
+                    <p>₹<span id="collected">0</span></p>
+                </div>
+                <div class="stat-box">
+                    <h3>Winner</h3>
+                    <p id="currentWinner">-</p>
+                </div>
             </div>
-            <div class="stat-box">
-                <h3>മാസ അടവ്</h3>
-                <p>₹<span id="monthlyAmount">5000</span></p>
-            </div>
-            <div class="stat-box">
-                <h3>ഈ മാസം കിട്ടിയത്</h3>
-                <p>₹<span id="collected">0</span></p>
-            </div>
-            <div class="stat-box">
-                <h3>Winner</h3>
-                <p id="currentWinner">-</p>
-            </div>
-        </div>
 
-        <div class="card">
-            <h2>🎡 Lottery Wheel - നറുക്കെടുപ്പ്</h2>
-            <div class="wheel-container">
-                <div class="pointer"></div>
-                <canvas id="wheelCanvas" width="280" height="280"></canvas>
-                <div id="winnerText"></div>
-                <select id="wheelFilter">
-                    <option value="all">എല്ലാവരും (Winner അല്ലാത്തവർ)</option>
-                    <option value="paid">Paid ആയവർ മാത്രം</option>
-                </select>
-                <button id="spinBtn">SPIN - കറക്കുക</button>
-                <button id="saveWinnerBtn" class="btn-blue">Winner Save ചെയ്യുക</button>
+            <div class="card">
+                <h2>🎡 Lottery Wheel - നറുക്കെടുപ്പ്</h2>
+                <div class="wheel-container">
+                    <div class="pointer"></div>
+                    <canvas id="wheelCanvas" width="260" height="260"></canvas>
+                    <div id="winnerText"></div>
+                    <button id="spinBtn" class="admin-only">SPIN - കറക്കുക</button>
+                    <button id="saveWinnerBtn" class="btn-blue admin-only">Winner Save ചെയ്യുക</button>
+                    <p class="info-text member-only">Wheel കാണാൻ മാത്രം - Admin കറക്കും</p>
+                </div>
             </div>
-        </div>
 
-        <div class="card">
-            <h2>Settings</h2>
-            <input type="number" id="chitAmount" placeholder="മാസ അടവ് തുക" value="5000">
-            <button id="updateAmountBtn" class="btn-blue">Update തുക</button>
-            <button id="resetMonthBtn" class="btn-danger">പുതിയ മാസം - Reset</button>
-        </div>
+            <div class="card admin-only">
+                <h2>⚙️ Settings</h2>
+                <input type="number" id="chitAmount" placeholder="മാസ അടവ് തുക" value="5000">
+                <button id="updateAmountBtn" class="btn-blue">Update തുക</button>
+                <button id="resetMonthBtn" class="btn-danger">പുതിയ മാസം - Reset</button>
+            </div>
 
-        <div class="card">
-            <h2>പുതിയ അംഗം</h2>
-            <input type="text" id="memberName" placeholder="പേര്">
-            <input type="tel" id="memberPhone" placeholder="Phone Number">
-            <button id="addMemberBtn">Add ചെയ്യുക</button>
-        </div>
+            <div class="card admin-only">
+                <h2>➕ പുതിയ അംഗം</h2>
+                <input type="text" id="memberName" placeholder="പേര്">
+                <input type="tel" id="memberPhone" placeholder="Phone Number">
+                <button id="addMemberBtn">Add ചെയ്യുക</button>
+                
+                <h2 style="margin-top:15px;">📋 Bulk Add</h2>
+                <textarea id="bulkNames" placeholder="പേരുകൾ ഒന്നിന് താഴെ ഒന്നായി:&#10;Rahul&#10;Priya&#10;Anu"></textarea>
+                <button id="bulkAddBtn" class="btn-blue">Bulk Add ചെയ്യുക</button>
+            </div>
 
-        <div class="card">
-            <h2>അംഗങ്ങളുടെ List <span id="winnerCount" class="badge">0 Winners</span></h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>പേര്</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="memberBody"></tbody>
-            </table>
+            <div class="card admin-only">
+                <h2>🎯 Eligible Members - Wheel-ൽ Win ആവാൻ പറ്റുന്നവർ</h2>
+                <div id="eligibleList"></div>
+                <button id="saveEligibleBtn" class="btn-yellow">Eligible Save ചെയ്യുക</button>
+                <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Members ഇത് കാണില്ല.</p>
+            </div>
+
+            <div class="card">
+                <h2>അംഗങ്ങളുടെ List <span id="winnerCount" class="badge">0 Winners</span></h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>പേര്</th>
+                            <th>Status</th>
+                            <th class="admin-only">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="memberBody"></tbody>
+                </table>
+            </div>
+
+            <div class="card admin-only">
+                <h2>🔑 Password മാറ്റുക</h2>
+                <input type="password" id="newAdminPass" placeholder="പുതിയ Admin Password">
+                <button id="changeAdminPassBtn" class="btn-blue">Admin Password മാറ്റുക</button>
+                <input type="password" id="newMemberPass" placeholder="പുതിയ Member Password">
+                <button id="changeMemberPassBtn" class="btn-blue">Member Password മാറ്റുക</button>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            let members = JSON.parse(localStorage.getItem('chitMembers')) || [];
-            let monthlyAmount = parseInt(localStorage.getItem('chitAmount')) || 5000;
-            let currentMonthWinner = localStorage.getItem('monthWinner') || '-';
-            let wheelSpinning = false;
-            let currentRotation = 0;
-            let soundEnabled = localStorage.getItem('soundEnabled')!== 'false';
-
-            const canvas = document.getElementById('wheelCanvas');
-            const ctx = canvas.getContext('2d');
-            const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#f97316', '#6366f1'];
-
-            // Sound Effects using Web Audio API
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // Default Passwords
+            if (!localStorage.getItem('adminPass')) localStorage.setItem('adminPass', 'ma7hood');
+            if (!localStorage.getItem('memberPass')) localStorage.setItem('memberPass', 'member123');
             
-            function playTickSound() {
-                if (!soundEnabled) return;
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.frequency.value = 800;
-                oscillator.type = 'square';
-                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-                oscillator.start(audioCtx.currentTime);
-                oscillator.stop(audioCtx.currentTime + 0.05);
-            }
-
-            function playWinSound() {
-                if (!soundEnabled) return;
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.frequency.setValueAtTime(523, audioCtx.currentTime);
-                oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1);
-                oscillator.frequency.setValueAtTime(784, audioCtx.currentTime + 0.2);
-                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-                oscillator.start(audioCtx.currentTime);
-                oscillator.stop(audioCtx.currentTime + 0.5);
-            }
-
-            function toggleSound() {
-                soundEnabled =!soundEnabled;
-                localStorage.setItem('soundEnabled', soundEnabled);
-                document.getElementById('soundToggle').textContent = soundEnabled? '🔊' : '🔇';
-            }
-
-            function saveData() {
-                localStorage.setItem('chitMembers', JSON.stringify(members));
-                localStorage.setItem('chitAmount', monthlyAmount);
-                localStorage.setItem('monthWinner', currentMonthWinner);
-                render();
-                drawWheel();
-            }
-
-            function addMember() {
-                const name = document.getElementById('memberName').value.trim();
-                const phone = document.getElementById('memberPhone').value.trim();
-                if (!name) {
-                    alert('പേര് enter ചെയ്യൂ');
-                    return;
-                }
-                
-                members.push({ id: Date.now(), name, phone, paid: false, won: false });
-                document.getElementById('memberName').value = '';
-                document.getElementById('memberPhone').value = '';
-                saveData();
-            }
-
-            function togglePaid(id) {
-                members = members.map(m => m.id === id? {...m, paid:!m.paid} : m);
-                saveData();
-            }
-
-            function deleteMember(id) {
-                if (confirm('Delete ചെയ്യണോ?')) {
-                    members = members.filter(m => m.id!== id);
-                    saveData();
-                }
-            }
-
-            function updateAmount() {
-                const newAmount = parseInt(document.getElementById('chitAmount').value);
-                if (newAmount > 0) {
-                    monthlyAmount = newAmount;
-                    saveData();
-                    alert('തുക update ചെയ്തു');
-                }
-            }
-
-            function resetMonth() {
-                if (confirm('പുതിയ മാസം തുടങ്ങണോ? Payment + Winners reset ആവും')) {
-                    members = members.map(m => ({...m, paid: false, won: false}));
-                    currentMonthWinner = '-';
-                    document.getElementById('winnerText').textContent = '';
-                    saveData();
-                }
-            }
-
-            function getWheelMembers() {
-                const filter = document.getElementById('wheelFilter').value;
-                if (filter === 'paid') return members.filter(m => m.paid &&!m.won);
-                return members.filter(m =>!m.won);
-            }
-
-            function drawWheel() {
-                const wheelMembers = getWheelMembers();
-                const centerX = canvas.width / 2;
-                const centerY = canvas.height / 2;
-                const radius = 130;
-                
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                
-                if (wheelMembers.length === 0) {
-                    ctx.fillStyle = '#94a3b8';
-                    ctx.font = '16px Arial';
-                    ctx.textAlign = 'center';
-                    ctx.fillText('എല്ലാവരും Win ചെയ്തു', centerX, centerY - 10);
-                    ctx.fillText('അല്ലെങ്കിൽ Add ചെയ്യൂ', centerX, centerY + 15);
-                    return;
-                }
-
-                const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
-                
-                wheelMembers.forEach((member, i) => {
-                    const startAngle = currentRotation + i * anglePerSlice;
-                    const endAngle = startAngle + anglePerSlice;
-                    
-                    ctx.beginPath();
-                    ctx.moveTo(centerX, centerY);
-                    ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                    ctx.closePath();
-                    ctx.fillStyle = colors[i % colors.length];
-                    ctx.fill();
-                    ctx.strokeStyle = '#0f172a';
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                    
-                    ctx.save();
-                    ctx.translate(centerX, centerY);
-                    ctx.rotate(startAngle + anglePerSlice / 2);
-                    ctx.textAlign = 'right';
-                    ctx.fillStyle = '#fff';
-                    ctx.font = 'bold 12px Arial';
-                    ctx.fillText(member.name.substring(0,10), radius - 8, 4);
-                    ctx.restore();
-                });
-                
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, 15, 0, 2 * Math.PI);
-                ctx.fillStyle = '#0f172a';
-                ctx.fill();
-            }
-
-            let lastTickAngle = 0;
-            function spinWheel() {
-                if (wheelSpinning) return;
-                const wheelMembers = getWheelMembers();
-                if (wheelMembers.length < 2) return alert('കുറഞ്ഞത് 2 അംഗങ്ങൾ വേണം');
-                
-                wheelSpinning = true;
-                document.getElementById('winnerText').textContent = 'കറങ്ങുന്നു...';
-                
-                const spins = 5 + Math.random() * 5;
-                const finalAngle = Math.random() * 2 * Math.PI;
-                const totalRotation = spins * 2 * Math.PI + finalAngle;
-                const duration = 3500;
-                const startTime = Date.now();
-                const startRotation = currentRotation;
-                const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
-                lastTickAngle = 0;
-                
-                function animate() {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easing = 1 - Math.pow(1 - progress, 3);
-                    
-                    currentRotation = startRotation + totalRotation * easing;
-                    
-                    // Play tick sound on each slice pass
-                    const currentSlice = Math.floor(currentRotation / anglePerSlice);
-                    if (currentSlice!== lastTickAngle) {
-                        playTickSound();
-                        lastTickAngle = currentSlice;
-                    }
-                    
-                    drawWheel();
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        wheelSpinning = false;
-                        const normalizedRotation = (2 * Math.PI - (currentRotation % (2 * Math.PI))) % (2 * Math.PI);
-                        const winnerIndex = Math.floor(normalizedRotation / anglePerSlice);
-                        const winner = wheelMembers[winnerIndex];
-                        
-                        document.getElementById('winnerText').textContent = `🎉 ${winner.name} 🎉`;
-                        currentMonthWinner = winner.name;
-                        playWinSound();
-                    }
-                }
-                animate();
-            }
-
-            function saveWinner() {
-                if (currentMonthWinner === '-') return alert('ആദ്യം wheel കറക്കൂ');
-                const winnerMember = members.find(m => m.name === currentMonthWinner);
-                if (winnerMember) {
-                    members = members.map(m => m.id === winnerMember.id? {...m, won: true} : m);
-                    saveData();
-                    alert(`Winner ${currentMonthWinner} save ചെയ്തു! ഇനി wheel-ൽ വരില്ല.`);
-                }
-            }
-
-            function render() {
-                const tbody = document.getElementById('memberBody');
-                tbody.innerHTML = '';
-                
-                let collected = 0;
-                let winnerCount = 0;
-                
-                members.forEach(m => {
-                    if (m.paid) collected += monthlyAmount;
-                    if (m.won) winnerCount++;
-                    
-                    const row = document.createElement('tr');
-                    if (m.won) row.classList.add('winner');
-                    
-                    row.innerHTML = `
-                        <td class="${m.won? 'winner-name' : ''}">${m.name} ${m.won? '🏆' : ''}</td>
-                        <td class="${m.paid? 'paid' : 'unpaid'}">${m.paid? 'Paid' : 'Pending'}</td>
-                        <td>
-                            <button class="small-btn paidBtn" data-id="${m.id}">
-                                ${m.paid? 'Undo' : 'Paid'}
-                            </button>
-                            <button class="small-btn btn-danger deleteBtn" data-id="${m.id}">Del</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                document.querySelectorAll('.paidBtn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        togglePaid(parseInt(this.dataset.id));
-                    });
-                });
-                
-                document.querySelectorAll('.deleteBtn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        deleteMember(parseInt(this.dataset.id));
-                    });
-                });
-
-                document.getElementById('totalMembers').textContent = members.length;
-                document.getElementById('monthlyAmount').textContent = monthlyAmount;
-                document.getElementById('collected').textContent = collected;
-                document.getElementById('currentWinner').textContent = currentMonthWinner;
-                document.getElementById('winnerCount').textContent = winnerCount + ' Winners';
-            }
-
-            document.getElementById('spinBtn').addEventListener('click', spinWheel);
-            document.getElementById('saveWinnerBtn').addEventListener('click', saveWinner);
-            document.getElementById('updateAmountBtn').addEventListener('click', updateAmount);
-            document.getElementById('resetMonthBtn').addEventListener('click', resetMonth);
-            document.getElementById('addMemberBtn').addEventListener('click', addMember);
-            document.getElementById('wheelFilter').addEventListener('change', drawWheel);
-            document.getElementById('soundToggle').addEventListener('click', toggleSound);
-
-            document.getElementById('memberName').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addMember();
-            });
-
-            document.getElementById('chitAmount').value = monthlyAmount;
-            document.getElementById('soundToggle').textContent = soundEnabled? '🔊' : '🔇';
-            render();
-            drawWheel();
-        });
-    </script>
-</body>
-</html>
+            let members = JSON.parse(localStorage.getItem('chitMembers')) || [];
+            let monthlyAmount = parseInt(localStorage.getItem('chitAmount')) ||
