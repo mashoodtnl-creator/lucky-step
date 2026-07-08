@@ -1,6 +1,4 @@
-body { font-family: sans-serif; background-color: #f4f4f9; padding: 10px; }
-.container { background: white; padding: 15px; border-radius: 10px; }
-input { width: 100%; padding: 10px; margin: 5px 0; }
-button { width: 100%; padding: 10px; background: #28a745; color: white; border: none; cursor: pointer; }
-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+body { font-family: sans-serif; text-align: center; background: #f0f2f5; }
+#login-box { margin-top: 100px; padding: 20px; background: white; width: 300px; margin-left: auto; margin-right: auto; }
+button { background: #007bff; color: white; border: none; padding: 10px; cursor: pointer; margin-top: 10px; }
+#dashboard { padding: 20px; }
