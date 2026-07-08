@@ -4,100 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chit Fund Manager + Lottery Wheel</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: #0f172a; 
-            color: #e2e8f0; 
-            padding: 20px;
-        }
-       .container { max-width: 1200px; margin: 0 auto; }
-        h1 { text-align: center; margin-bottom: 30px; color: #60a5fa; }
-       .card { 
-            background: #1e293b; 
-            padding: 20px; 
-            border-radius: 12px; 
-            margin-bottom: 20px;
-            border: 1px solid #334155;
-        }
-       .stats { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 20px; 
-        }
-       .stat-box { 
-            background: #334155; 
-            padding: 15px; 
-            border-radius: 8px; 
-            text-align: center; 
-        }
-       .stat-box h3 { color: #94a3b8; font-size: 14px; }
-       .stat-box p { font-size: 24px; font-weight: bold; color: #22d3ee; margin-top: 5px; }
-        input, button, select { 
-            padding: 10px 15px; 
-            border-radius: 6px; 
-            border: 1px solid #475569; 
-            background: #334155; 
-            color: #e2e8f0; 
-            margin: 5px;
-        }
-        button { 
-            background: #3b82f6; 
-            cursor: pointer; 
-            border: none; 
-            font-weight: 600;
-        }
-        button:hover { background: #2563eb; }
-       .btn-danger { background: #ef4444; }
-       .btn-danger:hover { background: #dc2626; }
-       .btn-success { background: #22c55e; }
-       .btn-success:hover { background: #16a34a; }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            margin-top: 15px; 
-        }
-        th, td { 
-            padding: 12px; 
-            text-align: left; 
-            border-bottom: 1px solid #334155; 
-        }
-        th { background: #334155; color: #94a3b8; }
-       .paid { color: #22c55e; }
-       .unpaid { color: #f59e0b; }
-       .winner { background: #14532d!important; }
-       .flex { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-        
-        /* Wheel Styles */
-       .wheel-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-        #wheelCanvas {
-            border: 5px solid #60a5fa;
-            border-radius: 50%;
-            box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
-        }
-       .pointer {
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 40px solid #ef4444;
-            position: relative;
-            top: -10px;
-        }
-        #winnerText {
-            font-size: 28px;
-            font-weight: bold;
-            color: #fbbf24;
-            min-height: 40px;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -134,8 +41,8 @@
                         <option value="paid">Paid ആയവർ മാത്രം</option>
                         <option value="unpaid">Pending ഉള്ളവർ</option>
                     </select>
-                    <button class="btn-success" onclick="spinWheel()">SPIN - കറക്കുക</button>
-                    <button onclick="saveWinner()">Winner Save ചെയ്യുക</button>
+                    <button class="btn-success" id="spinBtn">SPIN - കറക്കുക</button>
+                    <button id="saveWinnerBtn">Winner Save ചെയ്യുക</button>
                 </div>
             </div>
         </div>
@@ -144,8 +51,8 @@
             <h2>Settings</h2>
             <div class="flex">
                 <input type="number" id="chitAmount" placeholder="മാസ അടവ് തുക" value="5000">
-                <button onclick="updateAmount()">Update തുക</button>
-                <button onclick="resetMonth()">പുതിയ മാസം തുടങ്ങുക</button>
+                <button id="updateAmountBtn">Update തുക</button>
+                <button id="resetMonthBtn">പുതിയ മാസം തുടങ്ങുക</button>
             </div>
         </div>
 
@@ -154,7 +61,7 @@
             <div class="flex">
                 <input type="text" id="memberName" placeholder="പേര്">
                 <input type="text" id="memberPhone" placeholder="Phone Number">
-                <button onclick="addMember()">Add ചെയ്യുക</button>
+                <button id="addMemberBtn">Add ചെയ്യുക</button>
             </div>
         </div>
 
@@ -175,151 +82,6 @@
         </div>
     </div>
 
-    <script>
-        let members = JSON.parse(localStorage.getItem('chitMembers')) || [];
-        let monthlyAmount = parseInt(localStorage.getItem('chitAmount')) || 5000;
-        let currentMonthWinner = localStorage.getItem('monthWinner') || '-';
-        let wheelSpinning = false;
-        let currentRotation = 0;
-
-        const canvas = document.getElementById('wheelCanvas');
-        const ctx = canvas.getContext('2d');
-        const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#f97316', '#6366f1'];
-
-        function saveData() {
-            localStorage.setItem('chitMembers', JSON.stringify(members));
-            localStorage.setItem('chitAmount', monthlyAmount);
-            localStorage.setItem('monthWinner', currentMonthWinner);
-            render();
-            drawWheel();
-        }
-
-        function addMember() {
-            const name = document.getElementById('memberName').value;
-            const phone = document.getElementById('memberPhone').value;
-            if (!name) return alert('പേര് enter ചെയ്യൂ');
-            
-            members.push({ id: Date.now(), name, phone, paid: false, won: false });
-            document.getElementById('memberName').value = '';
-            document.getElementById('memberPhone').value = '';
-            saveData();
-        }
-
-        function togglePaid(id) {
-            members = members.map(m => m.id === id? {...m, paid:!m.paid} : m);
-            saveData();
-        }
-
-        function deleteMember(id) {
-            if (confirm('ഈ അംഗത്തെ delete ചെയ്യണോ?')) {
-                members = members.filter(m => m.id!== id);
-                saveData();
-            }
-        }
-
-        function updateAmount() {
-            monthlyAmount = parseInt(document.getElementById('chitAmount').value) || 5000;
-            saveData();
-        }
-
-        function resetMonth() {
-            if (confirm('പുതിയ മാസം തുടങ്ങണോ? Payment status reset ആവും')) {
-                members = members.map(m => ({...m, paid: false}));
-                currentMonthWinner = '-';
-                document.getElementById('winnerText').textContent = '';
-                saveData();
-            }
-        }
-
-        function getWheelMembers() {
-            const filter = document.getElementById('wheelFilter').value;
-            if (filter === 'paid') return members.filter(m => m.paid &&!m.won);
-            if (filter === 'unpaid') return members.filter(m =>!m.paid &&!m.won);
-            return members.filter(m =>!m.won);
-        }
-
-        function drawWheel() {
-            const wheelMembers = getWheelMembers();
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = 180;
-            
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (wheelMembers.length === 0) {
-                ctx.fillStyle = '#475569';
-                ctx.font = '20px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('അംഗങ്ങളില്ല', centerX, centerY);
-                return;
-            }
-
-            const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
-            
-            wheelMembers.forEach((member, i) => {
-                const startAngle = currentRotation + i * anglePerSlice;
-                const endAngle = startAngle + anglePerSlice;
-                
-                ctx.beginPath();
-                ctx.moveTo(centerX, centerY);
-                ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-                ctx.closePath();
-                ctx.fillStyle = colors[i % colors.length];
-                ctx.fill();
-                ctx.strokeStyle = '#0f172a';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-                
-                ctx.save();
-                ctx.translate(centerX, centerY);
-                ctx.rotate(startAngle + anglePerSlice / 2);
-                ctx.textAlign = 'right';
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 14px Arial';
-                ctx.fillText(member.name, radius - 10, 5);
-                ctx.restore();
-            });
-        }
-
-        function spinWheel() {
-            if (wheelSpinning) return;
-            const wheelMembers = getWheelMembers();
-            if (wheelMembers.length === 0) return alert('Wheel-ൽ ഇടാൻ ആളില്ല');
-            
-            wheelSpinning = true;
-            document.getElementById('winnerText').textContent = 'കറങ്ങുന്നു...';
-            
-            const spins = 5 + Math.random() * 5;
-            const finalAngle = Math.random() * 2 * Math.PI;
-            const totalRotation = spins * 2 * Math.PI + finalAngle;
-            const duration = 4000;
-            const startTime = Date.now();
-            const startRotation = currentRotation;
-            
-            function animate() {
-                const elapsed = Date.now() - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const easing = 1 - Math.pow(1 - progress, 3);
-                
-                currentRotation = startRotation + totalRotation * easing;
-                drawWheel();
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animate);
-                } else {
-                    wheelSpinning = false;
-                    const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
-                    const normalizedRotation = (2 * Math.PI - (currentRotation % (2 * Math.PI))) % (2 * Math.PI);
-                    const winnerIndex = Math.floor(normalizedRotation / anglePerSlice);
-                    const winner = wheelMembers[winnerIndex];
-                    
-                    document.getElementById('winnerText').textContent = `🎉 Winner: ${winner.name} 🎉`;
-                    currentMonthWinner = winner.name;
-                }
-            }
-            animate();
-        }
-
-        function saveWinner() {
-            if (currentMonthWinner === '-') return alert('ആദ്യം wheel കറക്കി winner select ചെയ്യൂ');
-            const winnerMember = members.find(m => m.name ===
+    <script src="script.js"></script>
+</body>
+</html>
