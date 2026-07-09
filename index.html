@@ -310,3 +310,64 @@
                     <h2>➕ പുതിയ അംഗം</h2>
                     <input type="text" id="memberName" placeholder="പേര്">
                     <input type="tel" id="memberPhone" placeholder="Phone Number">
+                    <button id="addMemberBtn">Add ചെയ്യുക</button>
+                    
+                    <h2 style="margin-top:15px;">📋 Bulk Add</h2>
+                    <textarea id="bulkNames" placeholder="പേരുകൾ ഒന്നിന് താഴെ ഒന്നായി:&#10;Rahul&#10;Priya&#10;Anu"></textarea>
+                    <button id="bulkAddBtn" class="btn-blue">Bulk Add ചെയ്യുക</button>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>🎯 Eligible Members - Wheel-ൽ Win ആവാൻ പറ്റുന്നവർ</h2>
+                    <div class="btn-row">
+                        <button id="selectAllBtn" class="small-btn btn-blue">എല്ലാം Select</button>
+                        <button id="deselectAllBtn" class="small-btn">Deselect All</button>
+                        <button id="magicSelectBtn" class="small-btn btn-purple">✨ Magic Select</button>
+                    </div>
+                    <div id="eligibleList"></div>
+                    <button id="saveEligibleBtn" class="btn-yellow">Eligible Save ചെയ്യുക</button>
+                    <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Select ചെയ്തില്ലെങ്കിൽ എല്ലാവരും eligible!</p>
+                </div>
+
+                <div class="card">
+                    <h2>അംഗങ്ങളുടെ List <span id="winnerCount" class="badge">0 Winners</span></h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>പേര്</th>
+                                <th>Status</th>
+                                <th class="admin-only">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>🔑 Password മാറ്റുക</h2>
+                    <input type="password" id="newAdminPass" placeholder="പുതിയ Admin Password">
+                    <button id="changeAdminPassBtn" class="btn-blue">Admin Password മാറ്റുക</button>
+                    <input type="password" id="newMemberPass" placeholder="പുതിയ Member Password">
+                    <button id="changeMemberPassBtn" class="btn-blue">Member Password മാറ്റുക</button>
+                </div>
+            </div>
+
+            <div id="rulesContent" class="hidden">
+                <div class="card admin-only">
+                    <h2>📝 നിയമങ്ങൾ എഴുതുക</h2>
+                    <textarea id="rulesText" placeholder="കുറിയുടെ നിയമങ്ങൾ ഇവിടെ എഴുതുക...&#10;&#10;1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുൻപ് അടവ്&#10;2. Winner ആയവർ പിന്നെ നറുക്കിൽ വരില്ല&#10;3. ..."></textarea>
+                    <button id="saveRulesBtn" class="btn-blue">നിയമങ്ങൾ Save ചെയ്യുക</button>
+                </div>
+                <div class="card">
+                    <h2>📜 കുറിയുടെ നിയമങ്ങൾ</h2>
+                    <div id="rulesDisplay" class="rules-display">നിയമങ്ങൾ ഇതുവരെ ചേർത്തിട്ടില്ല.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FIX: First time മാത്രം password set ചെയ്യും. പഴയത് ഉണ്ടെങ്കിൽ മാറ്റില്ല
+            if (!localStorage.getItem('adminPass')) {
+                localStorage.setItem('adminPass', 'ma
