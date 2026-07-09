@@ -233,6 +233,13 @@
             background: #3b82f6;
             color: #fff;
         }
+   .btn-row {
+            display: flex;
+            gap: 5px;
+        }
+   .btn-row button {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -241,9 +248,6 @@
             <h2>🔐 Mashood ന്റെ കുറി</h2>
             <input type="password" id="loginPassword" placeholder="Password Enter ചെയ്യൂ">
             <button id="loginBtn" class="btn-blue">Login</button>
-            <p style="text-align:center; margin-top:15px; font-size:12px; color:#94a3b8;">
-                Admin: ma7hood | Member: member123
-            </p>
         </div>
     </div>
 
@@ -291,6 +295,7 @@
                         <button id="spinBtn" class="admin-only">SPIN - കറക്കുക</button>
                         <button id="saveWinnerBtn" class="btn-blue admin-only">Winner Save ചെയ്യുക</button>
                         <p class="info-text member-only">Wheel കാണാൻ മാത്രം - Admin കറക്കും</p>
+                        <p class="info-text admin-only" id="eligibleInfo">Eligible: എല്ലാവരും (Auto)</p>
                     </div>
                 </div>
 
@@ -314,14 +319,14 @@
 
                 <div class="card admin-only">
                     <h2>🎯 Eligible Members - Wheel-ൽ Win ആവാൻ പറ്റുന്നവർ</h2>
-                    <div style="display:flex; gap:5px; margin-bottom:10px;">
+                    <div class="btn-row">
                         <button id="selectAllBtn" class="small-btn btn-blue">എല്ലാം Select</button>
                         <button id="deselectAllBtn" class="small-btn">Deselect All</button>
                         <button id="magicSelectBtn" class="small-btn btn-purple">✨ Magic Select</button>
                     </div>
                     <div id="eligibleList"></div>
                     <button id="saveEligibleBtn" class="btn-yellow">Eligible Save ചെയ്യുക</button>
-                    <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Members ഇത് അറിയില്ല!</p>
+                    <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Select ചെയ്തില്ലെങ്കിൽ എല്ലാവരും eligible!</p>
                 </div>
 
                 <div class="card">
@@ -363,8 +368,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            localStorage.setItem('adminPass', 'ma7hood');
-            if (!localStorage.getItem('memberPass')) localStorage.setItem('memberPass', 'member123');
+            // FIX: First time മാത്രം set ചെയ്യും
+            if (localStorage.getItem('adminPass') === null) {
+                localStorage.setItem('adminPass', 'ma7hood');
+            }
+            if (localStorage.getItem('memberPass') === null) {
+                localStorage.setItem('memberPass', 'member123');
+            }
             
             let members = JSON.parse(localStorage.getItem('chitMembers')) || [];
             let monthlyAmount = parseInt(localStorage.getItem('chitAmount')) || 5000;
@@ -393,20 +403,23 @@
             }
 
             function login() {
-                const password = document.getElementById('loginPassword').value;
+                const password = document.getElementById('loginPassword').value.trim();
                 const adminPass = localStorage.getItem('adminPass');
                 const memberPass = localStorage.getItem('memberPass');
                 
                 if (password === adminPass) {
                     userRole = 'admin';
                     sessionStorage.setItem('userRole', 'admin');
+                    document.getElementById('loginPassword').value = '';
                     checkLogin();
                 } else if (password === memberPass) {
                     userRole = 'member';
                     sessionStorage.setItem('userRole', 'member');
+                    document.getElementById('loginPassword').value = '';
                     checkLogin();
                 } else {
                     alert('❌ തെറ്റായ Password!');
+                    document.getElementById('loginPassword').value = '';
                 }
             }
 
@@ -433,6 +446,19 @@
                 }
             }
 
+            function switchTab(tab) {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                if (tab === 'main') {
+                    document.getElementById('mainTab').classList.add('active');
+                    document.getElementById('mainContent').classList.remove('hidden');
+                    document.getElementById('rulesContent').classList.add('hidden');
+                } else {
+                    document.getElementById('rulesTab').classList.add('active');
+                    document.getElementById('mainContent').classList.add('hidden');
+                    document.getElementById('rulesContent').classList.remove('hidden');
+                }
+            }
+
             function changeAdminPassword() {
                 const newPass = document.getElementById('newAdminPass').value;
                 if (newPass.length < 4) return alert('കുറഞ്ഞത് 4 അക്ഷരം വേണം');
@@ -447,6 +473,20 @@
                 localStorage.setItem('memberPass', newPass);
                 document.getElementById('newMemberPass').value = '';
                 alert('✅ Member Password മാറ്റി');
+            }
+
+            function saveRules() {
+                if (userRole!== 'admin') return;
+                const rules = document.getElementById('rulesText').value;
+                localStorage.setItem('chitRules', rules);
+                chitRules = rules;
+                displayRules();
+                alert('✅ നിയമങ്ങൾ Save ചെയ്തു');
+            }
+
+            function displayRules() {
+                const display = document.getElementById('rulesDisplay');
+                display.textContent = chitRules || 'നിയമങ്ങൾ ഇതുവരെ ചേർത്തിട്ടില്ല.';
             }
 
             function playTickSound() {
@@ -588,6 +628,7 @@
                     }
                 });
                 saveData();
+                updateEligibleInfo();
                 alert(`✅ ${eligibleIds.length} പേർ Eligible ആക്കി. Members ഇത് അറിയില്ല!`);
             }
 
@@ -612,7 +653,6 @@
                 const nonWinners = members.filter(m =>!m.won);
                 if (nonWinners.length === 0) return alert('എല്ലാവരും win ചെയ്തു');
                 
-                // Random 30-70% പേരെ select ചെയ്യും
                 const count = Math.floor(Math.random() * (nonWinners.length * 0.4)) + Math.ceil(nonWinners.length * 0.3);
                 const shuffled = [...nonWinners].sort(() => 0.5 - Math.random());
                 
@@ -622,6 +662,17 @@
                     if (checkbox) checkbox.checked = true;
                 }
                 alert(`✨ Magic! ${count} പേരെ auto select ചെയ്തു`);
+            }
+
+            function updateEligibleInfo() {
+                const info = document.getElementById('eligibleInfo');
+                if (!info) return;
+                const count = eligibleIds.length;
+                if (count === 0) {
+                    info.textContent = 'Eligible: എല്ലാവരും (Auto)';
+                } else {
+                    info.textContent = `Eligible: ${count} പേർ select ചെയ്തു`;
+                }
             }
 
             function getWheelMembers() {
@@ -686,79 +737,22 @@
                 
                 let eligibleMembers = members.filter(m => eligibleIds.includes(m.id) &&!m.won);
                 
-                // Eligible ഇല്ലെങ്കിൽ എല്ലാവരെയും eligible ആക്കും
+                // FIX: Eligible ഇല്ലെങ്കിൽ എല്ലാവരെയും eligible ആക്കും (Auto)
                 if (eligibleMembers.length === 0) {
                     eligibleIds = wheelMembers.map(m => m.id);
                     eligibleMembers = wheelMembers;
+                    updateEligibleInfo();
                 }
                 
                 wheelSpinning = true;
                 document.getElementById('winnerText').textContent = 'കറങ്ങുന്നു...';
                 
-                // Winner മുൻകൂട്ടി select ചെയ്യും
+                // Winner മുൻകൂട്ടി select ചെയ്യും - Eligible-ൽ നിന്ന് മാത്രം
                 const finalWinner = eligibleMembers[Math.floor(Math.random() * eligibleMembers.length)];
                 const winnerIndex = wheelMembers.findIndex(m => m.id === finalWinner.id);
                 const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
                 
-                // Wheel ആ winner-ൽ stop ആവാൻ calculate ചെയ്യും
+                // FIX: Winner-ൽ കൃത്യമായി നിൽക്കാൻ calculate ചെയ്യും
                 const targetAngle = (2 * Math.PI) - (winnerIndex * anglePerSlice) - (anglePerSlice / 2);
                 const spins = 5 + Math.random() * 3;
-                const totalRotation = spins * 2 * Math.PI + targetAngle - (currentRotation % (2 * Math.PI));
-                const duration = 4000;
-                const startTime = Date.now();
-                const startRotation = currentRotation;
-                lastTickAngle = 0;
-                
-                function animate() {
-                    const elapsed = Date.now() - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const easing = 1 - Math.pow(1 - progress, 4);
-                    
-                    currentRotation = startRotation + totalRotation * easing;
-                    
-                    const currentSlice = Math.floor((currentRotation % (2 * Math.PI)) / anglePerSlice);
-                    if (currentSlice!== lastTickAngle) {
-                        playTickSound();
-                        lastTickAngle = currentSlice;
-                    }
-                    
-                    drawWheel();
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(animate);
-                    } else {
-                        wheelSpinning = false;
-                        document.getElementById('winnerText').textContent = `🎉 ${finalWinner.name} 🎉`;
-                        currentMonthWinner = finalWinner.name;
-                        playWinSound();
-                    }
-                }
-                animate();
-            }
-
-            function saveWinner() {
-                if (userRole!== 'admin') return alert('Admin മാത്രമേ Save ചെയ്യാൻ പറ്റൂ');
-                if (currentMonthWinner === '-') return alert('ആദ്യം wheel കറക്കൂ');
-                const winnerMember = members.find(m => m.name === currentMonthWinner);
-                if (winnerMember) {
-                    members = members.map(m => m.id === winnerMember.id? {...m, won: true} : m);
-                    saveData();
-                    alert(`Winner ${currentMonthWinner} save ചെയ്തു! ഇനി wheel-ൽ വരില്ല.`);
-                }
-            }
-
-            function render() {
-                const tbody = document.getElementById('memberBody');
-                tbody.innerHTML = '';
-                
-                let collected = 0;
-                let winnerCount = 0;
-                
-                members.forEach(m => {
-                    if (m.paid) collected += monthlyAmount;
-                    if (m.won) winnerCount++;
-                    
-                    const row = document.createElement('tr');
-                    if (m.won) row.classList.add('winner');
-                    
-                   
+                const totalRotation = spins * 2 * Math.PI + targetAngle - (currentRotation % (2 *
