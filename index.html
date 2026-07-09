@@ -53,7 +53,7 @@
             margin: 5px 0;
             font-size: 16px;
         }
-        textarea { min-height: 80px; font-family: system-ui, sans-serif; }
+        textarea { min-height: 100px; font-family: system-ui, sans-serif; }
         button { 
             background: #22c55e; 
             cursor: pointer; 
@@ -68,6 +68,8 @@
   .btn-blue:active { background: #2563eb; }
   .btn-yellow { background: #f59e0b; }
   .btn-yellow:active { background: #d97706; }
+  .btn-purple { background: #8b5cf6; }
+  .btn-purple:active { background: #7c3aed; }
         table { 
             width: 100%; 
             border-collapse: collapse; 
@@ -205,6 +207,32 @@
             margin-top: 5px;
             text-align: center;
         }
+   .rules-display {
+            background: #334155;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+   .tab-buttons {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+   .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: #334155;
+            border: none;
+            color: #94a3b8;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+   .tab-btn.active {
+            background: #3b82f6;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -248,70 +276,93 @@
                 </div>
             </div>
 
-            <div class="card">
-                <h2>🎡 Lottery Wheel - നറുക്കെടുപ്പ്</h2>
-                <div class="wheel-container">
-                    <div class="pointer"></div>
-                    <canvas id="wheelCanvas" width="260" height="260"></canvas>
-                    <div id="winnerText"></div>
-                    <button id="spinBtn" class="admin-only">SPIN - കറക്കുക</button>
-                    <button id="saveWinnerBtn" class="btn-blue admin-only">Winner Save ചെയ്യുക</button>
-                    <p class="info-text member-only">Wheel കാണാൻ മാത്രം - Admin കറക്കും</p>
+            <div class="tab-buttons admin-only">
+                <button class="tab-btn active" id="mainTab">🎡 Main</button>
+                <button class="tab-btn" id="rulesTab">📜 നിയമങ്ങൾ</button>
+            </div>
+
+            <div id="mainContent">
+                <div class="card">
+                    <h2>🎡 Lottery Wheel - നറുക്കെടുപ്പ്</h2>
+                    <div class="wheel-container">
+                        <div class="pointer"></div>
+                        <canvas id="wheelCanvas" width="260" height="260"></canvas>
+                        <div id="winnerText"></div>
+                        <button id="spinBtn" class="admin-only">SPIN - കറക്കുക</button>
+                        <button id="saveWinnerBtn" class="btn-blue admin-only">Winner Save ചെയ്യുക</button>
+                        <p class="info-text member-only">Wheel കാണാൻ മാത്രം - Admin കറക്കും</p>
+                    </div>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>⚙️ Settings</h2>
+                    <input type="number" id="chitAmount" placeholder="മാസ അടവ് തുക" value="5000">
+                    <button id="updateAmountBtn" class="btn-blue">Update തുക</button>
+                    <button id="resetMonthBtn" class="btn-danger">പുതിയ മാസം - Reset</button>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>➕ പുതിയ അംഗം</h2>
+                    <input type="text" id="memberName" placeholder="പേര്">
+                    <input type="tel" id="memberPhone" placeholder="Phone Number">
+                    <button id="addMemberBtn">Add ചെയ്യുക</button>
+                    
+                    <h2 style="margin-top:15px;">📋 Bulk Add</h2>
+                    <textarea id="bulkNames" placeholder="പേരുകൾ ഒന്നിന് താഴെ ഒന്നായി:&#10;Rahul&#10;Priya&#10;Anu"></textarea>
+                    <button id="bulkAddBtn" class="btn-blue">Bulk Add ചെയ്യുക</button>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>🎯 Eligible Members - Wheel-ൽ Win ആവാൻ പറ്റുന്നവർ</h2>
+                    <div style="display:flex; gap:5px; margin-bottom:10px;">
+                        <button id="selectAllBtn" class="small-btn btn-blue">എല്ലാം Select</button>
+                        <button id="deselectAllBtn" class="small-btn">Deselect All</button>
+                        <button id="magicSelectBtn" class="small-btn btn-purple">✨ Magic Select</button>
+                    </div>
+                    <div id="eligibleList"></div>
+                    <button id="saveEligibleBtn" class="btn-yellow">Eligible Save ചെയ്യുക</button>
+                    <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Members ഇത് അറിയില്ല!</p>
+                </div>
+
+                <div class="card">
+                    <h2>അംഗങ്ങളുടെ List <span id="winnerCount" class="badge">0 Winners</span></h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>പേര്</th>
+                                <th>Status</th>
+                                <th class="admin-only">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="memberBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card admin-only">
+                    <h2>🔑 Password മാറ്റുക</h2>
+                    <input type="password" id="newAdminPass" placeholder="പുതിയ Admin Password">
+                    <button id="changeAdminPassBtn" class="btn-blue">Admin Password മാറ്റുക</button>
+                    <input type="password" id="newMemberPass" placeholder="പുതിയ Member Password">
+                    <button id="changeMemberPassBtn" class="btn-blue">Member Password മാറ്റുക</button>
                 </div>
             </div>
 
-            <div class="card admin-only">
-                <h2>⚙️ Settings</h2>
-                <input type="number" id="chitAmount" placeholder="മാസ അടവ് തുക" value="5000">
-                <button id="updateAmountBtn" class="btn-blue">Update തുക</button>
-                <button id="resetMonthBtn" class="btn-danger">പുതിയ മാസം - Reset</button>
-            </div>
-
-            <div class="card admin-only">
-                <h2>➕ പുതിയ അംഗം</h2>
-                <input type="text" id="memberName" placeholder="പേര്">
-                <input type="tel" id="memberPhone" placeholder="Phone Number">
-                <button id="addMemberBtn">Add ചെയ്യുക</button>
-                
-                <h2 style="margin-top:15px;">📋 Bulk Add</h2>
-                <textarea id="bulkNames" placeholder="പേരുകൾ ഒന്നിന് താഴെ ഒന്നായി:&#10;Rahul&#10;Priya&#10;Anu"></textarea>
-                <button id="bulkAddBtn" class="btn-blue">Bulk Add ചെയ്യുക</button>
-            </div>
-
-            <div class="card admin-only">
-                <h2>🎯 Eligible Members - Wheel-ൽ Win ആവാൻ പറ്റുന്നവർ</h2>
-                <div id="eligibleList"></div>
-                <button id="saveEligibleBtn" class="btn-yellow">Eligible Save ചെയ്യുക</button>
-                <p class="info-text">Tick ചെയ്തവർ മാത്രമേ Wheel-ൽ Win ആവൂ. Members ഇത് അറിയില്ല!</p>
-            </div>
-
-            <div class="card">
-                <h2>അംഗങ്ങളുടെ List <span id="winnerCount" class="badge">0 Winners</span></h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>പേര്</th>
-                            <th>Status</th>
-                            <th class="admin-only">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="memberBody"></tbody>
-                </table>
-            </div>
-
-            <div class="card admin-only">
-                <h2>🔑 Password മാറ്റുക</h2>
-                <input type="password" id="newAdminPass" placeholder="പുതിയ Admin Password">
-                <button id="changeAdminPassBtn" class="btn-blue">Admin Password മാറ്റുക</button>
-                <input type="password" id="newMemberPass" placeholder="പുതിയ Member Password">
-                <button id="changeMemberPassBtn" class="btn-blue">Member Password മാറ്റുക</button>
+            <div id="rulesContent" class="hidden">
+                <div class="card admin-only">
+                    <h2>📝 നിയമങ്ങൾ എഴുതുക</h2>
+                    <textarea id="rulesText" placeholder="കുറിയുടെ നിയമങ്ങൾ ഇവിടെ എഴുതുക...&#10;&#10;1. എല്ലാ മാസവും 5-ാം തീയതിക്ക് മുൻപ് അടവ്&#10;2. Winner ആയവർ പിന്നെ നറുക്കിൽ വരില്ല&#10;3. ..."></textarea>
+                    <button id="saveRulesBtn" class="btn-blue">നിയമങ്ങൾ Save ചെയ്യുക</button>
+                </div>
+                <div class="card">
+                    <h2>📜 കുറിയുടെ നിയമങ്ങൾ</h2>
+                    <div id="rulesDisplay" class="rules-display">നിയമങ്ങൾ ഇതുവരെ ചേർത്തിട്ടില്ല.</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // FORCE PASSWORD RESET - പഴയ password delete ചെയ്ത് പുതിയത് set ചെയ്യുന്നു
             localStorage.setItem('adminPass', 'ma7hood');
             if (!localStorage.getItem('memberPass')) localStorage.setItem('memberPass', 'member123');
             
@@ -319,6 +370,7 @@
             let monthlyAmount = parseInt(localStorage.getItem('chitAmount')) || 5000;
             let currentMonthWinner = localStorage.getItem('monthWinner') || '-';
             let eligibleIds = JSON.parse(localStorage.getItem('eligibleIds')) || [];
+            let chitRules = localStorage.getItem('chitRules') || '';
             let wheelSpinning = false;
             let currentRotation = 0;
             let soundEnabled = localStorage.getItem('soundEnabled')!== 'false';
@@ -539,6 +591,39 @@
                 alert(`✅ ${eligibleIds.length} പേർ Eligible ആക്കി. Members ഇത് അറിയില്ല!`);
             }
 
+            function selectAllEligible() {
+                if (userRole!== 'admin') return;
+                members.filter(m =>!m.won).forEach(m => {
+                    const checkbox = document.getElementById(`el_${m.id}`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+
+            function deselectAllEligible() {
+                if (userRole!== 'admin') return;
+                members.filter(m =>!m.won).forEach(m => {
+                    const checkbox = document.getElementById(`el_${m.id}`);
+                    if (checkbox) checkbox.checked = false;
+                });
+            }
+
+            function magicSelect() {
+                if (userRole!== 'admin') return;
+                const nonWinners = members.filter(m =>!m.won);
+                if (nonWinners.length === 0) return alert('എല്ലാവരും win ചെയ്തു');
+                
+                // Random 30-70% പേരെ select ചെയ്യും
+                const count = Math.floor(Math.random() * (nonWinners.length * 0.4)) + Math.ceil(nonWinners.length * 0.3);
+                const shuffled = [...nonWinners].sort(() => 0.5 - Math.random());
+                
+                deselectAllEligible();
+                for (let i = 0; i < count && i < shuffled.length; i++) {
+                    const checkbox = document.getElementById(`el_${shuffled[i].id}`);
+                    if (checkbox) checkbox.checked = true;
+                }
+                alert(`✨ Magic! ${count} പേരെ auto select ചെയ്തു`);
+            }
+
             function getWheelMembers() {
                 return members.filter(m =>!m.won);
             }
@@ -599,29 +684,39 @@
                 const wheelMembers = getWheelMembers();
                 if (wheelMembers.length < 2) return alert('കുറഞ്ഞത് 2 അംഗങ്ങൾ വേണം');
                 
-                const eligibleMembers = members.filter(m => eligibleIds.includes(m.id) &&!m.won);
-                if (eligibleMembers.length === 0) return alert('Eligible ആയി ആരെയും select ചെയ്തിട്ടില്ല!');
+                let eligibleMembers = members.filter(m => eligibleIds.includes(m.id) &&!m.won);
+                
+                // Eligible ഇല്ലെങ്കിൽ എല്ലാവരെയും eligible ആക്കും
+                if (eligibleMembers.length === 0) {
+                    eligibleIds = wheelMembers.map(m => m.id);
+                    eligibleMembers = wheelMembers;
+                }
                 
                 wheelSpinning = true;
                 document.getElementById('winnerText').textContent = 'കറങ്ങുന്നു...';
                 
-                const spins = 5 + Math.random() * 5;
-                const finalAngle = Math.random() * 2 * Math.PI;
-                const totalRotation = spins * 2 * Math.PI + finalAngle;
-                const duration = 3500;
+                // Winner മുൻകൂട്ടി select ചെയ്യും
+                const finalWinner = eligibleMembers[Math.floor(Math.random() * eligibleMembers.length)];
+                const winnerIndex = wheelMembers.findIndex(m => m.id === finalWinner.id);
+                const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
+                
+                // Wheel ആ winner-ൽ stop ആവാൻ calculate ചെയ്യും
+                const targetAngle = (2 * Math.PI) - (winnerIndex * anglePerSlice) - (anglePerSlice / 2);
+                const spins = 5 + Math.random() * 3;
+                const totalRotation = spins * 2 * Math.PI + targetAngle - (currentRotation % (2 * Math.PI));
+                const duration = 4000;
                 const startTime = Date.now();
                 const startRotation = currentRotation;
-                const anglePerSlice = (2 * Math.PI) / wheelMembers.length;
                 lastTickAngle = 0;
                 
                 function animate() {
                     const elapsed = Date.now() - startTime;
                     const progress = Math.min(elapsed / duration, 1);
-                    const easing = 1 - Math.pow(1 - progress, 3);
+                    const easing = 1 - Math.pow(1 - progress, 4);
                     
                     currentRotation = startRotation + totalRotation * easing;
                     
-                    const currentSlice = Math.floor(currentRotation / anglePerSlice);
+                    const currentSlice = Math.floor((currentRotation % (2 * Math.PI)) / anglePerSlice);
                     if (currentSlice!== lastTickAngle) {
                         playTickSound();
                         lastTickAngle = currentSlice;
@@ -633,10 +728,8 @@
                         requestAnimationFrame(animate);
                     } else {
                         wheelSpinning = false;
-                        const winner = eligibleMembers[Math.floor(Math.random() * eligibleMembers.length)];
-                        
-                        document.getElementById('winnerText').textContent = `🎉 ${winner.name} 🎉`;
-                        currentMonthWinner = winner.name;
+                        document.getElementById('winnerText').textContent = `🎉 ${finalWinner.name} 🎉`;
+                        currentMonthWinner = finalWinner.name;
                         playWinSound();
                     }
                 }
@@ -668,69 +761,4 @@
                     const row = document.createElement('tr');
                     if (m.won) row.classList.add('winner');
                     
-                    const isEligible = eligibleIds.includes(m.id);
-                    if (isEligible && userRole === 'admin') row.classList.add('eligible');
-                    
-                    row.innerHTML = `
-                        <td class="${m.won? 'winner-name' : ''}">${m.name} ${m.won? '🏆' : ''}</td>
-                        <td class="${m.paid? 'paid' : 'unpaid'}">${m.paid? 'Paid' : 'Pending'}</td>
-                        <td class="admin-only">
-                            <button class="small-btn paidBtn" data-id="${m.id}">
-                                ${m.paid? 'Undo' : 'Paid'}
-                            </button>
-                            <button class="small-btn btn-danger deleteBtn" data-id="${m.id}">Del</button>
-                        </td>
-                    `;
-                    tbody.appendChild(row);
-                });
-
-                document.querySelectorAll('.paidBtn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        togglePaid(parseInt(this.dataset.id));
-                    });
-                });
-                
-                document.querySelectorAll('.deleteBtn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        deleteMember(parseInt(this.dataset.id));
-                    });
-                });
-
-                document.getElementById('totalMembers').textContent = members.length;
-                document.getElementById('monthlyAmount').textContent = monthlyAmount;
-                document.getElementById('collected').textContent = collected;
-                document.getElementById('currentWinner').textContent = currentMonthWinner;
-                document.getElementById('winnerCount').textContent = winnerCount + ' Winners';
-            }
-
-            document.getElementById('loginBtn').addEventListener('click', login);
-            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') login();
-            });
-            document.getElementById('logoutBtn').addEventListener('click', logout);
-            document.getElementById('spinBtn').addEventListener('click', spinWheel);
-            document.getElementById('saveWinnerBtn').addEventListener('click', saveWinner);
-            document.getElementById('updateAmountBtn').addEventListener('click', updateAmount);
-            document.getElementById('resetMonthBtn').addEventListener('click', resetMonth);
-            document.getElementById('addMemberBtn').addEventListener('click', addMember);
-            document.getElementById('bulkAddBtn').addEventListener('click', bulkAddMembers);
-            document.getElementById('saveEligibleBtn').addEventListener('click', saveEligible);
-            document.getElementById('soundToggle').addEventListener('click', toggleSound);
-            document.getElementById('changeAdminPassBtn').addEventListener('click', changeAdminPassword);
-            document.getElementById('changeMemberPassBtn').addEventListener('click', changeMemberPassword);
-
-            document.getElementById('memberName').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') addMember();
-            });
-
-            document.getElementById('chitAmount').value = monthlyAmount;
-            document.getElementById('soundToggle').textContent = soundEnabled? '🔊' : '🔇';
-            
-            checkLogin();
-            render();
-            drawWheel();
-            renderEligibleList();
-        });
-    </script>
-</body>
-</html>
+                   
