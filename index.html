@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <meta name="theme-color" content="#2E7D32">
-    <title>Mashood Kuriyil - Lucky Draw</title>
+    <title>Mashood · Chitty Manager</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -83,6 +83,50 @@
         .login-card .btn { background: #2E7D32; color: white; border: none; padding: 14px; border-radius: 40px; font-weight: 600; font-size: 1.1rem; width: 100%; cursor: pointer; transition: 0.2s; margin-top: 10px; }
         .login-card .btn:active { transform: scale(0.96); }
         .login-card .error { color: #c62828; font-size: 0.9rem; margin-top: 8px; min-height: 24px; }
+
+        /* Chitty Selector */
+        .chitty-selector {
+            background: #fff;
+            padding: 12px 16px;
+            border-radius: 60px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            border: 1px solid rgba(197, 160, 89, 0.2);
+        }
+        body.dark .chitty-selector { background: #1e1e2a; border-color: #2a2a3a; }
+        .chitty-selector label { font-weight: 700; color: #2E7D32; font-size: 0.9rem; white-space: nowrap; }
+        body.dark .chitty-selector label { color: #FFD700; }
+        .chitty-selector select {
+            flex: 1;
+            padding: 10px 16px;
+            border-radius: 40px;
+            border: 1px solid #d7ccc8;
+            background: #f8f6f0;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        body.dark .chitty-selector select {
+            background: #2a2a3a;
+            border-color: #3a3a4a;
+            color: #e2e8f0;
+        }
+        .chitty-selector select:focus { outline: 2px solid #C5A059; border-color: transparent; }
+        .chitty-selector .btn-add-chitty {
+            background: #2E7D32;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 1.2rem;
+            white-space: nowrap;
+        }
+        .chitty-selector .btn-add-chitty:hover { background: #1b5e20; }
 
         .card {
             background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
@@ -196,6 +240,8 @@
             #splash h1 { font-size: 1.8rem; }
             #splash .logo-container { width: 120px; height: 120px; font-size: 3rem; }
             .winner-display { font-size: 2.2rem; }
+            .chitty-selector { flex-wrap: wrap; }
+            .chitty-selector select { min-width: 120px; }
         }
     </style>
 </head>
@@ -207,7 +253,7 @@
         <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23FFD700'/%3E%3Ctext x='50' y='62' font-size='40' text-anchor='middle' fill='%232E7D32' font-weight='bold'%3EM%3C/text%3E%3C/svg%3E" alt="Mashood Logo">
     </div>
     <h1>മഷൂദ് കുറിയിൽ</h1>
-    <p>സ്വാഗതം • Welcome</p>
+    <p>ചിട്ടി മാനേജ്മെന്റ്</p>
     <div class="loader"><div class="loader-bar"></div></div>
 </div>
 
@@ -225,6 +271,13 @@
     <div class="lang-toggle">
         <button class="active" data-lang="ml">മലയാളം</button>
         <button data-lang="en">English</button>
+    </div>
+
+    <!-- CHITTY SELECTOR -->
+    <div class="chitty-selector">
+        <label>📂 ചിട്ടി:</label>
+        <select id="chittySelector"></select>
+        <button class="btn-add-chitty admin-only" onclick="addNewChitty()">➕</button>
     </div>
 
     <div class="tab-bar" id="tabBar">
@@ -374,27 +427,90 @@
         const MEMBER_PASS = 'member123';
         const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
-        // ========== LOAD FROM LOCALSTORAGE ==========
-        let members = JSON.parse(localStorage.getItem('lucky_members')) || [];
-        if (members.length === 0) {
-            members = Array.from({length: 25}, (_,i) => `മെമ്പർ ${i+1}`);
-            localStorage.setItem('lucky_members', JSON.stringify(members));
+        // ========== DATA STRUCTURE ==========
+        // Default groups: കുറി 1, കുറി 2, കുറി 3
+        function getDefaultChittyData() {
+            return {
+                members: Array.from({length: 10}, (_,i) => `മെമ്പർ ${i+1}`),
+                winners: [],
+                paymentStatus: {},
+                eligibility: {}
+            };
         }
-        let winners = JSON.parse(localStorage.getItem('lucky_winners')) || [];
-        let paymentStatus = JSON.parse(localStorage.getItem('lucky_paymentStatus')) || {};
-        let eligibility = JSON.parse(localStorage.getItem('lucky_eligibility')) || {};
-        members.forEach(m => { if (!(m in eligibility)) eligibility[m] = true; });
-        let chatLog = JSON.parse(localStorage.getItem('lucky_chatLog')) || [];
-        let rules = localStorage.getItem('lucky_rules') || '1. ഓരോ മാസവും ഒരു വിജയി മാത്രം.\n2. അഡ്മിന് മാത്രം തിരുത്തൽ.\n3. എലിജിബിൾ മെമ്പർമാർക്ക് മുൻഗണന.';
 
-        // ========== STATE ==========
-        let currentMonth = new Date().getMonth();
-        let currentYear = new Date().getFullYear();
-        let isAdmin = false;
-        let isMember = false;
-        let isSpinning = false;
-        let isLoggedIn = false;
-        window.currentWheelRotation = 0;
+        let data = {
+            chittyGroups: {
+                'കുറി 1': getDefaultChittyData(),
+                'കുറി 2': getDefaultChittyData(),
+                'കുറി 3': getDefaultChittyData()
+            },
+            activeChitty: 'കുറി 1',
+            chatLog: [],
+            rules: '1. ഓരോ മാസവും ഒരു വിജയി മാത്രം.\n2. അഡ്മിന് മാത്രം തിരുത്തൽ.\n3. എലിജിബിൾ മെമ്പർമാർക്ക് മുൻഗണന.'
+        };
+
+        // Ensure eligibility exists for all members in all groups
+        function initGroupData(groupKey) {
+            const g = data.chittyGroups[groupKey];
+            if (!g) return;
+            if (!g.eligibility) g.eligibility = {};
+            if (!g.paymentStatus) g.paymentStatus = {};
+            g.members.forEach(m => {
+                if (!(m in g.eligibility)) g.eligibility[m] = true;
+                if (!(m in g.paymentStatus)) g.paymentStatus[m] = false;
+            });
+        }
+
+        // ========== SAVE / LOAD ==========
+        function saveData() {
+            // Ensure eligibility before save
+            for (let key in data.chittyGroups) {
+                initGroupData(key);
+            }
+            localStorage.setItem('chittyManagerData', JSON.stringify(data));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('chittyManagerData');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    // Merge top-level
+                    if (parsed.chittyGroups) data.chittyGroups = parsed.chittyGroups;
+                    if (parsed.activeChitty) data.activeChitty = parsed.activeChitty;
+                    if (parsed.chatLog) data.chatLog = parsed.chatLog;
+                    if (parsed.rules) data.rules = parsed.rules;
+                } catch(e) { console.warn("Load error", e); }
+            }
+            // Ensure default groups exist
+            const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
+            defaults.forEach(key => {
+                if (!data.chittyGroups[key]) {
+                    data.chittyGroups[key] = getDefaultChittyData();
+                }
+                initGroupData(key);
+            });
+            // Ensure active chitty exists
+            if (!data.chittyGroups[data.activeChitty]) {
+                data.activeChitty = 'കുറി 1';
+            }
+            saveData(); // re-save to fix any missing fields
+        }
+
+        // ========== CURRENT GROUP HELPERS ==========
+        function getCurrentGroup() {
+            return data.chittyGroups[data.activeChitty] || data.chittyGroups['കുറി 1'];
+        }
+
+        function getCurrentMembers() { return getCurrentGroup().members || []; }
+        function getCurrentWinners() { return getCurrentGroup().winners || []; }
+        function getCurrentPaymentStatus() { return getCurrentGroup().paymentStatus || {}; }
+        function getCurrentEligibility() { return getCurrentGroup().eligibility || {}; }
+
+        function setCurrentGroupData(group) {
+            data.chittyGroups[data.activeChitty] = group;
+            saveData();
+        }
 
         // ========== DOM REFS ==========
         const $ = id => document.getElementById(id);
@@ -443,53 +559,60 @@
         const rulesDisplay = $('rulesDisplay');
         const rulesEdit = $('rulesEdit');
         const saveRulesBtn = $('saveRulesBtn');
+        const chittySelector = $('chittySelector');
 
-        // ========== SAVE FUNCTIONS ==========
-        function saveMembers() {
-            localStorage.setItem('lucky_members', JSON.stringify(members));
-        }
-        function saveWinners() {
-            localStorage.setItem('lucky_winners', JSON.stringify(winners));
-        }
-        function savePaymentStatus() {
-            localStorage.setItem('lucky_paymentStatus', JSON.stringify(paymentStatus));
-        }
-        function saveEligibility() {
-            localStorage.setItem('lucky_eligibility', JSON.stringify(eligibility));
-        }
-        function saveChatLog() {
-            localStorage.setItem('lucky_chatLog', JSON.stringify(chatLog));
-        }
-        function saveRules() {
-            localStorage.setItem('lucky_rules', rules);
-        }
-        function saveAll() {
-            saveMembers();
-            saveWinners();
-            savePaymentStatus();
-            saveEligibility();
-            saveChatLog();
-            saveRules();
+        // ========== STATE ==========
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let isAdmin = false;
+        let isMember = false;
+        let isSpinning = false;
+        let isLoggedIn = false;
+        window.currentWheelRotation = 0;
+
+        // ========== CHITTY SELECTOR RENDER ==========
+        function renderChittySelector() {
+            const keys = Object.keys(data.chittyGroups);
+            chittySelector.innerHTML = '';
+            keys.forEach(key => {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = key;
+                if (key === data.activeChitty) opt.selected = true;
+                chittySelector.appendChild(opt);
+            });
         }
 
-        // ========== RULES FUNCTIONS ==========
-        function renderRules() {
-            const displayText = rules || 'ഇതുവരെ നിയമങ്ങൾ ചേർത്തിട്ടില്ല.';
-            homeRulesDisplay.textContent = displayText;
-            rulesDisplay.textContent = displayText;
-            if (isAdmin) {
-                rulesEdit.value = rules;
+        chittySelector.addEventListener('change', function() {
+            if (this.value && data.chittyGroups[this.value]) {
+                data.activeChitty = this.value;
+                saveData();
+                // Re-render everything for the new group
+                renderAll();
+                drawWheel(window.currentWheelRotation || 0);
+                // Update admin-only visibility
+                document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
             }
-        }
+        });
 
-        function saveRulesHandler() {
+        function addNewChitty() {
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-            const newRules = rulesEdit.value.trim();
-            if (newRules === '' && !confirm('നിയമങ്ങൾ ശൂന്യമാക്കണോ?')) return;
-            rules = newRules;
-            saveRules();
-            renderRules();
-            alert('✅ നിയമങ്ങൾ സേവ് ചെയ്തു!');
+            const name = prompt('പുതിയ ചിട്ടിയുടെ പേര്: (e.g. കുറി 4)');
+            if (name && name.trim() !== '') {
+                const key = name.trim();
+                if (data.chittyGroups[key]) {
+                    alert('ഈ പേരിൽ ഒരു ചിട്ടി നിലവിലുണ്ട്.');
+                    return;
+                }
+                data.chittyGroups[key] = getDefaultChittyData();
+                initGroupData(key);
+                data.activeChitty = key;
+                saveData();
+                renderChittySelector();
+                renderAll();
+                drawWheel(0);
+                alert(`"${key}" ചിട്ടി വിജയകരമായി ചേർത്തു.`);
+            }
         }
 
         // ========== SPLASH & LOGIN ==========
@@ -499,12 +622,10 @@
             if (isLoggedIn) {
                 loginOverlay.classList.add('hidden');
                 document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-                renderMembers();
-                renderMonthSelect();
-                renderHistory();
-                renderChat();
+                renderChittySelector();
+                renderAll();
                 drawWheel(window.currentWheelRotation || 0);
-                if (winners.length) todayWinner.textContent = winners[winners.length - 1].name;
+                if (getCurrentWinners().length) todayWinner.textContent = getCurrentWinners()[getCurrentWinners().length - 1].name;
                 updateEligibleCounts();
                 renderRules();
             } else {
@@ -534,14 +655,27 @@
         });
 
         // ========== RENDER FUNCTIONS ==========
+        function renderAll() {
+            renderMembers();
+            renderMonthSelect();
+            renderHistory();
+            renderChat();
+            updateEligibleCounts();
+        }
+
         function updateEligibleCounts() {
-            const eligible = members.filter(m => eligibility[m] !== false);
+            const members = getCurrentMembers();
+            const elig = getCurrentEligibility();
+            const eligible = members.filter(m => elig[m] !== false);
             eligibleCountSpan.textContent = eligible.length;
             drawEligibleCount.textContent = eligible.length;
             drawTotalCount.textContent = members.length;
         }
 
         function renderMembers() {
+            const members = getCurrentMembers();
+            const paymentStatus = getCurrentPaymentStatus();
+            const eligibility = getCurrentEligibility();
             let html = '';
             members.forEach((m, i) => {
                 const paid = paymentStatus[m] || false;
@@ -560,16 +694,18 @@
                 document.querySelectorAll('.status.paid, .status.pending').forEach(el => {
                     el.addEventListener('click', function() {
                         const member = this.dataset.member;
-                        paymentStatus[member] = !paymentStatus[member];
-                        savePaymentStatus();
+                        const g = getCurrentGroup();
+                        g.paymentStatus[member] = !g.paymentStatus[member];
+                        setCurrentGroupData(g);
                         renderMembers();
                     });
                 });
                 document.querySelectorAll('.elig-toggle.status.eligible, .elig-toggle.status.ineligible').forEach(el => {
                     el.addEventListener('click', function() {
                         const member = this.dataset.member;
-                        eligibility[member] = !eligibility[member];
-                        saveEligibility();
+                        const g = getCurrentGroup();
+                        g.eligibility[member] = !g.eligibility[member];
+                        setCurrentGroupData(g);
                         renderMembers();
                         drawWheel(window.currentWheelRotation || 0);
                         updateEligibleCounts();
@@ -579,14 +715,13 @@
                     el.addEventListener('click', function() {
                         const member = this.dataset.member;
                         if (confirm(`"${member}" നെ മെമ്പർ ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക?`)) {
-                            const idx = members.indexOf(member);
+                            const g = getCurrentGroup();
+                            const idx = g.members.indexOf(member);
                             if (idx !== -1) {
-                                members.splice(idx, 1);
-                                delete paymentStatus[member];
-                                delete eligibility[member];
-                                saveMembers();
-                                savePaymentStatus();
-                                saveEligibility();
+                                g.members.splice(idx, 1);
+                                delete g.paymentStatus[member];
+                                delete g.eligibility[member];
+                                setCurrentGroupData(g);
                                 renderMembers();
                                 drawWheel(window.currentWheelRotation || 0);
                                 updateEligibleCounts();
@@ -596,7 +731,7 @@
                 });
             }
             updateEligibleCounts();
-            saveMembers(); // ensure members order is saved
+            saveData(); // ensure group data is saved
         }
 
         function renderMonthSelect() {
@@ -617,11 +752,13 @@
 
         function updateMonthWinners() {
             const [year, month] = monthSelect.value.split('-').map(Number);
+            const winners = getCurrentWinners();
             const filtered = winners.filter(w => w.year === year && w.month === month);
             monthWinnerList.innerHTML = filtered.length ? filtered.map(w => `<li>🏅 ${w.name}</li>`).join('') : '<li>ഇതുവരെ വിജയി ഇല്ല</li>';
         }
 
         function renderHistory() {
+            const winners = getCurrentWinners();
             let html = '';
             winners.slice().reverse().forEach((w, idx) => {
                 const removeBtn = isAdmin ? `<button class="remove-btn" data-index="${winners.length - 1 - idx}">Remove</button>` : '';
@@ -632,12 +769,15 @@
                 document.querySelectorAll('.history-item .remove-btn').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const index = parseInt(this.dataset.index);
-                        if (confirm(`"${winners[index].name}" നെ വിജയികളുടെ ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക? (മെമ്പർ ലിസ്റ്റിൽ നിലനിൽക്കും)`)) {
-                            winners.splice(index, 1);
-                            saveWinners();
+                        const winnersArr = getCurrentWinners();
+                        if (confirm(`"${winnersArr[index].name}" നെ വിജയികളുടെ ലിസ്റ്റിൽ നിന്ന് നീക്കം ചെയ്യുക? (മെമ്പർ ലിസ്റ്റിൽ നിലനിൽക്കും)`)) {
+                            const g = getCurrentGroup();
+                            g.winners.splice(index, 1);
+                            setCurrentGroupData(g);
                             renderHistory();
                             updateMonthWinners();
-                            if (winners.length) todayWinner.textContent = winners[winners.length - 1].name;
+                            const wList = getCurrentWinners();
+                            if (wList.length) todayWinner.textContent = wList[wList.length - 1].name;
                             else todayWinner.textContent = '—';
                         }
                     });
@@ -645,13 +785,28 @@
             }
         }
 
+        function renderRules() {
+            const displayText = data.rules || 'ഇതുവരെ നിയമങ്ങൾ ചേർത്തിട്ടില്ല.';
+            homeRulesDisplay.textContent = displayText;
+            rulesDisplay.textContent = displayText;
+            if (isAdmin) {
+                rulesEdit.value = data.rules;
+            }
+        }
+
+        function renderChat() {
+            chatMessages.innerHTML = data.chatLog.map(msg => `<div><strong>${msg.user}</strong>: ${msg.text}</div>`).join('');
+        }
+
         // ========== WHEEL ==========
         function getEligibleMembers() {
-            return members.filter(m => eligibility[m] !== false);
+            const members = getCurrentMembers();
+            const elig = getCurrentEligibility();
+            return members.filter(m => elig[m] !== false);
         }
 
         function drawWheel(rotation = 0) {
-            const allMembers = members;
+            const allMembers = getCurrentMembers();
             const w = wheelCanvas.width, h = wheelCanvas.height;
             const center = w / 2, radius = w / 2 - 10;
             ctx.clearRect(0, 0, w, h);
@@ -702,6 +857,7 @@
             if (eligible.length === 0) { alert('എലിജിബിൾ മെമ്പർമാർ ഇല്ല.'); return; }
 
             let winner;
+            const members = getCurrentMembers();
             if (targetWinner && members.includes(targetWinner)) {
                 winner = targetWinner;
             } else {
@@ -741,8 +897,9 @@
                     drawWinnerDisplay.classList.add('pop');
                     const month = new Date().getMonth();
                     const year = new Date().getFullYear();
-                    winners.push({ month, year, name: winner });
-                    saveWinners();
+                    const g = getCurrentGroup();
+                    g.winners.push({ month, year, name: winner });
+                    setCurrentGroupData(g);
                     renderHistory();
                     updateMonthWinners();
                     isSpinning = false;
@@ -766,12 +923,15 @@
         // ========== SHUFFLE WHEEL ==========
         function shuffleWheelWithSpin() {
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+            const members = getCurrentMembers();
             if (members.length < 2) return alert('കുറഞ്ഞത് 2 മെമ്പർമാർ വേണം');
             for (let i = members.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [members[i], members[j]] = [members[j], members[i]];
             }
-            saveMembers();
+            const g = getCurrentGroup();
+            g.members = members;
+            setCurrentGroupData(g);
             renderMembers();
             const extraSpins = 8 + Math.floor(Math.random() * 5);
             const randomRotation = Math.random() * (Math.PI * 2) + extraSpins * (Math.PI * 2);
@@ -811,12 +971,14 @@
 
         function openManualModal() {
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+            const members = getCurrentMembers();
             if (members.length === 0) return alert('മെമ്പർമാർ ഇല്ല');
             manualWinnerSelect.innerHTML = '';
+            const elig = getCurrentEligibility();
             members.forEach(m => {
                 const opt = document.createElement('option');
                 opt.value = m;
-                opt.textContent = m + (eligibility[m] !== false ? ' ✅' : ' ❌');
+                opt.textContent = m + (elig[m] !== false ? ' ✅' : ' ❌');
                 manualWinnerSelect.appendChild(opt);
             });
             manualModal.classList.remove('hidden');
@@ -835,11 +997,13 @@
 
         function removeLastWinnerFromWheel() {
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+            const winners = getCurrentWinners();
             if (winners.length === 0) return alert('നീക്കം ചെയ്യാൻ വിജയികൾ ഇല്ല');
             const lastWinner = winners[winners.length - 1].name;
-            if (eligibility[lastWinner] !== false) {
-                eligibility[lastWinner] = false;
-                saveEligibility();
+            const g = getCurrentGroup();
+            if (g.eligibility[lastWinner] !== false) {
+                g.eligibility[lastWinner] = false;
+                setCurrentGroupData(g);
                 renderMembers();
                 drawWheel(window.currentWheelRotation || 0);
                 updateEligibleCounts();
@@ -850,6 +1014,7 @@
         }
         removeWinnerBtn.addEventListener('click', ()=>{
             if (!isAdmin) return;
+            const winners = getCurrentWinners();
             if (winners.length === 0) return alert('നീക്കം ചെയ്യാൻ വിജയികൾ ഇല്ല');
             removeModal.classList.remove('hidden');
         });
@@ -866,18 +1031,16 @@
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
             const name = prompt('പുതിയ മെമ്പറിന്റെ പേര്:');
             if (name) {
-                members.push(name);
-                paymentStatus[name] = false;
-                eligibility[name] = true;
-                saveMembers();
-                savePaymentStatus();
-                saveEligibility();
+                const g = getCurrentGroup();
+                g.members.push(name);
+                g.paymentStatus[name] = false;
+                g.eligibility[name] = true;
+                setCurrentGroupData(g);
                 renderMembers();
                 drawWheel(window.currentWheelRotation || 0);
             }
         });
 
-        // Bulk Add
         bulkAddBtn.addEventListener('click', ()=>{
             if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
             bulkTextarea.value = '';
@@ -888,19 +1051,18 @@
             if (!text) { alert('ഒന്നും നൽകിയിട്ടില്ല'); return; }
             const names = text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
             if (names.length === 0) { alert('സാധുവായ പേരുകൾ ഇല്ല'); return; }
+            const g = getCurrentGroup();
             let added = 0;
             names.forEach(name => {
-                if (!members.includes(name)) {
-                    members.push(name);
-                    paymentStatus[name] = false;
-                    eligibility[name] = true;
+                if (!g.members.includes(name)) {
+                    g.members.push(name);
+                    g.paymentStatus[name] = false;
+                    g.eligibility[name] = true;
                     added++;
                 }
             });
             if (added > 0) {
-                saveMembers();
-                savePaymentStatus();
-                saveEligibility();
+                setCurrentGroupData(g);
                 renderMembers();
                 drawWheel(window.currentWheelRotation || 0);
                 updateEligibleCounts();
@@ -914,8 +1076,9 @@
 
         makeAllEligibleBtn.addEventListener('click', ()=>{
             if (!isAdmin) return;
-            members.forEach(m => { eligibility[m] = true; });
-            saveEligibility();
+            const g = getCurrentGroup();
+            g.members.forEach(m => { g.eligibility[m] = true; });
+            setCurrentGroupData(g);
             renderMembers();
             drawWheel(window.currentWheelRotation || 0);
             updateEligibleCounts();
@@ -923,36 +1086,47 @@
         });
 
         // ========== CHAT ==========
-        function renderChat() {
-            chatMessages.innerHTML = chatLog.map(msg => `<div><strong>${msg.user}</strong>: ${msg.text}</div>`).join('');
-        }
         sendChatBtn.addEventListener('click', ()=>{
             const text = chatInput.value.trim();
             if (!text) return;
             const user = isMember ? 'മെമ്പർ' : (isAdmin ? 'അഡ്മിൻ' : 'അതിഥി');
-            chatLog.push({ user, text, time: Date.now() });
-            saveChatLog();
+            data.chatLog.push({ user, text, time: Date.now() });
+            saveData();
             renderChat();
             chatInput.value = '';
         });
 
         // ========== EXPORT ==========
         exportCSV.addEventListener('click', ()=>{
+            const winners = getCurrentWinners();
             let csv = 'Month,Year,Winner\n';
             winners.forEach(w => csv += `${MONTHS[w.month]},${w.year},${w.name}\n`);
             const blob = new Blob([csv], { type: 'text/csv' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = 'winners.csv';
+            a.download = `winners_${data.activeChitty}.csv`;
             a.click();
         });
         exportPDF.addEventListener('click', ()=>{
+            const winners = getCurrentWinners();
             const content = winners.map(w => `${MONTHS[w.month]} ${w.year}: ${w.name}`).join('\n');
             const win = window.open('', '_blank');
-            win.document.write(`<pre>വിജയികളുടെ പട്ടിക\n${'='.repeat(30)}\n${content}</pre>`);
+            win.document.write(`<pre>${data.activeChitty} - വിജയികളുടെ പട്ടിക\n${'='.repeat(30)}\n${content}</pre>`);
             win.document.close();
             win.print();
         });
+
+        // ========== RULES SAVE ==========
+        function saveRulesHandler() {
+            if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+            const newRules = rulesEdit.value.trim();
+            if (newRules === '' && !confirm('നിയമങ്ങൾ ശൂന്യമാക്കണോ?')) return;
+            data.rules = newRules;
+            saveData();
+            renderRules();
+            alert('✅ നിയമങ്ങൾ സേവ് ചെയ്തു!');
+        }
+        saveRulesBtn.addEventListener('click', saveRulesHandler);
 
         // ========== TABS ==========
         document.querySelectorAll('.tab-bar button').forEach(btn => {
@@ -962,16 +1136,12 @@
                 document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
                 const tabId = `tab-${btn.dataset.tab}`;
                 document.getElementById(tabId).classList.remove('hidden');
-                // Re-render content when switching tabs
                 if (btn.dataset.tab === 'history') renderHistory();
                 if (btn.dataset.tab === 'members') renderMembers();
                 if (btn.dataset.tab === 'draw') { drawWheel(window.currentWheelRotation || 0); updateEligibleCounts(); }
                 if (btn.dataset.tab === 'rules') renderRules();
             });
         });
-
-        // ========== SAVE RULES ==========
-        saveRulesBtn.addEventListener('click', saveRulesHandler);
 
         // ========== DARK MODE ==========
         const darkToggle = document.createElement('button');
@@ -1005,9 +1175,13 @@
         document.querySelector('#tab-home .card:last-child').appendChild(reminderBtn);
 
         // ========== INIT ==========
-        members.forEach(m => { if (!(m in eligibility)) eligibility[m] = true; });
-        saveAll();
+        loadData();
         checkLogin();
+        // Init group data just in case
+        for (let key in data.chittyGroups) {
+            initGroupData(key);
+        }
+        saveData();
     })();
 </script>
 </body>
