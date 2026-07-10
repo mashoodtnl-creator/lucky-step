@@ -98,6 +98,8 @@
         .btn-danger { background: #c62828; color: white; }
         .btn-gold { background: #FFD700; color: #1e293b; }
         .btn-sm { padding: 6px 14px; font-size: 0.8rem; width: auto; margin: 2px; }
+        .btn-wa { background: #25D366; color: #fff; }
+        .btn-wa:hover { background: #128C7E; }
         .input-group { margin: 12px 0; }
         .input-group input, .input-group select {
             width: 100%; padding: 14px 16px; border-radius: 40px;
@@ -205,6 +207,14 @@
         .payout-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         body.dark .payout-item { border-color: #2a2a3a; }
 
+        .wa-group-btn {
+            background: #25D366; color: #fff; border: none;
+            padding: 12px; border-radius: 60px; font-weight: 600; width: 100%;
+            cursor: pointer; font-size: 1rem; margin: 6px 0;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .wa-group-btn:hover { background: #128C7E; }
+
         @media (max-width: 420px) {
             .container { padding: 10px; }
             #splash h1 { font-size: 1.8rem; }
@@ -255,7 +265,7 @@
         <button data-tab="payout">💸 Payout</button>
         <button data-tab="draw">Draw</button>
         <button data-tab="history">History</button>
-        <button data-tab="chat">Chat</button>
+        <button data-tab="chat">💬 Chat</button>
         <button data-tab="rules">📜 Rules</button>
     </div>
 
@@ -302,42 +312,36 @@
 
     <!-- PAYMENTS -->
     <div id="tab-payments" class="tab-content hidden">
-        <div class="card">
-            <h3>💰 മാസ കളക്ഷൻ</h3>
+        <div class="card"><h3>💰 മാസ കളക്ഷൻ</h3>
             <div id="collectionSummary" class="collection-summary">
                 <div>ഈ മാസത്തെ ആകെ കളക്ഷൻ: <span class="total" id="monthlyTotal">₹ 0</span></div>
-                <div class="detail">ആകെ മെമ്പർമാർ: <span id="totalMembersCount">0</span> | പണം നൽകിയവർ: <span id="paidCount">0</span> | ബാക്കി: <span id="pendingCount">0</span></div>
-                <div class="detail">മാസ പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (ഓരോ മാസവും 7-നകം)</div>
+                <div class="detail">ആകെ: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
+                <div class="detail">പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (7-നകം)</div>
             </div>
         </div>
-        <div class="card">
-            <h3>📋 പേയ്മെന്റ് ലിസ്റ്റ് (ഈ മാസം)</h3>
+        <div class="card"><h3>📋 പേയ്മെന്റ് ലിസ്റ്റ് (ഈ മാസം)</h3>
             <div id="paymentListContainer" style="max-height:300px; overflow-y:auto;"></div>
         </div>
-        <div class="card admin-only">
-            <h3>⚙️ മാസ പ്രതിശ്രേണി മാറ്റുക</h3>
+        <div class="card admin-only"><h3>⚙️ പ്രതിശ്രേണി മാറ്റുക</h3>
             <div class="input-group">
-                <input type="number" id="contributionInput" placeholder="തുക (e.g. 500)" step="1">
-                <button class="btn btn-outline" id="setContributionBtn">അപ്ഡേറ്റ് ചെയ്യുക</button>
+                <input type="number" id="contributionInput" placeholder="തുക" step="1">
+                <button class="btn btn-outline" id="setContributionBtn">അപ്ഡേറ്റ്</button>
             </div>
         </div>
     </div>
 
     <!-- PAYOUT -->
     <div id="tab-payout" class="tab-content hidden">
-        <div class="card">
-            <h3>💸 വിജയികൾക്ക് തിരികെ നൽകേണ്ട തുക</h3>
+        <div class="card"><h3>💸 വിജയികൾക്ക് തിരികെ നൽകേണ്ട തുക</h3>
             <div id="payoutSummary" class="collection-summary">
                 <div>ആകെ Payout: <span class="total" id="totalPayout">₹ 0</span></div>
-                <div class="detail">ഇതുവരെ വിജയിച്ചവർ: <span id="winnerCount">0</span></div>
+                <div class="detail">വിജയിച്ചവർ: <span id="winnerCount">0</span></div>
             </div>
         </div>
-        <div class="card">
-            <h3>📋 Payout ലിസ്റ്റ്</h3>
+        <div class="card"><h3>📋 Payout ലിസ്റ്റ്</h3>
             <div id="payoutListContainer" style="max-height:350px; overflow-y:auto;"></div>
         </div>
-        <div class="card admin-only">
-            <h3>⚙️ Payout രേഖപ്പെടുത്തുക</h3>
+        <div class="card admin-only"><h3>⚙️ Payout രേഖപ്പെടുത്തുക</h3>
             <div class="flex-row">
                 <input type="date" id="payoutDate" style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
                 <input type="number" id="payoutAmount" placeholder="തുക" step="1" style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
@@ -349,11 +353,10 @@
 
     <!-- DRAW -->
     <div id="tab-draw" class="tab-content hidden">
-        <div class="card">
-            <h3>🎰 റാൻഡം വീൽ</h3>
+        <div class="card"><h3>🎰 റാൻഡം വീൽ</h3>
             <div class="wheel-container"><div class="wheel-arrow">▼</div><canvas id="wheelCanvas" width="400" height="400"></canvas></div>
             <div class="winner-display" id="drawWinnerDisplay">—</div>
-            <button class="btn admin-only" id="spinDrawBtn">🔄 സ്പിൻ ചെയ്യുക</button>
+            <button class="btn admin-only" id="spinDrawBtn">🔄 സ്പിൻ</button>
             <div class="eligible-info">
                 <span>✅ എലിജിബിൾ: <span id="drawEligibleCount">0</span></span>
                 <span>🎯 ആകെ: <span id="drawTotalCount">0</span></span>
@@ -366,20 +369,34 @@
 
     <!-- HISTORY -->
     <div id="tab-history" class="tab-content hidden">
-        <div class="card">
-            <h3>📜 വിജയികൾ</h3>
+        <div class="card"><h3>📜 വിജയികൾ</h3>
             <div id="historyList" style="max-height:300px; overflow-y:auto;"></div>
             <button class="btn btn-outline" id="exportCSV">📥 CSV</button>
         </div>
     </div>
 
-    <!-- CHAT -->
+    <!-- CHAT (with WhatsApp) -->
     <div id="tab-chat" class="tab-content hidden">
         <div class="card">
-            <h3>💬 ചാറ്റ്</h3>
+            <h3>💬 ആപ്പ് ചാറ്റ് (എല്ലാവർക്കും)</h3>
             <div id="chatMessages" class="chat-box"></div>
-            <div class="input-group"><input type="text" id="chatInput" placeholder="സന്ദേശം..."></div>
-            <button class="btn" id="sendChatBtn">അയക്കുക</button>
+            <div class="input-group" style="display:flex; gap:8px;">
+                <input type="text" id="chatInput" placeholder="സന്ദേശം..." style="flex:1;">
+                <button class="btn btn-sm" id="sendChatBtn" style="width:auto; padding:12px 18px;">അയക്കുക</button>
+            </div>
+        </div>
+        <div class="card">
+            <h3>📱 WhatsApp</h3>
+            <button class="wa-group-btn" id="openWhatsAppGroupBtn">
+                <span>📲</span> വാട്ട്സാപ്പ് ഗ്രൂപ്പിൽ ചേരുക
+            </button>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+                <input type="text" id="waMessageInput" placeholder="WhatsApp-ൽ അയക്കാൻ സന്ദേശം..." style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
+                <button class="btn btn-sm btn-wa" id="sendWhatsAppBtn" style="width:auto; padding:12px 18px;">📤</button>
+            </div>
+            <div style="font-size:0.8rem; color:#6d7a68; margin-top:6px;">
+                * സന്ദേശം അഡ്മിന് വാട്ട്സാപ്പിൽ അയക്കും (API ലിങ്ക്)
+            </div>
         </div>
     </div>
 
@@ -389,9 +406,22 @@
             <h3>📜 നിയമങ്ങൾ</h3>
             <div id="rulesDisplay" class="rules-text"></div>
             <div class="admin-only" style="margin-top:16px;">
-                <textarea id="rulesEdit" rows="8" style="width:100%; padding:14px; border-radius:16px; border:1px solid #ddd; margin:10px 0; resize:vertical; font-size:1rem;"></textarea>
-                <button class="btn btn-gold" id="saveRulesBtn">💾 സേവ് ചെയ്യുക</button>
+                <label for="rulesEdit" style="font-weight:600;">നിയമങ്ങൾ എഡിറ്റ് ചെയ്യുക:</label>
+                <textarea id="rulesEdit" rows="6" style="width:100%; padding:14px; border-radius:16px; border:1px solid #ddd; margin:10px 0; resize:vertical;"></textarea>
+                <button class="btn btn-gold" id="saveRulesBtn">💾 സേവ്</button>
             </div>
+        </div>
+        <div class="card admin-only">
+            <h3>📱 WhatsApp Settings</h3>
+            <div class="input-group">
+                <label>WhatsApp Group Link (Invite Link)</label>
+                <input type="url" id="whatsappGroupLink" placeholder="https://chat.whatsapp.com/...">
+            </div>
+            <div class="input-group">
+                <label>Admin WhatsApp Number (for messages)</label>
+                <input type="text" id="whatsappAdminPhone" placeholder="e.g. 9876543210">
+            </div>
+            <button class="btn btn-gold" id="saveWhatsAppSettings">💾 Save WhatsApp Settings</button>
         </div>
     </div>
 </div>
@@ -404,7 +434,6 @@
         <button class="btn btn-outline" id="cancelManualWinner">റദ്ദാക്കുക</button>
     </div>
 </div>
-
 <div id="removeModal" class="modal hidden">
     <div class="modal-card"><h3>🗑️ വിജയിയെ നീക്കം ചെയ്യുക</h3>
         <p>ഏറ്റവും ഒടുവിൽ വിജയിച്ച ആളെ <strong>എലിജിബിൾ അല്ലാതാക്കുക</strong></p>
@@ -414,7 +443,6 @@
         </div>
     </div>
 </div>
-
 <div id="bulkAddModal" class="modal hidden">
     <div class="modal-card"><h3>📋 Bulk Add</h3>
         <p style="font-size:0.9rem;">ഓരോ വരിയിലും ഒരു പേര്</p>
@@ -439,7 +467,9 @@
             monthlyContribution: 500,
             payments: {},
             memberTypes: {},
-            payouts: [] // { date, member, amount }
+            payouts: [],
+            whatsappGroupLink: '',
+            whatsappAdminPhone: ''
         };
     }
 
@@ -463,6 +493,8 @@
         if (!g.memberTypes) g.memberTypes = {};
         if (!g.payouts) g.payouts = [];
         if (!g.monthlyContribution) g.monthlyContribution = 500;
+        if (!g.whatsappGroupLink) g.whatsappGroupLink = '';
+        if (!g.whatsappAdminPhone) g.whatsappAdminPhone = '';
         g.members.forEach(m => {
             if (!(m in g.eligibility)) g.eligibility[m] = true;
             if (!(m in g.paymentStatus)) g.paymentStatus[m] = false;
@@ -552,7 +584,6 @@
     const paymentListContainer = $('paymentListContainer');
     const contributionInput = $('contributionInput');
     const setContributionBtn = $('setContributionBtn');
-    // Payout
     const payoutListContainer = $('payoutListContainer');
     const totalPayout = $('totalPayout');
     const winnerCount = $('winnerCount');
@@ -560,6 +591,12 @@
     const payoutAmount = $('payoutAmount');
     const payoutMemberSelect = $('payoutMemberSelect');
     const addPayoutBtn = $('addPayoutBtn');
+    const openWhatsAppGroupBtn = $('openWhatsAppGroupBtn');
+    const waMessageInput = $('waMessageInput');
+    const sendWhatsAppBtn = $('sendWhatsAppBtn');
+    const whatsappGroupLink = $('whatsappGroupLink');
+    const whatsappAdminPhone = $('whatsappAdminPhone');
+    const saveWhatsAppSettings = $('saveWhatsAppSettings');
 
     let isAdmin = false, isMember = false, isLoggedIn = false, isSpinning = false;
     let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
@@ -583,6 +620,7 @@
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
             document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
+            loadWhatsAppSettings();
         }
     });
     function addNewChitty() {
@@ -596,6 +634,7 @@
             renderChittySelector();
             renderAll();
             drawWheel(0);
+            loadWhatsAppSettings();
             alert('✅ "' + name.trim() + '" ചേർത്തു.');
         }
     }
@@ -615,6 +654,7 @@
             renderPayments();
             updateCollectionSummary();
             renderPayouts();
+            loadWhatsAppSettings();
         } else {
             loginOverlay.classList.remove('hidden');
         }
@@ -672,7 +712,8 @@
             const elig = g.eligibility[m] !== false;
             const eligClass = elig ? 'eligible' : 'ineligible';
             const eligText = elig ? '✅ Eligible' : '❌ Ineligible';
-            const phoneDisplay = phone ? `<a class="whatsapp-link" href="https://wa.me/${phone}" target="_blank">📱</a>` : '';
+            // FIX: Use api.whatsapp.com/send instead of wa.me
+            const phoneDisplay = phone ? `<a class="whatsapp-link" href="https://api.whatsapp.com/send?phone=${phone}" target="_blank">📱</a>` : '';
             const payBtn = isAdmin ? `<button class="btn btn-sm btn-gold pay-btn" data-member="${m}">💳 Pay</button>` : '';
             const delBtn = isAdmin ? `<span class="delete-member" data-member="${m}">✕</span>` : '';
             const groupBadge = isGroup ? `<span class="group-badge">Group</span>` : '';
@@ -975,6 +1016,59 @@
         chatMessages.innerHTML = data.chatLog.map(msg => `<div><strong>${msg.user}</strong>: ${msg.text}</div>`).join('');
     }
 
+    // ========== WHATSAPP SETTINGS & ACTIONS ==========
+    function loadWhatsAppSettings() {
+        const g = getG();
+        whatsappGroupLink.value = g.whatsappGroupLink || '';
+        whatsappAdminPhone.value = g.whatsappAdminPhone || '';
+    }
+
+    function saveWhatsAppSettingsHandler() {
+        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+        const g = getG();
+        g.whatsappGroupLink = whatsappGroupLink.value.trim();
+        g.whatsappAdminPhone = whatsappAdminPhone.value.trim();
+        data.chittyGroups[data.activeChitty] = g;
+        saveData();
+        alert('✅ WhatsApp settings saved!');
+    }
+    saveWhatsAppSettings.addEventListener('click', saveWhatsAppSettingsHandler);
+
+    // Open WhatsApp Group
+    openWhatsAppGroupBtn.addEventListener('click', function() {
+        const g = getG();
+        const link = g.whatsappGroupLink;
+        if (!link) {
+            alert('ഗ്രൂപ്പ് ലിങ്ക് സെറ്റ് ചെയ്തിട്ടില്ല. അഡ്മിനോട് അറിയിക്കുക.');
+            return;
+        }
+        window.open(link, '_blank');
+    });
+
+    // Send WhatsApp message to admin - FIX: Use api.whatsapp.com
+    sendWhatsAppBtn.addEventListener('click', function() {
+        const g = getG();
+        const phone = g.whatsappAdminPhone;
+        if (!phone) {
+            alert('അഡ്മിൻ നമ്പർ സെറ്റ് ചെയ്തിട്ടില്ല.');
+            return;
+        }
+        const msg = waMessageInput.value.trim();
+        if (!msg) {
+            alert('സന്ദേശം ടൈപ്പ് ചെയ്യുക.');
+            return;
+        }
+        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+        window.open(url, '_blank');
+        waMessageInput.value = '';
+    });
+
+    waMessageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            sendWhatsAppBtn.click();
+        }
+    });
+
     // ========== WHEEL ==========
     function drawWheel(rot) {
         const members = getG().members;
@@ -1218,6 +1312,7 @@
             if (this.dataset.tab === 'members') renderMembers();
             if (this.dataset.tab === 'draw') { drawWheel(window.currentWheelRotation || 0); updateEligibleCounts(); }
             if (this.dataset.tab === 'rules') renderRules();
+            if (this.dataset.tab === 'chat') loadWhatsAppSettings();
         });
     });
 
@@ -1230,14 +1325,6 @@
         document.body.classList.toggle('dark');
         dt.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
     });
-
-    // ========== WHATSAPP REMINDER ==========
-    const rb = document.createElement('button');
-    rb.textContent = '📱 WhatsApp Reminder';
-    rb.className = 'btn btn-outline';
-    rb.style.marginTop = '10px';
-    rb.addEventListener('click', ()=> alert('WhatsApp-ൽ വിജയി അറിയിപ്പ് അയക്കുക.'));
-    document.querySelector('#tab-home .card:last-child').appendChild(rb);
 
     // ========== INIT ==========
     loadData();
