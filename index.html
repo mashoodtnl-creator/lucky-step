@@ -220,7 +220,6 @@
 </head>
 <body>
 
-<!-- SPLASH -->
 <div id="splash">
     <div class="logo-container">M</div>
     <h1>മഷൂദ് കുറിയിൽ</h1>
@@ -228,7 +227,6 @@
     <div class="loader"><div class="loader-bar"></div></div>
 </div>
 
-<!-- LOGIN -->
 <div id="loginOverlay">
     <div class="login-card">
         <h2>🔐 ലോഗിൻ</h2>
@@ -244,7 +242,6 @@
         <button data-lang="en">English</button>
     </div>
 
-    <!-- CHITTY SELECTOR -->
     <div class="chitty-selector">
         <label>📂 ചിട്ടി:</label>
         <select id="chittySelector"></select>
@@ -262,7 +259,6 @@
         <button data-tab="rules">📜 Rules</button>
     </div>
 
-    <!-- HOME -->
     <div id="tab-home" class="tab-content">
         <div class="card"><h2>🏆 ഇന്നത്തെ വിജയി</h2>
             <div class="winner-display" id="todayWinner">—</div>
@@ -275,12 +271,11 @@
         <div class="card"><h3>📜 നിയമങ്ങൾ</h3>
             <div id="homeRulesDisplay" class="rules-text"></div>
             <div style="font-size:0.8rem; margin-top:6px; color:#888;">
-                <a href="#" onclick="document.querySelector('[data-tab=\\'rules\\']').click(); return false;">എല്ലാ നിയമങ്ങളും കാണുക</a>
+                <a href="#" onclick="document.querySelector('[data-tab=\'rules\\']').click(); return false;">എല്ലാ നിയമങ്ങളും കാണുക</a>
             </div>
         </div>
     </div>
 
-    <!-- MEMBERS -->
     <div id="tab-members" class="tab-content hidden">
         <div class="card"><h3>📋 മെമ്പർമാർ (എലിജിബിൾ: <span id="eligibleCount">0</span>)</h3>
             <div id="memberListContainer" class="member-list"></div>
@@ -297,7 +292,6 @@
         </div>
     </div>
 
-    <!-- PAYMENTS -->
     <div id="tab-payments" class="tab-content hidden">
         <div class="card"><h3>💰 മാസ കളക്ഷൻ</h3>
             <div id="collectionSummary" class="collection-summary">
@@ -317,7 +311,6 @@
         </div>
     </div>
 
-    <!-- PAYOUT -->
     <div id="tab-payout" class="tab-content hidden">
         <div class="card"><h3>💸 വിജയികൾക്ക് തിരികെ നൽകേണ്ട തുക</h3>
             <div id="payoutSummary" class="collection-summary">
@@ -338,7 +331,6 @@
         </div>
     </div>
 
-    <!-- DRAW -->
     <div id="tab-draw" class="tab-content hidden">
         <div class="card">
             <h3>🎰 റാൻഡം വീൽ</h3>
@@ -356,7 +348,6 @@
         </div>
     </div>
 
-    <!-- HISTORY -->
     <div id="tab-history" class="tab-content hidden">
         <div class="card"><h3>📜 വിജയികൾ</h3>
             <div id="historyList" style="max-height:300px; overflow-y:auto;"></div>
@@ -364,7 +355,6 @@
         </div>
     </div>
 
-    <!-- CHAT -->
     <div id="tab-chat" class="tab-content hidden">
         <div class="card">
             <h3>💬 ആപ്പ് ചാറ്റ് (എല്ലാവർക്കും)</h3>
@@ -383,13 +373,9 @@
                 <input type="text" id="waMessageInput" placeholder="WhatsApp-ൽ അയക്കാൻ സന്ദേശം..." style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
                 <button class="btn btn-sm btn-wa" id="sendWhatsAppBtn" style="width:auto; padding:12px 18px;">📤</button>
             </div>
-            <div style="font-size:0.8rem; color:#6d7a68; margin-top:6px;">
-                * സന്ദേശം അഡ്മിന് വാട്ട്സാപ്പിൽ അയക്കും (API ലിങ്ക്)
-            </div>
         </div>
     </div>
 
-    <!-- RULES -->
     <div id="tab-rules" class="tab-content hidden">
         <div class="card">
             <h3>📜 നിയമങ്ങൾ</h3>
@@ -407,7 +393,7 @@
                 <input type="url" id="whatsappGroupLink" placeholder="https://chat.whatsapp.com/...">
             </div>
             <div class="input-group">
-                <label>Admin WhatsApp Number (for messages)</label>
+                <label>Admin WhatsApp Number</label>
                 <input type="text" id="whatsappAdminPhone" placeholder="e.g. 9876543210">
             </div>
             <button class="btn btn-gold" id="saveWhatsAppSettings">💾 Save WhatsApp Settings</button>
@@ -415,7 +401,6 @@
     </div>
 </div>
 
-<!-- MODALS -->
 <div id="manualModal" class="modal hidden"><div class="modal-card"><h3>👤 മാനുവൽ വിജയി</h3>
     <select id="manualWinnerSelect"></select>
     <button class="btn" id="confirmManualWinner">തിരഞ്ഞെടുക്കുക</button>
@@ -437,7 +422,6 @@
 
 <script>
 (function(){
-    // ==================== FIREBASE CONFIG ====================
     const firebaseConfig = {
         apiKey: "AIzaSyDK6Z-M9Q22JKJEB78rHuS",
         authDomain: "luckystep-1a5b2.firebaseapp.com",
@@ -468,263 +452,6 @@
     window.currentWheelRotation = 0;
     let manualTarget = null;
 
-    // DOM REFS
     const $ = id => document.getElementById(id);
     const splash = $('splash');
-    const loginOverlay = $('loginOverlay');
-    const loginPassword = $('loginPassword');
-    const loginBtn = $('loginBtn');
-    const loginError = $('loginError');
-    const spinWheelBtn = $('spinWheelBtn');
-    const spinDrawBtn = $('spinDrawBtn');
-    const drawWinnerDisplay = $('drawWinnerDisplay');
-    const todayWinner = $('todayWinner');
-    const memberListContainer = $('memberListContainer');
-    const monthSelect = $('monthSelect');
-    const monthWinnerList = $('monthWinnerList');
-    const historyList = $('historyList');
-    const chatMessages = $('chatMessages');
-    const chatInput = $('chatInput');
-    const sendChatBtn = $('sendChatBtn');
-    const addMemberBtn = $('addMemberBtn');
-    const bulkAddBtn = $('bulkAddBtn');
-    const manualWinnerBtn = $('manualWinnerBtn');
-    const removeWinnerBtn = $('removeWinnerBtn');
-    const shuffleWheelBtn = $('shuffleWheelBtn');
-    const exportCSV = $('exportCSV');
-    const wheelCanvas = $('wheelCanvas');
-    const ctx = wheelCanvas.getContext('2d');
-    const manualModal = $('manualModal');
-    const manualWinnerSelect = $('manualWinnerSelect');
-    const confirmManualWinner = $('confirmManualWinner');
-    const cancelManualWinner = $('cancelManualWinner');
-    const adminLogoutBtn = $('adminLogoutBtn');
-    const removeModal = $('removeModal');
-    const confirmRemoveWinner = $('confirmRemoveWinner');
-    const cancelRemoveWinner = $('cancelRemoveWinner');
-    const eligibleCountSpan = $('eligibleCount');
-    const drawEligibleCount = $('drawEligibleCount');
-    const drawTotalCount = $('drawTotalCount');
-    const makeAllEligibleBtn = $('makeAllEligibleBtn');
-    const bulkAddModal = $('bulkAddModal');
-    const bulkTextarea = $('bulkTextarea');
-    const confirmBulkAdd = $('confirmBulkAdd');
-    const cancelBulkAdd = $('cancelBulkAdd');
-    const homeRulesDisplay = $('homeRulesDisplay');
-    const rulesDisplay = $('rulesDisplay');
-    const rulesEdit = $('rulesEdit');
-    const saveRulesBtn = $('saveRulesBtn');
-    const chittySelector = $('chittySelector');
-    const monthlyTotal = $('monthlyTotal');
-    const totalMembersCount = $('totalMembersCount');
-    const paidCount = $('paidCount');
-    const pendingCount = $('pendingCount');
-    const contributionAmount = $('contributionAmount');
-    const paymentListContainer = $('paymentListContainer');
-    const contributionInput = $('contributionInput');
-    const setContributionBtn = $('setContributionBtn');
-    const payoutListContainer = $('payoutListContainer');
-    const totalPayout = $('totalPayout');
-    const winnerCount = $('winnerCount');
-    const payoutDate = $('payoutDate');
-    const payoutAmount = $('payoutAmount');
-    const payoutMemberSelect = $('payoutMemberSelect');
-    const addPayoutBtn = $('addPayoutBtn');
-    const openWhatsAppGroupBtn = $('openWhatsAppGroupBtn');
-    const waMessageInput = $('waMessageInput');
-    const sendWhatsAppBtn = $('sendWhatsAppBtn');
-    const whatsappGroupLink = $('whatsappGroupLink');
-    const whatsappAdminPhone = $('whatsappAdminPhone');
-    const saveWhatsAppSettings = $('saveWhatsAppSettings');
-    const manualTargetDisplay = $('manualTargetDisplay');
-
-    // ==================== FIREBASE HELPERS ====================
-    function getCurrentGroup() {
-        if (!data.chittyGroups) {
-            data.chittyGroups = {};
-        }
-        if (!data.chittyGroups[data.activeChitty]) {
-            data.chittyGroups[data.activeChitty] = {};
-        }
-        const g = data.chittyGroups[data.activeChitty];
-        
-        // Ensure all arrays and objects are initialized if they were stripped by Firebase
-        if (!g.members) g.members = [];
-        if (!g.winners) g.winners = [];
-        if (!g.paymentStatus) g.paymentStatus = {};
-        if (!g.eligibility) g.eligibility = {};
-        if (!g.memberTypes) g.memberTypes = {};
-        if (!g.payouts) g.payouts = [];
-        if (!g.payments) g.payments = {};
-        if (g.monthlyContribution === undefined) g.monthlyContribution = 500;
-        if (!g.whatsappGroupLink) g.whatsappGroupLink = '';
-        if (!g.whatsappAdminPhone) g.whatsappAdminPhone = '';
-
-        return g;
-    }
-
-    function saveToFirebase() {
-        return db.ref('chittyGroups').set(data.chittyGroups)
-            .then(() => {
-                console.log("✅ Save successful");
-                return true;
-            })
-            .catch(err => {
-                console.error("❌ Save error:", err);
-                alert("Firebase-ലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിശക്:\n" + err.message);
-                throw err;
-            });
-    }
-
-    function loadFromFirebase() {
-        db.ref('chittyGroups').on('value', (snapshot) => {
-            const val = snapshot.val();
-            if (val) {
-                data.chittyGroups = val;
-            } else {
-                if (!data.chittyGroups) data.chittyGroups = {};
-                const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
-                defaults.forEach(key => {
-                    if (!data.chittyGroups[key]) {
-                        data.chittyGroups[key] = {
-                            members: [],
-                            winners: [],
-                            paymentStatus: {},
-                            eligibility: {},
-                            memberTypes: {},
-                            payouts: [],
-                            monthlyContribution: 500,
-                            whatsappGroupLink: '',
-                            whatsappAdminPhone: ''
-                        };
-                    }
-                });
-                saveToFirebase();
-            }
-            renderChittySelector();
-            renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            const winners = getCurrentGroup().winners || [];
-            if (winners.length) todayWinner.textContent = winners[winners.length-1].name;
-            updateEligibleCounts();
-            renderRules();
-            renderPayments();
-            updateCollectionSummary();
-            renderPayouts();
-            loadWhatsAppSettings();
-        });
-
-        db.ref('chatLog').on('value', (snapshot) => {
-            const val = snapshot.val();
-            if (val) data.chatLog = val;
-            renderChat();
-        });
-
-        db.ref('rules').on('value', (snapshot) => {
-            const val = snapshot.val();
-            if (val) data.rules = val;
-            renderRules();
-        });
-    }
-
-    // ==================== LOGIN ====================
-    setTimeout(() => {
-        if (splash) splash.classList.add('hide');
-    }, 1800);
-
-    function checkLogin() {
-        if (isLoggedIn) {
-            loginOverlay.classList.add('hidden');
-            document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-            loadFromFirebase();
-        } else {
-            loginOverlay.classList.remove('hidden');
-        }
-    }
-
-    loginBtn.addEventListener('click', ()=>{
-        const p = loginPassword.value.trim();
-        if (p === ADMIN_PASS) { isAdmin = true; isMember = false; isLoggedIn = true;
-            loginError.textContent = ''; loginPassword.value = ''; checkLogin();
-        } else if (p === MEMBER_PASS) { isMember = true; isAdmin = false; isLoggedIn = true;
-            loginError.textContent = ''; loginPassword.value = ''; checkLogin();
-        } else { loginError.textContent = '❌ തെറ്റായ പാസ്വേഡ്'; }
-    });
-    loginPassword.addEventListener('keypress', e => { if(e.key==='Enter') loginBtn.click(); });
-    adminLogoutBtn.addEventListener('click', ()=>{
-        isLoggedIn = false; isAdmin = false; isMember = false;
-        loginOverlay.classList.remove('hidden');
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-    });
-
-    // ==================== CHITTY SELECTOR ====================
-    function renderChittySelector() {
-        const keys = Object.keys(data.chittyGroups || {});
-        chittySelector.innerHTML = '';
-        keys.forEach(k => {
-            const o = document.createElement('option');
-            o.value = k; o.textContent = k;
-            if (k === data.activeChitty) o.selected = true;
-            chittySelector.appendChild(o);
-        });
-        if ((!data.chittyGroups || !data.chittyGroups[data.activeChitty]) && keys.length > 0) {
-            data.activeChitty = keys[0];
-            renderChittySelector();
-        }
-    }
-
-    chittySelector.addEventListener('change', function() {
-        if (this.value && data.chittyGroups[this.value]) {
-            data.activeChitty = this.value;
-            renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-            loadWhatsAppSettings();
-            manualTarget = null;
-            manualTargetDisplay.textContent = '';
-        }
-    });
-
-    function addNewChitty() {
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const name = prompt('പുതിയ ചിട്ടിയുടെ പേര്:');
-        if (name && name.trim()) {
-            if (!data.chittyGroups) data.chittyGroups = {};
-            if (!data.chittyGroups[name.trim()]) {
-                data.chittyGroups[name.trim()] = {
-                    members: [],
-                    winners: [],
-                    paymentStatus: {},
-                    eligibility: {},
-                    memberTypes: {},
-                    payouts: [],
-                    monthlyContribution: 500,
-                    whatsappGroupLink: '',
-                    whatsappAdminPhone: ''
-                };
-                data.activeChitty = name.trim();
-                saveToFirebase().then(() => {
-                    renderChittySelector();
-                    renderAll();
-                    drawWheel(0);
-                    loadWhatsAppSettings();
-                    alert('✅ "' + name.trim() + '" ചേർത്തു.');
-                });
-            }
-        }
-    }
-
-    // ==================== RENDER ALL ====================
-    function renderAll() {
-        renderMembers();
-        renderMonthSelect();
-        renderHistory();
-        renderPayments();
-        renderPayouts();
-        updateCollectionSummary();
-        updateEligibleCounts();
-    }
-
-    function updateEligibleCounts() {
-        const g = getCurrentGroup();
-        const members =No response
+    const loginOverlay = $('loginNo response
