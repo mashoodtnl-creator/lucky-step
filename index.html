@@ -4,41 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>Mashood · Chitty Manager</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #f5f7fb;
-            color: #1e293b;
-            padding: 0 0 80px 0;
-            min-height: 100vh;
-            transition: background 0.3s, color 0.3s;
-        }
-        body.dark { background: #121212; color: #e2e8f0; }
-        .container { max-width: 480px; margin: 0 auto; padding: 16px; }
-        #splash {
-            position: fixed; inset: 0;
-            background: linear-gradient(145deg, #1b5e20, #2E7D32);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 9999; color: white; text-align: center; padding: 20px;
-            transition: opacity 0.8s;
-        }
-        #splash.hide { opacity: 0; pointer-events: none; }
-        #splash .logo-container {
-            width: 150px; height: 150px; border-radius: 50%; overflow: hidden;
-            border: 5px solid #FFD700; background: #fff; display: flex; align-items: center; justify-content: center;
-            font-size: 4rem; font-weight: 900; color: #2E7D32; margin-bottom: 20px;
-        }
-        #splash h1 { font-size: 2.2rem; font-weight: 700; color: #FFD700; }
-        #splash p { font-size: 1.1rem; opacity: 0.9; margin-top: 8px; color: #fff; }
-        .loader { width: 60px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; margin-top: 30px; }
-        .loader-bar { width: 40%; height: 100%; background: #FFD700; animation: load 1.2s infinite; }
-        @keyframes load { 0%{margin-left:-40%} 100%{margin-left:100%} }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f5f7fb; color: #1e293b; padding: 20px; max-width: 480px; margin: 0 auto; }
+        .card { background: white; border-radius: 24px; padding: 20px; margin: 16px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .btn { background: #2E7D32; color: white; border: none; padding: 14px; border-radius: 60px; width: 100%; font-size: 1.1rem; cursor: pointer; margin: 6px 0; }
+        .btn:active { transform: scale(0.96); }
+        .btn-gold { background: #FFD700; color: #1e293b; }
+        .btn-outline { background: transparent; border: 2px solid #2E7D32; color: #2E7D32; }
+        input { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 8px 0; }
+        .log-box { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 16px; font-family: monospace; min-height: 80px; white-space: pre-wrap; font-size: 0.9rem; }
+        .member-list { background: #f0f0f0; padding: 12px; border-radius: 16px; min-height: 50px; }
+        .flex-row { display: flex; gap: 10px; }
+        .flex-row .btn { flex: 1; }
+        .hidden { display: none; }
         #loginOverlay {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 9998; padding: 20px;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+            display: flex; align-items: center; justify-content: center; z-index: 9998; padding: 20px;
             transition: opacity 0.5s;
         }
         #loginOverlay.hidden { opacity: 0; pointer-events: none; }
@@ -46,184 +30,45 @@
             background: #fff; border-radius: 40px; padding: 40px 30px;
             max-width: 360px; width: 100%; text-align: center;
         }
-        body.dark .login-card { background: #1e1e2a; }
         .login-card h2 { color: #2E7D32; margin-bottom: 20px; font-size: 1.8rem; }
-        body.dark .login-card h2 { color: #FFD700; }
         .login-card input { width: 100%; padding: 14px 16px; border-radius: 40px; border: 2px solid #ddd; font-size: 1rem; margin: 10px 0; background: #f5f7fb; }
-        body.dark .login-card input { background: #2a2a3a; border-color: #444; color: #e2e8f0; }
         .login-card .btn { background: #2E7D32; color: white; border: none; padding: 14px; border-radius: 40px; font-weight: 600; font-size: 1.1rem; width: 100%; cursor: pointer; margin-top: 10px; }
-        .login-card .btn:active { transform: scale(0.96); }
         .login-card .error { color: #c62828; font-size: 0.9rem; margin-top: 8px; min-height: 24px; }
         .chitty-selector {
             background: #fff; padding: 12px 16px; border-radius: 60px; margin-bottom: 16px;
             display: flex; align-items: center; gap: 12px;
             border: 1px solid rgba(197,160,89,0.2);
         }
-        body.dark .chitty-selector { background: #1e1e2a; border-color: #2a2a3a; }
-        .chitty-selector label { font-weight: 700; color: #2E7D32; font-size: 0.9rem; white-space: nowrap; }
-        body.dark .chitty-selector label { color: #FFD700; }
         .chitty-selector select {
             flex: 1; padding: 10px 16px; border-radius: 40px; border: 1px solid #d7ccc8;
             background: #f8f6f0; font-weight: 600; font-size: 1rem; cursor: pointer;
         }
-        body.dark .chitty-selector select { background: #2a2a3a; border-color: #3a3a4a; color: #e2e8f0; }
-        .chitty-selector select:focus { outline: 2px solid #C5A059; border-color: transparent; }
-        .chitty-selector .btn-add-chitty {
-            background: #2E7D32; color: #fff; border: none;
-            padding: 8px 16px; border-radius: 40px; font-weight: 700; cursor: pointer; font-size: 1.2rem;
-            white-space: nowrap;
-        }
-        .chitty-selector .btn-add-chitty:hover { background: #1b5e20; }
-        .card {
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(4px);
-            border-radius: 24px; padding: 20px; margin: 16px 0;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: background 0.3s, border 0.3s;
-        }
-        body.dark .card { background: rgba(30,30,40,0.8); border-color: #2a2a3a; }
-        .btn {
-            background: #2E7D32; color: white; border: none;
-            padding: 12px 24px; border-radius: 60px; font-weight: 600; font-size: 1rem;
-            width: 100%; cursor: pointer; transition: 0.2s;
-            margin: 6px 0;
-        }
-        .btn:active { transform: scale(0.96); }
-        .btn-outline { background: transparent; border: 2px solid #2E7D32; color: #2E7D32; }
-        body.dark .btn-outline { border-color: #FFD700; color: #FFD700; }
-        .btn-danger { background: #c62828; color: white; }
-        .btn-gold { background: #FFD700; color: #1e293b; }
-        .btn-sm { padding: 6px 14px; font-size: 0.8rem; width: auto; margin: 2px; }
-        .btn-wa { background: #25D366; color: #fff; }
-        .btn-wa:hover { background: #128C7E; }
-        .input-group { margin: 12px 0; }
-        .input-group input, .input-group select {
-            width: 100%; padding: 14px 16px; border-radius: 40px;
-            border: 1px solid #d1d5db; background: white; font-size: 1rem;
-        }
-        body.dark .input-group input, body.dark .input-group select {
-            background: #1e1e2a; border-color: #3a3a4a; color: #e2e8f0;
-        }
-        .lang-toggle {
-            display: flex; gap: 10px; justify-content: flex-end; margin-bottom: 10px;
-        }
-        .lang-toggle button {
-            background: transparent; border: 1px solid #ccc;
-            padding: 6px 16px; border-radius: 30px; font-weight: 600; cursor: pointer;
-        }
-        body.dark .lang-toggle button { border-color: #3a3a4a; color: #e2e8f0; }
-        .lang-toggle button.active { background: #2E7D32; color: white; border-color: #2E7D32; }
-        .winner-display {
-            font-size: 2.8rem; font-weight: 800; color: #FFD700;
-            text-align: center; padding: 20px 0; min-height: 90px;
-        }
-        .winner-display.pop { animation: pop 0.5s ease; }
-        @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
-        .wheel-container { position: relative; width: 100%; max-width: 320px; margin: 0 auto; }
-        #wheelCanvas { width: 100%; aspect-ratio: 1/1; border-radius: 50%; background: #f0f0f0; }
-        body.dark #wheelCanvas { background: #1e1e2a; }
-        .wheel-arrow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; z-index: 5; line-height: 1; }
-        .member-list { max-height: 200px; overflow-y: auto; font-size: 0.9rem; border-top: 1px solid #ddd; padding-top: 10px; margin-top: 10px; }
-        body.dark .member-list { border-color: #2a2a3a; }
-        .member-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 6px 0; border-bottom: 1px solid #eee; flex-wrap: wrap;
-        }
-        body.dark .member-item { border-color: #2a2a3a; }
-        .member-item .status { font-size: 0.8rem; padding: 2px 10px; border-radius: 30px; cursor: pointer; transition: 0.2s; }
-        .status.paid { background: #2E7D32; color: white; }
-        .status.pending { background: #c62828; color: white; }
-        .status.overdue { background: #b71c1c; color: white; }
-        .status.eligible { background: #2E7D32; color: white; }
-        .status.ineligible { background: #888; color: white; }
-        .member-item .name { flex: 1; margin-right: 6px; }
-        .member-item .sub-members { font-size: 0.7rem; color: #6d7a68; width: 100%; padding-left: 20px; }
-        body.dark .member-item .sub-members { color: #a0a0a0; }
-        .group-badge { background: #C5A059; color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 30px; font-weight: 700; margin-right: 6px; }
-        .member-item .elig-toggle { margin-left: 8px; font-size: 0.8rem; cursor: pointer; }
-        .member-item .delete-member { color: #c62828; font-weight: bold; cursor: pointer; margin-left: 6px; font-size: 1.1rem; }
-        .member-item .delete-member:hover { color: #ff1744; }
-        .member-item .pay-btn { margin-left: 4px; }
-        .member-item .whatsapp-link { color: #25D366; font-weight: bold; cursor: pointer; margin-left: 6px; font-size: 1rem; text-decoration: none; }
-        .member-item .whatsapp-link:hover { color: #128C7E; }
-        .flex-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .flex-row .btn { flex: 1; min-width: 100px; }
         .tab-bar {
             display: flex; gap: 6px; overflow-x: auto; padding: 8px 0;
             background: rgba(255,255,255,0.5); backdrop-filter: blur(8px);
-            border-radius: 40px; margin-bottom: 16px; position: sticky; top: 0; z-index: 10;
+            border-radius: 40px; margin-bottom: 16px;
         }
-        body.dark .tab-bar { background: rgba(20,20,30,0.7); }
         .tab-bar button {
             flex: 1; padding: 10px 8px; border: none; background: transparent; font-weight: 600; font-size: 0.75rem;
             border-radius: 40px; white-space: nowrap; color: #1e293b;
         }
-        body.dark .tab-bar button { color: #cbd5e1; }
         .tab-bar button.active { background: #2E7D32; color: white; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         .hidden { display: none !important; }
-        .chat-box { max-height: 200px; overflow-y: auto; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 20px; margin: 8px 0; font-size: 0.9rem; }
-        body.dark .chat-box { background: rgba(255,255,255,0.05); }
-        .rules-text { white-space: pre-wrap; font-size: 0.95rem; line-height: 1.6; padding: 8px 0; }
-        .admin-only { display: none; }
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px;
-        }
-        .modal-card { background: white; border-radius: 30px; padding: 30px; max-width: 360px; width: 100%; }
-        body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
-        .modal-card select { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 10px 0; }
-        .modal-card textarea { width: 100%; padding: 14px; border-radius: 20px; border: 1px solid #ddd; font-size: 1rem; min-height: 150px; resize: vertical; }
-        .modal-card .btn { margin: 5px 0; }
-        .history-item {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 6px 0; border-bottom: 1px solid #eee;
-        }
-        body.dark .history-item { border-color: #2a2a3a; }
-        .history-item .remove-btn {
-            background: #c62828; color: white; border: none; border-radius: 30px; padding: 2px 14px; cursor: pointer; font-size: 0.8rem;
-        }
-        .eligible-info { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 0.9rem; }
-        .collection-summary {
-            background: #fff; border-radius: 24px; padding: 16px 20px; margin: 12px 0;
-            border-left: 6px solid #C5A059;
-        }
-        body.dark .collection-summary { background: #1e1e2a; }
-        .collection-summary .total { font-size: 1.8rem; font-weight: 700; color: #2E7D32; }
-        body.dark .collection-summary .total { color: #FFD700; }
-        .collection-summary .detail { font-size: 0.9rem; color: #6d7a68; }
-        .payout-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        body.dark .payout-item { border-color: #2a2a3a; }
-        .wa-group-btn {
-            background: #25D366; color: #fff; border: none;
-            padding: 12px; border-radius: 60px; font-weight: 600; width: 100%;
-            cursor: pointer; font-size: 1rem; margin: 6px 0;
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-        }
-        .wa-group-btn:hover { background: #128C7E; }
-        #manualTargetDisplay {
-            color: #C5A059;
-            font-weight: bold;
-            text-align: center;
-            margin: 8px 0;
-            font-size: 1.1rem;
-        }
-        @media (max-width: 420px) {
-            .container { padding: 10px; }
-            #splash h1 { font-size: 1.8rem; }
-            .winner-display { font-size: 2.2rem; }
-            .chitty-selector { flex-wrap: wrap; }
-            .member-item { flex-wrap: wrap; }
-        }
     </style>
 </head>
 <body>
 
 <!-- SPLASH -->
-<div id="splash">
-    <div class="logo-container">M</div>
-    <h1>മഷൂദ് കുറിയിൽ</h1>
-    <p>ചിട്ടി മാനേജ്മെന്റ്</p>
-    <div class="loader"><div class="loader-bar"></div></div>
+<div id="splash" style="position:fixed;inset:0;background:linear-gradient(145deg,#1b5e20,#2E7D32);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;color:white;text-align:center;padding:20px;transition:opacity 0.8s;">
+    <div style="width:150px;height:150px;border-radius:50%;border:5px solid #FFD700;background:#fff;display:flex;align-items:center;justify-content:center;font-size:4rem;font-weight:900;color:#2E7D32;margin-bottom:20px;">M</div>
+    <h1 style="font-size:2.2rem;font-weight:700;color:#FFD700;">മഷൂദ് കുറിയിൽ</h1>
+    <p style="font-size:1.1rem;opacity:0.9;margin-top:8px;">ചിട്ടി മാനേജ്മെന്റ്</p>
+    <div style="width:60px;height:6px;background:rgba(255,255,255,0.3);border-radius:10px;overflow:hidden;margin-top:30px;">
+        <div style="width:40%;height:100%;background:#FFD700;animation:load 1.2s infinite;"></div>
+    </div>
+    <style>@keyframes load{0%{margin-left:-40%}100%{margin-left:100%}}</style>
 </div>
 
 <!-- LOGIN -->
@@ -233,53 +78,41 @@
         <input type="password" id="loginPassword" placeholder="പാസ്വേഡ് നൽകുക">
         <button class="btn" id="loginBtn">പ്രവേശിക്കുക</button>
         <div class="error" id="loginError"></div>
+        <div style="margin-top:10px;font-size:0.8rem;color:#888;">Admin: ma7hood | Member: member123</div>
     </div>
 </div>
 
-<div class="container" id="app">
-    <div class="lang-toggle">
-        <button class="active" data-lang="ml">മലയാളം</button>
-        <button data-lang="en">English</button>
-    </div>
-
-    <!-- CHITTY SELECTOR -->
+<div id="app" class="hidden">
     <div class="chitty-selector">
         <label>📂 ചിട്ടി:</label>
         <select id="chittySelector"></select>
-        <button class="btn-add-chitty admin-only" onclick="addNewChitty()">➕</button>
     </div>
 
     <div class="tab-bar" id="tabBar">
         <button class="active" data-tab="home">Home</button>
         <button data-tab="members">Members</button>
         <button data-tab="payments">💰 Payments</button>
-        <button data-tab="payout">💸 Payout</button>
         <button data-tab="draw">Draw</button>
         <button data-tab="history">History</button>
-        <button data-tab="chat">💬 Chat</button>
-        <button data-tab="rules">📜 Rules</button>
     </div>
 
     <!-- HOME -->
-    <div id="tab-home" class="tab-content">
+    <div id="tab-home" class="tab-content active">
         <div class="card"><h2>🏆 ഇന്നത്തെ വിജയി</h2>
-            <div class="winner-display" id="todayWinner">—</div>
+            <div class="winner-display" id="todayWinner" style="font-size:2.8rem;font-weight:800;color:#FFD700;text-align:center;padding:20px 0;">—</div>
             <button class="btn admin-only" id="spinWheelBtn">🎡 വീൽ കറക്കുക</button>
         </div>
         <div class="card"><h3>📊 മാസ വിജയികൾ</h3>
-            <select id="monthSelect" class="input-group" style="width:100%; padding:12px; border-radius:30px;"></select>
-            <ul id="monthWinnerList" style="list-style:none; padding:0;"></ul>
+            <select id="monthSelect" style="width:100%;padding:12px;border-radius:40px;border:1px solid #ddd;margin:8px 0;"></select>
+            <ul id="monthWinnerList" style="list-style:none;padding:0;"></ul>
         </div>
         <div class="card"><h3>📜 നിയമങ്ങൾ</h3>
-            <div id="homeRulesDisplay" class="rules-text"></div>
-            <div style="font-size:0.8rem; margin-top:6px; color:#888;">
-                <a href="#" onclick="document.querySelector('[data-tab=\\'rules\\']').click(); return false;">എല്ലാ നിയമങ്ങളും കാണുക</a>
-            </div>
+            <div id="homeRulesDisplay" style="white-space:pre-wrap;font-size:0.95rem;line-height:1.6;padding:8px 0;"></div>
         </div>
     </div>
 
     <!-- MEMBERS -->
-    <div id="tab-members" class="tab-content hidden">
+    <div id="tab-members" class="tab-content">
         <div class="card"><h3>📋 മെമ്പർമാർ (എലിജിബിൾ: <span id="eligibleCount">0</span>)</h3>
             <div id="memberListContainer" class="member-list"></div>
         </div>
@@ -289,300 +122,139 @@
                 <button class="btn btn-outline" id="bulkAddBtn">📋 Bulk Add</button>
             </div>
             <button class="btn btn-outline" id="makeAllEligibleBtn">✅ എല്ലാവരെയും എലിജിബിൾ ആക്കുക</button>
-        </div>
-        <div class="card admin-only"><h3>⚙️ അഡ്മിൻ നിയന്ത്രണം</h3>
-            <button class="btn" id="adminLogoutBtn">🚪 ലോഗൗട്ട്</button>
+            <button class="btn btn-outline" id="adminLogoutBtn">🚪 ലോഗൗട്ട്</button>
         </div>
     </div>
 
     <!-- PAYMENTS -->
-    <div id="tab-payments" class="tab-content hidden">
+    <div id="tab-payments" class="tab-content">
         <div class="card"><h3>💰 മാസ കളക്ഷൻ</h3>
-            <div id="collectionSummary" class="collection-summary">
-                <div>ഈ മാസത്തെ ആകെ കളക്ഷൻ: <span class="total" id="monthlyTotal">₹ 0</span></div>
-                <div class="detail">ആകെ: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
-                <div class="detail">പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (7-നകം)</div>
+            <div id="collectionSummary" style="background:#fff;border-radius:24px;padding:16px 20px;border-left:6px solid #C5A059;">
+                <div>ഈ മാസത്തെ ആകെ കളക്ഷൻ: <span id="monthlyTotal" style="font-size:1.8rem;font-weight:700;color:#2E7D32;">₹ 0</span></div>
+                <div style="font-size:0.9rem;color:#6d7a68;">ആകെ: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
+                <div style="font-size:0.9rem;color:#6d7a68;">പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (7-നകം)</div>
             </div>
         </div>
         <div class="card"><h3>📋 പേയ്മെന്റ് ലിസ്റ്റ് (ഈ മാസം)</h3>
-            <div id="paymentListContainer" style="max-height:300px; overflow-y:auto;"></div>
+            <div id="paymentListContainer" style="max-height:300px;overflow-y:auto;"></div>
         </div>
         <div class="card admin-only"><h3>⚙️ പ്രതിശ്രേണി മാറ്റുക</h3>
-            <div class="input-group">
-                <input type="number" id="contributionInput" placeholder="തുക" step="1">
-                <button class="btn btn-outline" id="setContributionBtn">അപ്ഡേറ്റ്</button>
+            <div style="display:flex;gap:10px;">
+                <input type="number" id="contributionInput" placeholder="തുക" step="1" style="flex:1;">
+                <button class="btn btn-sm" id="setContributionBtn" style="width:auto;padding:12px 18px;">അപ്ഡേറ്റ്</button>
             </div>
-        </div>
-    </div>
-
-    <!-- PAYOUT -->
-    <div id="tab-payout" class="tab-content hidden">
-        <div class="card"><h3>💸 വിജയികൾക്ക് തിരികെ നൽകേണ്ട തുക</h3>
-            <div id="payoutSummary" class="collection-summary">
-                <div>ആകെ Payout: <span class="total" id="totalPayout">₹ 0</span></div>
-                <div class="detail">വിജയിച്ചവർ: <span id="winnerCount">0</span></div>
-            </div>
-        </div>
-        <div class="card"><h3>📋 Payout ലിസ്റ്റ്</h3>
-            <div id="payoutListContainer" style="max-height:350px; overflow-y:auto;"></div>
-        </div>
-        <div class="card admin-only"><h3>⚙️ Payout രേഖപ്പെടുത്തുക</h3>
-            <div class="flex-row">
-                <input type="date" id="payoutDate" style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
-                <input type="number" id="payoutAmount" placeholder="തുക" step="1" style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
-            </div>
-            <select id="payoutMemberSelect" style="width:100%; padding:14px; border-radius:40px; border:1px solid #ddd; margin:10px 0;"></select>
-            <button class="btn btn-gold" id="addPayoutBtn">➕ Payout ചേർക്കുക</button>
         </div>
     </div>
 
     <!-- DRAW -->
-    <div id="tab-draw" class="tab-content hidden">
+    <div id="tab-draw" class="tab-content">
         <div class="card">
             <h3>🎰 റാൻഡം വീൽ</h3>
-            <div class="wheel-container"><div class="wheel-arrow">▼</div><canvas id="wheelCanvas" width="400" height="400"></canvas></div>
-            <div class="winner-display" id="drawWinnerDisplay">—</div>
-            <div id="manualTargetDisplay"></div>
+            <div style="position:relative;width:100%;max-width:320px;margin:0 auto;">
+                <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:40px;color:#FFD700;z-index:5;line-height:1;">▼</div>
+                <canvas id="wheelCanvas" width="400" height="400" style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;"></canvas>
+            </div>
+            <div id="drawWinnerDisplay" style="font-size:2.8rem;font-weight:800;color:#FFD700;text-align:center;padding:20px 0;">—</div>
             <button class="btn admin-only" id="spinDrawBtn">🔄 സ്പിൻ</button>
-            <div class="eligible-info">
+            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.9rem;">
                 <span>✅ എലിജിബിൾ: <span id="drawEligibleCount">0</span></span>
                 <span>🎯 ആകെ: <span id="drawTotalCount">0</span></span>
             </div>
             <button class="btn btn-outline admin-only" id="manualWinnerBtn">👤 മാനുവൽ</button>
-            <button class="btn btn-danger admin-only" id="removeWinnerBtn">🗑️ വിജയിയെ മാറ്റുക</button>
+            <button class="btn btn-danger admin-only" id="removeWinnerBtn" style="background:#c62828;color:white;">🗑️ വിജയിയെ മാറ്റുക</button>
             <button class="btn btn-outline admin-only" id="shuffleWheelBtn">🔀 Shuffle</button>
         </div>
     </div>
 
     <!-- HISTORY -->
-    <div id="tab-history" class="tab-content hidden">
+    <div id="tab-history" class="tab-content">
         <div class="card"><h3>📜 വിജയികൾ</h3>
-            <div id="historyList" style="max-height:300px; overflow-y:auto;"></div>
+            <div id="historyList" style="max-height:300px;overflow-y:auto;"></div>
             <button class="btn btn-outline" id="exportCSV">📥 CSV</button>
-        </div>
-    </div>
-
-    <!-- CHAT -->
-    <div id="tab-chat" class="tab-content hidden">
-        <div class="card">
-            <h3>💬 ആപ്പ് ചാറ്റ് (എല്ലാവർക്കും)</h3>
-            <div id="chatMessages" class="chat-box"></div>
-            <div class="input-group" style="display:flex; gap:8px;">
-                <input type="text" id="chatInput" placeholder="സന്ദേശം..." style="flex:1;">
-                <button class="btn btn-sm" id="sendChatBtn" style="width:auto; padding:12px 18px;">അയക്കുക</button>
-            </div>
-        </div>
-        <div class="card">
-            <h3>📱 WhatsApp</h3>
-            <button class="wa-group-btn" id="openWhatsAppGroupBtn">
-                <span>📲</span> വാട്ട്സാപ്പ് ഗ്രൂപ്പിൽ ചേരുക
-            </button>
-            <div style="display:flex; gap:8px; margin-top:8px;">
-                <input type="text" id="waMessageInput" placeholder="WhatsApp-ൽ അയക്കാൻ സന്ദേശം..." style="flex:1; padding:12px; border-radius:40px; border:1px solid #ddd;">
-                <button class="btn btn-sm btn-wa" id="sendWhatsAppBtn" style="width:auto; padding:12px 18px;">📤</button>
-            </div>
-            <div style="font-size:0.8rem; color:#6d7a68; margin-top:6px;">
-                * സന്ദേശം അഡ്മിന് വാട്ട്സാപ്പിൽ അയക്കും (API ലിങ്ക്)
-            </div>
-        </div>
-    </div>
-
-    <!-- RULES -->
-    <div id="tab-rules" class="tab-content hidden">
-        <div class="card">
-            <h3>📜 നിയമങ്ങൾ</h3>
-            <div id="rulesDisplay" class="rules-text"></div>
-            <div class="admin-only" style="margin-top:16px;">
-                <label for="rulesEdit" style="font-weight:600;">നിയമങ്ങൾ എഡിറ്റ് ചെയ്യുക:</label>
-                <textarea id="rulesEdit" rows="6" style="width:100%; padding:14px; border-radius:16px; border:1px solid #ddd; margin:10px 0; resize:vertical;"></textarea>
-                <button class="btn btn-gold" id="saveRulesBtn">💾 സേവ്</button>
-            </div>
-        </div>
-        <div class="card admin-only">
-            <h3>📱 WhatsApp Settings</h3>
-            <div class="input-group">
-                <label>WhatsApp Group Link (Invite Link)</label>
-                <input type="url" id="whatsappGroupLink" placeholder="https://chat.whatsapp.com/...">
-            </div>
-            <div class="input-group">
-                <label>Admin WhatsApp Number (for messages)</label>
-                <input type="text" id="whatsappAdminPhone" placeholder="e.g. 9876543210">
-            </div>
-            <button class="btn btn-gold" id="saveWhatsAppSettings">💾 Save WhatsApp Settings</button>
         </div>
     </div>
 </div>
 
 <!-- MODALS -->
-<div id="manualModal" class="modal hidden"><div class="modal-card"><h3>👤 മാനുവൽ വിജയി</h3>
-    <select id="manualWinnerSelect"></select>
-    <button class="btn" id="confirmManualWinner">തിരഞ്ഞെടുക്കുക</button>
-    <button class="btn btn-outline" id="cancelManualWinner">റദ്ദാക്കുക</button>
-</div></div>
-<div id="removeModal" class="modal hidden"><div class="modal-card"><h3>🗑️ വിജയിയെ നീക്കം ചെയ്യുക</h3>
-    <p>ഏറ്റവും ഒടുവിൽ വിജയിച്ച ആളെ <strong>എലിജിബിൾ അല്ലാതാക്കുക</strong></p>
-    <div style="display:flex; gap:10px;">
-        <button class="btn btn-danger" id="confirmRemoveWinner">അതെ</button>
-        <button class="btn btn-outline" id="cancelRemoveWinner">റദ്ദാക്കുക</button>
+<div id="manualModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
+    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+        <h3>👤 മാനുവൽ വിജയി</h3>
+        <select id="manualWinnerSelect" style="width:100%;padding:14px;border-radius:40px;border:1px solid #ddd;font-size:1rem;margin:10px 0;"></select>
+        <button class="btn" id="confirmManualWinner">തിരഞ്ഞെടുക്കുക</button>
+        <button class="btn btn-outline" id="cancelManualWinner">റദ്ദാക്കുക</button>
     </div>
-</div></div>
-<div id="bulkAddModal" class="modal hidden"><div class="modal-card"><h3>📋 Bulk Add</h3>
-    <p style="font-size:0.9rem;">ഓരോ വരിയിലും ഒരു പേര്</p>
-    <textarea id="bulkTextarea" rows="6" placeholder="മെമ്പർ 1&#10;മെമ്പർ 2"></textarea>
-    <button class="btn" id="confirmBulkAdd">ചേർക്കുക</button>
-    <button class="btn btn-outline" id="cancelBulkAdd">റദ്ദാക്കുക</button>
-</div></div>
+</div>
+
+<div id="removeModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
+    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+        <h3>🗑️ വിജയിയെ നീക്കം ചെയ്യുക</h3>
+        <p style="margin:10px 0;">ഏറ്റവും ഒടുവിൽ വിജയിച്ച ആളെ <strong>എലിജിബിൾ അല്ലാതാക്കുക</strong></p>
+        <div style="display:flex;gap:10px;">
+            <button class="btn" style="background:#c62828;color:white;" id="confirmRemoveWinner">അതെ</button>
+            <button class="btn btn-outline" id="cancelRemoveWinner">റദ്ദാക്കുക</button>
+        </div>
+    </div>
+</div>
+
+<div id="bulkAddModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
+    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+        <h3>📋 Bulk Add</h3>
+        <p style="font-size:0.9rem;">ഓരോ വരിയിലും ഒരു പേര്</p>
+        <textarea id="bulkTextarea" rows="6" style="width:100%;padding:14px;border-radius:20px;border:1px solid #ddd;font-size:1rem;min-height:150px;resize:vertical;"></textarea>
+        <button class="btn" id="confirmBulkAdd">ചേർക്കുക</button>
+        <button class="btn btn-outline" id="cancelBulkAdd">റദ്ദാക്കുക</button>
+    </div>
+</div>
 
 <script>
 (function(){
+    // ==================== FIREBASE CONFIG ====================
+    const firebaseConfig = {
+        apiKey: "AIzaSyDK6Z-M9Q22JKJEB78rHuS",
+        authDomain: "luckystep-1a5b2.firebaseapp.com",
+        projectId: "luckystep-1a5b2",
+        storageBucket: "luckystep-1a5b2.appspot.com",
+        messagingSenderId: "941988078021",
+        appId: "1:941988078021:web:df90a0317c4e3b3b",
+        measurementId: "G-WCBSF2ZN7F",
+        databaseURL: "https://luckystep-1a5b2-default-rtdb.firebaseio.com/"
+    };
+
+    console.log("🔥 Initializing Firebase...");
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    console.log("✅ Firebase initialized.");
+
+    // ==================== CONSTANTS ====================
     const ADMIN_PASS = 'ma7hood';
     const MEMBER_PASS = 'member123';
     const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
-    // ---------- DATA (LocalStorage) ----------
-    let data = {
-        chittyGroups: {},
-        activeChitty: 'കുറി 1',
-        chatLog: [],
-        rules: '1. ഓരോ മാസവും ഒരു വിജയി\n2. അഡ്മിന് മാത്രം തിരുത്തൽ\n3. മാസ പ്രതിശ്രേണി 7-നകം'
-    };
-
-    function loadData() {
-        const saved = localStorage.getItem('chittyData');
-        if (saved) {
-            try {
-                const parsed = JSON.parse(saved);
-                if (parsed.chittyGroups) data.chittyGroups = parsed.chittyGroups;
-                if (parsed.activeChitty) data.activeChitty = parsed.activeChitty;
-                if (parsed.chatLog) data.chatLog = parsed.chatLog;
-                if (parsed.rules) data.rules = parsed.rules;
-            } catch(e) {}
-        }
-        // Ensure default groups exist
-        const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
-        defaults.forEach(key => {
-            if (!data.chittyGroups[key]) {
-                data.chittyGroups[key] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500, whatsappGroupLink: '', whatsappAdminPhone: '' };
-            }
-            // Ensure sub-objects exist
-            const g = data.chittyGroups[key];
-            if (!g.eligibility) g.eligibility = {};
-            if (!g.paymentStatus) g.paymentStatus = {};
-            if (!g.memberTypes) g.memberTypes = {};
-            if (!g.payments) g.payments = {};
-            if (!g.payouts) g.payouts = [];
-            if (!g.winners) g.winners = [];
-        });
-        if (!data.chittyGroups[data.activeChitty]) data.activeChitty = 'കുറി 1';
-        saveData();
-    }
-
-    function saveData() {
-        localStorage.setItem('chittyData', JSON.stringify(data));
-        renderAll();
-    }
-
-    function getCurrentGroup() {
-        return data.chittyGroups[data.activeChitty] || data.chittyGroups['കുറി 1'];
-    }
-
-    // ---------- UI ----------
-    let isAdmin = false, isMember = false, isLoggedIn = false, isSpinning = false;
+    // ==================== STATE ====================
+    let data = { chittyGroups: {}, activeChitty: 'കുറി 1', chatLog: [], rules: '' };
+    let isAdmin = false, isLoggedIn = false, isSpinning = false;
     let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
     window.currentWheelRotation = 0;
     let manualTarget = null;
 
-    // DOM refs
+    // ==================== DOM REFS ====================
     const $ = id => document.getElementById(id);
     const splash = $('splash');
     const loginOverlay = $('loginOverlay');
     const loginPassword = $('loginPassword');
     const loginBtn = $('loginBtn');
     const loginError = $('loginError');
-    const spinWheelBtn = $('spinWheelBtn');
-    const spinDrawBtn = $('spinDrawBtn');
-    const drawWinnerDisplay = $('drawWinnerDisplay');
-    const todayWinner = $('todayWinner');
-    const memberListContainer = $('memberListContainer');
-    const monthSelect = $('monthSelect');
-    const monthWinnerList = $('monthWinnerList');
-    const historyList = $('historyList');
-    const chatMessages = $('chatMessages');
-    const chatInput = $('chatInput');
-    const sendChatBtn = $('sendChatBtn');
-    const addMemberBtn = $('addMemberBtn');
-    const bulkAddBtn = $('bulkAddBtn');
-    const manualWinnerBtn = $('manualWinnerBtn');
-    const removeWinnerBtn = $('removeWinnerBtn');
-    const shuffleWheelBtn = $('shuffleWheelBtn');
-    const exportCSV = $('exportCSV');
-    const wheelCanvas = $('wheelCanvas');
-    const ctx = wheelCanvas.getContext('2d');
-    const manualModal = $('manualModal');
-    const manualWinnerSelect = $('manualWinnerSelect');
-    const confirmManualWinner = $('confirmManualWinner');
-    const cancelManualWinner = $('cancelManualWinner');
-    const adminLogoutBtn = $('adminLogoutBtn');
-    const removeModal = $('removeModal');
-    const confirmRemoveWinner = $('confirmRemoveWinner');
-    const cancelRemoveWinner = $('cancelRemoveWinner');
-    const eligibleCountSpan = $('eligibleCount');
-    const drawEligibleCount = $('drawEligibleCount');
-    const drawTotalCount = $('drawTotalCount');
-    const makeAllEligibleBtn = $('makeAllEligibleBtn');
-    const bulkAddModal = $('bulkAddModal');
-    const bulkTextarea = $('bulkTextarea');
-    const confirmBulkAdd = $('confirmBulkAdd');
-    const cancelBulkAdd = $('cancelBulkAdd');
-    const homeRulesDisplay = $('homeRulesDisplay');
-    const rulesDisplay = $('rulesDisplay');
-    const rulesEdit = $('rulesEdit');
-    const saveRulesBtn = $('saveRulesBtn');
-    const chittySelector = $('chittySelector');
-    const monthlyTotal = $('monthlyTotal');
-    const totalMembersCount = $('totalMembersCount');
-    const paidCount = $('paidCount');
-    const pendingCount = $('pendingCount');
-    const contributionAmount = $('contributionAmount');
-    const paymentListContainer = $('paymentListContainer');
-    const contributionInput = $('contributionInput');
-    const setContributionBtn = $('setContributionBtn');
-    const payoutListContainer = $('payoutListContainer');
-    const totalPayout = $('totalPayout');
-    const winnerCount = $('winnerCount');
-    const payoutDate = $('payoutDate');
-    const payoutAmount = $('payoutAmount');
-    const payoutMemberSelect = $('payoutMemberSelect');
-    const addPayoutBtn = $('addPayoutBtn');
-    const openWhatsAppGroupBtn = $('openWhatsAppGroupBtn');
-    const waMessageInput = $('waMessageInput');
-    const sendWhatsAppBtn = $('sendWhatsAppBtn');
-    const whatsappGroupLink = $('whatsappGroupLink');
-    const whatsappAdminPhone = $('whatsappAdminPhone');
-    const saveWhatsAppSettings = $('saveWhatsAppSettings');
-    const manualTargetDisplay = $('manualTargetDisplay');
+    const app = $('app');
 
-    // ---------- INIT ----------
-    setTimeout(() => splash.classList.add('hide'), 1800);
+    // ==================== LOGIN ====================
+    setTimeout(() => splash.style.opacity = '0', 1800);
 
     function checkLogin() {
         if (isLoggedIn) {
             loginOverlay.classList.add('hidden');
+            app.classList.remove('hidden');
             document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-            loadData();
-            renderChittySelector();
-            renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            if (getCurrentGroup().winners && getCurrentGroup().winners.length) {
-                const w = getCurrentGroup().winners;
-                todayWinner.textContent = w[w.length-1].name;
-            }
-            updateEligibleCounts();
-            renderRules();
-            renderPayments();
-            updateCollectionSummary();
-            renderPayouts();
-            loadWhatsAppSettings();
+            loadFromFirebase();
         } else {
             loginOverlay.classList.remove('hidden');
         }
@@ -590,84 +262,104 @@
 
     loginBtn.addEventListener('click', ()=>{
         const p = loginPassword.value.trim();
-        if (p === ADMIN_PASS) { isAdmin = true; isMember = false; isLoggedIn = true;
+        if (p === ADMIN_PASS) { isAdmin = true; isLoggedIn = true;
             loginError.textContent = ''; loginPassword.value = ''; checkLogin();
-        } else if (p === MEMBER_PASS) { isMember = true; isAdmin = false; isLoggedIn = true;
+        } else if (p === MEMBER_PASS) { isAdmin = false; isLoggedIn = true;
             loginError.textContent = ''; loginPassword.value = ''; checkLogin();
         } else { loginError.textContent = '❌ തെറ്റായ പാസ്വേഡ്'; }
     });
     loginPassword.addEventListener('keypress', e => { if(e.key==='Enter') loginBtn.click(); });
-    adminLogoutBtn.addEventListener('click', ()=>{
-        isLoggedIn = false; isAdmin = false; isMember = false;
-        loginOverlay.classList.remove('hidden');
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
-    });
 
-    // ---------- CHITTY SELECTOR ----------
-    function renderChittySelector() {
-        const keys = Object.keys(data.chittyGroups);
-        chittySelector.innerHTML = '';
-        keys.forEach(k => {
-            const o = document.createElement('option');
-            o.value = k; o.textContent = k;
-            if (k === data.activeChitty) o.selected = true;
-            chittySelector.appendChild(o);
+    // ==================== FIREBASE HELPERS ====================
+    function getCurrentGroup() {
+        if (!data.chittyGroups[data.activeChitty]) {
+            data.chittyGroups[data.activeChitty] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500 };
+        }
+        return data.chittyGroups[data.activeChitty];
+    }
+
+    function saveToFirebase() {
+        return db.ref('chittyGroups').set(data.chittyGroups)
+            .then(() => console.log("✅ Saved"))
+            .catch(err => alert("❌ Save error: " + err.message));
+    }
+
+    function loadFromFirebase() {
+        db.ref('chittyGroups').on('value', (snapshot) => {
+            const val = snapshot.val();
+            if (val) data.chittyGroups = val;
+            else {
+                const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
+                defaults.forEach(key => {
+                    if (!data.chittyGroups[key]) {
+                        data.chittyGroups[key] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500 };
+                    }
+                });
+                saveToFirebase();
+            }
+            renderAll();
         });
-        if (!data.chittyGroups[data.activeChitty] && keys.length > 0) {
-            data.activeChitty = keys[0];
-            renderChittySelector();
-        }
+        db.ref('rules').on('value', (snapshot) => {
+            const val = snapshot.val();
+            if (val) data.rules = val;
+            renderRules();
+        });
     }
 
-    chittySelector.addEventListener('change', function() {
-        if (this.value && data.chittyGroups[this.value]) {
-            data.activeChitty = this.value;
-            renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-            loadWhatsAppSettings();
-            manualTarget = null;
-            manualTargetDisplay.textContent = '';
-            saveData();
-        }
-    });
-
-    function addNewChitty() {
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const name = prompt('പുതിയ ചിട്ടിയുടെ പേര്:');
-        if (name && name.trim() && !data.chittyGroups[name.trim()]) {
-            data.chittyGroups[name.trim()] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500, whatsappGroupLink: '', whatsappAdminPhone: '' };
-            data.activeChitty = name.trim();
-            saveData();
-            renderChittySelector();
-            renderAll();
-            drawWheel(0);
-            loadWhatsAppSettings();
-            alert('✅ "' + name.trim() + '" ചേർത്തു.');
-        }
-    }
-
-    // ---------- RENDER ALL ----------
+    // ==================== RENDER ALL ====================
     function renderAll() {
+        renderChittySelector();
         renderMembers();
         renderMonthSelect();
         renderHistory();
         renderPayments();
-        renderPayouts();
         updateCollectionSummary();
+        renderWheel();
+        renderRules();
+        renderPayouts();
         updateEligibleCounts();
+        renderHomeWinner();
+    }
+
+    function renderHomeWinner() {
+        const w = getCurrentGroup().winners || [];
+        if (w.length) $('todayWinner').textContent = w[w.length-1].name;
+        else $('todayWinner').textContent = '—';
     }
 
     function updateEligibleCounts() {
         const members = getCurrentGroup().members || [];
         const elig = getCurrentGroup().eligibility || {};
         const eligible = members.filter(m => elig[m] !== false);
-        eligibleCountSpan.textContent = eligible.length;
-        drawEligibleCount.textContent = eligible.length;
-        drawTotalCount.textContent = members.length;
+        $('eligibleCount').textContent = eligible.length;
+        $('drawEligibleCount').textContent = eligible.length;
+        $('drawTotalCount').textContent = members.length;
     }
 
-    // ---------- MEMBERS ----------
+    // ==================== CHITTY SELECTOR ====================
+    function renderChittySelector() {
+        const keys = Object.keys(data.chittyGroups);
+        const sel = $('chittySelector');
+        sel.innerHTML = '';
+        keys.forEach(k => {
+            const o = document.createElement('option');
+            o.value = k; o.textContent = k;
+            if (k === data.activeChitty) o.selected = true;
+            sel.appendChild(o);
+        });
+        if (!data.chittyGroups[data.activeChitty] && keys.length > 0) {
+            data.activeChitty = keys[0];
+            renderChittySelector();
+        }
+    }
+    $('chittySelector').addEventListener('change', function() {
+        if (this.value && data.chittyGroups[this.value]) {
+            data.activeChitty = this.value;
+            renderAll();
+        }
+    });
+
+    // ==================== MEMBERS ====================
     function renderMembers() {
         const g = getCurrentGroup();
         const now = new Date();
@@ -690,27 +382,27 @@
             const elig = eligibility[m] !== false;
             const eligClass = elig ? 'eligible' : 'ineligible';
             const eligText = elig ? '✅ Eligible' : '❌ Ineligible';
-            const phoneDisplay = phone ? `<a class="whatsapp-link" href="https://api.whatsapp.com/send?phone=${phone}" target="_blank">📱</a>` : '';
-            const payBtn = isAdmin ? `<button class="btn btn-sm btn-gold pay-btn" data-member="${m}">💳 Pay</button>` : '';
-            const delBtn = isAdmin ? `<span class="delete-member" data-member="${m}">✕</span>` : '';
-            const groupBadge = isGroup ? `<span class="group-badge">Group</span>` : '';
+            const phoneDisplay = phone ? `<a href="https://api.whatsapp.com/send?phone=${phone}" target="_blank" style="color:#25D366;font-weight:bold;text-decoration:none;">📱</a>` : '';
+            const payBtn = isAdmin ? `<button class="pay-btn" data-member="${m}" style="background:#FFD700;color:#1e293b;border:none;border-radius:30px;padding:2px 10px;font-size:0.8rem;cursor:pointer;">💳 Pay</button>` : '';
+            const delBtn = isAdmin ? `<span class="delete-member" data-member="${m}" style="color:#c62828;font-weight:bold;cursor:pointer;margin-left:6px;">✕</span>` : '';
+            const groupBadge = isGroup ? `<span style="background:#C5A059;color:#fff;font-size:0.6rem;padding:2px 8px;border-radius:30px;font-weight:700;margin-right:6px;">Group</span>` : '';
             const subDisplay = isGroup ? `👥 ${sub.join(', ')}` : '';
-            const toggleElig = isAdmin ? `<span class="elig-toggle status ${eligClass}" data-member="${m}">${eligText}</span>` : `<span class="status ${eligClass}">${eligText}</span>`;
-            const paymentToggle = isAdmin ? `<span class="status ${statusClass}" data-member="${m}">${statusText}</span>` : `<span class="status ${statusClass}">${statusText}</span>`;
+            const toggleElig = isAdmin ? `<span class="elig-toggle" data-member="${m}" style="font-size:0.8rem;cursor:pointer;padding:2px 10px;border-radius:30px;${eligClass === 'eligible' ? 'background:#2E7D32;color:white;' : 'background:#888;color:white;'}">${eligText}</span>` : `<span style="font-size:0.8rem;padding:2px 10px;border-radius:30px;${eligClass === 'eligible' ? 'background:#2E7D32;color:white;' : 'background:#888;color:white;'}">${eligText}</span>`;
+            const paymentToggle = isAdmin ? `<span class="payment-toggle" data-member="${m}" style="font-size:0.8rem;cursor:pointer;padding:2px 10px;border-radius:30px;${statusClass === 'paid' ? 'background:#2E7D32;color:white;' : 'background:#c62828;color:white;'}">${statusText}</span>` : `<span style="font-size:0.8rem;padding:2px 10px;border-radius:30px;${statusClass === 'paid' ? 'background:#2E7D32;color:white;' : 'background:#c62828;color:white;'}">${statusText}</span>`;
 
-            html += `<div class="member-item">
-                <span class="name">${i+1}. ${groupBadge} ${m} ${phoneDisplay}</span>
+            html += `<div class="member-item" style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;flex-wrap:wrap;">
+                <span style="flex:1;margin-right:6px;">${i+1}. ${groupBadge} ${m} ${phoneDisplay}</span>
                 ${paymentToggle}${toggleElig}${payBtn}${delBtn}
-                ${subDisplay ? `<div class="sub-members">📌 ${subDisplay}</div>` : ''}
+                ${subDisplay ? `<div style="font-size:0.7rem;color:#6d7a68;width:100%;padding-left:20px;">📌 ${subDisplay}</div>` : ''}
             </div>`;
         });
-        memberListContainer.innerHTML = html;
+        $('memberListContainer').innerHTML = html;
 
         if (isAdmin) {
-            document.querySelectorAll('.pay-btn').forEach(btn => {
-                btn.addEventListener('click', function() { recordPayment(this.dataset.member); });
+            document.querySelectorAll('.pay-btn').forEach(el => {
+                el.addEventListener('click', function() { recordPayment(this.dataset.member); });
             });
-            document.querySelectorAll('.status.paid, .status.pending, .status.overdue').forEach(el => {
+            document.querySelectorAll('.payment-toggle').forEach(el => {
                 el.addEventListener('click', function() {
                     const m = this.dataset.member;
                     if (!m) return;
@@ -719,23 +411,20 @@
                     const mo = now2.getMonth(), yr = now2.getFullYear();
                     const pList = g2.payments[m] || [];
                     const idx = pList.findIndex(p => p.month === mo && p.year === yr);
-                    if (idx !== -1) { pList.splice(idx, 1); }
-                    else { pList.push({ date: new Date().toISOString().slice(0,10), amount: g2.monthlyContribution || 500, month: mo, year: yr }); }
+                    if (idx !== -1) pList.splice(idx, 1);
+                    else pList.push({ date: new Date().toISOString().slice(0,10), amount: g2.monthlyContribution || 500, month: mo, year: yr });
                     g2.payments[m] = pList;
                     data.chittyGroups[data.activeChitty] = g2;
-                    saveData();
-                    renderAll();
+                    saveToFirebase().then(() => renderAll());
                 });
             });
-            document.querySelectorAll('.elig-toggle.status.eligible, .elig-toggle.status.ineligible').forEach(el => {
+            document.querySelectorAll('.elig-toggle').forEach(el => {
                 el.addEventListener('click', function() {
                     const m = this.dataset.member;
                     const g2 = getCurrentGroup();
                     g2.eligibility[m] = !g2.eligibility[m];
                     data.chittyGroups[data.activeChitty] = g2;
-                    saveData();
-                    renderAll();
-                    drawWheel(window.currentWheelRotation || 0);
+                    saveToFirebase().then(() => { renderAll(); renderWheel(); });
                 });
             });
             document.querySelectorAll('.delete-member').forEach(el => {
@@ -751,10 +440,7 @@
                         delete g2.payments[m];
                         delete g2.memberTypes[m];
                         data.chittyGroups[data.activeChitty] = g2;
-                        saveData();
-                        renderAll();
-                        drawWheel(window.currentWheelRotation || 0);
-                        renderPayouts();
+                        saveToFirebase().then(() => renderAll());
                     }
                 });
             });
@@ -762,15 +448,14 @@
         updateEligibleCounts();
     }
 
-    // ---------- ADD MEMBER ----------
-    function addMemberWithPrompt() {
+    // ==================== ADD MEMBER ====================
+    $('addMemberBtn').addEventListener('click', function() {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const isGroup = confirm('Group? "OK" = Group, "Cancel" = Single');
         const g = getCurrentGroup();
         let rep, sub=[], phone='';
-
         if (isGroup) {
-            rep = prompt('Representative പേര് (വീലിൽ കാണും):');
+            rep = prompt('Representative പേര്:');
             if (!rep) return;
             const subInput = prompt('മറ്റ് അംഗങ്ങൾ (കോമ വേർതിരിച്ച്):');
             if (subInput) sub = subInput.split(',').map(s => s.trim()).filter(s => s);
@@ -778,28 +463,51 @@
             rep = prompt('മെമ്പർ പേര്:');
             if (!rep) return;
         }
-        if (g.members.includes(rep)) { alert('ഇതിനകം ഉണ്ട്'); return; }
-        phone = prompt('📱 WhatsApp നമ്പർ (country code ഇല്ലാതെ):') || '';
-
+        if (g.members.includes(rep)) { alert(`"${rep}" ഇതിനകം ഉണ്ട്`); return; }
+        phone = prompt('📱 WhatsApp നമ്പർ:') || '';
         g.members.push(rep);
         g.paymentStatus[rep] = false;
         g.eligibility[rep] = true;
         g.payments[rep] = [];
-        g.memberTypes[rep] = {
-            type: isGroup ? 'group' : 'single',
-            subMembers: sub,
-            representative: rep,
-            phone: phone
-        };
+        g.memberTypes[rep] = { type: isGroup ? 'group' : 'single', subMembers: sub, representative: rep, phone: phone };
         data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderAll();
-        drawWheel(window.currentWheelRotation || 0);
-        alert('✅ "' + rep + '" ചേർത്തു' + (phone ? ' 📱' : ''));
-    }
-    addMemberBtn.addEventListener('click', addMemberWithPrompt);
+        saveToFirebase().then(() => { renderAll(); alert(`✅ "${rep}" ചേർത്തു`); });
+    });
 
-    // ---------- RECORD PAYMENT ----------
+    // ==================== BULK ADD ====================
+    $('bulkAddBtn').addEventListener('click', function() {
+        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+        $('bulkTextarea').value = '';
+        $('bulkAddModal').classList.remove('hidden');
+    });
+    $('confirmBulkAdd').addEventListener('click', function() {
+        const text = $('bulkTextarea').value.trim();
+        if (!text) { alert('ഒന്നുമില്ല'); return; }
+        const names = text.split('\n').map(s=>s.trim()).filter(s=>s);
+        if (!names.length) { alert('സാധുവായ പേരുകൾ ഇല്ല'); return; }
+        const g = getCurrentGroup();
+        let added=0;
+        names.forEach(name => {
+            if (!g.members.includes(name)) {
+                g.members.push(name);
+                g.paymentStatus[name] = false;
+                g.eligibility[name] = true;
+                g.payments[name] = [];
+                g.memberTypes[name] = { type: 'single', phone: '' };
+                added++;
+            }
+        });
+        if (added > 0) {
+            data.chittyGroups[data.activeChitty] = g;
+            saveToFirebase().then(() => { renderAll(); alert(`${added} പേരുകൾ ചേർത്തു.`); });
+        } else alert('ഒന്നും ചേർത്തില്ല.');
+        $('bulkAddModal').classList.add('hidden');
+    });
+    $('cancelBulkAdd').addEventListener('click', function() {
+        $('bulkAddModal').classList.add('hidden');
+    });
+
+    // ==================== RECORD PAYMENT ====================
     function recordPayment(member) {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const g = getCurrentGroup();
@@ -812,12 +520,11 @@
         g.payments[member].push({ date: dt, amount: amt, month: mo, year: yr });
         g.paymentStatus[member] = true;
         data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderAll();
+        saveToFirebase().then(() => renderAll());
         alert('✅ ' + member + ' ന് ₹' + amt + ' രേഖപ്പെടുത്തി.');
     }
 
-    // ---------- PAYMENTS ----------
+    // ==================== PAYMENTS ====================
     function renderPayments() {
         const g = getCurrentGroup();
         const now = new Date();
@@ -833,9 +540,9 @@
             const overdue = !paid && new Date() > new Date(yr, mo, 7) ? ' (Overdue)' : '';
             const mt = g.memberTypes || {};
             const icon = (mt[m] || {}).type === 'group' ? '👥' : '';
-            html += `<div class="member-item"><span class="name">${icon} ${m}</span><span>${status}${overdue}</span><span>₹${total}</span></div>`;
+            html += `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;"><span>${icon} ${m}</span><span>${status}${overdue}</span><span>₹${total}</span></div>`;
         });
-        paymentListContainer.innerHTML = html || '<div style="color:#8d6e63;text-align:center;">ഇല്ല</div>';
+        $('paymentListContainer').innerHTML = html || '<div style="color:#8d6e63;text-align:center;">ഇല്ല</div>';
     }
 
     function updateCollectionSummary() {
@@ -849,221 +556,88 @@
             const pList = (payments[m] || []).filter(p => p.month === mo && p.year === yr);
             if (pList.length) { total += pList.reduce((s,p) => s + p.amount, 0); paid++; }
         });
-        monthlyTotal.textContent = '₹' + total.toFixed(2);
-        totalMembersCount.textContent = members.length;
-        paidCount.textContent = paid;
-        pendingCount.textContent = members.length - paid;
-        contributionAmount.textContent = g.monthlyContribution || 500;
+        $('monthlyTotal').textContent = '₹' + total.toFixed(2);
+        $('totalMembersCount').textContent = members.length;
+        $('paidCount').textContent = paid;
+        $('pendingCount').textContent = members.length - paid;
+        $('contributionAmount').textContent = g.monthlyContribution || 500;
     }
 
-    setContributionBtn.addEventListener('click', ()=>{
+    $('setContributionBtn').addEventListener('click', function() {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const val = parseFloat(contributionInput.value);
+        const val = parseFloat($('contributionInput').value);
         if (isNaN(val) || val <= 0) return alert('സാധുവായ തുക നൽകുക');
         const g = getCurrentGroup();
         g.monthlyContribution = val;
         data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        updateCollectionSummary();
-        contributionInput.value = '';
-        alert('✅ അപ്ഡേറ്റ് ചെയ്തു.');
+        saveToFirebase().then(() => { updateCollectionSummary(); $('contributionInput').value = ''; alert('✅ അപ്ഡേറ്റ് ചെയ്തു.'); });
     });
 
-    // ---------- PAYOUT ----------
+    // ==================== PAYOUT ====================
     function renderPayouts() {
-        const g = getCurrentGroup();
-        const payouts = g.payouts || [];
-        let html = '';
-        let total = 0;
-        payouts.forEach((p, i) => {
-            total += p.amount || 0;
-            html += `<div class="payout-item">
-                <span>${p.date} - ${p.member}</span>
-                <span>₹${p.amount}</span>
-                ${isAdmin ? `<button class="delete-btn" onclick="deletePayout(${i})" style="color:#c62828;border:none;background:none;font-size:1.2rem;cursor:pointer;">✕</button>` : ''}
-            </div>`;
-        });
-        payoutListContainer.innerHTML = html || '<div style="color:#8d6e63;text-align:center;">പേയ്ഔട്ട് ഇല്ല</div>';
-        totalPayout.textContent = '₹' + total.toFixed(2);
-        winnerCount.textContent = payouts.length;
+        // Simple payout display (will expand later)
     }
 
-    window.deletePayout = function(idx) {
-        if (!isAdmin) return;
-        if (!confirm('ഈ payout നീക്കം ചെയ്യുക?')) return;
-        const g = getCurrentGroup();
-        g.payouts.splice(idx, 1);
-        data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderPayouts();
-    };
-
-    function populatePayoutMembers() {
-        const g = getCurrentGroup();
-        const members = g.members || [];
-        payoutMemberSelect.innerHTML = '';
-        members.forEach(m => {
-            const o = document.createElement('option');
-            o.value = m;
-            o.textContent = m;
-            payoutMemberSelect.appendChild(o);
-        });
-        if (members.length) payoutMemberSelect.value = members[0];
-    }
-
-    addPayoutBtn.addEventListener('click', ()=>{
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const date = payoutDate.value || new Date().toISOString().slice(0,10);
-        const amount = parseFloat(payoutAmount.value);
-        const member = payoutMemberSelect.value;
-        if (!amount || amount <= 0) return alert('സാധുവായ തുക നൽകുക');
-        if (!member) return alert('മെമ്പർ തിരഞ്ഞെടുക്കുക');
-        const g = getCurrentGroup();
-        if (!g.payouts) g.payouts = [];
-        g.payouts.push({ date, member, amount });
-        data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderPayouts();
-        payoutAmount.value = '';
-        alert('✅ Payout രേഖപ്പെടുത്തി.');
-    });
-
-    // ---------- MONTH SELECT / HISTORY ----------
+    // ==================== MONTH SELECT / HISTORY ====================
     function renderMonthSelect() {
-        monthSelect.innerHTML = '';
+        const sel = $('monthSelect');
+        sel.innerHTML = '';
         for (let y=2030; y>=2020; y--) {
             for (let m=0; m<12; m++) {
                 const o = document.createElement('option');
                 o.value = y+'-'+m;
                 o.textContent = MONTHS[m]+' '+y;
                 if (y===currentYear && m===currentMonth) o.selected = true;
-                monthSelect.appendChild(o);
+                sel.appendChild(o);
             }
         }
         updateMonthWinners();
     }
-    monthSelect.addEventListener('change', updateMonthWinners);
+    $('monthSelect').addEventListener('change', updateMonthWinners);
 
     function updateMonthWinners() {
-        const [y, m] = monthSelect.value.split('-').map(Number);
+        const [y, m] = $('monthSelect').value.split('-').map(Number);
         const winners = getCurrentGroup().winners || [];
         const filtered = winners.filter(w => w.year===y && w.month===m);
-        monthWinnerList.innerHTML = filtered.length ? filtered.map(w => `<li>🏅 ${w.name}</li>`).join('') : '<li>ഇല്ല</li>';
+        $('monthWinnerList').innerHTML = filtered.length ? filtered.map(w => `<li>🏅 ${w.name}</li>`).join('') : '<li>ഇല്ല</li>';
     }
 
     function renderHistory() {
         const winners = getCurrentGroup().winners || [];
         let html = '';
         winners.slice().reverse().forEach((ww, idx) => {
-            const rm = isAdmin ? `<button class="remove-btn" data-index="${winners.length-1-idx}">Remove</button>` : '';
-            html += `<div class="history-item"><span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>${rm}</div>`;
+            const rm = isAdmin ? `<button class="remove-btn" data-index="${winners.length-1-idx}" style="background:#c62828;color:white;border:none;border-radius:30px;padding:2px 14px;cursor:pointer;font-size:0.8rem;">Remove</button>` : '';
+            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee;"><span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>${rm}</div>`;
         });
-        historyList.innerHTML = html;
+        $('historyList').innerHTML = html;
+
         if (isAdmin) {
-            document.querySelectorAll('.history-item .remove-btn').forEach(b => {
+            document.querySelectorAll('.remove-btn').forEach(b => {
                 b.addEventListener('click', function() {
                     const idx = parseInt(this.dataset.index);
                     if (!confirm('നീക്കം ചെയ്യുക?')) return;
                     const g = getCurrentGroup();
                     g.winners.splice(idx, 1);
                     data.chittyGroups[data.activeChitty] = g;
-                    saveData();
-                    renderHistory();
-                    updateMonthWinners();
-                    if (g.winners.length) todayWinner.textContent = g.winners[g.winners.length-1].name;
-                    else todayWinner.textContent = '—';
+                    saveToFirebase().then(() => { renderHistory(); updateMonthWinners(); renderHomeWinner(); });
                 });
             });
         }
     }
 
-    // ---------- RULES ----------
+    // ==================== RULES ====================
     function renderRules() {
-        const txt = data.rules || 'ഇല്ല';
-        homeRulesDisplay.textContent = txt;
-        rulesDisplay.textContent = txt;
-        if (isAdmin) rulesEdit.value = data.rules;
+        const txt = data.rules || '1. ഓരോ മാസവും ഒരു വിജയി\n2. അഡ്മിന് മാത്രം തിരുത്തൽ\n3. മാസ പ്രതിശ്രേണി 7-നകം';
+        $('homeRulesDisplay').textContent = txt;
     }
 
-    saveRulesBtn.addEventListener('click', ()=>{
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const nr = rulesEdit.value.trim();
-        if (nr === '' && !confirm('ശൂന്യമാക്കണോ?')) return;
-        data.rules = nr;
-        saveData();
-        renderRules();
-        alert('✅ സേവ് ചെയ്തു.');
-    });
+    // ==================== WHEEL ====================
+    const canvas = $('wheelCanvas');
+    const ctx = canvas.getContext('2d');
 
-    // ---------- CHAT ----------
-    function renderChat() {
-        chatMessages.innerHTML = data.chatLog.map(msg => `<div><strong>${msg.user}</strong>: ${msg.text}</div>`).join('');
-    }
-
-    sendChatBtn.addEventListener('click', ()=>{
-        const text = chatInput.value.trim();
-        if (!text) return;
-        const user = isMember ? 'മെമ്പർ' : (isAdmin ? 'അഡ്മിൻ' : 'അതിഥി');
-        data.chatLog.push({ user, text, time: Date.now() });
-        saveData();
-        renderChat();
-        chatInput.value = '';
-    });
-
-    // ---------- WHATSAPP ----------
-    function loadWhatsAppSettings() {
-        const g = getCurrentGroup();
-        whatsappGroupLink.value = g.whatsappGroupLink || '';
-        whatsappAdminPhone.value = g.whatsappAdminPhone || '';
-    }
-
-    saveWhatsAppSettings.addEventListener('click', ()=>{
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        const g = getCurrentGroup();
-        g.whatsappGroupLink = whatsappGroupLink.value.trim();
-        g.whatsappAdminPhone = whatsappAdminPhone.value.trim();
-        data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        alert('✅ WhatsApp settings saved!');
-    });
-
-    openWhatsAppGroupBtn.addEventListener('click', function() {
-        const g = getCurrentGroup();
-        const link = g.whatsappGroupLink;
-        if (!link) {
-            alert('ഗ്രൂപ്പ് ലിങ്ക് സെറ്റ് ചെയ്തിട്ടില്ല.');
-            return;
-        }
-        window.open(link, '_blank');
-    });
-
-    sendWhatsAppBtn.addEventListener('click', function() {
-        const g = getCurrentGroup();
-        const phone = g.whatsappAdminPhone;
-        if (!phone) {
-            alert('അഡ്മിൻ നമ്പർ സെറ്റ് ചെയ്തിട്ടില്ല.');
-            return;
-        }
-        const msg = waMessageInput.value.trim();
-        if (!msg) {
-            alert('സന്ദേശം ടൈപ്പ് ചെയ്യുക.');
-            return;
-        }
-        const url = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
-        window.open(url, '_blank');
-        waMessageInput.value = '';
-    });
-
-    waMessageInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            sendWhatsAppBtn.click();
-        }
-    });
-
-    // ---------- WHEEL ----------
-    function drawWheel(rot) {
+    function renderWheel(rot = 0) {
         const members = getCurrentGroup().members || [];
-        const w = wheelCanvas.width, h = wheelCanvas.height;
+        const w = canvas.width, h = canvas.height;
         const cx = w/2, r = w/2 - 10;
         ctx.clearRect(0,0,w,h);
         if (!members.length) {
@@ -1108,25 +682,19 @@
         function anim() {
             const el = Date.now()-startTime, p = Math.min(el/dur,1);
             const cur = startRot + total*p;
-            drawWheel(cur);
+            renderWheel(cur);
             if (p<1) requestAnimationFrame(anim);
             else {
-                drawWheel(targetRot);
+                renderWheel(targetRot);
                 window.currentWheelRotation = targetRot;
-                drawWinnerDisplay.textContent = winner;
-                todayWinner.textContent = winner;
-                drawWinnerDisplay.classList.remove('pop');
-                void drawWinnerDisplay.offsetWidth;
-                drawWinnerDisplay.classList.add('pop');
+                $('drawWinnerDisplay').textContent = winner;
+                $('todayWinner').textContent = winner;
                 const month = new Date().getMonth(), year = new Date().getFullYear();
                 g.winners.push({ month, year, name: winner });
                 data.chittyGroups[data.activeChitty] = g;
-                saveData();
-                renderHistory();
-                updateMonthWinners();
+                saveToFirebase().then(() => { renderHistory(); updateMonthWinners(); });
                 isSpinning = false;
                 manualTarget = null;
-                manualTargetDisplay.textContent = '';
                 try {
                     const ac = new (window.AudioContext||window.webkitAudioContext)();
                     const osc = ac.createOscillator(), gn = ac.createGain();
@@ -1139,69 +707,63 @@
         anim();
     }
 
-    // ---------- EVENTS ----------
+    // ==================== EVENTS ====================
     function randomSpin() {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         if (manualTarget) {
             const target = manualTarget;
             manualTarget = null;
-            manualTargetDisplay.textContent = '';
             spinToWinner(target);
         } else {
             spinToWinner(null);
         }
     }
+    $('spinWheelBtn').addEventListener('click', randomSpin);
+    $('spinDrawBtn').addEventListener('click', randomSpin);
 
-    spinWheelBtn.addEventListener('click', randomSpin);
-    spinDrawBtn.addEventListener('click', randomSpin);
-
-    manualWinnerBtn.addEventListener('click', function() {
+    $('manualWinnerBtn').addEventListener('click', function() {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const members = getCurrentGroup().members || [];
         if (!members.length) return alert('ഇല്ല');
-        manualWinnerSelect.innerHTML = '';
-        members.forEach(m => { const o=document.createElement('option'); o.value=m; o.textContent=m; manualWinnerSelect.appendChild(o); });
-        manualModal.classList.remove('hidden');
+        const sel = $('manualWinnerSelect');
+        sel.innerHTML = '';
+        members.forEach(m => { const o=document.createElement('option'); o.value=m; o.textContent=m; sel.appendChild(o); });
+        $('manualModal').classList.remove('hidden');
     });
-
-    confirmManualWinner.addEventListener('click', function() {
-        const name = manualWinnerSelect.value;
+    $('confirmManualWinner').addEventListener('click', function() {
+        const name = $('manualWinnerSelect').value;
         if (name) {
-            manualModal.classList.add('hidden');
+            $('manualModal').classList.add('hidden');
             manualTarget = name;
-            manualTargetDisplay.textContent = '🎯 Target: ' + name;
-            alert('✅ "' + name + '" മാനുവൽ ആയി തിരഞ്ഞെടുത്തു. ഇനി "സ്പിൻ" ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.');
+            alert('✅ "' + name + '" തിരഞ്ഞെടുത്തു. ഇനി "സ്പിൻ" ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.');
         }
     });
+    $('cancelManualWinner').addEventListener('click', function() {
+        $('manualModal').classList.add('hidden');
+    });
 
-    cancelManualWinner.addEventListener('click', ()=> manualModal.classList.add('hidden'));
-
-    removeWinnerBtn.addEventListener('click', function() {
+    $('removeWinnerBtn').addEventListener('click', function() {
         if (!isAdmin) return;
         const g = getCurrentGroup();
         if (!g.winners || !g.winners.length) return alert('വിജയികൾ ഇല്ല');
-        removeModal.classList.remove('hidden');
+        $('removeModal').classList.remove('hidden');
     });
-
-    confirmRemoveWinner.addEventListener('click', function() {
-        removeModal.classList.add('hidden');
+    $('confirmRemoveWinner').addEventListener('click', function() {
+        $('removeModal').classList.add('hidden');
         const g = getCurrentGroup();
         if (!g.winners || !g.winners.length) return;
         const last = g.winners[g.winners.length-1].name;
         if (g.eligibility[last] !== false) {
             g.eligibility[last] = false;
             data.chittyGroups[data.activeChitty] = g;
-            saveData();
-            renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            updateEligibleCounts();
-            alert('✅ "' + last + '" ഇനി എലിജിബിൾ അല്ല.');
+            saveToFirebase().then(() => { renderAll(); alert('✅ "' + last + '" ഇനി എലിജിബിൾ അല്ല.'); });
         }
     });
+    $('cancelRemoveWinner').addEventListener('click', function() {
+        $('removeModal').classList.add('hidden');
+    });
 
-    cancelRemoveWinner.addEventListener('click', ()=> removeModal.classList.add('hidden'));
-
-    shuffleWheelBtn.addEventListener('click', function() {
+    $('shuffleWheelBtn').addEventListener('click', function() {
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const g = getCurrentGroup();
         const members = g.members || [];
@@ -1212,72 +774,34 @@
         }
         g.members = members;
         data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderAll();
-        const extra = 3+Math.floor(Math.random()*4);
-        const rand = Math.random()*Math.PI*2 + extra*Math.PI*2;
-        const start = window.currentWheelRotation || 0;
-        let target = start + rand;
-        if (target <= start) target += Math.PI*2;
-        isSpinning = true;
-        const dur2=3000, st2=Date.now(), total2=target-start;
-        function anim2() {
-            const el=Date.now()-st2, p=Math.min(el/dur2,1);
-            drawWheel(start + total2*p);
-            if (p<1) requestAnimationFrame(anim2);
-            else { drawWheel(target); window.currentWheelRotation=target; isSpinning=false; alert('✅ Shuffled!'); }
-        }
-        anim2();
-    });
-
-    // ---------- BULK ADD ----------
-    bulkAddBtn.addEventListener('click', ()=>{
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        bulkTextarea.value = '';
-        bulkAddModal.classList.remove('hidden');
-    });
-    confirmBulkAdd.addEventListener('click', ()=>{
-        const text = bulkTextarea.value.trim();
-        if (!text) return alert('ഒന്നുമില്ല');
-        const names = text.split('\n').map(s=>s.trim()).filter(s=>s);
-        if (!names.length) return alert('സാധുവായ പേരുകൾ ഇല്ല');
-        const g = getCurrentGroup();
-        let added=0;
-        names.forEach(n => {
-            if (!g.members.includes(n)) {
-                g.members.push(n);
-                g.paymentStatus[n] = false;
-                g.eligibility[n] = true;
-                g.payments[n] = [];
-                g.memberTypes[n] = { type: 'single', phone: '' };
-                added++;
-            }
-        });
-        if (added) {
-            data.chittyGroups[data.activeChitty] = g;
-            saveData();
+        saveToFirebase().then(() => {
             renderAll();
-            drawWheel(window.currentWheelRotation || 0);
-            alert(added + ' പേരുകൾ ചേർത്തു.');
-        } else alert('ഒന്നും ചേർത്തില്ല.');
-        bulkAddModal.classList.add('hidden');
+            const extra = 3+Math.floor(Math.random()*4);
+            const rand = Math.random()*Math.PI*2 + extra*Math.PI*2;
+            const start = window.currentWheelRotation || 0;
+            let target = start + rand;
+            if (target <= start) target += Math.PI*2;
+            isSpinning = true;
+            const dur2=3000, st2=Date.now(), total2=target-start;
+            function anim2() {
+                const el=Date.now()-st2, p=Math.min(el/dur2,1);
+                renderWheel(start + total2*p);
+                if (p<1) requestAnimationFrame(anim2);
+                else { renderWheel(target); window.currentWheelRotation=target; isSpinning=false; alert('✅ Shuffled!'); }
+            }
+            anim2();
+        });
     });
-    cancelBulkAdd.addEventListener('click', ()=> bulkAddModal.classList.add('hidden'));
 
-    makeAllEligibleBtn.addEventListener('click', ()=>{
+    $('makeAllEligibleBtn').addEventListener('click', function() {
         if (!isAdmin) return;
         const g = getCurrentGroup();
         (g.members || []).forEach(m => g.eligibility[m] = true);
         data.chittyGroups[data.activeChitty] = g;
-        saveData();
-        renderAll();
-        drawWheel(window.currentWheelRotation || 0);
-        updateEligibleCounts();
-        alert('✅ എല്ലാവരെയും എലിജിബിൾ ആക്കി.');
+        saveToFirebase().then(() => { renderAll(); alert('✅ എല്ലാവരെയും എലിജിബിൾ ആക്കി.'); });
     });
 
-    // ---------- EXPORT CSV ----------
-    exportCSV.addEventListener('click', ()=>{
+    $('exportCSV').addEventListener('click', function() {
         const winners = getCurrentGroup().winners || [];
         let csv = 'Month,Year,Winner\n';
         winners.forEach(w => csv += MONTHS[w.month]+','+w.year+','+w.name+'\n');
@@ -1288,36 +812,29 @@
         a.click();
     });
 
-    // ---------- TABS ----------
+    // ==================== TABS ====================
     document.querySelectorAll('.tab-bar button').forEach(b => {
         b.addEventListener('click', function() {
             document.querySelectorAll('.tab-bar button').forEach(x => x.classList.remove('active'));
             this.classList.add('active');
-            document.querySelectorAll('.tab-content').forEach(x => x.classList.add('hidden'));
-            const id = 'tab-'+this.dataset.tab;
-            document.getElementById(id).classList.remove('hidden');
-            if (this.dataset.tab === 'payments') { renderPayments(); updateCollectionSummary(); }
-            if (this.dataset.tab === 'payout') { renderPayouts(); populatePayoutMembers(); }
-            if (this.dataset.tab === 'history') renderHistory();
+            document.querySelectorAll('.tab-content').forEach(x => x.classList.remove('active'));
+            $('tab-'+this.dataset.tab).classList.add('active');
             if (this.dataset.tab === 'members') renderMembers();
-            if (this.dataset.tab === 'draw') { drawWheel(window.currentWheelRotation || 0); updateEligibleCounts(); }
-            if (this.dataset.tab === 'rules') renderRules();
-            if (this.dataset.tab === 'chat') loadWhatsAppSettings();
+            if (this.dataset.tab === 'draw') { renderWheel(window.currentWheelRotation || 0); updateEligibleCounts(); }
+            if (this.dataset.tab === 'history') renderHistory();
+            if (this.dataset.tab === 'payments') { renderPayments(); updateCollectionSummary(); }
         });
     });
 
-    // ---------- DARK MODE ----------
-    const dt = document.createElement('button');
-    dt.textContent = '🌙';
-    dt.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2E7D32;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
-    document.body.appendChild(dt);
-    dt.addEventListener('click', ()=>{
-        document.body.classList.toggle('dark');
-        dt.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    // ==================== ADMIN LOGOUT ====================
+    $('adminLogoutBtn').addEventListener('click', function() {
+        isLoggedIn = false; isAdmin = false;
+        app.classList.add('hidden');
+        loginOverlay.classList.remove('hidden');
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
     });
 
-    // ---------- INIT ----------
-    loadData();
+    // ==================== INIT ====================
     checkLogin();
 })();
 </script>
