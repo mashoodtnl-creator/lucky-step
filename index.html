@@ -7,7 +7,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
-        /* Copy the same styles from the previous LocalStorage version */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -225,7 +224,7 @@
 <div id="splash">
     <div class="logo-container">M</div>
     <h1>മഷൂദ് കുറിയിൽ</h1>
-    <p>ചിട്ടി മാനേജ്മെന്റ്</p>
+    <p>ചിട്ടി മാനേജ്മെന്റ് (Firebase)</p>
     <div class="loader"><div class="loader-bar"></div></div>
 </div>
 
@@ -450,8 +449,10 @@
         databaseURL: "https://luckystep-1a5b2-default-rtdb.firebaseio.com/"
     };
 
+    console.log("🚀 Initializing Firebase...");
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
+    console.log("✅ Firebase Initialized. DB URL:", firebaseConfig.databaseURL);
 
     // ==================== CONSTANTS ====================
     const ADMIN_PASS = 'ma7hood';
@@ -459,7 +460,6 @@
     const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
     // ==================== DATA & STATE ====================
-    // This will hold the local copy of data
     let data = {
         chittyGroups: {},
         activeChitty: 'കുറി 1',
@@ -545,7 +545,6 @@
     // ==================== FIREBASE HELPERS ====================
     function getCurrentGroup() {
         if (!data.chittyGroups[data.activeChitty]) {
-            // Initialize if not exists
             data.chittyGroups[data.activeChitty] = {
                 members: [],
                 winners: [],
@@ -561,26 +560,30 @@
         return data.chittyGroups[data.activeChitty];
     }
 
-    // Save current data to Firebase (overwrites the entire chittyGroups node)
+    // Save entire groups to Firebase with error alert
     function saveToFirebase() {
-        db.ref('chittyGroups').set(data.chittyGroups)
+        console.log("💾 Saving to Firebase:", data.chittyGroups);
+        return db.ref('chittyGroups').set(data.chittyGroups)
             .then(() => {
-                console.log("✅ Data saved to Firebase");
+                console.log("✅ Save successful!");
             })
             .catch(err => {
-                console.error("❌ Error saving:", err);
-                alert("Firebase-ലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിശക്: " + err.message);
+                console.error("❌ Save failed:", err);
+                alert("Firebase-ലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിശക്:\n" + err.message);
+                throw err;
             });
     }
 
-    // Load initial data from Firebase
+    // Load data from Firebase
     function loadFromFirebase() {
+        console.log("📥 Loading data from Firebase...");
         db.ref('chittyGroups').on('value', (snapshot) => {
             const val = snapshot.val();
+            console.log("📥 Firebase Data Received:", val);
             if (val) {
                 data.chittyGroups = val;
             } else {
-                // Initialize default groups
+                console.log("ℹ️ Database empty. Creating defaults...");
                 const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
                 defaults.forEach(key => {
                     if (!data.chittyGroups[key]) {
@@ -597,17 +600,14 @@
                         };
                     }
                 });
-                // Save defaults to Firebase
                 saveToFirebase();
             }
-            // Update UI
+            // Update UI after data loads
             renderChittySelector();
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
-            if (getCurrentGroup().winners && getCurrentGroup().winners.length) {
-                const w = getCurrentGroup().winners;
-                todayWinner.textContent = w[w.length-1].name;
-            }
+            const winners = getCurrentGroup().winners || [];
+            if (winners.length) todayWinner.textContent = winners[winners.length-1].name;
             updateEligibleCounts();
             renderRules();
             renderPayments();
@@ -615,18 +615,18 @@
             renderPayouts();
             loadWhatsAppSettings();
         }, (error) => {
-            console.error("Firebase read error:", error);
-            alert("Firebase-ൽ നിന്ന് ഡാറ്റ ലോഡ് ചെയ്യാൻ പറ്റുന്നില്ല. കോൺസോൾ പരിശോധിക്കുക.");
+            console.error("❌ Firebase read error:", error);
+            alert("Firebase-ൽ നിന്ന് ഡാറ്റ വായിക്കുന്നതിൽ പിശക്:\n" + error.message);
         });
 
-        // Load chat
+        // Chat listener
         db.ref('chatLog').on('value', (snapshot) => {
             const val = snapshot.val();
             if (val) data.chatLog = val;
             renderChat();
         });
 
-        // Load rules
+        // Rules listener
         db.ref('rules').on('value', (snapshot) => {
             const val = snapshot.val();
             if (val) data.rules = val;
@@ -706,12 +706,13 @@
                 whatsappAdminPhone: ''
             };
             data.activeChitty = name.trim();
-            saveToFirebase();
-            renderChittySelector();
-            renderAll();
-            drawWheel(0);
-            loadWhatsAppSettings();
-            alert('✅ "' + name.trim() + '" ചേർത്തു.');
+            saveToFirebase().then(() => {
+                renderChittySelector();
+                renderAll();
+                drawWheel(0);
+                loadWhatsAppSettings();
+                alert('✅ "' + name.trim() + '" ചേർത്തു.');
+            });
         }
     }
 
@@ -830,9 +831,15 @@
         updateEligibleCounts();
     }
 
-    // ==================== ADD MEMBER ====================
+    // ==================== ADD MEMBER (FIXED) ====================
     function addMemberWithPrompt() {
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+        console.log("🆕 addMemberWithPrompt triggered!");
+        if (!isAdmin) {
+            alert('അഡ്മിൻ മാത്രം');
+            console.warn("❌ Not admin!");
+            return;
+        }
+
         const isGroup = confirm('Group? "OK" = Group, "Cancel" = Single');
         const g = getCurrentGroup();
         let rep, sub=[], phone='';
@@ -846,9 +853,14 @@
             rep = prompt('മെമ്പർ പേര്:');
             if (!rep) return;
         }
-        if (g.members.includes(rep)) { alert('ഇതിനകം ഉണ്ട്'); return; }
+
+        if (g.members.includes(rep)) {
+            alert(`"${rep}" ഇതിനകം നിലവിലുണ്ട്.`);
+            return;
+        }
         phone = prompt('📱 WhatsApp നമ്പർ (country code ഇല്ലാതെ):') || '';
 
+        // Add to local data
         g.members.push(rep);
         g.paymentStatus[rep] = false;
         g.eligibility[rep] = true;
@@ -859,11 +871,20 @@
             representative: rep,
             phone: phone
         };
+
         data.chittyGroups[data.activeChitty] = g;
-        saveToFirebase();
-        renderAll();
-        drawWheel(window.currentWheelRotation || 0);
-        alert('✅ "' + rep + '" ചേർത്തു' + (phone ? ' 📱' : ''));
+        console.log("📤 Saving new member to Firebase:", g);
+
+        // Save to Firebase and refresh UI
+        saveToFirebase()
+            .then(() => {
+                renderAll();
+                drawWheel(window.currentWheelRotation || 0);
+                alert(`✅ "${rep}" വിജയകരമായി ചേർത്തു${phone ? ' 📱' : ''}`);
+            })
+            .catch(err => {
+                alert("❌ മെമ്പർ ചേർക്കുന്നതിൽ പിശക്. കൺസോൾ പരിശോധിക്കുക.");
+            });
     }
     addMemberBtn.addEventListener('click', addMemberWithPrompt);
 
@@ -1072,8 +1093,7 @@
         const text = chatInput.value.trim();
         if (!text) return;
         const user = isMember ? 'മെമ്പർ' : (isAdmin ? 'അഡ്മിൻ' : 'അതിഥി');
-        const newMsg = { user, text, time: Date.now() };
-        data.chatLog.push(newMsg);
+        data.chatLog.push({ user, text, time: Date.now() });
         db.ref('chatLog').set(data.chatLog);
         renderChat();
         chatInput.value = '';
