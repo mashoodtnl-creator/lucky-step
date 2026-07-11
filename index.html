@@ -14,7 +14,9 @@
         .btn:active { transform: scale(0.96); }
         .btn-gold { background: #FFD700; color: #1e293b; }
         .btn-outline { background: transparent; border: 2px solid #2E7D32; color: #2E7D32; }
+        .btn-danger { background: #c62828; color: white; }
         input { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 8px 0; }
+        input[type="password"] { -webkit-text-security: disc; }
         .log-box { background: #1e293b; color: #e2e8f0; padding: 12px; border-radius: 16px; font-family: monospace; min-height: 80px; white-space: pre-wrap; font-size: 0.9rem; }
         .member-list { background: #f0f0f0; padding: 12px; border-radius: 16px; min-height: 50px; }
         .flex-row { display: flex; gap: 10px; }
@@ -32,6 +34,7 @@
         }
         .login-card h2 { color: #2E7D32; margin-bottom: 20px; font-size: 1.8rem; }
         .login-card input { width: 100%; padding: 14px 16px; border-radius: 40px; border: 2px solid #ddd; font-size: 1rem; margin: 10px 0; background: #f5f7fb; }
+        .login-card input[type="password"] { -webkit-text-security: disc; }
         .login-card .btn { background: #2E7D32; color: white; border: none; padding: 14px; border-radius: 40px; font-weight: 600; font-size: 1.1rem; width: 100%; cursor: pointer; margin-top: 10px; }
         .login-card .error { color: #c62828; font-size: 0.9rem; margin-top: 8px; min-height: 24px; }
         .chitty-selector {
@@ -55,7 +58,41 @@
         .tab-bar button.active { background: #2E7D32; color: white; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .hidden { display: none !important; }
+        .admin-only { display: none; }
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px;
+        }
+        .modal-card { background: white; border-radius: 30px; padding: 30px; max-width: 360px; width: 100%; }
+        .modal-card select { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 10px 0; }
+        .modal-card textarea { width: 100%; padding: 14px; border-radius: 20px; border: 1px solid #ddd; font-size: 1rem; min-height: 150px; resize: vertical; }
+        .modal-card .btn { margin: 5px 0; }
+        .member-item { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
+        .member-item .name { flex: 1; margin-right: 6px; }
+        .member-item .sub-members { font-size: 0.7rem; color: #6d7a68; width: 100%; padding-left: 20px; }
+        .group-badge { background: #C5A059; color: #fff; font-size: 0.6rem; padding: 2px 8px; border-radius: 30px; font-weight: 700; margin-right: 6px; }
+        .status { font-size: 0.8rem; padding: 2px 10px; border-radius: 30px; cursor: pointer; transition: 0.2s; }
+        .status.paid { background: #2E7D32; color: white; }
+        .status.pending { background: #c62828; color: white; }
+        .status.overdue { background: #b71c1c; color: white; }
+        .status.eligible { background: #2E7D32; color: white; }
+        .status.ineligible { background: #888; color: white; }
+        .pay-btn { background: #FFD700; color: #1e293b; border: none; border-radius: 30px; padding: 2px 10px; font-size: 0.8rem; cursor: pointer; }
+        .delete-member { color: #c62828; font-weight: bold; cursor: pointer; margin-left: 6px; font-size: 1.1rem; }
+        .whatsapp-link { color: #25D366; font-weight: bold; text-decoration: none; cursor: pointer; margin-left: 6px; }
+        .collection-summary { background: #fff; border-radius: 24px; padding: 16px 20px; border-left: 6px solid #C5A059; }
+        .collection-summary .total { font-size: 1.8rem; font-weight: 700; color: #2E7D32; }
+        .collection-summary .detail { font-size: 0.9rem; color: #6d7a68; }
+        .payout-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .history-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #eee; }
+        .history-item .remove-btn { background: #c62828; color: white; border: none; border-radius: 30px; padding: 2px 14px; cursor: pointer; font-size: 0.8rem; }
+        .eligible-info { display: flex; justify-content: space-between; padding: 8px 0; font-size: 0.9rem; }
+        .winner-display { font-size: 2.8rem; font-weight: 800; color: #FFD700; text-align: center; padding: 20px 0; min-height: 90px; }
+        .wheel-container { position: relative; width: 100%; max-width: 320px; margin: 0 auto; }
+        #wheelCanvas { width: 100%; aspect-ratio: 1/1; border-radius: 50%; background: #f0f0f0; }
+        .wheel-arrow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; z-index: 5; line-height: 1; }
+        #manualTargetDisplay { color: #C5A059; font-weight: bold; text-align: center; margin: 8px 0; font-size: 1.1rem; }
+        @media (max-width:420px){ .flex-row{flex-wrap:wrap;} .flex-row .btn{min-width:100px;} }
     </style>
 </head>
 <body>
@@ -75,7 +112,7 @@
 <div id="loginOverlay">
     <div class="login-card">
         <h2>🔐 ലോഗിൻ</h2>
-        <input type="password" id="loginPassword" placeholder="പാസ്വേഡ് നൽകുക">
+        <input type="password" id="loginPassword" placeholder="പാസ്വേഡ് നൽകുക" autocomplete="off">
         <button class="btn" id="loginBtn">പ്രവേശിക്കുക</button>
         <div class="error" id="loginError"></div>
         <div style="margin-top:10px;font-size:0.8rem;color:#888;">Admin: ma7hood | Member: member123</div>
@@ -99,7 +136,7 @@
     <!-- HOME -->
     <div id="tab-home" class="tab-content active">
         <div class="card"><h2>🏆 ഇന്നത്തെ വിജയി</h2>
-            <div class="winner-display" id="todayWinner" style="font-size:2.8rem;font-weight:800;color:#FFD700;text-align:center;padding:20px 0;">—</div>
+            <div class="winner-display" id="todayWinner">—</div>
             <button class="btn admin-only" id="spinWheelBtn">🎡 വീൽ കറക്കുക</button>
         </div>
         <div class="card"><h3>📊 മാസ വിജയികൾ</h3>
@@ -129,10 +166,10 @@
     <!-- PAYMENTS -->
     <div id="tab-payments" class="tab-content">
         <div class="card"><h3>💰 മാസ കളക്ഷൻ</h3>
-            <div id="collectionSummary" style="background:#fff;border-radius:24px;padding:16px 20px;border-left:6px solid #C5A059;">
-                <div>ഈ മാസത്തെ ആകെ കളക്ഷൻ: <span id="monthlyTotal" style="font-size:1.8rem;font-weight:700;color:#2E7D32;">₹ 0</span></div>
-                <div style="font-size:0.9rem;color:#6d7a68;">ആകെ: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
-                <div style="font-size:0.9rem;color:#6d7a68;">പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (7-നകം)</div>
+            <div id="collectionSummary" class="collection-summary">
+                <div>ഈ മാസത്തെ ആകെ കളക്ഷൻ: <span class="total" id="monthlyTotal">₹ 0</span></div>
+                <div class="detail">ആകെ: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
+                <div class="detail">പ്രതിശ്രേണി: ₹<span id="contributionAmount">500</span> (7-നകം)</div>
             </div>
         </div>
         <div class="card"><h3>📋 പേയ്മെന്റ് ലിസ്റ്റ് (ഈ മാസം)</h3>
@@ -141,7 +178,7 @@
         <div class="card admin-only"><h3>⚙️ പ്രതിശ്രേണി മാറ്റുക</h3>
             <div style="display:flex;gap:10px;">
                 <input type="number" id="contributionInput" placeholder="തുക" step="1" style="flex:1;">
-                <button class="btn btn-sm" id="setContributionBtn" style="width:auto;padding:12px 18px;">അപ്ഡേറ്റ്</button>
+                <button class="btn" id="setContributionBtn" style="width:auto;padding:12px 18px;">അപ്ഡേറ്റ്</button>
             </div>
         </div>
     </div>
@@ -150,18 +187,19 @@
     <div id="tab-draw" class="tab-content">
         <div class="card">
             <h3>🎰 റാൻഡം വീൽ</h3>
-            <div style="position:relative;width:100%;max-width:320px;margin:0 auto;">
-                <div style="position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:40px;color:#FFD700;z-index:5;line-height:1;">▼</div>
-                <canvas id="wheelCanvas" width="400" height="400" style="width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;"></canvas>
+            <div class="wheel-container">
+                <div class="wheel-arrow">▼</div>
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
             </div>
-            <div id="drawWinnerDisplay" style="font-size:2.8rem;font-weight:800;color:#FFD700;text-align:center;padding:20px 0;">—</div>
+            <div class="winner-display" id="drawWinnerDisplay">—</div>
+            <div id="manualTargetDisplay"></div>
             <button class="btn admin-only" id="spinDrawBtn">🔄 സ്പിൻ</button>
-            <div style="display:flex;justify-content:space-between;padding:8px 0;font-size:0.9rem;">
+            <div class="eligible-info">
                 <span>✅ എലിജിബിൾ: <span id="drawEligibleCount">0</span></span>
                 <span>🎯 ആകെ: <span id="drawTotalCount">0</span></span>
             </div>
             <button class="btn btn-outline admin-only" id="manualWinnerBtn">👤 മാനുവൽ</button>
-            <button class="btn btn-danger admin-only" id="removeWinnerBtn" style="background:#c62828;color:white;">🗑️ വിജയിയെ മാറ്റുക</button>
+            <button class="btn btn-danger admin-only" id="removeWinnerBtn">🗑️ വിജയിയെ മാറ്റുക</button>
             <button class="btn btn-outline admin-only" id="shuffleWheelBtn">🔀 Shuffle</button>
         </div>
     </div>
@@ -176,31 +214,31 @@
 </div>
 
 <!-- MODALS -->
-<div id="manualModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
-    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+<div id="manualModal" class="modal hidden">
+    <div class="modal-card">
         <h3>👤 മാനുവൽ വിജയി</h3>
-        <select id="manualWinnerSelect" style="width:100%;padding:14px;border-radius:40px;border:1px solid #ddd;font-size:1rem;margin:10px 0;"></select>
+        <select id="manualWinnerSelect"></select>
         <button class="btn" id="confirmManualWinner">തിരഞ്ഞെടുക്കുക</button>
         <button class="btn btn-outline" id="cancelManualWinner">റദ്ദാക്കുക</button>
     </div>
 </div>
 
-<div id="removeModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
-    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+<div id="removeModal" class="modal hidden">
+    <div class="modal-card">
         <h3>🗑️ വിജയിയെ നീക്കം ചെയ്യുക</h3>
         <p style="margin:10px 0;">ഏറ്റവും ഒടുവിൽ വിജയിച്ച ആളെ <strong>എലിജിബിൾ അല്ലാതാക്കുക</strong></p>
         <div style="display:flex;gap:10px;">
-            <button class="btn" style="background:#c62828;color:white;" id="confirmRemoveWinner">അതെ</button>
+            <button class="btn btn-danger" id="confirmRemoveWinner">അതെ</button>
             <button class="btn btn-outline" id="cancelRemoveWinner">റദ്ദാക്കുക</button>
         </div>
     </div>
 </div>
 
-<div id="bulkAddModal" class="modal hidden" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px;">
-    <div style="background:white;border-radius:30px;padding:30px;max-width:360px;width:100%;">
+<div id="bulkAddModal" class="modal hidden">
+    <div class="modal-card">
         <h3>📋 Bulk Add</h3>
         <p style="font-size:0.9rem;">ഓരോ വരിയിലും ഒരു പേര്</p>
-        <textarea id="bulkTextarea" rows="6" style="width:100%;padding:14px;border-radius:20px;border:1px solid #ddd;font-size:1rem;min-height:150px;resize:vertical;"></textarea>
+        <textarea id="bulkTextarea" rows="6"></textarea>
         <button class="btn" id="confirmBulkAdd">ചേർക്കുക</button>
         <button class="btn btn-outline" id="cancelBulkAdd">റദ്ദാക്കുക</button>
     </div>
@@ -262,18 +300,39 @@
 
     loginBtn.addEventListener('click', ()=>{
         const p = loginPassword.value.trim();
-        if (p === ADMIN_PASS) { isAdmin = true; isLoggedIn = true;
-            loginError.textContent = ''; loginPassword.value = ''; checkLogin();
-        } else if (p === MEMBER_PASS) { isAdmin = false; isLoggedIn = true;
-            loginError.textContent = ''; loginPassword.value = ''; checkLogin();
-        } else { loginError.textContent = '❌ തെറ്റായ പാസ്വേഡ്'; }
+        if (p === ADMIN_PASS) {
+            isAdmin = true;
+            isLoggedIn = true;
+            loginError.textContent = '';
+            loginPassword.value = '';
+            checkLogin();
+        } else if (p === MEMBER_PASS) {
+            isAdmin = false;
+            isLoggedIn = true;
+            loginError.textContent = '';
+            loginPassword.value = '';
+            checkLogin();
+        } else {
+            loginError.textContent = '❌ തെറ്റായ പാസ്വേഡ്';
+            loginPassword.value = '';
+        }
     });
-    loginPassword.addEventListener('keypress', e => { if(e.key==='Enter') loginBtn.click(); });
+    loginPassword.addEventListener('keypress', e => {
+        if (e.key === 'Enter') loginBtn.click();
+    });
 
     // ==================== FIREBASE HELPERS ====================
     function getCurrentGroup() {
         if (!data.chittyGroups[data.activeChitty]) {
-            data.chittyGroups[data.activeChitty] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500 };
+            data.chittyGroups[data.activeChitty] = {
+                members: [],
+                winners: [],
+                paymentStatus: {},
+                eligibility: {},
+                memberTypes: {},
+                payouts: [],
+                monthlyContribution: 500
+            };
         }
         return data.chittyGroups[data.activeChitty];
     }
@@ -287,12 +346,21 @@
     function loadFromFirebase() {
         db.ref('chittyGroups').on('value', (snapshot) => {
             const val = snapshot.val();
-            if (val) data.chittyGroups = val;
-            else {
+            if (val) {
+                data.chittyGroups = val;
+            } else {
                 const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
                 defaults.forEach(key => {
                     if (!data.chittyGroups[key]) {
-                        data.chittyGroups[key] = { members: [], winners: [], paymentStatus: {}, eligibility: {}, memberTypes: {}, payouts: [], monthlyContribution: 500 };
+                        data.chittyGroups[key] = {
+                            members: [],
+                            winners: [],
+                            paymentStatus: {},
+                            eligibility: {},
+                            memberTypes: {},
+                            payouts: [],
+                            monthlyContribution: 500
+                        };
                     }
                 });
                 saveToFirebase();
@@ -323,8 +391,7 @@
 
     function renderHomeWinner() {
         const w = getCurrentGroup().winners || [];
-        if (w.length) $('todayWinner').textContent = w[w.length-1].name;
-        else $('todayWinner').textContent = '—';
+        $('todayWinner').textContent = w.length ? w[w.length-1].name : '—';
     }
 
     function updateEligibleCounts() {
@@ -343,7 +410,8 @@
         sel.innerHTML = '';
         keys.forEach(k => {
             const o = document.createElement('option');
-            o.value = k; o.textContent = k;
+            o.value = k;
+            o.textContent = k;
             if (k === data.activeChitty) o.selected = true;
             sel.appendChild(o);
         });
@@ -382,18 +450,18 @@
             const elig = eligibility[m] !== false;
             const eligClass = elig ? 'eligible' : 'ineligible';
             const eligText = elig ? '✅ Eligible' : '❌ Ineligible';
-            const phoneDisplay = phone ? `<a href="https://api.whatsapp.com/send?phone=${phone}" target="_blank" style="color:#25D366;font-weight:bold;text-decoration:none;">📱</a>` : '';
-            const payBtn = isAdmin ? `<button class="pay-btn" data-member="${m}" style="background:#FFD700;color:#1e293b;border:none;border-radius:30px;padding:2px 10px;font-size:0.8rem;cursor:pointer;">💳 Pay</button>` : '';
-            const delBtn = isAdmin ? `<span class="delete-member" data-member="${m}" style="color:#c62828;font-weight:bold;cursor:pointer;margin-left:6px;">✕</span>` : '';
-            const groupBadge = isGroup ? `<span style="background:#C5A059;color:#fff;font-size:0.6rem;padding:2px 8px;border-radius:30px;font-weight:700;margin-right:6px;">Group</span>` : '';
+            const phoneDisplay = phone ? `<a class="whatsapp-link" href="https://api.whatsapp.com/send?phone=${phone}" target="_blank">📱</a>` : '';
+            const payBtn = isAdmin ? `<button class="pay-btn" data-member="${m}">💳 Pay</button>` : '';
+            const delBtn = isAdmin ? `<span class="delete-member" data-member="${m}">✕</span>` : '';
+            const groupBadge = isGroup ? `<span class="group-badge">Group</span>` : '';
             const subDisplay = isGroup ? `👥 ${sub.join(', ')}` : '';
-            const toggleElig = isAdmin ? `<span class="elig-toggle" data-member="${m}" style="font-size:0.8rem;cursor:pointer;padding:2px 10px;border-radius:30px;${eligClass === 'eligible' ? 'background:#2E7D32;color:white;' : 'background:#888;color:white;'}">${eligText}</span>` : `<span style="font-size:0.8rem;padding:2px 10px;border-radius:30px;${eligClass === 'eligible' ? 'background:#2E7D32;color:white;' : 'background:#888;color:white;'}">${eligText}</span>`;
-            const paymentToggle = isAdmin ? `<span class="payment-toggle" data-member="${m}" style="font-size:0.8rem;cursor:pointer;padding:2px 10px;border-radius:30px;${statusClass === 'paid' ? 'background:#2E7D32;color:white;' : 'background:#c62828;color:white;'}">${statusText}</span>` : `<span style="font-size:0.8rem;padding:2px 10px;border-radius:30px;${statusClass === 'paid' ? 'background:#2E7D32;color:white;' : 'background:#c62828;color:white;'}">${statusText}</span>`;
+            const toggleElig = isAdmin ? `<span class="status ${eligClass} elig-toggle" data-member="${m}">${eligText}</span>` : `<span class="status ${eligClass}">${eligText}</span>`;
+            const paymentToggle = isAdmin ? `<span class="status ${statusClass} payment-toggle" data-member="${m}">${statusText}</span>` : `<span class="status ${statusClass}">${statusText}</span>`;
 
-            html += `<div class="member-item" style="display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;flex-wrap:wrap;">
-                <span style="flex:1;margin-right:6px;">${i+1}. ${groupBadge} ${m} ${phoneDisplay}</span>
+            html += `<div class="member-item">
+                <span class="name">${i+1}. ${groupBadge} ${m} ${phoneDisplay}</span>
                 ${paymentToggle}${toggleElig}${payBtn}${delBtn}
-                ${subDisplay ? `<div style="font-size:0.7rem;color:#6d7a68;width:100%;padding-left:20px;">📌 ${subDisplay}</div>` : ''}
+                ${subDisplay ? `<div class="sub-members">📌 ${subDisplay}</div>` : ''}
             </div>`;
         });
         $('memberListContainer').innerHTML = html;
@@ -471,7 +539,7 @@
         g.payments[rep] = [];
         g.memberTypes[rep] = { type: isGroup ? 'group' : 'single', subMembers: sub, representative: rep, phone: phone };
         data.chittyGroups[data.activeChitty] = g;
-        saveToFirebase().then(() => { renderAll(); alert(`✅ "${rep}" ചേർത്തു`); });
+        saveToFirebase().then(() => { renderAll(); alert(`✅ "${rep}" ചേർത്തു${phone ? ' 📱' : ''}`); });
     });
 
     // ==================== BULK ADD ====================
@@ -575,7 +643,7 @@
 
     // ==================== PAYOUT ====================
     function renderPayouts() {
-        // Simple payout display (will expand later)
+        // Simple payout display – can be expanded later
     }
 
     // ==================== MONTH SELECT / HISTORY ====================
@@ -606,8 +674,8 @@
         const winners = getCurrentGroup().winners || [];
         let html = '';
         winners.slice().reverse().forEach((ww, idx) => {
-            const rm = isAdmin ? `<button class="remove-btn" data-index="${winners.length-1-idx}" style="background:#c62828;color:white;border:none;border-radius:30px;padding:2px 14px;cursor:pointer;font-size:0.8rem;">Remove</button>` : '';
-            html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #eee;"><span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>${rm}</div>`;
+            const rm = isAdmin ? `<button class="remove-btn" data-index="${winners.length-1-idx}">Remove</button>` : '';
+            html += `<div class="history-item"><span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>${rm}</div>`;
         });
         $('historyList').innerHTML = html;
 
@@ -695,6 +763,7 @@
                 saveToFirebase().then(() => { renderHistory(); updateMonthWinners(); });
                 isSpinning = false;
                 manualTarget = null;
+                $('manualTargetDisplay').textContent = '';
                 try {
                     const ac = new (window.AudioContext||window.webkitAudioContext)();
                     const osc = ac.createOscillator(), gn = ac.createGain();
@@ -713,6 +782,7 @@
         if (manualTarget) {
             const target = manualTarget;
             manualTarget = null;
+            $('manualTargetDisplay').textContent = '';
             spinToWinner(target);
         } else {
             spinToWinner(null);
@@ -735,6 +805,7 @@
         if (name) {
             $('manualModal').classList.add('hidden');
             manualTarget = name;
+            $('manualTargetDisplay').textContent = '🎯 Target: ' + name;
             alert('✅ "' + name + '" തിരഞ്ഞെടുത്തു. ഇനി "സ്പിൻ" ബട്ടൺ ക്ലിക്ക് ചെയ്യുക.');
         }
     });
@@ -828,13 +899,17 @@
 
     // ==================== ADMIN LOGOUT ====================
     $('adminLogoutBtn').addEventListener('click', function() {
-        isLoggedIn = false; isAdmin = false;
+        isLoggedIn = false;
+        isAdmin = false;
         app.classList.add('hidden');
         loginOverlay.classList.remove('hidden');
         document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+        loginPassword.value = '';
+        loginError.textContent = '';
     });
 
     // ==================== INIT ====================
+    // Load data and render
     checkLogin();
 })();
 </script>
