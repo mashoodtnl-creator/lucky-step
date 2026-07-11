@@ -449,17 +449,13 @@
         databaseURL: "https://luckystep-1a5b2-default-rtdb.firebaseio.com/"
     };
 
-    console.log("🔥 Initializing Firebase...");
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    console.log("✅ Firebase initialized.");
 
-    // ==================== CONSTANTS ====================
     const ADMIN_PASS = 'ma7hood';
     const MEMBER_PASS = 'member123';
     const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
-    // ==================== DATA ====================
     let data = {
         chittyGroups: {},
         activeChitty: 'കുറി 1',
@@ -472,7 +468,7 @@
     window.currentWheelRotation = 0;
     let manualTarget = null;
 
-    // ==================== DOM REFS ====================
+    // DOM REFS
     const $ = id => document.getElementById(id);
     const splash = $('splash');
     const loginOverlay = $('loginOverlay');
@@ -561,24 +557,17 @@
     }
 
     function saveToFirebase() {
-        console.log("💾 Saving to Firebase...");
         return db.ref('chittyGroups').set(data.chittyGroups)
-            .then(() => {
-                console.log("✅ Save successful!");
-                return true;
-            })
+            .then(() => true)
             .catch(err => {
-                console.error("❌ Save failed:", err);
                 alert("Firebase-ലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിശക്:\n" + err.message);
                 throw err;
             });
     }
 
     function loadFromFirebase() {
-        console.log("📥 Loading from Firebase...");
         db.ref('chittyGroups').on('value', (snapshot) => {
             const val = snapshot.val();
-            console.log("📥 Data received:", val);
             if (val) {
                 data.chittyGroups = val;
             } else {
@@ -611,9 +600,6 @@
             updateCollectionSummary();
             renderPayouts();
             loadWhatsAppSettings();
-        }, (error) => {
-            console.error("❌ Firebase read error:", error);
-            alert("Firebase-ൽ നിന്ന് ഡാറ്റ വായിക്കുന്നതിൽ പിശക്:\n" + error.message);
         });
 
         db.ref('chatLog').on('value', (snapshot) => {
@@ -827,13 +813,9 @@
         updateEligibleCounts();
     }
 
-    // ==================== ADD MEMBER (FIXED) ====================
+    // ==================== ADD MEMBER (SINGLE) ====================
     function addMemberWithPrompt() {
-        console.log("🆕 Add Member clicked!");
-        if (!isAdmin) {
-            alert('അഡ്മിൻ മാത്രം');
-            return;
-        }
+        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const isGroup = confirm('Group? "OK" = Group, "Cancel" = Single');
         const g = getCurrentGroup();
         let rep, sub=[], phone='';
@@ -847,10 +829,7 @@
             rep = prompt('മെമ്പർ പേര്:');
             if (!rep) return;
         }
-        if (g.members.includes(rep)) {
-            alert(`"${rep}" ഇതിനകം ഉണ്ട്`);
-            return;
-        }
+        if (g.members.includes(rep)) { alert(`"${rep}" ഇതിനകം ഉണ്ട്`); return; }
         phone = prompt('📱 WhatsApp നമ്പർ (country code ഇല്ലാതെ):') || '';
 
         g.members.push(rep);
@@ -865,18 +844,61 @@
         };
         data.chittyGroups[data.activeChitty] = g;
 
-        console.log("📤 Saving member:", rep);
-        saveToFirebase()
-            .then(() => {
-                renderAll();
-                drawWheel(window.currentWheelRotation || 0);
-                alert(`✅ "${rep}" വിജയകരമായി ചേർത്തു${phone ? ' 📱' : ''}`);
-            })
-            .catch(err => {
-                alert("❌ മെമ്പർ ചേർക്കുന്നതിൽ പിശക്. കൺസോൾ പരിശോധിക്കുക.");
-            });
+        saveToFirebase().then(() => {
+            renderAll();
+            drawWheel(window.currentWheelRotation || 0);
+            alert(`✅ "${rep}" വിജയകരമായി ചേർത്തു${phone ? ' 📱' : ''}`);
+        });
     }
     addMemberBtn.addEventListener('click', addMemberWithPrompt);
+
+    // ==================== BULK ADD (FIXED) ====================
+    function openBulkAdd() {
+        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+        bulkTextarea.value = '';
+        bulkAddModal.classList.remove('hidden');
+    }
+    bulkAddBtn.addEventListener('click', openBulkAdd);
+
+    confirmBulkAdd.addEventListener('click', function() {
+        const text = bulkTextarea.value.trim();
+        if (!text) { alert('ഒന്നുമില്ല'); return; }
+        
+        const names = text.split('\n')
+            .map(s => s.trim())
+            .filter(s => s.length > 0);
+            
+        if (!names.length) { alert('സാധുവായ പേരുകൾ ഇല്ല'); return; }
+
+        const g = getCurrentGroup();
+        let added = 0;
+        names.forEach(name => {
+            if (!g.members.includes(name)) {
+                g.members.push(name);
+                g.paymentStatus[name] = false;
+                g.eligibility[name] = true;
+                g.payments[name] = [];
+                g.memberTypes[name] = { type: 'single', phone: '' };
+                added++;
+            }
+        });
+
+        if (added > 0) {
+            data.chittyGroups[data.activeChitty] = g;
+            saveToFirebase().then(() => {
+                renderAll();
+                drawWheel(window.currentWheelRotation || 0);
+                alert(`${added} പേരുകൾ വിജയകരമായി ചേർത്തു.`);
+            });
+        } else {
+            alert('ഒന്നും ചേർത്തില്ല (എല്ലാം നിലവിലുണ്ട്).');
+        }
+        bulkAddModal.classList.add('hidden');
+    });
+
+    cancelBulkAdd.addEventListener('click', function() {
+        bulkAddModal.classList.add('hidden');
+    });
 
     // ==================== RECORD PAYMENT ====================
     function recordPayment(member) {
@@ -1314,41 +1336,6 @@
             anim2();
         });
     });
-
-    // ==================== BULK ADD ====================
-    bulkAddBtn.addEventListener('click', ()=>{
-        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-        bulkTextarea.value = '';
-        bulkAddModal.classList.remove('hidden');
-    });
-    confirmBulkAdd.addEventListener('click', ()=>{
-        const text = bulkTextarea.value.trim();
-        if (!text) return alert('ഒന്നുമില്ല');
-        const names = text.split('\n').map(s=>s.trim()).filter(s=>s);
-        if (!names.length) return alert('സാധുവായ പേരുകൾ ഇല്ല');
-        const g = getCurrentGroup();
-        let added=0;
-        names.forEach(n => {
-            if (!g.members.includes(n)) {
-                g.members.push(n);
-                g.paymentStatus[n] = false;
-                g.eligibility[n] = true;
-                g.payments[n] = [];
-                g.memberTypes[n] = { type: 'single', phone: '' };
-                added++;
-            }
-        });
-        if (added) {
-            data.chittyGroups[data.activeChitty] = g;
-            saveToFirebase().then(() => {
-                renderAll();
-                drawWheel(window.currentWheelRotation || 0);
-                alert(added + ' പേരുകൾ ചേർത്തു.');
-            });
-        } else alert('ഒന്നും ചേർത്തില്ല.');
-        bulkAddModal.classList.add('hidden');
-    });
-    cancelBulkAdd.addEventListener('click', ()=> bulkAddModal.classList.add('hidden'));
 
     makeAllEligibleBtn.addEventListener('click', ()=>{
         if (!isAdmin) return;
