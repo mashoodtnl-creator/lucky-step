@@ -7,6 +7,7 @@
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
     <style>
+        /* Copy the same styles from the previous LocalStorage version */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
@@ -224,7 +225,7 @@
 <div id="splash">
     <div class="logo-container">M</div>
     <h1>മഷൂദ് കുറിയിൽ</h1>
-    <p>ചിട്ടി മാനേജ്മെന്റ് (Firebase)</p>
+    <p>ചിട്ടി മാനേജ്മെന്റ്</p>
     <div class="loader"><div class="loader-bar"></div></div>
 </div>
 
@@ -449,17 +450,16 @@
         databaseURL: "https://luckystep-1a5b2-default-rtdb.firebaseio.com/"
     };
 
-    console.log("🔥 Initializing Firebase...");
     firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
-    console.log("✅ Firebase Initialized. Database URL:", firebaseConfig.databaseURL);
 
     // ==================== CONSTANTS ====================
     const ADMIN_PASS = 'ma7hood';
     const MEMBER_PASS = 'member123';
     const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
-    // ==================== STATE ====================
+    // ==================== DATA & STATE ====================
+    // This will hold the local copy of data
     let data = {
         chittyGroups: {},
         activeChitty: 'കുറി 1',
@@ -544,58 +544,63 @@
 
     // ==================== FIREBASE HELPERS ====================
     function getCurrentGroup() {
-        const g = data.chittyGroups[data.activeChitty] || { 
-            members: [], 
-            winners: [], 
-            paymentStatus: {}, 
-            eligibility: {}, 
-            memberTypes: {}, 
-            payouts: [], 
-            monthlyContribution: 500, 
-            whatsappGroupLink: '', 
-            whatsappAdminPhone: '' 
-        };
-        console.log("📦 getCurrentGroup() -> Active:", data.activeChitty, "Data:", g);
-        return g;
+        if (!data.chittyGroups[data.activeChitty]) {
+            // Initialize if not exists
+            data.chittyGroups[data.activeChitty] = {
+                members: [],
+                winners: [],
+                paymentStatus: {},
+                eligibility: {},
+                memberTypes: {},
+                payouts: [],
+                monthlyContribution: 500,
+                whatsappGroupLink: '',
+                whatsappAdminPhone: ''
+            };
+        }
+        return data.chittyGroups[data.activeChitty];
     }
 
-    // ✅ FIXED: Proper save function
-    function saveAllGroupsToFirebase() {
-        console.log("💾 Saving ALL groups to Firebase:", data.chittyGroups);
+    // Save current data to Firebase (overwrites the entire chittyGroups node)
+    function saveToFirebase() {
         db.ref('chittyGroups').set(data.chittyGroups)
-            .then(() => console.log("✅ Save successful"))
-            .catch(err => console.error("❌ Save failed:", err));
+            .then(() => {
+                console.log("✅ Data saved to Firebase");
+            })
+            .catch(err => {
+                console.error("❌ Error saving:", err);
+                alert("Firebase-ലേക്ക് സേവ് ചെയ്യുന്നതിൽ പിശക്: " + err.message);
+            });
     }
 
-    function loadDataFromFirebase() {
-        console.log("📥 Loading data from Firebase...");
-        // Load chitty groups
+    // Load initial data from Firebase
+    function loadFromFirebase() {
         db.ref('chittyGroups').on('value', (snapshot) => {
             const val = snapshot.val();
-            console.log("📥 Firebase Data Received:", val);
             if (val) {
                 data.chittyGroups = val;
             } else {
-                console.log("ℹ️ Database empty. Creating default groups...");
                 // Initialize default groups
                 const defaults = ['കുറി 1', 'കുറി 2', 'കുറി 3'];
                 defaults.forEach(key => {
                     if (!data.chittyGroups[key]) {
-                        data.chittyGroups[key] = { 
-                            members: [], 
-                            winners: [], 
-                            paymentStatus: {}, 
-                            eligibility: {}, 
-                            memberTypes: {}, 
-                            payouts: [], 
-                            monthlyContribution: 500, 
-                            whatsappGroupLink: '', 
-                            whatsappAdminPhone: '' 
+                        data.chittyGroups[key] = {
+                            members: [],
+                            winners: [],
+                            paymentStatus: {},
+                            eligibility: {},
+                            memberTypes: {},
+                            payouts: [],
+                            monthlyContribution: 500,
+                            whatsappGroupLink: '',
+                            whatsappAdminPhone: ''
                         };
                     }
                 });
-                saveAllGroupsToFirebase();
+                // Save defaults to Firebase
+                saveToFirebase();
             }
+            // Update UI
             renderChittySelector();
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
@@ -610,8 +615,8 @@
             renderPayouts();
             loadWhatsAppSettings();
         }, (error) => {
-            console.error("❌ Firebase read error:", error);
-            alert("Firebase-ലേക്ക് കണക്റ്റ് ചെയ്യാൻ പറ്റുന്നില്ല. കോൺസോൾ പരിശോധിക്കുക.");
+            console.error("Firebase read error:", error);
+            alert("Firebase-ൽ നിന്ന് ഡാറ്റ ലോഡ് ചെയ്യാൻ പറ്റുന്നില്ല. കോൺസോൾ പരിശോധിക്കുക.");
         });
 
         // Load chat
@@ -636,7 +641,7 @@
         if (isLoggedIn) {
             loginOverlay.classList.add('hidden');
             document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
-            loadDataFromFirebase();
+            loadFromFirebase();
         } else {
             loginOverlay.classList.remove('hidden');
         }
@@ -689,19 +694,19 @@
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const name = prompt('പുതിയ ചിട്ടിയുടെ പേര്:');
         if (name && name.trim() && !data.chittyGroups[name.trim()]) {
-            data.chittyGroups[name.trim()] = { 
-                members: [], 
-                winners: [], 
-                paymentStatus: {}, 
-                eligibility: {}, 
-                memberTypes: {}, 
-                payouts: [], 
-                monthlyContribution: 500, 
-                whatsappGroupLink: '', 
-                whatsappAdminPhone: '' 
+            data.chittyGroups[name.trim()] = {
+                members: [],
+                winners: [],
+                paymentStatus: {},
+                eligibility: {},
+                memberTypes: {},
+                payouts: [],
+                monthlyContribution: 500,
+                whatsappGroupLink: '',
+                whatsappAdminPhone: ''
             };
             data.activeChitty = name.trim();
-            saveAllGroupsToFirebase();
+            saveToFirebase();
             renderChittySelector();
             renderAll();
             drawWheel(0);
@@ -786,7 +791,7 @@
                     else { pList.push({ date: new Date().toISOString().slice(0,10), amount: g2.monthlyContribution || 500, month: mo, year: yr }); }
                     g2.payments[m] = pList;
                     data.chittyGroups[data.activeChitty] = g2;
-                    saveAllGroupsToFirebase();
+                    saveToFirebase();
                     renderAll();
                 });
             });
@@ -796,7 +801,7 @@
                     const g2 = getCurrentGroup();
                     g2.eligibility[m] = !g2.eligibility[m];
                     data.chittyGroups[data.activeChitty] = g2;
-                    saveAllGroupsToFirebase();
+                    saveToFirebase();
                     renderAll();
                     drawWheel(window.currentWheelRotation || 0);
                 });
@@ -814,7 +819,7 @@
                         delete g2.payments[m];
                         delete g2.memberTypes[m];
                         data.chittyGroups[data.activeChitty] = g2;
-                        saveAllGroupsToFirebase();
+                        saveToFirebase();
                         renderAll();
                         drawWheel(window.currentWheelRotation || 0);
                         renderPayouts();
@@ -827,12 +832,7 @@
 
     // ==================== ADD MEMBER ====================
     function addMemberWithPrompt() {
-        console.log("🆕 addMemberWithPrompt triggered!");
-        if (!isAdmin) {
-            alert('അഡ്മിൻ മാത്രം');
-            console.warn("❌ Not admin!");
-            return;
-        }
+        if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         const isGroup = confirm('Group? "OK" = Group, "Cancel" = Single');
         const g = getCurrentGroup();
         let rep, sub=[], phone='';
@@ -849,7 +849,6 @@
         if (g.members.includes(rep)) { alert('ഇതിനകം ഉണ്ട്'); return; }
         phone = prompt('📱 WhatsApp നമ്പർ (country code ഇല്ലാതെ):') || '';
 
-        // Add to group
         g.members.push(rep);
         g.paymentStatus[rep] = false;
         g.eligibility[rep] = true;
@@ -860,13 +859,8 @@
             representative: rep,
             phone: phone
         };
-
-        // Update main data
         data.chittyGroups[data.activeChitty] = g;
-        console.log("📤 Saving member to Firebase:", data.chittyGroups);
-
-        // Save and refresh
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
         alert('✅ "' + rep + '" ചേർത്തു' + (phone ? ' 📱' : ''));
@@ -886,7 +880,7 @@
         g.payments[member].push({ date: dt, amount: amt, month: mo, year: yr });
         g.paymentStatus[member] = true;
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderAll();
         alert('✅ ' + member + ' ന് ₹' + amt + ' രേഖപ്പെടുത്തി.');
     }
@@ -937,7 +931,7 @@
         const g = getCurrentGroup();
         g.monthlyContribution = val;
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         updateCollectionSummary();
         contributionInput.value = '';
         alert('✅ അപ്ഡേറ്റ് ചെയ്തു.');
@@ -968,7 +962,7 @@
         const g = getCurrentGroup();
         g.payouts.splice(idx, 1);
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderPayouts();
     };
 
@@ -996,7 +990,7 @@
         if (!g.payouts) g.payouts = [];
         g.payouts.push({ date, member, amount });
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderPayouts();
         payoutAmount.value = '';
         alert('✅ Payout രേഖപ്പെടുത്തി.');
@@ -1041,7 +1035,7 @@
                     const g = getCurrentGroup();
                     g.winners.splice(idx, 1);
                     data.chittyGroups[data.activeChitty] = g;
-                    saveAllGroupsToFirebase();
+                    saveToFirebase();
                     renderHistory();
                     updateMonthWinners();
                     if (g.winners.length) todayWinner.textContent = g.winners[g.winners.length-1].name;
@@ -1098,7 +1092,7 @@
         g.whatsappGroupLink = whatsappGroupLink.value.trim();
         g.whatsappAdminPhone = whatsappAdminPhone.value.trim();
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         alert('✅ WhatsApp settings saved!');
     });
 
@@ -1196,7 +1190,7 @@
                 const month = new Date().getMonth(), year = new Date().getFullYear();
                 g.winners.push({ month, year, name: winner });
                 data.chittyGroups[data.activeChitty] = g;
-                saveAllGroupsToFirebase();
+                saveToFirebase();
                 renderHistory();
                 updateMonthWinners();
                 isSpinning = false;
@@ -1266,7 +1260,7 @@
         if (g.eligibility[last] !== false) {
             g.eligibility[last] = false;
             data.chittyGroups[data.activeChitty] = g;
-            saveAllGroupsToFirebase();
+            saveToFirebase();
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
             updateEligibleCounts();
@@ -1287,7 +1281,7 @@
         }
         g.members = members;
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderAll();
         const extra = 3+Math.floor(Math.random()*4);
         const rand = Math.random()*Math.PI*2 + extra*Math.PI*2;
@@ -1330,7 +1324,7 @@
         });
         if (added) {
             data.chittyGroups[data.activeChitty] = g;
-            saveAllGroupsToFirebase();
+            saveToFirebase();
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
             alert(added + ' പേരുകൾ ചേർത്തു.');
@@ -1344,7 +1338,7 @@
         const g = getCurrentGroup();
         (g.members || []).forEach(m => g.eligibility[m] = true);
         data.chittyGroups[data.activeChitty] = g;
-        saveAllGroupsToFirebase();
+        saveToFirebase();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
         updateEligibleCounts();
@@ -1396,4 +1390,4 @@
 })();
 </script>
 </body>
-</html> 
+</html>
