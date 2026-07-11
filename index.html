@@ -15,7 +15,7 @@
         .btn-outline { background: transparent; border: 2px solid #2E7D32; color: #2E7D32; }
         .btn-danger { background: #c62828; color: white; }
         input { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 8px 0; }
-        /* Password hidden with dots */
+        /* Force password masking */
         input[type="password"] {
             -webkit-text-security: disc !important;
             text-security: disc !important;
@@ -273,7 +273,15 @@
         }
     }
 
-    loginBtn.addEventListener('click', ()=>{
+    // Wait for DOM and then attach event
+    document.addEventListener('DOMContentLoaded', function() {
+        loginBtn.addEventListener('click', doLogin);
+        loginPassword.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') doLogin();
+        });
+    });
+
+    function doLogin() {
         const p = loginPassword.value.trim();
         if (p === ADMIN_PASS) {
             isAdmin = true;
@@ -291,10 +299,15 @@
             loginError.textContent = '❌ തെറ്റായ പാസ്വേഡ്';
             loginPassword.value = '';
         }
-    });
-    loginPassword.addEventListener('keypress', e => {
-        if (e.key === 'Enter') loginBtn.click();
-    });
+    }
+
+    // Also attach directly in case DOM already loaded
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        loginBtn.addEventListener('click', doLogin);
+        loginPassword.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') doLogin();
+        });
+    }
 
     // ==================== FIREBASE HELPERS ====================
     function getCurrentGroup() {
@@ -882,4 +895,4 @@
 })();
 </script>
 </body>
-</html> 
+</html>
