@@ -28,7 +28,6 @@
         body.dark #loginSection input { background: #2a2a3a; border-color: #444; color: #e2e8f0; }
         
         .container { max-width: 500px; margin: 0 auto; }
-        
         .card { background: white; border-radius: 16px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn { background: #2E7D32; color: white; border: none; padding: 12px 20px; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; margin: 5px 0; }
         .btn:active { transform: scale(0.96); }
@@ -53,17 +52,14 @@
         .info { background: #cce5ff; color: #004085; }
         body.dark .info { background: #1a2a3a; color: #8fbcff; }
         .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; flex-wrap: nowrap; }
-        .tab-bar button { flex: 1; min-width: 45px; padding: 8px 4px; border: none; background: #e9ecef; border-radius: 30px; font-weight: 600; font-size: 10px; cursor: pointer; white-space: nowrap; }
+        .tab-bar button { flex: 1; min-width: 40px; padding: 8px 4px; border: none; background: #e9ecef; border-radius: 30px; font-weight: 600; font-size: 9px; cursor: pointer; white-space: nowrap; }
         .tab-bar button.active { background: #2E7D32; color: white; }
-        .member-list { max-height: 300px; overflow-y: auto; }
+        .member-list { max-height: 250px; overflow-y: auto; }
         .search-box { width: 100%; padding: 10px 16px; border-radius: 30px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 15px; }
         .winner-display { font-size: 2.5rem; font-weight: 800; color: #FFD700; text-align: center; padding: 20px 0; min-height: 80px; }
         .winner-display.pop { animation: pop 0.5s ease; }
         @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 60% { transform: scale(1.3); } 100% { transform: scale(1); opacity: 1; } }
-        .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);
-            display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
         .modal-card { background: white; border-radius: 30px; padding: 30px; max-width: 360px; width: 100%; }
         .modal-card select { width: 100%; padding: 14px; border-radius: 40px; border: 1px solid #ddd; font-size: 1rem; margin: 10px 0; }
         .modal-card textarea { width: 100%; padding: 14px; border-radius: 16px; border: 1px solid #ddd; font-size: 1rem; min-height: 120px; resize: vertical; }
@@ -74,10 +70,13 @@
         .elig-btn.eligible { background: #2E7D32; color: white; }
         .elig-btn.ineligible { background: #888; color: white; }
         #firebaseStatus { margin-top: 10px; font-size: 12px; color: #888; text-align: center; }
+        
+        /* ===== WHEEL ===== */
         .wheel-container { position: relative; width: 100%; max-width: 320px; margin: 0 auto; }
         #wheelCanvas { width: 100%; aspect-ratio: 1/1; border-radius: 50%; background: #f0f0f0; }
         body.dark #wheelCanvas { background: #1e1e2a; }
         .wheel-arrow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; z-index: 5; line-height: 1; }
+        
         .collection-summary { background: #fff; border-radius: 16px; padding: 16px 20px; margin: 12px 0; border-left: 6px solid #C5A059; }
         .collection-summary .total { font-size: 1.5rem; font-weight: 700; color: #2E7D32; }
         body.dark .collection-summary .total { color: #FFD700; }
@@ -92,60 +91,50 @@
         .chitty-selector .btn-add-chitty { background: #2E7D32; color: white; border: none; padding: 6px 14px; border-radius: 30px; font-weight: 700; cursor: pointer; }
         .admin-only { display: none; }
         
-        /* Login Section - Large */
-        #loginSection {
-            padding: 30px 24px;
-            max-width: 420px;
-            margin: 20px auto;
-            border-radius: 24px;
+        /* ===== SPLASH ===== */
+        #splash {
+            position: fixed; inset: 0;
+            background: linear-gradient(145deg, #1b5e20, #2E7D32);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 9999; color: white; text-align: center; padding: 20px;
+            transition: opacity 0.8s;
         }
-        #loginSection h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-            text-align: center;
+        #splash.hide { opacity: 0; pointer-events: none; }
+        #splash .logo-container {
+            width: 150px; height: 150px; border-radius: 50%; overflow: hidden;
+            border: 5px solid #FFD700; background: #fff; display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; font-weight: 900; color: #2E7D32; margin-bottom: 20px;
         }
-        #loginSection input {
-            padding: 16px 20px;
-            font-size: 1.1rem;
-            border-radius: 50px;
-            border: 2px solid #ddd;
-            background: #f5f7fb;
-            margin: 8px 0;
-        }
-        #loginSection .btn {
-            padding: 16px;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            margin-top: 12px;
-        }
-        #loginSection .login-error {
-            font-size: 1rem;
-            margin-top: 12px;
-            color: #c62828;
-            text-align: center;
-            min-height: 28px;
-        }
+        #splash h1 { font-size: 2.2rem; font-weight: 700; color: #FFD700; }
+        #splash p { font-size: 1.1rem; opacity: 0.9; margin-top: 8px; color: #fff; }
+        .loader { width: 60px; height: 6px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; margin-top: 30px; }
+        .loader-bar { width: 40%; height: 100%; background: #FFD700; animation: load 1.2s infinite; }
+        @keyframes load { 0%{margin-left:-40%} 100%{margin-left:100%} }
+        
+        #loginSection { padding: 30px 24px; max-width: 420px; margin: 20px auto; border-radius: 24px; }
+        #loginSection h2 { font-size: 2rem; margin-bottom: 20px; text-align: center; }
+        #loginSection input { padding: 16px 20px; font-size: 1.1rem; border-radius: 50px; border: 2px solid #ddd; background: #f5f7fb; margin: 8px 0; }
+        #loginSection .btn { padding: 16px; font-size: 1.2rem; border-radius: 50px; margin-top: 12px; }
+        #loginSection .login-error { font-size: 1rem; margin-top: 12px; color: #c62828; text-align: center; min-height: 28px; }
         @media (max-width: 480px) {
-            #loginSection {
-                padding: 24px 16px;
-                margin: 10px 0;
-                border-radius: 20px;
-            }
-            #loginSection h2 {
-                font-size: 1.6rem;
-            }
-            #loginSection input {
-                padding: 14px 16px;
-                font-size: 1rem;
-            }
-            #loginSection .btn {
-                padding: 14px;
-                font-size: 1.1rem;
-            }
+            #loginSection { padding: 24px 16px; margin: 10px 0; border-radius: 20px; }
+            #loginSection h2 { font-size: 1.6rem; }
+            #loginSection input { padding: 14px 16px; font-size: 1rem; }
+            #loginSection .btn { padding: 14px; font-size: 1.1rem; }
+            .tab-bar button { font-size: 8px; min-width: 32px; padding: 6px 2px; }
         }
     </style>
 </head>
 <body>
+
+<!-- ===== SPLASH ===== -->
+<div id="splash">
+    <div class="logo-container">M</div>
+    <h1>മഷൂദ് കുറിയിൽ</h1>
+    <p>ചിട്ടി മാനേജ്മെന്റ്</p>
+    <div class="loader"><div class="loader-bar"></div></div>
+</div>
+
 <div class="container">
     <h1>🏆 മഷൂദ് കുറിയിൽ</h1>
     <div id="status" class="info">⏳ Connecting to Firebase...</div>
@@ -160,24 +149,22 @@
 
     <!-- MAIN APP -->
     <div id="appSection" class="hidden">
-        <!-- Chitty Selector -->
         <div class="chitty-selector">
             <label>📂 ചിട്ടി:</label>
             <select id="chittySelector"></select>
             <button class="btn-add-chitty admin-only" onclick="addNewChitty()">➕</button>
         </div>
 
-        <!-- Tab Bar -->
         <div class="tab-bar">
-            <button class="active" data-tab="home">🏠 Home</button>
-            <button data-tab="members">📋 Members</button>
-            <button data-tab="add">➕ Add</button>
-            <button data-tab="payments">💰 Pay</button>
-            <button data-tab="payout">💸 Payout</button>
-            <button data-tab="draw">🎰 Draw</button>
-            <button data-tab="history">📜 History</button>
-            <button data-tab="chat">💬 Chat</button>
-            <button data-tab="rules">📜 Rules</button>
+            <button class="active" data-tab="home">🏠</button>
+            <button data-tab="members">📋</button>
+            <button class="admin-only" data-tab="add">➕</button>
+            <button class="admin-only" data-tab="payments">💰</button>
+            <button class="admin-only" data-tab="payout">💸</button>
+            <button class="admin-only" data-tab="draw">🎰</button>
+            <button data-tab="history">📜</button>
+            <button data-tab="chat">💬</button>
+            <button data-tab="rules">📜</button>
         </div>
 
         <!-- HOME -->
@@ -188,15 +175,15 @@
         </div>
 
         <!-- MEMBERS -->
-        <div id="tab-members" class="card hidden">
+        <div id="tab-members" class="card">
             <h3>📋 മെമ്പർമാർ (<span id="memberCount">0</span>)</h3>
             <input type="text" class="search-box" id="searchBox" placeholder="🔍 പേര് തിരയുക...">
             <div id="memberList" class="member-list"></div>
             <button class="btn btn-outline admin-only" id="makeAllEligibleBtn">✅ എല്ലാവരെയും എലിജിബിൾ ആക്കുക</button>
         </div>
 
-        <!-- ADD -->
-        <div id="tab-add" class="card hidden">
+        <!-- ADD - Admin Only -->
+        <div id="tab-add" class="card hidden admin-only">
             <h3>➕ പുതിയ മെമ്പർ</h3>
             <select id="memberType">
                 <option value="single">വ്യക്തി (Single)</option>
@@ -214,12 +201,12 @@
                 <input type="text" id="groupPhone" placeholder="📱 WhatsApp നമ്പർ (ഗ്രൂപ്പ് കോൺടാക്റ്റ്)">
             </div>
 
-            <button class="btn admin-only" id="addMemberBtn">✅ മെമ്പർ ചേർക്കുക</button>
-            <button class="btn btn-outline admin-only" id="bulkAddBtn">📋 Bulk Add</button>
+            <button class="btn" id="addMemberBtn">✅ മെമ്പർ ചേർക്കുക</button>
+            <button class="btn btn-outline" id="bulkAddBtn">📋 Bulk Add</button>
         </div>
 
-        <!-- PAYMENTS -->
-        <div id="tab-payments" class="card hidden">
+        <!-- PAYMENTS - Admin Only -->
+        <div id="tab-payments" class="card hidden admin-only">
             <h3>💰 മാസ കളക്ഷൻ</h3>
             <div id="collectionSummary" class="collection-summary">
                 <div>ഈ മാസത്തെ ആകെ: <span class="total" id="monthlyTotal">₹ 0</span></div>
@@ -230,12 +217,12 @@
             <div id="paymentListContainer" style="max-height:200px; overflow-y:auto;"></div>
             <div style="margin-top:10px;">
                 <input type="number" id="contributionInput" placeholder="മാസ പ്രതിശ്രേണി മാറ്റുക">
-                <button class="btn btn-outline admin-only" id="setContributionBtn">അപ്ഡേറ്റ്</button>
+                <button class="btn btn-outline" id="setContributionBtn">അപ്ഡേറ്റ്</button>
             </div>
         </div>
 
-        <!-- PAYOUT -->
-        <div id="tab-payout" class="card hidden">
+        <!-- PAYOUT - Admin Only -->
+        <div id="tab-payout" class="card hidden admin-only">
             <h3>💸 Payout</h3>
             <div id="payoutSummary" class="collection-summary">
                 <div>ആകെ Payout: <span class="total" id="totalPayout">₹ 0</span></div>
@@ -246,33 +233,33 @@
                 <input type="date" id="payoutDate">
                 <input type="number" id="payoutAmount" placeholder="തുക">
                 <select id="payoutMemberSelect"></select>
-                <button class="btn btn-gold admin-only" id="addPayoutBtn">➕ Payout ചേർക്കുക</button>
+                <button class="btn btn-gold" id="addPayoutBtn">➕ Payout ചേർക്കുക</button>
             </div>
         </div>
 
-        <!-- DRAW -->
-        <div id="tab-draw" class="card hidden">
+        <!-- DRAW - Admin Only -->
+        <div id="tab-draw" class="card hidden admin-only">
             <h3>🎰 വീൽ സ്പിൻ</h3>
             <div class="wheel-container">
                 <div class="wheel-arrow">▼</div>
                 <canvas id="wheelCanvas" width="400" height="400"></canvas>
             </div>
             <div class="winner-display" id="drawWinnerDisplay">🎯</div>
-            <button class="btn admin-only" id="spinDrawBtn">🔄 സ്പിൻ ചെയ്യുക</button>
-            <button class="btn btn-outline admin-only" id="manualBtn">👤 മാനുവൽ</button>
+            <button class="btn" id="spinDrawBtn">🔄 സ്പിൻ ചെയ്യുക</button>
+            <button class="btn btn-outline" id="manualBtn">👤 മാനുവൽ</button>
             <div style="margin-top:10px; display:flex; justify-content:space-between; font-size:14px; color:#666;">
                 <span>✅ Eligible: <span id="drawEligibleCount">0</span></span>
                 <span>👥 Total: <span id="drawTotalCount">0</span></span>
             </div>
-            <button class="btn btn-outline admin-only" id="shuffleWheelBtn">🔀 Shuffle</button>
-            <button class="btn btn-danger admin-only" id="removeWinnerBtn">🗑️ വിജയിയെ മാറ്റുക</button>
+            <button class="btn btn-outline" id="shuffleWheelBtn">🔀 Shuffle</button>
+            <button class="btn btn-danger" id="removeWinnerBtn">🗑️ വിജയിയെ മാറ്റുക</button>
         </div>
 
         <!-- HISTORY -->
         <div id="tab-history" class="card hidden">
             <h3>📜 വിജയികൾ</h3>
             <div id="historyList" style="max-height:250px; overflow-y:auto;"></div>
-            <button class="btn btn-outline" id="exportCSV">📥 CSV</button>
+            <button class="btn btn-outline admin-only" id="exportCSV">📥 CSV</button>
         </div>
 
         <!-- CHAT -->
@@ -295,7 +282,7 @@
     </div>
 
     <!-- BULK ADD MODAL -->
-    <div id="bulkAddModal" class="modal-overlay hidden">
+    <div id="bulkAddModal" class="modal-overlay hidden admin-only">
         <div class="modal-card">
             <h3>📋 Bulk Add</h3>
             <p style="font-size:14px; color:#666;">ഓരോ വരിയിലും ഒരു പേര് നൽകുക</p>
@@ -306,7 +293,7 @@
     </div>
 
     <!-- MANUAL MODAL -->
-    <div id="manualModal" class="modal-overlay hidden">
+    <div id="manualModal" class="modal-overlay hidden admin-only">
         <div class="modal-card">
             <h3>👤 മാനുവൽ തിരഞ്ഞെടുക്കുക</h3>
             <select id="manualSelect"></select>
@@ -318,7 +305,7 @@
     </div>
 
     <!-- REMOVE WINNER MODAL -->
-    <div id="removeModal" class="modal-overlay hidden">
+    <div id="removeModal" class="modal-overlay hidden admin-only">
         <div class="modal-card">
             <h3>🗑️ വിജയിയെ നീക്കം ചെയ്യുക</h3>
             <p>ഏറ്റവും ഒടുവിൽ വിജയിച്ച ആളെ <strong>എലിജിബിൾ അല്ലാതാക്കുക</strong></p>
@@ -355,15 +342,22 @@ firebase.auth().signInAnonymously()
     .then(() => {
         document.getElementById('status').textContent = '✅ Firebase Connected';
         document.getElementById('status').className = 'success';
-        document.getElementById('firebaseStatus').textContent = '✅ Connected: ' + new Date().toLocaleTimeString();
+        document.getElementById('firebaseStatus').textContent = '✅ Connected';
         loadData();
     })
     .catch(err => {
         document.getElementById('status').textContent = '❌ ' + err.message;
         document.getElementById('status').className = 'error';
         document.getElementById('firebaseStatus').textContent = '❌ Error: ' + err.message;
-        console.error('🔥 Firebase Error:', err);
+        console.error(err);
     });
+
+// ============================================================
+// SPLASH
+// ============================================================
+setTimeout(() => {
+    document.getElementById('splash').classList.add('hide');
+}, 1500);
 
 // ============================================================
 // DATA
@@ -435,7 +429,7 @@ document.getElementById('chittySelector').addEventListener('change', function() 
         saveData();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
+        updateUI();
         manualTarget = null;
     }
 });
@@ -467,7 +461,7 @@ function loadData() {
             }
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
-            document.getElementById('firebaseStatus').textContent = '✅ Synced: ' + new Date().toLocaleTimeString();
+            updateUI();
         }
     });
     db.ref('chatLog').on('value', snap => {
@@ -486,6 +480,7 @@ function saveData() {
         db.ref('chittyGroups').set(data.chittyGroups);
         db.ref('chatLog').set(data.chatLog);
         db.ref('rules').set(data.rules);
+        console.log('✅ Data saved to Firebase');
     }, 300);
 }
 
@@ -505,7 +500,20 @@ function renderAll() {
     if (getG().winners && getG().winners.length) {
         document.getElementById('todayWinner').textContent = getG().winners[getG().winners.length-1].name;
     }
-    document.querySelectorAll('.admin-only').forEach(el => el.style.display = isAdmin ? 'block' : 'none');
+    updateUI();
+}
+
+function updateUI() {
+    document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = isAdmin ? '' : 'none';
+    });
+    document.querySelectorAll('.tab-bar button').forEach(btn => {
+        if (btn.classList.contains('admin-only') && !isAdmin) {
+            btn.style.display = 'none';
+        } else {
+            btn.style.display = '';
+        }
+    });
 }
 
 // ============================================================
@@ -524,6 +532,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
         document.getElementById('password').value = '';
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
+        updateUI();
     } else if (pass === MEMBER_PASS) {
         isMember = true;
         isAdmin = false;
@@ -534,6 +543,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
         document.getElementById('password').value = '';
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
+        updateUI();
     } else {
         document.getElementById('loginError').textContent = '❌ തെറ്റായ പാസ്വേഡ്';
     }
@@ -553,6 +563,7 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
     document.getElementById('loginSection').classList.remove('hidden');
     document.getElementById('appSection').classList.add('hidden');
     document.getElementById('password').value = '';
+    updateUI();
 });
 
 // ============================================================
@@ -564,7 +575,8 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
         this.classList.add('active');
         document.querySelectorAll('.card').forEach(x => x.classList.add('hidden'));
         const id = 'tab-' + this.dataset.tab;
-        document.getElementById(id).classList.remove('hidden');
+        const el = document.getElementById(id);
+        if (el) el.classList.remove('hidden');
         if (this.dataset.tab === 'payments') { renderPayments(); updateCollectionSummary(); }
         if (this.dataset.tab === 'payout') { renderPayouts(); populatePayoutMembers(); }
         if (this.dataset.tab === 'history') renderHistory();
@@ -589,10 +601,13 @@ document.getElementById('memberType').addEventListener('change', function() {
 });
 
 // ============================================================
-// ADD MEMBER (Single & Group) - Group Contact Added
+// ADD MEMBER (Admin Only)
 // ============================================================
 document.getElementById('addMemberBtn').addEventListener('click', function() {
-    if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+    if (!isAdmin) {
+        alert('അഡ്മിൻ മാത്രം');
+        return;
+    }
     
     const type = document.getElementById('memberType').value;
     const g = getG();
@@ -600,8 +615,16 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
     if (type === 'single') {
         const name = document.getElementById('memberName').value.trim();
         const phone = document.getElementById('memberPhone').value.trim();
-        if (!name) { alert('പേര് നൽകുക'); return; }
-        if (g.members.includes(name)) { alert('"' + name + '" ഇതിനകം ഉണ്ട്'); return; }
+        
+        if (!name) {
+            alert('പേര് നൽകുക');
+            return;
+        }
+        
+        if (g.members.includes(name)) {
+            alert('"' + name + '" ഇതിനകം ഉണ്ട്');
+            return;
+        }
         
         g.members.push(name);
         g.eligibility[name] = true;
@@ -621,14 +644,26 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         // GROUP
         const groupName = document.getElementById('groupName').value.trim();
         const subText = document.getElementById('subMembers').value.trim();
-        const groupPhone = document.getElementById('groupPhone').value.trim(); // Group Contact
+        const groupPhone = document.getElementById('groupPhone').value.trim();
         
-        if (!groupName) { alert('ഗ്രൂപ്പ് പേര് നൽകുക'); return; }
-        if (!subText) { alert('ഗ്രൂപ്പിൽ ഉള്ളവരുടെ പേരുകൾ നൽകുക'); return; }
-        if (g.members.includes(groupName)) { alert('"' + groupName + '" ഇതിനകം ഉണ്ട്'); return; }
+        if (!groupName) {
+            alert('ഗ്രൂപ്പ് പേര് നൽകുക');
+            return;
+        }
+        if (!subText) {
+            alert('ഗ്രൂപ്പിൽ ഉള്ളവരുടെ പേരുകൾ നൽകുക');
+            return;
+        }
+        if (g.members.includes(groupName)) {
+            alert('"' + groupName + '" ഇതിനകം ഉണ്ട്');
+            return;
+        }
         
         const subMembers = subText.split('\n').map(s => s.trim()).filter(s => s);
-        if (!subMembers.length) { alert('കുറഞ്ഞത് ഒരു പേരെങ്കിലും നൽകുക'); return; }
+        if (!subMembers.length) {
+            alert('കുറഞ്ഞത് ഒരു പേരെങ്കിലും നൽകുക');
+            return;
+        }
         
         g.members.push(groupName);
         g.eligibility[groupName] = true;
@@ -636,7 +671,7 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         g.memberTypes[groupName] = {
             type: 'group',
             subMembers: subMembers,
-            phone: groupPhone  // Group Contact
+            phone: groupPhone
         };
         
         document.getElementById('groupName').value = '';
@@ -647,25 +682,35 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         saveData();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
-        showStatus('✅ ഗ്രൂപ്പ് "' + groupName + '" ചേർത്തു (' + subMembers.length + ' പേർ) 📱' + (groupPhone || ''), 'success');
+        showStatus('✅ ഗ്രൂപ്പ് "' + groupName + '" ചേർത്തു (' + subMembers.length + ' പേർ)', 'success');
     }
 });
 
 // ============================================================
-// BULK ADD
+// BULK ADD (Admin Only)
 // ============================================================
 document.getElementById('bulkAddBtn').addEventListener('click', function() {
-    if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+    if (!isAdmin) {
+        alert('അഡ്മിൻ മാത്രം');
+        return;
+    }
     document.getElementById('bulkTextarea').value = '';
     document.getElementById('bulkAddModal').classList.remove('hidden');
 });
 
 document.getElementById('confirmBulkAdd').addEventListener('click', function() {
+    if (!isAdmin) return;
     const text = document.getElementById('bulkTextarea').value.trim();
-    if (!text) { alert('ഒന്നും നൽകിയിട്ടില്ല'); return; }
+    if (!text) {
+        alert('ഒന്നും നൽകിയിട്ടില്ല');
+        return;
+    }
     
     const names = text.split('\n').map(s => s.trim()).filter(s => s);
-    if (!names.length) { alert('സാധുവായ പേരുകൾ ഇല്ല'); return; }
+    if (!names.length) {
+        alert('സാധുവായ പേരുകൾ ഇല്ല');
+        return;
+    }
     
     const g = getG();
     let added = 0;
@@ -701,7 +746,7 @@ document.getElementById('cancelBulkAdd').addEventListener('click', function() {
 document.getElementById('searchBox').addEventListener('input', renderMembers);
 
 // ============================================================
-// RENDER MEMBERS - Group Contact Display
+// RENDER MEMBERS
 // ============================================================
 function renderMembers() {
     const g = getG();
@@ -735,26 +780,33 @@ function renderMembers() {
         const badge = isGroup ? `<span class="group-badge">👥 Group</span>` : '';
         const subDisplay = isGroup ? `<div class="sub-members">📌 ${sub.join(', ')}</div>` : '';
         const elig = g.eligibility[m] !== false;
-        const eligClass = elig ? 'eligible' : 'ineligible';
         const eligText = elig ? '✅' : '❌';
         
-        // WhatsApp link for group contact
         const whatsappLink = phone ? `<a href="https://wa.me/${phone}" target="_blank" style="color:#25D366;text-decoration:none;font-size:14px;">📱</a>` : '';
         
-        html += `<div class="member-item">
-            <span class="name">${i+1}. ${badge} ${m} ${whatsappLink} ${phoneDisplay}</span>
-            <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
-                <button class="elig-btn ${eligClass}" onclick="toggleEligibility('${m}')">${eligText}</button>
-                <button class="delete-btn" onclick="deleteMember('${m}')">✕</button>
-            </div>
-            ${subDisplay}
-        </div>`;
+        if (isAdmin) {
+            const eligClass = elig ? 'eligible' : 'ineligible';
+            html += `<div class="member-item">
+                <span class="name">${i+1}. ${badge} ${m} ${whatsappLink} ${phoneDisplay}</span>
+                <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
+                    <button class="elig-btn ${eligClass}" onclick="toggleEligibility('${m}')">${eligText}</button>
+                    <button class="delete-btn" onclick="deleteMember('${m}')">✕</button>
+                </div>
+                ${subDisplay}
+            </div>`;
+        } else {
+            // Member View - View Only
+            html += `<div class="member-item">
+                <span class="name">${i+1}. ${badge} ${m} ${whatsappLink} ${phoneDisplay} ${eligText}</span>
+                ${subDisplay}
+            </div>`;
+        }
     });
     list.innerHTML = html;
 }
 
 // ============================================================
-// TOGGLE ELIGIBILITY
+// TOGGLE ELIGIBILITY (Admin only)
 // ============================================================
 window.toggleEligibility = function(name) {
     if (!isAdmin) return;
@@ -768,7 +820,7 @@ window.toggleEligibility = function(name) {
 };
 
 // ============================================================
-// DELETE MEMBER
+// DELETE MEMBER (Admin only)
 // ============================================================
 window.deleteMember = function(name) {
     if (!isAdmin) return;
@@ -789,7 +841,7 @@ window.deleteMember = function(name) {
 };
 
 // ============================================================
-// MAKE ALL ELIGIBLE
+// MAKE ALL ELIGIBLE (Admin only)
 // ============================================================
 document.getElementById('makeAllEligibleBtn').addEventListener('click', function() {
     if (!isAdmin) return;
@@ -815,9 +867,10 @@ function updateCounts() {
 }
 
 // ============================================================
-// PAYMENTS
+// PAYMENTS (Admin only)
 // ============================================================
 function renderPayments() {
+    if (!isAdmin) return;
     const g = getG();
     const now = new Date();
     const mo = now.getMonth(), yr = now.getFullYear();
@@ -835,6 +888,7 @@ function renderPayments() {
 }
 
 function updateCollectionSummary() {
+    if (!isAdmin) return;
     const g = getG();
     const now = new Date();
     const mo = now.getMonth(), yr = now.getFullYear();
@@ -864,9 +918,10 @@ document.getElementById('setContributionBtn').addEventListener('click', ()=>{
 });
 
 // ============================================================
-// PAYOUT
+// PAYOUT (Admin only)
 // ============================================================
 function renderPayouts() {
+    if (!isAdmin) return;
     const g = getG();
     const payouts = g.payouts || [];
     let html = '';
@@ -885,6 +940,7 @@ function renderPayouts() {
 }
 
 function populatePayoutMembers() {
+    if (!isAdmin) return;
     const g = getG();
     const select = document.getElementById('payoutMemberSelect');
     select.innerHTML = '';
@@ -907,12 +963,23 @@ window.deletePayout = function(idx) {
 };
 
 document.getElementById('addPayoutBtn').addEventListener('click', ()=>{
-    if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+    if (!isAdmin) {
+        alert('അഡ്മിൻ മാത്രം');
+        return;
+    }
     const date = document.getElementById('payoutDate').value || new Date().toISOString().slice(0,10);
     const amount = parseFloat(document.getElementById('payoutAmount').value);
     const member = document.getElementById('payoutMemberSelect').value;
-    if (!amount || amount <= 0) return alert('സാധുവായ തുക നൽകുക');
-    if (!member) return alert('മെമ്പർ തിരഞ്ഞെടുക്കുക');
+    
+    if (!amount || amount <= 0) {
+        alert('സാധുവായ തുക നൽകുക');
+        return;
+    }
+    if (!member) {
+        alert('മെമ്പർ തിരഞ്ഞെടുക്കുക');
+        return;
+    }
+    
     const g = getG();
     if (!g.payouts) g.payouts = [];
     g.payouts.push({ date, member, amount });
@@ -952,9 +1019,10 @@ window.removeWinner = function(idx) {
 };
 
 // ============================================================
-// EXPORT CSV
+// EXPORT CSV (Admin only)
 // ============================================================
 document.getElementById('exportCSV').addEventListener('click', ()=>{
+    if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
     const g = getG();
     let csv = 'Month,Year,Winner\n';
     (g.winners || []).forEach(w => csv += MONTHS[w.month]+','+w.year+','+w.name+'\n');
@@ -1011,29 +1079,47 @@ function drawWheel(rot) {
     const cx = w/2, r = w/2 - 10;
     ctx.clearRect(0,0,w,h);
     if (!members.length) {
-        ctx.fillStyle = '#888'; ctx.font='20px sans-serif'; ctx.textAlign='center';
-        ctx.fillText('No members', cx, cx); return;
+        ctx.fillStyle = '#888';
+        ctx.font = '20px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('No members', cx, cx);
+        return;
     }
-    const seg = (Math.PI*2)/members.length;
+    const seg = (Math.PI * 2) / members.length;
     const colors = ['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a','#f9844a','#a8dadc','#457b9d','#f15bb5','#9b5de5','#00bbf9','#00f5d4'];
-    for (let i=0; i<members.length; i++) {
-        const s = i*seg + rot;
+    for (let i = 0; i < members.length; i++) {
+        const s = i * seg + rot;
         const e = s + seg;
-        ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.closePath();
-        ctx.fillStyle = colors[i%colors.length]; ctx.fill();
-        ctx.strokeStyle = '#fff'; ctx.lineWidth=1.5; ctx.stroke();
-        ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+seg/2);
-        ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif';
-        ctx.fillText(members[i].length>10?members[i].substring(0,8)+'..':members[i], r*0.65, 5);
+        ctx.beginPath();
+        ctx.moveTo(cx, cx);
+        ctx.arc(cx, cx, r, s, e);
+        ctx.closePath();
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(cx, cx);
+        ctx.rotate(s + seg / 2);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 12px sans-serif';
+        const label = members[i].length > 10 ? members[i].substring(0, 8) + '..' : members[i];
+        ctx.fillText(label, r * 0.65, 5);
         ctx.restore();
     }
-    ctx.beginPath(); ctx.arc(cx,cx,20,0,Math.PI*2);
-    ctx.fillStyle='#fff'; ctx.fill();
-    ctx.strokeStyle='#2E7D32'; ctx.lineWidth=3; ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx, cx, 20, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#2E7D32';
+    ctx.lineWidth = 3;
+    ctx.stroke();
 }
 
 // ============================================================
-// SPIN
+// SPIN (Admin only)
 // ============================================================
 function getAllEligible() {
     const g = getG();
@@ -1041,6 +1127,7 @@ function getAllEligible() {
 }
 
 function spinToWinner(target) {
+    if (!isAdmin) { alert('അഡ്മിൻ മാത്രം'); return; }
     if (isSpinning) return;
     const eligible = getAllEligible();
     if (!eligible.length) {
@@ -1048,28 +1135,28 @@ function spinToWinner(target) {
         return;
     }
     
-    let winner = target && getG().members.includes(target) ? target : eligible[Math.floor(Math.random()*eligible.length)];
+    let winner = target && getG().members.includes(target) ? target : eligible[Math.floor(Math.random() * eligible.length)];
     const members = getG().members;
     const startRot = window.currentWheelRotation || 0;
-    const seg = (Math.PI*2)/members.length;
+    const seg = (Math.PI * 2) / members.length;
     const idx = members.indexOf(winner);
-    let delta = -Math.PI/2 - (startRot + idx*seg + seg/2);
-    delta = ((delta%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-    const full = 12 + Math.floor(Math.random()*7);
-    const total = delta + full*Math.PI*2;
+    let delta = -Math.PI / 2 - (startRot + idx * seg + seg / 2);
+    delta = ((delta % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    const full = 12 + Math.floor(Math.random() * 7);
+    const total = delta + full * Math.PI * 2;
     const targetRot = startRot + total;
     isSpinning = true;
     const dur = 5000, startTime = Date.now();
     
     function anim() {
-        const el = Date.now()-startTime, p = Math.min(el/dur,1);
-        const cur = startRot + total*p;
+        const el = Date.now() - startTime, p = Math.min(el / dur, 1);
+        const cur = startRot + total * p;
         drawWheel(cur);
-        if (p<1) requestAnimationFrame(anim);
-        else {
+        if (p < 1) {
+            requestAnimationFrame(anim);
+        } else {
             drawWheel(targetRot);
             window.currentWheelRotation = targetRot;
-            
             document.getElementById('drawWinnerDisplay').textContent = '🏆 ' + winner;
             document.getElementById('todayWinner').textContent = winner;
             document.getElementById('drawWinnerDisplay').classList.remove('pop');
@@ -1111,7 +1198,7 @@ document.getElementById('spinDrawBtn').addEventListener('click', randomSpin);
 document.getElementById('spinWheelBtn').addEventListener('click', randomSpin);
 
 // ============================================================
-// MANUAL SELECT
+// MANUAL SELECT (Admin only)
 // ============================================================
 document.getElementById('manualBtn').addEventListener('click', function() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
@@ -1130,6 +1217,7 @@ document.getElementById('manualBtn').addEventListener('click', function() {
 });
 
 document.getElementById('confirmManual').addEventListener('click', function() {
+    if (!isAdmin) return;
     const name = document.getElementById('manualSelect').value;
     if (name) {
         document.getElementById('manualModal').classList.add('hidden');
@@ -1144,7 +1232,7 @@ document.getElementById('cancelManual').addEventListener('click', function() {
 });
 
 // ============================================================
-// REMOVE WINNER
+// REMOVE WINNER (Admin only)
 // ============================================================
 document.getElementById('removeWinnerBtn').addEventListener('click', function() {
     if (!isAdmin) return;
@@ -1154,6 +1242,7 @@ document.getElementById('removeWinnerBtn').addEventListener('click', function() 
 });
 
 document.getElementById('confirmRemoveWinner').addEventListener('click', function() {
+    if (!isAdmin) return;
     document.getElementById('removeModal').classList.add('hidden');
     const g = getG();
     if (!g.winners || !g.winners.length) return;
@@ -1174,14 +1263,14 @@ document.getElementById('cancelRemoveWinner').addEventListener('click', function
 });
 
 // ============================================================
-// SHUFFLE
+// SHUFFLE (Admin only)
 // ============================================================
 document.getElementById('shuffleWheelBtn').addEventListener('click', function() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
     const g = getG();
     if (g.members.length < 2) return alert('കുറഞ്ഞത് 2 വേണം');
-    for (let i = g.members.length-1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i+1));
+    for (let i = g.members.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
         [g.members[i], g.members[j]] = [g.members[j], g.members[i]];
     }
     data.chittyGroups[data.activeChitty] = g;
