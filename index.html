@@ -405,12 +405,23 @@
     </div>
 </div>
 
-<!-- Add Member Modal (Single) -->
+<!-- Add Member Modal -->
 <div id="addModal" class="modal hidden">
     <div class="modal-card">
         <h3>➕ പുതിയ മെമ്പർ</h3>
-        <input type="text" id="newMemberName" placeholder="പേര്">
-        <input type="text" id="newMemberPhone" placeholder="📱 WhatsApp നമ്പർ">
+        <select id="memberType" style="width:100%; padding:12px; border-radius:40px; border:1px solid #ddd; margin:10px 0; font-size:1rem;">
+            <option value="single">വ്യക്തി (Single)</option>
+            <option value="group">ഗ്രൂപ്പ് (Group)</option>
+        </select>
+        <div id="singleFields">
+            <input type="text" id="newMemberName" placeholder="പേര്">
+            <input type="text" id="newMemberPhone" placeholder="📱 WhatsApp നമ്പർ">
+        </div>
+        <div id="groupFields" class="hidden">
+            <input type="text" id="groupName" placeholder="ഗ്രൂപ്പ് പേര് (ഉദാ: രാജേഷ് & കുടുംബം)">
+            <textarea id="subMembers" rows="3" placeholder="ഗ്രൂപ്പിൽ ഉള്ളവർ (ഓരോ വരിയിൽ ഒരു പേര്)"></textarea>
+            <input type="text" id="groupPhone" placeholder="📱 WhatsApp നമ്പർ (ഗ്രൂപ്പ് കോൺടാക്റ്റ്)">
+        </div>
         <div style="display:flex; gap:10px; margin-top:10px;">
             <button class="btn" id="confirmAddBtn">✅ ചേർക്കുക</button>
             <button class="btn btn-outline" id="cancelAddBtn">റദ്ദാക്കുക</button>
@@ -431,7 +442,7 @@
 
 <script>
 // ============================================================
-// ✅ FIREBASE CONFIG - നിങ്ങളുടേത് മാറ്റുക
+// ✅ FIREBASE CONFIG
 // ============================================================
 const firebaseConfig = {
     apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0",
@@ -443,12 +454,9 @@ const firebaseConfig = {
     appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
 };
 
-// ============================================================
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Anonymous Authentication
 firebase.auth().signInAnonymously()
     .then(() => {
         console.log('✅ Firebase Connected');
@@ -457,9 +465,8 @@ firebase.auth().signInAnonymously()
     .catch(err => console.error('❌ Firebase Error:', err));
 
 // ============================================================
-// ORIGINAL CODE (with Firebase modifications)
+// MAIN APP
 // ============================================================
-
 (function(){
     const ADMIN_PASS = 'ma7hood';
     const MEMBER_PASS = 'member123';
@@ -512,17 +519,14 @@ firebase.auth().signInAnonymously()
         db.ref('chittyGroups').set(data.chittyGroups);
         db.ref('chatLog').set(data.chatLog);
         db.ref('rules').set(data.rules);
-        // Also save to localStorage as backup
         localStorage.setItem('chittyManagerData', JSON.stringify(data));
     }
 
     function loadData() {
-        // First try to load from Firebase
         db.ref('chittyGroups').on('value', snapshot => {
             const val = snapshot.val();
             if (val) {
                 data.chittyGroups = val;
-                // Ensure all groups exist
                 ['കുറി 1','കുറി 2','കുറി 3'].forEach(k => {
                     if (!data.chittyGroups[k]) data.chittyGroups[k] = defaultData();
                     initGroup(k);
@@ -531,7 +535,6 @@ firebase.auth().signInAnonymously()
                 renderAll();
                 checkLogin();
             } else {
-                // If Firebase empty, try localStorage
                 const saved = localStorage.getItem('chittyManagerData');
                 if (saved) {
                     try {
@@ -542,7 +545,6 @@ firebase.auth().signInAnonymously()
                         if (parsed.rules) data.rules = parsed.rules;
                     } catch(e) {}
                 }
-                // Initialize default groups
                 ['കുറി 1','കുറി 2','കുറി 3'].forEach(k => {
                     if (!data.chittyGroups[k]) data.chittyGroups[k] = defaultData();
                     initGroup(k);
@@ -634,11 +636,29 @@ firebase.auth().signInAnonymously()
     const newMemberPhone = $('newMemberPhone');
     const confirmAddBtn = $('confirmAddBtn');
     const cancelAddBtn = $('cancelAddBtn');
+    const memberType = $('memberType');
+    const groupName = $('groupName');
+    const subMembers = $('subMembers');
+    const groupPhone = $('groupPhone');
+    const singleFields = $('singleFields');
+    const groupFields = $('groupFields');
+    const addStatus = $('addStatus');
 
     let isAdmin = false, isMember = false, isLoggedIn = false, isSpinning = false;
     let currentMonth = new Date().getMonth(), currentYear = new Date().getFullYear();
     window.currentWheelRotation = 0;
     let manualTarget = null;
+
+    // ========== MEMBER TYPE TOGGLE ==========
+    memberType.addEventListener('change', function() {
+        if (this.value === 'group') {
+            singleFields.classList.add('hidden');
+            groupFields.classList.remove('hidden');
+        } else {
+            singleFields.classList.remove('hidden');
+            groupFields.classList.add('hidden');
+        }
+    });
 
     // ========== CHITTY SELECTOR ==========
     function renderChittySelector() {
@@ -832,6 +852,13 @@ firebase.auth().signInAnonymously()
         if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
         newMemberName.value = '';
         newMemberPhone.value = '';
+        groupName.value = '';
+        subMembers.value = '';
+        groupPhone.value = '';
+        memberType.value = 'single';
+        singleFields.classList.remove('hidden');
+        groupFields.classList.add('hidden');
+        addStatus.textContent = '';
         addModal.classList.remove('hidden');
     }
     addMemberBtn.addEventListener('click', addMemberWithPrompt);
@@ -841,28 +868,63 @@ firebase.auth().signInAnonymously()
     });
 
     confirmAddBtn.addEventListener('click', function() {
-        const rep = newMemberName.value.trim();
-        if (!rep) { alert('മെമ്പർ പേര് നൽകുക'); return; }
-        const phone = newMemberPhone.value.trim();
+        const type = memberType.value;
         const g = getG();
-        if (g.members.includes(rep)) { alert(`"${rep}" ഇതിനകം ഉണ്ട്`); return; }
+        let rep, phone, groupNameVal, subMembersVal, groupPhoneVal;
         
-        g.members.push(rep);
-        g.paymentStatus[rep] = false;
-        g.eligibility[rep] = true;
-        g.payments[rep] = [];
-        g.memberTypes[rep] = {
-            type: 'single',
-            phone: phone
-        };
+        if (type === 'single') {
+            rep = newMemberName.value.trim();
+            phone = newMemberPhone.value.trim();
+            if (!rep) { addStatus.textContent = '❌ പേര് നൽകുക'; return; }
+            if (g.members.includes(rep)) { addStatus.textContent = `❌ "${rep}" ഇതിനകം ഉണ്ട്`; return; }
+            
+            g.members.push(rep);
+            g.paymentStatus[rep] = false;
+            g.eligibility[rep] = true;
+            g.payments[rep] = [];
+            g.memberTypes[rep] = {
+                type: 'single',
+                phone: phone
+            };
+            newMemberName.value = '';
+            newMemberPhone.value = '';
+            addStatus.textContent = '✅ "' + rep + '" ചേർത്തു';
+            
+        } else {
+            // GROUP
+            groupNameVal = groupName.value.trim();
+            subMembersVal = subMembers.value.trim();
+            groupPhoneVal = groupPhone.value.trim();
+            
+            if (!groupNameVal) { addStatus.textContent = '❌ ഗ്രൂപ്പ് പേര് നൽകുക'; return; }
+            if (!subMembersVal) { addStatus.textContent = '❌ ഗ്രൂപ്പിൽ ഉള്ളവരുടെ പേരുകൾ നൽകുക'; return; }
+            if (g.members.includes(groupNameVal)) { addStatus.textContent = `❌ "${groupNameVal}" ഇതിനകം ഉണ്ട്`; return; }
+            
+            const subMembersArray = subMembersVal.split('\n').map(s => s.trim()).filter(s => s);
+            if (!subMembersArray.length) { addStatus.textContent = '❌ കുറഞ്ഞത് ഒരു പേരെങ്കിലും നൽകുക'; return; }
+            
+            g.members.push(groupNameVal);
+            g.paymentStatus[groupNameVal] = false;
+            g.eligibility[groupNameVal] = true;
+            g.payments[groupNameVal] = [];
+            g.memberTypes[groupNameVal] = {
+                type: 'group',
+                subMembers: subMembersArray,
+                phone: groupPhoneVal
+            };
+            groupName.value = '';
+            subMembers.value = '';
+            groupPhone.value = '';
+            addStatus.textContent = '✅ ഗ്രൂപ്പ് "' + groupNameVal + '" ചേർത്തു (' + subMembersArray.length + ' പേർ)';
+        }
+        
         data.chittyGroups[data.activeChitty] = g;
         saveData();
         renderMembers();
         drawWheel(window.currentWheelRotation || 0);
         renderPayments();
         updateCollectionSummary();
-        alert('✅ "' + rep + '" ചേർത്തു' + (phone ? ' 📱' : ''));
-        addModal.classList.add('hidden');
+        setTimeout(() => addModal.classList.add('hidden'), 1000);
     });
 
     // ========== BULK ADD ==========
