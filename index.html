@@ -14,6 +14,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; padding: 16px; }
         .container { max-width: 500px; margin: 0 auto; }
+        
         .card { background: white; border-radius: 16px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn { background: #2E7D32; color: white; border: none; padding: 12px 20px; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; margin: 5px 0; }
         .btn:active { transform: scale(0.96); }
@@ -74,8 +75,71 @@
         body.dark .chitty-selector { background: #1e1e2a; }
         body.dark .collection-summary { background: #1e1e2a; }
         body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
-        .password-hint { font-size: 12px; color: #888; text-align: center; margin-top: 8px; }
-        .password-hint strong { color: #2E7D32; }
+        
+        /* ============================================
+           LOGIN SCREEN - വലുതാക്കി
+           ============================================ */
+        #loginSection {
+            padding: 30px 24px;
+            max-width: 420px;
+            margin: 20px auto;
+            border-radius: 24px;
+        }
+        
+        #loginSection h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        #loginSection input {
+            padding: 16px 20px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            border: 2px solid #ddd;
+            background: #f5f7fb;
+            margin: 8px 0;
+        }
+        
+        body.dark #loginSection input {
+            background: #2a2a3a;
+            border-color: #444;
+            color: #e2e8f0;
+        }
+        
+        #loginSection .btn {
+            padding: 16px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            margin-top: 12px;
+        }
+        
+        #loginSection .login-error {
+            font-size: 1rem;
+            margin-top: 12px;
+            color: #c62828;
+            text-align: center;
+            min-height: 28px;
+        }
+        
+        @media (max-width: 480px) {
+            #loginSection {
+                padding: 24px 16px;
+                margin: 10px 0;
+                border-radius: 20px;
+            }
+            #loginSection h2 {
+                font-size: 1.6rem;
+            }
+            #loginSection input {
+                padding: 14px 16px;
+                font-size: 1rem;
+            }
+            #loginSection .btn {
+                padding: 14px;
+                font-size: 1.1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -88,10 +152,7 @@
         <h2>🔐 ലോഗിൻ</h2>
         <input type="password" id="password" placeholder="പാസ്വേഡ് നൽകുക" autofocus>
         <button class="btn" id="loginBtn">പ്രവേശിക്കുക</button>
-        <div id="loginError" style="color:red; margin-top:10px; text-align:center;"></div>
-        <div class="password-hint">
-            അഡ്മിൻ: <strong>ma7hood</strong> | മെമ്പർ: <strong>member123</strong>
-        </div>
+        <div class="login-error" id="loginError"></div>
     </div>
 
     <!-- MAIN APP -->
@@ -287,7 +348,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// Anonymous Authentication
 firebase.auth().signInAnonymously()
     .then(() => {
         document.getElementById('status').textContent = '✅ Firebase Connected';
