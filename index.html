@@ -12,13 +12,28 @@
     
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; padding: 16px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; padding: 16px; transition: background 0.3s, color 0.3s; }
+        body.dark { background: #121212; color: #e2e8f0; }
+        body.dark .card { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .chitty-selector { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .collection-summary { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .chat-box { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .tab-bar button { background: #2a2a3a; color: #e2e8f0; }
+        body.dark .tab-bar button.active { background: #2E7D32; color: white; }
+        body.dark input, body.dark select, body.dark textarea { background: #2a2a3a; border-color: #444; color: #e2e8f0; }
+        body.dark .member-item { border-color: #2a2a3a; }
+        body.dark .history-item { border-color: #2a2a3a; }
+        body.dark .payout-item { border-color: #2a2a3a; }
+        body.dark #loginSection input { background: #2a2a3a; border-color: #444; color: #e2e8f0; }
+        
         .container { max-width: 500px; margin: 0 auto; }
         
         .card { background: white; border-radius: 16px; padding: 20px; margin: 10px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .btn { background: #2E7D32; color: white; border: none; padding: 12px 20px; border-radius: 30px; font-size: 16px; cursor: pointer; width: 100%; margin: 5px 0; }
         .btn:active { transform: scale(0.96); }
         .btn-outline { background: transparent; border: 2px solid #2E7D32; color: #2E7D32; }
+        body.dark .btn-outline { border-color: #FFD700; color: #FFD700; }
         .btn-danger { background: #c62828; color: white; }
         .btn-gold { background: #FFD700; color: #1e293b; }
         .btn-sm { padding: 6px 14px; font-size: 13px; width: auto; }
@@ -27,12 +42,16 @@
         .member-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; flex-wrap: wrap; }
         .member-item .name { flex: 1; font-size: 15px; }
         .member-item .sub-members { font-size: 12px; color: #666; width: 100%; padding-left: 20px; }
+        body.dark .member-item .sub-members { color: #aaa; }
         .group-badge { background: #C5A059; color: white; font-size: 10px; padding: 2px 10px; border-radius: 30px; margin-right: 6px; }
         .hidden { display: none !important; }
         #status { padding: 10px; margin: 10px 0; border-radius: 8px; font-weight: bold; text-align: center; }
         .success { background: #d4edda; color: #155724; }
+        body.dark .success { background: #1a3a2a; color: #8fbc8f; }
         .error { background: #f8d7da; color: #721c24; }
+        body.dark .error { background: #3a1a1a; color: #f8a0a0; }
         .info { background: #cce5ff; color: #004085; }
+        body.dark .info { background: #1a2a3a; color: #8fbcff; }
         .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; flex-wrap: nowrap; }
         .tab-bar button { flex: 1; min-width: 45px; padding: 8px 4px; border: none; background: #e9ecef; border-radius: 30px; font-weight: 600; font-size: 10px; cursor: pointer; white-space: nowrap; }
         .tab-bar button.active { background: #2E7D32; color: white; }
@@ -57,9 +76,11 @@
         #firebaseStatus { margin-top: 10px; font-size: 12px; color: #888; text-align: center; }
         .wheel-container { position: relative; width: 100%; max-width: 320px; margin: 0 auto; }
         #wheelCanvas { width: 100%; aspect-ratio: 1/1; border-radius: 50%; background: #f0f0f0; }
+        body.dark #wheelCanvas { background: #1e1e2a; }
         .wheel-arrow { position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #FFD700; z-index: 5; line-height: 1; }
         .collection-summary { background: #fff; border-radius: 16px; padding: 16px 20px; margin: 12px 0; border-left: 6px solid #C5A059; }
         .collection-summary .total { font-size: 1.5rem; font-weight: 700; color: #2E7D32; }
+        body.dark .collection-summary .total { color: #FFD700; }
         .payout-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .history-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; }
         .chat-box { max-height: 200px; overflow-y: auto; background: #f8f9fa; padding: 12px; border-radius: 16px; margin: 8px 0; font-size: 14px; }
@@ -70,28 +91,19 @@
         .chitty-selector select { flex: 1; padding: 8px 12px; border-radius: 30px; border: 1px solid #ddd; }
         .chitty-selector .btn-add-chitty { background: #2E7D32; color: white; border: none; padding: 6px 14px; border-radius: 30px; font-weight: 700; cursor: pointer; }
         .admin-only { display: none; }
-        body.dark { background: #121212; color: #e2e8f0; }
-        body.dark .card { background: #1e1e2a; color: #e2e8f0; }
-        body.dark .chitty-selector { background: #1e1e2a; }
-        body.dark .collection-summary { background: #1e1e2a; }
-        body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
         
-        /* ============================================
-           LOGIN SCREEN - വലുതാക്കി
-           ============================================ */
+        /* Login Section - Large */
         #loginSection {
             padding: 30px 24px;
             max-width: 420px;
             margin: 20px auto;
             border-radius: 24px;
         }
-        
         #loginSection h2 {
             font-size: 2rem;
             margin-bottom: 20px;
             text-align: center;
         }
-        
         #loginSection input {
             padding: 16px 20px;
             font-size: 1.1rem;
@@ -100,20 +112,12 @@
             background: #f5f7fb;
             margin: 8px 0;
         }
-        
-        body.dark #loginSection input {
-            background: #2a2a3a;
-            border-color: #444;
-            color: #e2e8f0;
-        }
-        
         #loginSection .btn {
             padding: 16px;
             font-size: 1.2rem;
             border-radius: 50px;
             margin-top: 12px;
         }
-        
         #loginSection .login-error {
             font-size: 1rem;
             margin-top: 12px;
@@ -121,7 +125,6 @@
             text-align: center;
             min-height: 28px;
         }
-        
         @media (max-width: 480px) {
             #loginSection {
                 padding: 24px 16px;
@@ -208,7 +211,7 @@
             <div id="groupFields" class="hidden">
                 <input type="text" id="groupName" placeholder="ഗ്രൂപ്പ് പേര്">
                 <textarea id="subMembers" rows="3" placeholder="ഗ്രൂപ്പിൽ ഉള്ളവർ (ഓരോ വരിയിൽ ഒരു പേര്)"></textarea>
-                <input type="text" id="groupPhone" placeholder="📱 WhatsApp നമ്പർ">
+                <input type="text" id="groupPhone" placeholder="📱 WhatsApp നമ്പർ (ഗ്രൂപ്പ് കോൺടാക്റ്റ്)">
             </div>
 
             <button class="btn admin-only" id="addMemberBtn">✅ മെമ്പർ ചേർക്കുക</button>
@@ -555,20 +558,20 @@ document.getElementById('logoutBtn').addEventListener('click', function() {
 // ============================================================
 // TABS
 // ============================================================
-document.querySelectorAll('.tab-bar button').forEach(btn => {
-    btn.addEventListener('click', function() {
-        document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+document.querySelectorAll('.tab-bar button').forEach(b => {
+    b.addEventListener('click', function() {
+        document.querySelectorAll('.tab-bar button').forEach(x => x.classList.remove('active'));
         this.classList.add('active');
-        document.querySelectorAll('.card').forEach(c => c.classList.add('hidden'));
-        document.getElementById('tab-' + this.dataset.tab).classList.remove('hidden');
-        if (this.dataset.tab === 'draw') {
-            drawWheel(window.currentWheelRotation || 0);
-        }
-        if (this.dataset.tab === 'members') renderMembers();
+        document.querySelectorAll('.card').forEach(x => x.classList.add('hidden'));
+        const id = 'tab-' + this.dataset.tab;
+        document.getElementById(id).classList.remove('hidden');
         if (this.dataset.tab === 'payments') { renderPayments(); updateCollectionSummary(); }
         if (this.dataset.tab === 'payout') { renderPayouts(); populatePayoutMembers(); }
         if (this.dataset.tab === 'history') renderHistory();
+        if (this.dataset.tab === 'members') renderMembers();
+        if (this.dataset.tab === 'draw') { drawWheel(window.currentWheelRotation || 0); updateCounts(); }
         if (this.dataset.tab === 'rules') renderRules();
+        if (this.dataset.tab === 'chat') renderChat();
     });
 });
 
@@ -586,7 +589,7 @@ document.getElementById('memberType').addEventListener('change', function() {
 });
 
 // ============================================================
-// ADD MEMBER (Single & Group)
+// ADD MEMBER (Single & Group) - Group Contact Added
 // ============================================================
 document.getElementById('addMemberBtn').addEventListener('click', function() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
@@ -618,7 +621,7 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         // GROUP
         const groupName = document.getElementById('groupName').value.trim();
         const subText = document.getElementById('subMembers').value.trim();
-        const phone = document.getElementById('groupPhone').value.trim();
+        const groupPhone = document.getElementById('groupPhone').value.trim(); // Group Contact
         
         if (!groupName) { alert('ഗ്രൂപ്പ് പേര് നൽകുക'); return; }
         if (!subText) { alert('ഗ്രൂപ്പിൽ ഉള്ളവരുടെ പേരുകൾ നൽകുക'); return; }
@@ -633,7 +636,7 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         g.memberTypes[groupName] = {
             type: 'group',
             subMembers: subMembers,
-            phone: phone
+            phone: groupPhone  // Group Contact
         };
         
         document.getElementById('groupName').value = '';
@@ -644,7 +647,7 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
         saveData();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
-        showStatus('✅ ഗ്രൂപ്പ് "' + groupName + '" ചേർത്തു (' + subMembers.length + ' പേർ)', 'success');
+        showStatus('✅ ഗ്രൂപ്പ് "' + groupName + '" ചേർത്തു (' + subMembers.length + ' പേർ) 📱' + (groupPhone || ''), 'success');
     }
 });
 
@@ -698,7 +701,7 @@ document.getElementById('cancelBulkAdd').addEventListener('click', function() {
 document.getElementById('searchBox').addEventListener('input', renderMembers);
 
 // ============================================================
-// RENDER MEMBERS
+// RENDER MEMBERS - Group Contact Display
 // ============================================================
 function renderMembers() {
     const g = getG();
@@ -735,8 +738,11 @@ function renderMembers() {
         const eligClass = elig ? 'eligible' : 'ineligible';
         const eligText = elig ? '✅' : '❌';
         
+        // WhatsApp link for group contact
+        const whatsappLink = phone ? `<a href="https://wa.me/${phone}" target="_blank" style="color:#25D366;text-decoration:none;font-size:14px;">📱</a>` : '';
+        
         html += `<div class="member-item">
-            <span class="name">${i+1}. ${badge} ${m}${phoneDisplay}</span>
+            <span class="name">${i+1}. ${badge} ${m} ${whatsappLink} ${phoneDisplay}</span>
             <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
                 <button class="elig-btn ${eligClass}" onclick="toggleEligibility('${m}')">${eligText}</button>
                 <button class="delete-btn" onclick="deleteMember('${m}')">✕</button>
@@ -1196,6 +1202,23 @@ function showStatus(msg, type) {
         el.textContent = '';
         el.className = '';
     }, 3000);
+}
+
+// ============================================================
+// DARK MODE
+// ============================================================
+const dt = document.createElement('button');
+dt.textContent = '🌙';
+dt.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2E7D32;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+document.body.appendChild(dt);
+dt.addEventListener('click', ()=>{
+    document.body.classList.toggle('dark');
+    dt.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    localStorage.setItem('chittyDarkMode', document.body.classList.contains('dark') ? 'true' : 'false');
+});
+if (localStorage.getItem('chittyDarkMode') === 'true') {
+    document.body.classList.add('dark');
+    dt.textContent = '☀️';
 }
 
 // ============================================================
