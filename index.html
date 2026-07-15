@@ -33,7 +33,7 @@
         .error { background: #f8d7da; color: #721c24; }
         .info { background: #cce5ff; color: #004085; }
         .tab-bar { display: flex; gap: 6px; overflow-x: auto; padding: 8px 0; flex-wrap: nowrap; }
-        .tab-bar button { flex: 1; min-width: 50px; padding: 8px 6px; border: none; background: #e9ecef; border-radius: 30px; font-weight: 600; font-size: 11px; cursor: pointer; white-space: nowrap; }
+        .tab-bar button { flex: 1; min-width: 45px; padding: 8px 4px; border: none; background: #e9ecef; border-radius: 30px; font-weight: 600; font-size: 10px; cursor: pointer; white-space: nowrap; }
         .tab-bar button.active { background: #2E7D32; color: white; }
         .member-list { max-height: 300px; overflow-y: auto; }
         .search-box { width: 100%; padding: 10px 16px; border-radius: 30px; border: 1px solid #ddd; margin-bottom: 10px; font-size: 15px; }
@@ -69,6 +69,13 @@
         .chitty-selector select { flex: 1; padding: 8px 12px; border-radius: 30px; border: 1px solid #ddd; }
         .chitty-selector .btn-add-chitty { background: #2E7D32; color: white; border: none; padding: 6px 14px; border-radius: 30px; font-weight: 700; cursor: pointer; }
         .admin-only { display: none; }
+        body.dark { background: #121212; color: #e2e8f0; }
+        body.dark .card { background: #1e1e2a; color: #e2e8f0; }
+        body.dark .chitty-selector { background: #1e1e2a; }
+        body.dark .collection-summary { background: #1e1e2a; }
+        body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
+        .password-hint { font-size: 12px; color: #888; text-align: center; margin-top: 8px; }
+        .password-hint strong { color: #2E7D32; }
     </style>
 </head>
 <body>
@@ -82,8 +89,8 @@
         <input type="password" id="password" placeholder="പാസ്വേഡ് നൽകുക" autofocus>
         <button class="btn" id="loginBtn">പ്രവേശിക്കുക</button>
         <div id="loginError" style="color:red; margin-top:10px; text-align:center;"></div>
-        <div style="margin-top:10px; font-size:12px; color:#888; text-align:center;">
-            അഡ്മിൻ പാസ്വേഡ്: <strong>ma7hood</strong>
+        <div class="password-hint">
+            അഡ്മിൻ: <strong>ma7hood</strong> | മെമ്പർ: <strong>member123</strong>
         </div>
     </div>
 
@@ -280,6 +287,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// Anonymous Authentication
 firebase.auth().signInAnonymously()
     .then(() => {
         document.getElementById('status').textContent = '✅ Firebase Connected';
@@ -298,9 +306,12 @@ firebase.auth().signInAnonymously()
 // DATA
 // ============================================================
 const ADMIN_PASS = 'ma7hood';
+const MEMBER_PASS = 'member123';
 const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
 
 let isAdmin = false;
+let isMember = false;
+let isLoggedIn = false;
 let data = {
     chittyGroups: {
         'കുറി 1': {
@@ -435,12 +446,25 @@ function renderAll() {
 }
 
 // ============================================================
-// LOGIN
+// LOGIN (Admin & Member)
 // ============================================================
 document.getElementById('loginBtn').addEventListener('click', function() {
     const pass = document.getElementById('password').value.trim();
+    
     if (pass === ADMIN_PASS) {
         isAdmin = true;
+        isMember = false;
+        isLoggedIn = true;
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('appSection').classList.remove('hidden');
+        document.getElementById('loginError').textContent = '';
+        document.getElementById('password').value = '';
+        renderAll();
+        drawWheel(window.currentWheelRotation || 0);
+    } else if (pass === MEMBER_PASS) {
+        isMember = true;
+        isAdmin = false;
+        isLoggedIn = true;
         document.getElementById('loginSection').classList.add('hidden');
         document.getElementById('appSection').classList.remove('hidden');
         document.getElementById('loginError').textContent = '';
@@ -461,6 +485,8 @@ document.getElementById('password').addEventListener('keypress', function(e) {
 // ============================================================
 document.getElementById('logoutBtn').addEventListener('click', function() {
     isAdmin = false;
+    isMember = false;
+    isLoggedIn = false;
     document.getElementById('loginSection').classList.remove('hidden');
     document.getElementById('appSection').classList.add('hidden');
     document.getElementById('password').value = '';
@@ -885,7 +911,7 @@ function renderChat() {
 document.getElementById('sendChatBtn').addEventListener('click', ()=>{
     const text = document.getElementById('chatInput').value.trim();
     if (!text) return;
-    const user = isAdmin ? 'അഡ്മിൻ' : 'മെമ്പർ';
+    const user = isAdmin ? 'അഡ്മിൻ' : (isMember ? 'മെമ്പർ' : 'അതിഥി');
     data.chatLog.push({ user, text, time: Date.now() });
     saveData();
     renderChat();
