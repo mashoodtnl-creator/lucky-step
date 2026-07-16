@@ -76,22 +76,17 @@
         body.dark .collection-summary { background: #1e1e2a; }
         body.dark .modal-card { background: #1e1e2a; color: #e2e8f0; }
         
-        /* ============================================
-           LOGIN SCREEN - വലുതാക്കി
-           ============================================ */
         #loginSection {
             padding: 30px 24px;
             max-width: 420px;
             margin: 20px auto;
             border-radius: 24px;
         }
-        
         #loginSection h2 {
             font-size: 2rem;
             margin-bottom: 20px;
             text-align: center;
         }
-        
         #loginSection input {
             padding: 16px 20px;
             font-size: 1.1rem;
@@ -100,20 +95,17 @@
             background: #f5f7fb;
             margin: 8px 0;
         }
-        
         body.dark #loginSection input {
             background: #2a2a3a;
             border-color: #444;
             color: #e2e8f0;
         }
-        
         #loginSection .btn {
             padding: 16px;
             font-size: 1.2rem;
             border-radius: 50px;
             margin-top: 12px;
         }
-        
         #loginSection .login-error {
             font-size: 1rem;
             margin-top: 12px;
@@ -121,7 +113,6 @@
             text-align: center;
             min-height: 28px;
         }
-        
         @media (max-width: 480px) {
             #loginSection {
                 padding: 24px 16px;
@@ -157,14 +148,12 @@
 
     <!-- MAIN APP -->
     <div id="appSection" class="hidden">
-        <!-- Chitty Selector -->
         <div class="chitty-selector">
             <label>📂 ചിട്ടി:</label>
             <select id="chittySelector"></select>
             <button class="btn-add-chitty admin-only" onclick="addNewChitty()">➕</button>
         </div>
 
-        <!-- Tab Bar -->
         <div class="tab-bar">
             <button class="active" data-tab="home">🏠 Home</button>
             <button data-tab="members">📋 Members</button>
@@ -343,24 +332,8 @@ const firebaseConfig = {
     appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
 };
 
-// ============================================================
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-
-firebase.auth().signInAnonymously()
-    .then(() => {
-        document.getElementById('status').textContent = '✅ Firebase Connected';
-        document.getElementById('status').className = 'success';
-        document.getElementById('firebaseStatus').textContent = '✅ Connected: ' + new Date().toLocaleTimeString();
-        loadData();
-    })
-    .catch(err => {
-        document.getElementById('status').textContent = '❌ ' + err.message;
-        document.getElementById('status').className = 'error';
-        document.getElementById('firebaseStatus').textContent = '❌ Error: ' + err.message;
-        console.error('🔥 Firebase Error:', err);
-    });
 
 // ============================================================
 // DATA
@@ -408,6 +381,33 @@ function defaultData() {
         payouts: [],
         monthlyContribution: 500
     };
+}
+
+// ============================================================
+// LOCAL STORAGE - Instant Load
+// ============================================================
+function loadFromLocalStorage() {
+    const saved = localStorage.getItem('chittyManagerData');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (parsed.chittyGroups) {
+                data.chittyGroups = parsed.chittyGroups;
+                if (!data.chittyGroups[data.activeChitty]) {
+                    data.chittyGroups[data.activeChitty] = defaultData();
+                }
+                data.chatLog = parsed.chatLog || [];
+                data.rules = parsed.rules || '1. ഓരോ മാസവും ഒരു വിജയി\n2. അഡ്മിന് മാത്രം തിരുത്തൽ\n3. മാസ പ്രതിശ്രേണി 7-നകം';
+                renderAll();
+                checkLogin();
+                console.log('✅ Loaded from localStorage (instant)');
+                return true;
+            }
+        } catch(e) {
+            console.error('Error loading from localStorage:', e);
+        }
+    }
+    return false;
 }
 
 // ============================================================
@@ -464,7 +464,7 @@ function loadData() {
             }
             renderAll();
             drawWheel(window.currentWheelRotation || 0);
-            document.getElementById('firebaseStatus').textContent = '✅ Synced: ' + new Date().toLocaleTimeString();
+            document.getElementById('firebaseStatus').textContent = '✅ Synced';
         }
     });
     db.ref('chatLog').on('value', snap => {
@@ -483,6 +483,8 @@ function saveData() {
         db.ref('chittyGroups').set(data.chittyGroups);
         db.ref('chatLog').set(data.chatLog);
         db.ref('rules').set(data.rules);
+        localStorage.setItem('chittyManagerData', JSON.stringify(data));
+        console.log('✅ Data saved');
     }, 300);
 }
 
@@ -506,31 +508,36 @@ function renderAll() {
 }
 
 // ============================================================
-// LOGIN (Admin & Member)
+// LOGIN
 // ============================================================
+function checkLogin() {
+    if (isLoggedIn) {
+        document.getElementById('loginSection').classList.add('hidden');
+        document.getElementById('appSection').classList.remove('hidden');
+        document.getElementById('loginError').textContent = '';
+        renderAll();
+        drawWheel(window.currentWheelRotation || 0);
+    } else {
+        document.getElementById('loginSection').classList.remove('hidden');
+    }
+}
+
 document.getElementById('loginBtn').addEventListener('click', function() {
     const pass = document.getElementById('password').value.trim();
-    
     if (pass === ADMIN_PASS) {
         isAdmin = true;
         isMember = false;
         isLoggedIn = true;
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('appSection').classList.remove('hidden');
-        document.getElementById('loginError').textContent = '';
         document.getElementById('password').value = '';
-        renderAll();
-        drawWheel(window.currentWheelRotation || 0);
+        document.getElementById('loginError').textContent = '';
+        checkLogin();
     } else if (pass === MEMBER_PASS) {
         isMember = true;
         isAdmin = false;
         isLoggedIn = true;
-        document.getElementById('loginSection').classList.add('hidden');
-        document.getElementById('appSection').classList.remove('hidden');
-        document.getElementById('loginError').textContent = '';
         document.getElementById('password').value = '';
-        renderAll();
-        drawWheel(window.currentWheelRotation || 0);
+        document.getElementById('loginError').textContent = '';
+        checkLogin();
     } else {
         document.getElementById('loginError').textContent = '❌ തെറ്റായ പാസ്വേഡ്';
     }
@@ -540,9 +547,6 @@ document.getElementById('password').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') document.getElementById('loginBtn').click();
 });
 
-// ============================================================
-// LOGOUT
-// ============================================================
 document.getElementById('logoutBtn').addEventListener('click', function() {
     isAdmin = false;
     isMember = false;
@@ -586,47 +590,37 @@ document.getElementById('memberType').addEventListener('change', function() {
 });
 
 // ============================================================
-// ADD MEMBER (Single & Group)
+// ADD MEMBER
 // ============================================================
 document.getElementById('addMemberBtn').addEventListener('click', function() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
-    
     const type = document.getElementById('memberType').value;
     const g = getG();
-    
     if (type === 'single') {
         const name = document.getElementById('memberName').value.trim();
         const phone = document.getElementById('memberPhone').value.trim();
         if (!name) { alert('പേര് നൽകുക'); return; }
         if (g.members.includes(name)) { alert('"' + name + '" ഇതിനകം ഉണ്ട്'); return; }
-        
         g.members.push(name);
         g.eligibility[name] = true;
         g.payments[name] = [];
         g.memberTypes[name] = { type: 'single', phone: phone };
-        
         document.getElementById('memberName').value = '';
         document.getElementById('memberPhone').value = '';
-        
         data.chittyGroups[data.activeChitty] = g;
         saveData();
         renderAll();
         drawWheel(window.currentWheelRotation || 0);
         showStatus('✅ "' + name + '" ചേർത്തു', 'success');
-        
     } else {
-        // GROUP
         const groupName = document.getElementById('groupName').value.trim();
         const subText = document.getElementById('subMembers').value.trim();
         const phone = document.getElementById('groupPhone').value.trim();
-        
         if (!groupName) { alert('ഗ്രൂപ്പ് പേര് നൽകുക'); return; }
         if (!subText) { alert('ഗ്രൂപ്പിൽ ഉള്ളവരുടെ പേരുകൾ നൽകുക'); return; }
         if (g.members.includes(groupName)) { alert('"' + groupName + '" ഇതിനകം ഉണ്ട്'); return; }
-        
         const subMembers = subText.split('\n').map(s => s.trim()).filter(s => s);
         if (!subMembers.length) { alert('കുറഞ്ഞത് ഒരു പേരെങ്കിലും നൽകുക'); return; }
-        
         g.members.push(groupName);
         g.eligibility[groupName] = true;
         g.payments[groupName] = [];
@@ -635,11 +629,9 @@ document.getElementById('addMemberBtn').addEventListener('click', function() {
             subMembers: subMembers,
             phone: phone
         };
-        
         document.getElementById('groupName').value = '';
         document.getElementById('subMembers').value = '';
         document.getElementById('groupPhone').value = '';
-        
         data.chittyGroups[data.activeChitty] = g;
         saveData();
         renderAll();
@@ -656,14 +648,11 @@ document.getElementById('bulkAddBtn').addEventListener('click', function() {
     document.getElementById('bulkTextarea').value = '';
     document.getElementById('bulkAddModal').classList.remove('hidden');
 });
-
 document.getElementById('confirmBulkAdd').addEventListener('click', function() {
     const text = document.getElementById('bulkTextarea').value.trim();
     if (!text) { alert('ഒന്നും നൽകിയിട്ടില്ല'); return; }
-    
     const names = text.split('\n').map(s => s.trim()).filter(s => s);
     if (!names.length) { alert('സാധുവായ പേരുകൾ ഇല്ല'); return; }
-    
     const g = getG();
     let added = 0;
     names.forEach(n => {
@@ -675,7 +664,6 @@ document.getElementById('confirmBulkAdd').addEventListener('click', function() {
             added++;
         }
     });
-    
     if (added) {
         data.chittyGroups[data.activeChitty] = g;
         saveData();
@@ -687,7 +675,6 @@ document.getElementById('confirmBulkAdd').addEventListener('click', function() {
     }
     document.getElementById('bulkAddModal').classList.add('hidden');
 });
-
 document.getElementById('cancelBulkAdd').addEventListener('click', function() {
     document.getElementById('bulkAddModal').classList.add('hidden');
 });
@@ -704,7 +691,6 @@ function renderMembers() {
     const g = getG();
     const list = document.getElementById('memberList');
     const search = document.getElementById('searchBox').value.toLowerCase().trim();
-    
     let filtered = g.members;
     if (search) {
         filtered = g.members.filter(m => {
@@ -716,12 +702,10 @@ function renderMembers() {
             return m.toLowerCase().includes(search);
         });
     }
-    
     if (!filtered.length) {
         list.innerHTML = '<div style="color:#888; text-align:center; padding:20px;">മെമ്പർമാർ ഇല്ല</div>';
         return;
     }
-    
     let html = '';
     filtered.forEach((m, i) => {
         const mt = g.memberTypes[m] || { type: 'single', phone: '' };
@@ -734,7 +718,6 @@ function renderMembers() {
         const elig = g.eligibility[m] !== false;
         const eligClass = elig ? 'eligible' : 'ineligible';
         const eligText = elig ? '✅' : '❌';
-        
         html += `<div class="member-item">
             <span class="name">${i+1}. ${badge} ${m}${phoneDisplay}</span>
             <div style="display:flex; gap:4px; align-items:center; flex-wrap:wrap;">
@@ -918,19 +901,24 @@ document.getElementById('addPayoutBtn').addEventListener('click', ()=>{
 });
 
 // ============================================================
-// HISTORY
+// ✅ HISTORY (Winner List) - ശരിയാക്കി
 // ============================================================
 function renderHistory() {
     const g = getG();
     const w = g.winners || [];
     let html = '';
-    w.slice().reverse().forEach((ww, idx) => {
-        html += `<div class="history-item">
-            <span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>
-            ${isAdmin ? `<button onclick="removeWinner(${w.length-1-idx})" style="color:#c62828;border:none;background:none;cursor:pointer;">✕</button>` : ''}
-        </div>`;
-    });
-    document.getElementById('historyList').innerHTML = html || '<div style="color:#888;text-align:center;">ഇല്ല</div>';
+    if (w.length === 0) {
+        html = '<div style="color:#888;text-align:center;padding:20px;">ഇതുവരെ വിജയികൾ ഇല്ല</div>';
+    } else {
+        w.slice().reverse().forEach((ww, idx) => {
+            const monthName = MONTHS[ww.month] || ww.month;
+            html += `<div class="history-item">
+                <span>${monthName} ${ww.year} : ${ww.name}</span>
+                ${isAdmin ? `<button onclick="removeWinner(${w.length-1-idx})" style="color:#c62828;border:none;background:none;font-size:16px;cursor:pointer;">✕</button>` : ''}
+            </div>`;
+        });
+    }
+    document.getElementById('historyList').innerHTML = html;
 }
 
 window.removeWinner = function(idx) {
@@ -1027,7 +1015,7 @@ function drawWheel(rot) {
 }
 
 // ============================================================
-// SPIN
+// ✅ SPIN (പരിഹരിച്ചു)
 // ============================================================
 function getAllEligible() {
     const g = getG();
@@ -1035,7 +1023,11 @@ function getAllEligible() {
 }
 
 function spinToWinner(target) {
-    if (isSpinning) return;
+    if (!isAdmin) { alert('അഡ്മിൻ മാത്രം'); return; }
+    if (isSpinning) {
+        showStatus('⏳ സ്പിൻ പുരോഗമിക്കുന്നു...', 'info');
+        return;
+    }
     const eligible = getAllEligible();
     if (!eligible.length) {
         showStatus('❌ എലിജിബിൾ ആരുമില്ല', 'error');
@@ -1046,21 +1038,30 @@ function spinToWinner(target) {
     const members = getG().members;
     const startRot = window.currentWheelRotation || 0;
     const seg = (Math.PI*2)/members.length;
-    const idx = members.indexOf(winner);
-    let delta = -Math.PI/2 - (startRot + idx*seg + seg/2);
-    delta = ((delta%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-    const full = 12 + Math.floor(Math.random()*7);
-    const total = delta + full*Math.PI*2;
+    let idx = members.indexOf(winner);
+    if (idx === -1) {
+        winner = eligible[Math.floor(Math.random()*eligible.length)];
+        idx = members.indexOf(winner);
+        if (idx === -1) {
+            showStatus('❌ വിജയിയെ കണ്ടെത്താനായില്ല', 'error');
+            return;
+        }
+    }
+    let delta = -Math.PI/2 - (startRot + idx * seg + seg / 2);
+    delta = ((delta % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+    const full = 12 + Math.floor(Math.random() * 7);
+    const total = delta + full * Math.PI * 2;
     const targetRot = startRot + total;
     isSpinning = true;
     const dur = 5000, startTime = Date.now();
     
     function anim() {
-        const el = Date.now()-startTime, p = Math.min(el/dur,1);
-        const cur = startRot + total*p;
+        const el = Date.now() - startTime, p = Math.min(el / dur, 1);
+        const cur = startRot + total * p;
         drawWheel(cur);
-        if (p<1) requestAnimationFrame(anim);
-        else {
+        if (p < 1) {
+            requestAnimationFrame(anim);
+        } else {
             drawWheel(targetRot);
             window.currentWheelRotation = targetRot;
             
@@ -1077,6 +1078,8 @@ function spinToWinner(target) {
             data.chittyGroups[data.activeChitty] = g;
             saveData();
             renderHistory();
+            
+            // ✅ Spin reset
             isSpinning = false;
             manualTarget = null;
             
@@ -1093,6 +1096,10 @@ function spinToWinner(target) {
 
 function randomSpin() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
+    if (isSpinning) {
+        showStatus('⏳ സ്പിൻ പുരോഗമിക്കുന്നു...', 'info');
+        return;
+    }
     if (manualTarget) {
         spinToWinner(manualTarget);
         manualTarget = null;
@@ -1111,7 +1118,6 @@ document.getElementById('manualBtn').addEventListener('click', function() {
     if (!isAdmin) return alert('അഡ്മിൻ മാത്രം');
     const eligible = getAllEligible();
     if (!eligible.length) { alert('എലിജിബിൾ ആരുമില്ല'); return; }
-    
     const select = document.getElementById('manualSelect');
     select.innerHTML = '';
     eligible.forEach(m => {
@@ -1199,10 +1205,70 @@ function showStatus(msg, type) {
 }
 
 // ============================================================
-// INIT
+// DARK MODE
+// ============================================================
+const dt = document.createElement('button');
+dt.textContent = '🌙';
+dt.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#2E7D32;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);';
+document.body.appendChild(dt);
+dt.addEventListener('click', ()=>{
+    document.body.classList.toggle('dark');
+    dt.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    localStorage.setItem('chittyDarkMode', document.body.classList.contains('dark') ? 'true' : 'false');
+});
+if (localStorage.getItem('chittyDarkMode') === 'true') {
+    document.body.classList.add('dark');
+    dt.textContent = '☀️';
+}
+
+// ============================================================
+// WHATSAPP REMINDER
+// ============================================================
+const rb = document.createElement('button');
+rb.textContent = '📱 WhatsApp Reminder';
+rb.className = 'btn btn-outline';
+rb.style.marginTop = '10px';
+rb.addEventListener('click', ()=> {
+    const g = getG();
+    const lastWinner = g.winners && g.winners.length ? g.winners[g.winners.length-1].name : '';
+    if (lastWinner) {
+        const mt = g.memberTypes[lastWinner] || {};
+        const phone = mt.phone || '';
+        if (phone) {
+            window.open(`https://wa.me/${phone}?text=🎉 Congratulations! ${lastWinner} won the ${data.activeChitty} draw!`);
+        } else {
+            alert('📱 ഈ വിജയിക്ക് WhatsApp നമ്പർ ഇല്ല');
+        }
+    } else {
+        alert('📱 ഇതുവരെ വിജയി ഇല്ല');
+    }
+});
+document.querySelector('#tab-home .card:last-child').appendChild(rb);
+
+// ============================================================
+// ✅ INIT - Try localStorage first for instant load
 // ============================================================
 console.log('🚀 Mashood Chitty Manager Started');
 document.getElementById('firebaseStatus').textContent = '⏳ Loading...';
+
+// ✅ First try localStorage for instant load
+const loaded = loadFromLocalStorage();
+
+// ✅ Firebase auth (background)
+firebase.auth().signInAnonymously()
+    .then(() => {
+        console.log('✅ Firebase Connected');
+        document.getElementById('status').textContent = '✅ Firebase Connected';
+        document.getElementById('status').className = 'success';
+        document.getElementById('firebaseStatus').textContent = '✅ Connected';
+        loadData();
+    })
+    .catch(err => {
+        console.error('❌ Firebase Error:', err);
+        document.getElementById('status').textContent = '❌ ' + err.message;
+        document.getElementById('status').className = 'error';
+        document.getElementById('firebaseStatus').textContent = '❌ Error: ' + err.message;
+    });
 </script>
 </body>
 </html>
