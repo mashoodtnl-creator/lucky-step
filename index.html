@@ -1,92 +1,68 @@
 <!DOCTYPE html>
 <html lang="ml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mashood · Chitty Manager - FIXED</title>
-    <style>
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Segoe UI',system-ui,sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px;min-height:100vh}
-        .container{max-width:480px;margin:0 auto;padding:16px}
-        #splash{position:fixed;inset:0;background:linear-gradient(145deg,#1b5e20,#2E7D32);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;color:#fff;text-align:center;transition:opacity .8s}
-        #splash.hide{opacity:0;pointer-events:none}
-        .logo{width:120px;height:120px;border-radius:50%;border:5px solid #FFD700;background:#fff;display:flex;align-items:center;justify-content:center;font-size:3rem;font-weight:900;color:#2E7D32;margin-bottom:15px}
-        #loginOverlay{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;z-index:9998;padding:20px}
-        #loginOverlay.hidden{opacity:0;pointer-events:none}
-        .login-card{background:#fff;border-radius:30px;padding:30px 20px;max-width:360px;width:100%;text-align:center}
-        .login-card input{width:100%;padding:14px;border-radius:30px;border:2px solid #ddd;margin:8px 0;font-size:1rem}
-        .btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:600;width:100%;margin:6px 0;cursor:pointer}
-        .btn-outline{background:transparent;border:2px solid #2E7D32;color:#2E7D32}
-        .btn-danger{background:#c62828}
-        .btn-gold{background:#FFD700;color:#1e293b}
-        .btn-sm{padding:6px 12px;font-size:.8rem;width:auto}
-        .hidden{display:none!important}
-        .status-bar{padding:10px 12px;border-radius:12px;text-align:center;font-size:13px;margin-bottom:12px;font-weight:700}
-        .status-bar.connecting{background:#e7f3ff;color:#004085}
-        .status-bar.live{background:#d1fae5;color:#065f46}
-        .status-bar.error{background:#fee2e2;color:#991b1b}
-        .card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-        .tab-bar{display:flex;gap:4px;overflow-x:auto;padding:6px;background:#fff;border-radius:30px;margin-bottom:12px;position:sticky;top:0;z-index:10}
-        .tab-bar button{flex:1;padding:8px 6px;border:none;background:transparent;font-weight:600;font-size:.7rem;border-radius:20px;white-space:nowrap}
-        .tab-bar button.active{background:#2E7D32;color:#fff}
-        .winner-display{font-size:2.2rem;font-weight:800;color:#2E7D32;text-align:center;padding:15px 0;min-height:70px}
-        #wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0}
-        .wheel-container{position:relative;max-width:320px;margin:auto}
-        .wheel-arrow{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:32px;color:#FFD700}
-        .member-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #eee;flex-wrap:wrap;gap:6px}
-        .status-badge{font-size:.7rem;padding:4px 10px;border-radius:20px;cursor:pointer;font-weight:600}
-        .paid,.eligible{background:#2E7D32;color:#fff}.pending,.overdue{background:#c62828;color:#fff}.ineligible{background:#888;color:#fff}
-        .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-        .modal-card{background:#fff;border-radius:20px;padding:20px;max-width:360px;width:100%}
-        .modal-card input,.modal-card select,.modal-card textarea{width:100%;padding:12px;border-radius:20px;border:1px solid #ddd;margin:8px 0}
-        .admin-only{display:none}
-        .collection-summary{background:#f8f6f0;border-radius:16px;padding:12px 16px;border-left:5px solid #C5A059;margin:10px 0}
-        .collection-summary .total{font-size:1.6rem;font-weight:700;color:#2E7D32}
-        .chitty-selector{display:flex;gap:8px;background:#fff;padding:10px 14px;border-radius:30px;margin-bottom:12px;align-items:center}
-        .chitty-selector select{flex:1;padding:8px 12px;border-radius:20px;border:1px solid #ddd}
-        .chat-box{max-height:200px;overflow-y:auto;background:#f5f5f5;padding:10px;border-radius:12px;margin:8px 0;font-size:.9rem}
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashood Chitty - ULTRA FIX</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:sans-serif;background:#f5f7fb;padding-bottom:80px}
+.container{max-width:480px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.btn{background:#2E7D32;color:#fff;border:none;padding:14px;border-radius:30px;width:100%;font-weight:700;margin:6px 0;cursor:pointer;font-size:1rem}
+.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}
+.btn-danger{background:#c62828}
+.status{padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:12px}
+.live{background:#d1fae5;color:#065f46}.error{background:#fee2e2;color:#991b1b}.local{background:#fef3c7;color:#92400e}
+input,select,textarea{width:100%;padding:14px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem}
+.member-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee}
+#wheelCanvas{width:100%;aspect-ratio:1;border-radius:50%;background:#eee}
+.tab-bar{display:flex;gap:4px;background:#fff;border-radius:30px;padding:6px;margin-bottom:12px;overflow:auto}
+.tab-bar button{flex:1;padding:10px;border:none;background:transparent;font-weight:700;border-radius:20px}
+.tab-bar button.active{background:#2E7D32;color:#fff}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:360px}
+</style>
 </head>
 <body>
-<div id="splash"><div class="logo">M</div><h1>മഷൂദ് കുറിയിൽ</h1><p>ചിട്ടി മാനേജ്മെന്റ്</p></div>
-<div id="loginOverlay">
-<div class="login-card">
-<h2>🔐 ലോഗിൻ</h2>
-<input type="password" id="loginPassword" placeholder="പാസ്വേഡ് നൽകുക">
-<button class="btn" id="loginBtn">പ്രവേശിക്കുക</button>
-<div id="loginError" style="color:#c62828;font-size:.9rem;margin-top:8px;min-height:20px"></div>
-</div>
-</div>
-
 <div class="container">
-<div id="statusBar" class="status-bar connecting">🔄 Connecting to Firebase...</div>
-<div class="chitty-selector"><label style="font-weight:700;color:#2E7D32">📂</label><select id="chittySelector"></select><button class="admin-only" onclick="addNewChitty()" style="padding:6px 12px;border-radius:20px;border:none;background:#2E7D32;color:#fff">➕</button></div>
+<div id="status" class="status local">⏳ Loading...</div>
+<div style="background:#fff;padding:10px;border-radius:20px;margin-bottom:12px;display:flex;gap:8px;align-items:center">
+<strong id="groupName">കുറി 1</strong><span id="memberCountBadge" style="background:#2E7D32;color:#fff;padding:4px 10px;border-radius:20px;font-size:.8rem">0 Members</span>
+</div>
 
 <div class="tab-bar">
-<button class="active" data-tab="home">Home</button>
-<button data-tab="members">Members</button>
-<button data-tab="payments">💰 Pay</button>
-<button data-tab="payout">Payout</button>
+<button class="active" data-tab="members">Members</button>
 <button data-tab="draw">Draw</button>
+<button data-tab="pay">Pay</button>
 <button data-tab="history">History</button>
-<button data-tab="chat">Chat</button>
-<button data-tab="rules">Rules</button>
 </div>
 
-<div id="tab-home" class="tab-content"><div class="card"><h3>🏆 ഇന്നത്തെ വിജയി</h3><div class="winner-display" id="todayWinner">—</div><button class="btn admin-only" id="spinWheelBtn">🎡 വീൽ കറക്കുക</button></div><div class="card"><h3>📊 മാസ വിജയികൾ</h3><select id="monthSelect" style="width:100%;padding:10px;border-radius:20px;margin:6px 0"></select><ul id="monthWinnerList" style="list-style:none;padding:0"></ul></div></div>
-<div id="tab-members" class="tab-content hidden"><div class="card"><h3>📋 മെമ്പർമാർ (Eligible: <span id="eligibleCount">0</span>)</h3><div id="memberListContainer"></div></div><div class="card admin-only"><button class="btn btn-outline" id="addMemberBtn">+ മെമ്പർ ചേർക്കുക</button><button class="btn btn-outline" id="bulkAddBtn">📋 Bulk Add</button><button class="btn btn-outline" id="makeAllEligibleBtn">✅ എല്ലാവരെയും Eligible</button><button class="btn btn-danger" id="adminLogoutBtn">🚪 Logout</button></div></div>
-<div id="tab-payments" class="tab-content hidden"><div class="card"><div class="collection-summary"><div>കളക്ഷൻ: <span class="total" id="monthlyTotal">₹ 0</span></div><div style="font-size:.85rem">Total: <span id="totalMembersCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div><div style="font-size:.85rem">തുക: ₹<span id="contributionAmount">500</span></div></div></div><div class="card"><h3>📋 Payment List</h3><div id="paymentListContainer"></div></div><div class="card admin-only"><input type="number" id="contributionInput" placeholder="പുതിയ തുക"><button class="btn btn-outline" id="setContributionBtn">Update തുക</button></div></div>
-<div id="tab-payout" class="tab-content hidden"><div class="card"><div class="collection-summary"><div>Payout: <span class="total" id="totalPayout">₹ 0</span></div><div>Winners: <span id="winnerCount">0</span></div></div></div><div class="card"><div id="payoutListContainer"></div></div><div class="card admin-only"><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="തുക"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayoutBtn">➕ Payout ചേർക്കുക</button></div></div>
-<div id="tab-draw" class="tab-content hidden"><div class="card"><h3>🎰 വീൽ</h3><div class="wheel-container"><div class="wheel-arrow">▼</div><canvas id="wheelCanvas" width="400" height="400"></canvas></div><div class="winner-display" id="drawWinnerDisplay">—</div><button class="btn admin-only" id="spinDrawBtn">🔄 Spin</button><div style="display:flex;justify-content:space-between;font-size:.85rem;margin:6px 0"><span>Eligible: <span id="drawEligibleCount">0</span></span><span>Total: <span id="drawTotalCount">0</span></span></div><button class="btn btn-outline admin-only" id="manualWinnerBtn">👤 Manual</button><button class="btn btn-danger admin-only" id="removeWinnerBtn">🗑 Remove Last</button><button class="btn btn-outline admin-only" id="shuffleWheelBtn">🔀 Shuffle</button></div></div>
-<div id="tab-history" class="tab-content hidden"><div class="card"><h3>📜 വിജയികൾ</h3><div id="historyList"></div><button class="btn btn-outline" id="exportCSV">📥 CSV Download</button></div></div>
-<div id="tab-chat" class="tab-content hidden"><div class="card"><h3>💬 Chat</h3><div id="chatMessages" class="chat-box"></div><input type="text" id="chatInput" placeholder="സന്ദേശം..."><button class="btn" id="sendChatBtn">അയക്കുക</button></div></div>
-<div id="tab-rules" class="tab-content hidden"><div class="card"><h3>📜 നിയമങ്ങൾ</h3><div id="rulesDisplay" style="white-space:pre-wrap"></div><div class="admin-only" style="margin-top:12px"><textarea id="rulesEdit" rows="6"></textarea><button class="btn btn-gold" id="saveRulesBtn">💾 Save Rules</button></div></div></div>
+<div id="tab-members" class="tab">
+<div class="card"><h3>📋 മെമ്പർമാർ</h3><div id="memberList"></div></div>
+<div class="card">
+<input id="newName" placeholder="പേര് എഴുതുക (ഉദാ: രമേഷ്)">
+<input id="newPhone" placeholder="📱 ഫോൺ (Optional)">
+<button class="btn" id="addBtn">✅ ADD MEMBER - ഇപ്പോൾ ചേർക്കുക</button>
+<div id="addMsg" style="text-align:center;margin-top:8px;font-weight:700"></div>
+</div>
+<div class="card">
+<button class="btn btn-outline" onclick="makeAllEligible()">✅ എല്ലാവരെയും Eligible ആക്കുക</button>
+<button class="btn btn-danger" onclick="clearAll()">🗑 എല്ലാം Delete ചെയ്യുക</button>
+</div>
 </div>
 
-<div id="addModal" class="modal hidden"><div class="modal-card"><h3>➕ മെമ്പർ</h3><input id="newMemberName" placeholder="പേര്"><input id="newMemberPhone" placeholder="📱 WhatsApp"><button class="btn" id="confirmAddBtn">✅ ചേർക്കുക</button><button class="btn btn-outline" id="cancelAddBtn">Cancel</button></div></div>
-<div id="bulkAddModal" class="modal hidden"><div class="modal-card"><h3>Bulk Add</h3><textarea id="bulkTextarea" rows="6" placeholder="ഒരു വരിയിൽ ഒരു പേര്"></textarea><button class="btn" id="confirmBulkAdd">Add</button><button class="btn btn-outline" id="cancelBulkAdd">Cancel</button></div></div>
-<div id="manualModal" class="modal hidden"><div class="modal-card"><h3>Manual Winner</h3><select id="manualWinnerSelect"></select><button class="btn" id="confirmManualWinner">Select & Spin</button><button class="btn btn-outline" id="cancelManualWinner">Cancel</button></div></div>
-<div id="removeModal" class="modal hidden"><div class="modal-card"><h3>Last winner ineligible ആക്കണോ?</h3><div style="display:flex;gap:10px"><button class="btn btn-danger" id="confirmRemoveWinner">Yes</button><button class="btn btn-outline" id="cancelRemoveWinner">No</button></div></div></div>
+<div id="tab-draw" class="tab hidden">
+<div class="card"><h3>🎰 വീൽ</h3><canvas id="wheelCanvas" width="400" height="400"></canvas><div id="winnerName" style="text-align:center;font-size:2rem;font-weight:800;color:#2E7D32;padding:10px">—</div><button class="btn" id="spinBtn">🎡 SPIN & SELECT WINNER</button></div>
+</div>
+
+<div id="tab-pay" class="tab hidden"><div class="card"><h3>💰 Payments</h3><div id="payList"></div></div></div>
+<div id="tab-history" class="tab hidden"><div class="card"><h3>📜 Winners</h3><div id="historyList"></div></div></div>
+
+<div class="card" style="background:#e7f3ff"><strong>🔧 Fix Status:</strong><div id="debug" style="font-size:.8rem;margin-top:6px;white-space:pre-wrap"></div>
+<button class="btn btn-outline" onclick="testFirebase()">🧪 Firebase Test ചെയ്യുക</button>
+<a href="https://console.firebase.google.com/project/mashood-kuri/database/mashood-kuri-default-rtdb/rules" target="_blank" class="btn" style="display:block;text-align:center;text-decoration:none">🔓 Rules True ആക്കാൻ ക്ലിക്ക്</a>
+</div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -102,223 +78,264 @@ const firebaseConfig = {
   appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-// FIXED: Using simple path without issues
-const dbRef = ref(db, 'mashood_chitty_final');
+let db=null, dbRef=null;
+try{
+  const app = initializeApp(firebaseConfig);
+  db = getDatabase(app);
+  dbRef = ref(db, 'mashood_chitty_FINAL_LIVE');
+  console.log('Firebase initialized');
+}catch(e){ console.error('Firebase init failed', e); }
 
-const MONTHS = ['ജനുവരി','ഫെബ്രുവരി','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗസ്റ്റ്','സെപ്റ്റംബർ','ഒക്ടോബർ','നവംബർ','ഡിസംബർ'];
-function defaultData(){ return { members: [], winners: [], paymentStatus: {}, eligibility: {}, monthlyContribution: 500, payments: {}, memberTypes: {}, payouts: [] }; }
+let data = { members: [], winners: [], eligibility: {}, payments: {} };
+let firebaseConnected = false;
 
-let data = {
-  chittyGroups: { 'കുറി 1': defaultData(), 'കുറി 2': defaultData(), 'കുറി 3': defaultData() },
-  activeChitty: 'കുറി 1',
-  chatLog: [],
-  rules: '1. ഓരോ മാസവും ഒരു വിജയി\n2. അഡ്മിന് മാത്രം തിരുത്തൽ\n3. മാസ പ്രതിശ്രേണി 7-നകം'
-};
+function loadLocal(){
+  try{
+    const local = localStorage.getItem('mashood_chitty_local');
+    if(local){
+      const parsed = JSON.parse(local);
+      if(parsed && parsed.members) {
+        data = parsed;
+        console.log('Loaded from localStorage', data);
+        return true;
+      }
+    }
+  }catch(e){}
+  return false;
+}
 
-let isAdmin=false, isLoggedIn=false, isSpinning=false;
-let currentMonth=new Date().getMonth(), currentYear=new Date().getFullYear();
-let manualTarget=null;
-let isInitialLoad=true;
-const $=id=>document.getElementById(id);
+function saveLocal(){
+  try{
+    localStorage.setItem('mashood_chitty_local', JSON.stringify(data));
+    console.log('Saved to localStorage', data.members.length);
+    return true;
+  }catch(e){ console.error('localStorage save failed', e); return false; }
+}
 
-setTimeout(()=>{ $('splash').classList.add('hide'); },1200);
-
-// FIXED: Robust Firebase Sync
-onValue(dbRef, (snap)=>{
-  const val=snap.val();
-  if(val){
-    data=val;
-    // Ensure structure exists
-    if(!data.chittyGroups) data.chittyGroups={'കുറി 1':defaultData()};
-    if(!data.activeChitty) data.activeChitty='കുറി 1';
-    if(!data.chatLog) data.chatLog=[];
-    if(!data.rules) data.rules='1. ഓരോ മാസവും ഒരു വിജയി';
-    
-    $('statusBar').className='status-bar live';
-    $('statusBar').innerHTML='✅ Live - '+data.activeChitty+' | Members: '+(data.chittyGroups[data.activeChitty]?.members?.length||0)+' | Saved in Cloud';
-    console.log('Data loaded from Firebase:', data);
-  } else {
-    // First time - save default data
-    console.log('No data in Firebase, saving default');
-    saveData();
-    $('statusBar').className='status-bar live';
-    $('statusBar').innerHTML='✅ Ready - First time setup done';
+function updateStatus(){
+  const s = document.getElementById('status');
+  const d = document.getElementById('debug');
+  const count = data.members.length;
+  document.getElementById('memberCountBadge').textContent = count + ' Members';
+  
+  let statusText = '';
+  if(firebaseConnected){
+    statusText = `✅ LIVE - Cloud-ൽ Save ആയി | ${count} members | എല്ലാ ഫോണിലും കാണും`;
+    s.className = 'status live';
+  }else{
+    statusText = `⚠️ LOCAL MODE - ഇപ്പോൾ ഫോണിൽ മാത്രം Save ആയി | ${count} members | Firebase Rules True ആക്കിയാൽ Live ആവും`;
+    s.className = 'status local';
   }
-  renderChittySelector();
-  if(isLoggedIn){
-    renderAll();
-    drawWheel(window.currentWheelRotation||0);
-  }
-  isInitialLoad=false;
-}, (error)=>{
-  $('statusBar').className='status-bar error';
-  $('statusBar').innerHTML='❌ Firebase Error: Rules true ആക്കണം!<br>Error: '+error.message+'<br><a href="https://console.firebase.google.com/project/mashood-kuri/database/mashood-kuri-default-rtdb/rules" target="_blank" style="color:white;text-decoration:underline">Rules തുറക്കാൻ ക്ലിക്ക് ചെയ്യുക</a>';
-  console.error('Firebase error:', error);
-  // Fallback to localStorage if Firebase fails
-  const local = localStorage.getItem('chitty_backup');
-  if(local){
-    try{ data=JSON.parse(local); renderChittySelector(); renderAll(); }catch(e){}
-  }
-});
+  s.textContent = statusText;
+  
+  d.textContent = `Members: ${JSON.stringify(data.members)}\nFirebase: ${firebaseConnected?'Connected':'Not Connected'}\nLocal: ${loadLocal()?'Found':'Empty'}\nLast Save: ${new Date().toLocaleTimeString()}`;
+}
 
 function saveData(){
-  // Always backup to localStorage also
-  try{ localStorage.setItem('chitty_backup', JSON.stringify(data)); }catch(e){}
+  // ALWAYS save to local first - this never fails
+  saveLocal();
   
-  // Save to Firebase
-  set(dbRef, data).then(()=>{
-    console.log('Saved to Firebase successfully');
-    $('statusBar').className='status-bar live';
-    const count = data.chittyGroups[data.activeChitty]?.members?.length||0;
-    $('statusBar').innerHTML='✅ Saved to Cloud - '+data.activeChitty+' | '+count+' members | '+new Date().toLocaleTimeString();
-    setTimeout(()=>{
-      if($('statusBar').className.includes('live')){
-        $('statusBar').innerHTML='✅ Live - '+data.activeChitty+' | '+count+' members';
+  // Try to save to Firebase
+  if(dbRef){
+    set(dbRef, data).then(()=>{
+      firebaseConnected = true;
+      updateStatus();
+      console.log('Firebase save OK');
+    }).catch((err)=>{
+      console.error('Firebase save failed', err);
+      firebaseConnected = false;
+      updateStatus();
+      document.getElementById('status').className='status error';
+      document.getElementById('status').innerHTML = `❌ Firebase Save Failed: ${err.message}<br>Rules True ആക്കണം: <a href="https://console.firebase.google.com/project/mashood-kuri/database/mashood-kuri-default-rtdb/rules" target="_blank" style="color:white">Click Here</a><br>എന്നാലും Local-ൽ Save ആയിട്ടുണ്ട്!`;
+    });
+  }else{
+    updateStatus();
+  }
+  renderAll();
+}
+
+// Load
+loadLocal();
+updateStatus();
+renderAll();
+
+// Firebase listener
+if(dbRef){
+  onValue(dbRef, (snap)=>{
+    const val = snap.val();
+    if(val && val.members && val.members.length > data.members.length){
+      // Only overwrite if cloud has more data than local (to avoid losing local when offline)
+      if(!loadLocal() || val.members.length >= JSON.parse(localStorage.getItem('mashood_chitty_local')||'{"members":[]}').members.length){
+        data = val;
+        if(!data.eligibility) data.eligibility={};
+        if(!data.winners) data.winners=[];
+        if(!data.payments) data.payments={};
+        saveLocal();
+        console.log('Loaded from Firebase, more data found');
       }
-    },2000);
-  }).catch((error)=>{
-    console.error('Save failed:', error);
-    $('statusBar').className='status-bar error';
-    $('statusBar').innerHTML='❌ Save Failed: '+error.message+'<br>Rules true ആക്കുക: <a href="https://console.firebase.google.com/project/mashood-kuri/database/mashood-kuri-default-rtdb/rules" target="_blank">Click here</a>';
+    }else if(val && !loadLocal()){
+      data = val;
+      if(!data.eligibility) data.eligibility={};
+      if(!data.winners) data.winners=[];
+      if(!data.payments) data.payments={};
+      saveLocal();
+    }
+    firebaseConnected = true;
+    updateStatus();
+    renderAll();
+    drawWheel(0);
+  }, (err)=>{
+    console.error('Firebase read error', err);
+    firebaseConnected = false;
+    updateStatus();
   });
 }
 
-function getG(){ return data.chittyGroups[data.activeChitty] || data.chittyGroups['കുറി 1']; }
-function initGroup(gk){ const g=data.chittyGroups[gk]; if(!g) return; if(!g.eligibility) g.eligibility={}; if(!g.payments) g.payments={}; if(!g.memberTypes) g.memberTypes={}; if(!g.payouts) g.payouts=[]; if(!g.monthlyContribution) g.monthlyContribution=500; if(!g.winners) g.winners=[]; g.members.forEach(m=>{ if(!(m in g.eligibility)) g.eligibility[m]=true; if(!(m in g.payments)) g.payments[m]=[]; if(!(m in g.memberTypes)) g.memberTypes[m]={type:'single',phone:''}; }); }
-
-function renderChittySelector(){
-  const sel=$('chittySelector'); sel.innerHTML='';
-  Object.keys(data.chittyGroups).forEach(k=>{
-    const o=document.createElement('option'); o.value=k; o.textContent=k;
-    if(k===data.activeChitty) o.selected=true;
-    sel.appendChild(o);
+function renderAll(){
+  const list = document.getElementById('memberList');
+  const payList = document.getElementById('payList');
+  const histList = document.getElementById('historyList');
+  
+  if(!data.members.length){
+    list.innerHTML='<div style="text-align:center;color:#888;padding:20px">ഇതുവരെ മെമ്പർ ഇല്ല<br>താഴെ പേര് എഴുതി ADD അടിക്കൂ</div>';
+  }else{
+    let html='';
+    data.members.forEach((m,i)=>{
+      const elig = data.eligibility[m]!==false;
+      html+=`<div class="member-row"><span>${i+1}. ${m} ${elig?'✅':'❌'}</span><div><button onclick="toggleElig('${m}')" style="padding:4px 8px;border-radius:10px;border:1px solid #ddd;background:${elig?'#d1fae5':'#fee2e2'}">${elig?'Eligible':'Ineligible'}</button><button onclick="deleteMember('${m}')" style="margin-left:6px;color:#c62828;border:none;background:none;font-size:1.2rem">✕</button></div></div>`;
+    });
+    list.innerHTML=html;
+  }
+  
+  // Payments
+  let phtml='';
+  data.members.forEach(m=>{
+    const paid = data.payments[m]||false;
+    phtml+=`<div class="member-row"><span>${m}</span><span onclick="togglePay('${m}')" style="cursor:pointer;background:${paid?'#d1fae5':'#fee2e2'};padding:4px 10px;border-radius:20px">${paid?'Paid':'Pending'}</span></div>`;
   });
+  payList.innerHTML=phtml||'ഇല്ല';
+  
+  // History
+  let hhtml='';
+  data.winners.slice().reverse().forEach(w=>{ hhtml+=`<div class="member-row"><span>${w}</span><span>${new Date().toLocaleDateString()}</span></div>`; });
+  histList.innerHTML=hhtml||'ഇല്ല';
+  
+  updateStatus();
+  drawWheel(window.currentRot||0);
 }
-$('chittySelector').addEventListener('change',function(){ if(this.value && data.chittyGroups[this.value]){ data.activeChitty=this.value; saveData(); renderAll(); drawWheel(window.currentWheelRotation||0); } });
-window.addNewChitty=()=>{ if(!isAdmin) return alert('Admin only'); const name=prompt('പുതിയ ചിട്ടി പേര്:'); if(name && name.trim() && !data.chittyGroups[name.trim()]){ data.chittyGroups[name.trim()]=defaultData(); data.activeChitty=name.trim(); saveData(); } };
 
-$('loginBtn').addEventListener('click',()=>{
-  const p=$('loginPassword').value.trim();
-  if(p==='ma7hood'){ isAdmin=true; isLoggedIn=true; $('loginError').textContent=''; $('loginPassword').value=''; $('loginOverlay').classList.add('hidden'); document.querySelectorAll('.admin-only').forEach(el=>el.style.display='block'); renderAll(); drawWheel(0); }
-  else if(p==='member123'){ isAdmin=false; isLoggedIn=true; $('loginError').textContent=''; $('loginPassword').value=''; $('loginOverlay').classList.add('hidden'); document.querySelectorAll('.admin-only').forEach(el=>el.style.display='none'); renderAll(); drawWheel(0); }
-  else { $('loginError').textContent='❌ തെറ്റായ പാസ്വേഡ്'; }
+window.toggleElig = function(m){
+  data.eligibility[m] = !data.eligibility[m];
+  saveData();
+}
+window.deleteMember = function(m){
+  if(!confirm(m+' Delete ചെയ്യണോ?')) return;
+  data.members = data.members.filter(x=>x!==m);
+  delete data.eligibility[m];
+  delete data.payments[m];
+  saveData();
+}
+window.togglePay = function(m){
+  data.payments[m] = !data.payments[m];
+  saveData();
+}
+window.makeAllEligible = function(){
+  data.members.forEach(m=>data.eligibility[m]=true);
+  saveData();
+  alert('എല്ലാവരും Eligible ആയി!');
+}
+window.clearAll = function(){
+  if(!confirm('എല്ലാ Members Delete ചെയ്യണോ?')) return;
+  data = { members: [], winners: [], eligibility: {}, payments: {} };
+  saveData();
+}
+
+document.getElementById('addBtn').addEventListener('click', function(){
+  const nameInput = document.getElementById('newName');
+  const phoneInput = document.getElementById('newPhone');
+  const msg = document.getElementById('addMsg');
+  const name = nameInput.value.trim();
+  
+  if(!name){
+    msg.style.color='#c62828';
+    msg.textContent='❌ പേര് എഴുതൂ!';
+    nameInput.style.borderColor='#c62828';
+    return;
+  }
+  if(data.members.includes(name)){
+    msg.style.color='#c62828';
+    msg.textContent='❌ '+name+' നേരത്തെ ഉണ്ട്!';
+    return;
+  }
+  
+  // ADD NOW - No waiting for Firebase
+  data.members.push(name);
+  data.eligibility[name]=true;
+  data.payments[name]=false;
+  
+  // Save immediately
+  saveData();
+  
+  // Clear and show success
+  nameInput.value='';
+  phoneInput.value='';
+  msg.style.color='#2E7D32';
+  msg.textContent='✅ '+name+' Added! Total: '+data.members.length;
+  nameInput.style.borderColor='#ddd';
+  
+  setTimeout(()=>{ msg.textContent=''; },3000);
+  
+  console.log('Member added:', name, 'Total:', data.members.length);
 });
-$('loginPassword').addEventListener('keypress',e=>{ if(e.key==='Enter') $('loginBtn').click(); });
-$('adminLogoutBtn').addEventListener('click',()=>{ isLoggedIn=false; isAdmin=false; $('loginOverlay').classList.remove('hidden'); });
 
-function renderAll(){ const g=getG(); if(!g) return; initGroup(data.activeChitty); renderMembers(); renderMonthSelect(); renderHistory(); renderChat(); renderPayments(); renderPayouts(); updateCollectionSummary(); updateEligibleCounts(); renderRules(); }
-function updateEligibleCounts(){ const g=getG(); const eligible=g.members.filter(m=>g.eligibility[m]!==false); $('eligibleCount').textContent=eligible.length; $('drawEligibleCount').textContent=eligible.length; $('drawTotalCount').textContent=g.members.length; }
-
-function renderMembers(){
-  const g=getG(); const now=new Date(); const month=now.getMonth(), year=now.getFullYear(); let html='';
-  g.members.forEach((m,i)=>{
-    const mt=g.memberTypes[m]||{type:'single',phone:''}; const phone=mt.phone||'';
-    const paid=(g.payments[m]||[]).some(p=>p.month===month && p.year===year);
-    const statusClass=paid?'paid':(new Date()>new Date(year,month,7)?'overdue':'pending');
-    const statusText=paid?'Paid':(statusClass==='overdue'?'Overdue':'Pending');
-    const elig=g.eligibility[m]!==false; const eligClass=elig?'eligible':'ineligible'; const eligText=elig?'✅ Eligible':'❌ Ineligible';
-    const phoneDisplay=phone?`<a href="https://wa.me/${phone}" target="_blank" style="color:#25D366;text-decoration:none">📱</a>`:'';
-    const payBtn=isAdmin?`<button class="btn btn-sm btn-gold pay-btn" data-member="${m}">💳 Pay</button>`:'';
-    const delBtn=isAdmin?`<span class="delete-member" data-member="${m}" style="color:#c62828;font-weight:bold;cursor:pointer;margin-left:6px">✕</span>`:'';
-    const toggleElig=isAdmin?`<span class="status-badge ${eligClass}" data-action="elig" data-member="${m}">${eligText}</span>`:`<span class="status-badge ${eligClass}">${eligText}</span>`;
-    const paymentToggle=`<span class="status-badge ${statusClass}" data-action="payToggle" data-member="${m}">${statusText}</span>`;
-    html+=`<div class="member-item"><span>${i+1}. ${m} ${phoneDisplay}</span><div style="display:flex;gap:4px;align-items:center">${paymentToggle}${toggleElig}${payBtn}${delBtn}</div></div>`;
-  });
-  $('memberListContainer').innerHTML=html||'<div style="text-align:center;color:#888">മെമ്പർമാർ ഇല്ല - Add ചെയ്യുക</div>';
-  document.querySelectorAll('.pay-btn').forEach(btn=>btn.addEventListener('click',function(){ recordPayment(this.dataset.member); }));
-  document.querySelectorAll('[data-action="payToggle"]').forEach(el=>el.addEventListener('click',function(){
-    if(!isAdmin) return; const m=this.dataset.member; const g2=getG(); const now2=new Date(); const mo=now2.getMonth(),yr=now2.getFullYear(); const pList=g2.payments[m]||[]; const idx=pList.findIndex(p=>p.month===mo&&p.year===yr); if(idx!==-1){ pList.splice(idx,1); } else { pList.push({date:new Date().toISOString().slice(0,10),amount:g2.monthlyContribution||500,month:mo,year:yr}); } g2.payments[m]=pList; saveData(); renderMembers(); renderPayments(); updateCollectionSummary();
-  }));
-  document.querySelectorAll('[data-action="elig"]').forEach(el=>el.addEventListener('click',function(){ if(!isAdmin) return; const m=this.dataset.member; const g2=getG(); g2.eligibility[m]=!g2.eligibility[m]; saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); updateEligibleCounts(); }));
-  document.querySelectorAll('.delete-member').forEach(el=>el.addEventListener('click',function(){ if(!isAdmin) return; const m=this.dataset.member; if(!confirm(m+' നീക്കം ചെയ്യണോ?')) return; const g2=getG(); const idx=g2.members.indexOf(m); if(idx!==-1){ g2.members.splice(idx,1); delete g2.eligibility[m]; delete g2.payments[m]; delete g2.memberTypes[m]; saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); renderPayments(); updateCollectionSummary(); } }));
-  updateEligibleCounts();
+window.testFirebase = function(){
+  if(!dbRef){ alert('Firebase Init Failed'); return; }
+  set(dbRef, data).then(()=>{ alert('✅ Firebase Working! ഇനി എല്ലാ ഫോണിലും Live ആവും'); firebaseConnected=true; updateStatus(); }).catch((e)=>{ alert('❌ Firebase Failed: '+e.message+'\n\nRules True ആക്കുക:\nhttps://console.firebase.google.com/project/mashood-kuri/database/mashood-kuri-default-rtdb/rules'); });
 }
-
-function recordPayment(member){
-  if(!isAdmin) return;
-  const g=getG(); const now=new Date(); const mo=now.getMonth(),yr=now.getFullYear();
-  const amt=parseFloat(prompt(member+' ന് എത്ര?',g.monthlyContribution))||g.monthlyContribution;
-  const dt=prompt('തീയതി:',now.toISOString().slice(0,10))||now.toISOString().slice(0,10);
-  if(!g.payments[member]) g.payments[member]=[];
-  g.payments[member]=g.payments[member].filter(p=>!(p.month===mo&&p.year===yr));
-  g.payments[member].push({date:dt,amount:amt,month:mo,year:yr});
-  saveData(); renderMembers(); renderPayments(); updateCollectionSummary();
-}
-
-function renderPayments(){
-  const g=getG(); const now=new Date(); const mo=now.getMonth(),yr=now.getFullYear(); let html='';
-  g.members.forEach(m=>{
-    const pList=(g.payments[m]||[]).filter(p=>p.month===mo&&p.year===yr);
-    const paid=pList.length>0; const total=pList.reduce((s,p)=>s+p.amount,0);
-    html+=`<div class="member-item"><span>${m}</span><span>${paid?'✅ Paid':'❌ Pending'}</span><span>₹${total}</span></div>`;
-  });
-  $('paymentListContainer').innerHTML=html||'<div style="text-align:center;color:#888">ഇല്ല</div>';
-}
-function updateCollectionSummary(){
-  const g=getG(); const now=new Date(); const mo=now.getMonth(),yr=now.getFullYear(); let total=0,paid=0;
-  g.members.forEach(m=>{ const pList=(g.payments[m]||[]).filter(p=>p.month===mo&&p.year===yr); if(pList.length){ total+=pList.reduce((s,p)=>s+p.amount,0); paid++; } });
-  $('monthlyTotal').textContent='₹'+total.toFixed(2); $('totalMembersCount').textContent=g.members.length; $('paidCount').textContent=paid; $('pendingCount').textContent=g.members.length-paid; $('contributionAmount').textContent=g.monthlyContribution;
-}
-$('setContributionBtn').addEventListener('click',()=>{ if(!isAdmin) return; const val=parseFloat($('contributionInput').value); if(isNaN(val)||val<=0) return alert('തുക'); const g=getG(); g.monthlyContribution=val; saveData(); updateCollectionSummary(); $('contributionInput').value=''; });
-
-function renderPayouts(){
-  const g=getG(); const payouts=g.payouts||[]; let html=''; let total=0;
-  payouts.forEach((p,i)=>{ total+=p.amount||0; html+=`<div class="member-item"><span>${p.date} - ${p.member}</span><span>₹${p.amount}</span>${isAdmin?`<button onclick="deletePayout(${i})" style="color:#c62828;border:none;background:none;font-size:1.2rem;cursor:pointer">✕</button>`:''}</div>`; });
-  $('payoutListContainer').innerHTML=html||'<div style="text-align:center;color:#888">ഇല്ല</div>'; $('totalPayout').textContent='₹'+total.toFixed(2); $('winnerCount').textContent=payouts.length;
-}
-window.deletePayout=function(idx){ if(!isAdmin) return; if(!confirm('നീക്കം ചെയ്യണോ?')) return; const g=getG(); g.payouts.splice(idx,1); saveData(); renderPayouts(); };
-function populatePayoutMembers(){ const g=getG(); const sel=$('payoutMemberSelect'); sel.innerHTML=''; g.members.forEach(m=>{ const o=document.createElement('option'); o.value=m; o.textContent=m; sel.appendChild(o); }); }
-$('addPayoutBtn').addEventListener('click',()=>{ if(!isAdmin) return; const date=$('payoutDate').value||new Date().toISOString().slice(0,10); const amount=parseFloat($('payoutAmount').value); const member=$('payoutMemberSelect').value; if(!amount||amount<=0) return alert('തുക'); if(!member) return alert('മെമ്പർ'); const g=getG(); if(!g.payouts) g.payouts=[]; g.payouts.push({date,member,amount}); saveData(); renderPayouts(); $('payoutAmount').value=''; });
-
-function renderMonthSelect(){ $('monthSelect').innerHTML=''; for(let y=2030;y>=2020;y--){ for(let m=0;m<12;m++){ const o=document.createElement('option'); o.value=y+'-'+m; o.textContent=MONTHS[m]+' '+y; if(y===currentYear&&m===currentMonth) o.selected=true; $('monthSelect').appendChild(o); } } updateMonthWinners(); }
-$('monthSelect').addEventListener('change',updateMonthWinners);
-function updateMonthWinners(){ const [y,m]=$('monthSelect').value.split('-').map(Number); const w=getG().winners.filter(w=>w.year===y&&w.month===m); $('monthWinnerList').innerHTML=w.length?w.map(w=>`<li>🏅 ${w.name}</li>`).join(''):'<li>ഇല്ല</li>'; }
-function renderHistory(){ const w=getG().winners; let html=''; w.slice().reverse().forEach((ww,idx)=>{ const rm=isAdmin?`<button class="btn btn-sm btn-danger" data-index="${w.length-1-idx}" style="width:auto">Remove</button>`:''; html+=`<div class="member-item"><span>${MONTHS[ww.month]} ${ww.year} : ${ww.name}</span>${rm}</div>`; }); $('historyList').innerHTML=html||'<div style="color:#888">ഇല്ല</div>'; if(w.length) $('todayWinner').textContent=w[w.length-1].name; else $('todayWinner').textContent='—'; document.querySelectorAll('#historyList button').forEach(b=>{ b.addEventListener('click',function(){ const idx=parseInt(this.dataset.index); if(!confirm('നീക്കം ചെയ്യണോ?')) return; const g=getG(); g.winners.splice(idx,1); saveData(); renderHistory(); updateMonthWinners(); }); }); }
-function renderChat(){ $('chatMessages').innerHTML=data.chatLog.map(msg=>`<div><strong>${msg.user}:</strong> ${msg.text}</div>`).join(''); }
-function renderRules(){ const txt=data.rules||'ഇല്ല'; document.getElementById('homeRulesDisplay').textContent=txt; $('rulesDisplay').textContent=txt; if(isAdmin) $('rulesEdit').value=data.rules; }
 
 function drawWheel(rot){
-  const members=getG().members; const canvas=$('wheelCanvas'); const ctx=canvas.getContext('2d'); const w=canvas.width,cx=w/2,r=w/2-10;
-  ctx.clearRect(0,0,w,w); if(!members.length){ ctx.fillStyle='#888'; ctx.font='20px sans-serif'; ctx.textAlign='center'; ctx.fillText('No members',cx,cx); return; }
-  const seg=(Math.PI*2)/members.length; const colors=['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a','#f9844a','#a8dadc','#457b9d'];
-  for(let i=0;i<members.length;i++){ const s=i*seg+rot; const e=s+seg; ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke(); ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+seg/2); ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif'; ctx.fillText(members[i].length>10?members[i].substring(0,8)+'..':members[i],r*0.65,5); ctx.restore(); }
-  ctx.beginPath(); ctx.arc(cx,cx,20,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#2E7D32'; ctx.lineWidth=3; ctx.stroke();
+  const canvas=document.getElementById('wheelCanvas');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const w=canvas.width,cx=w/2,r=w/2-10;
+  ctx.clearRect(0,0,w,w);
+  const eligible = data.members.filter(m=>data.eligibility[m]!==false);
+  const members = eligible.length?eligible:data.members;
+  if(!members.length){ ctx.fillStyle='#888'; ctx.font='20px sans-serif'; ctx.textAlign='center'; ctx.fillText('No members - Add ചെയ്യുക',cx,cx); return; }
+  const seg=(Math.PI*2)/members.length;
+  const colors=['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a'];
+  members.forEach((m,i)=>{
+    const s=i*seg+rot, e=s+seg;
+    ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.closePath();
+    ctx.fillStyle=colors[i%colors.length]; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+seg/2); ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.font='bold 12px sans-serif';
+    ctx.fillText(m.length>8?m.substring(0,6)+'..':m,r*0.6,4); ctx.restore();
+  });
 }
-function spinToWinner(target){
-  if(isSpinning) return; const eligible=getG().members.filter(m=>getG().eligibility[m]!==false); if(!eligible.length) return alert('Eligible ഇല്ല');
-  let winner=target&&getG().members.includes(target)?target:eligible[Math.floor(Math.random()*eligible.length)];
-  const members=getG().members; const startRot=window.currentWheelRotation||0; const seg=(Math.PI*2)/members.length; const idx=members.indexOf(winner);
-  let delta=-Math.PI/2-(startRot+idx*seg+seg/2); delta=((delta%(Math.PI*2))+Math.PI*2)%(Math.PI*2);
-  const full=12+Math.floor(Math.random()*7); const total=delta+full*Math.PI*2; const targetRot=startRot+total;
-  isSpinning=true; const dur=5000,startTime=Date.now();
-  function anim(){ const el=Date.now()-startTime,p=Math.min(el/dur,1); const cur=startRot+total*p; drawWheel(cur); if(p<1) requestAnimationFrame(anim); else { drawWheel(targetRot); window.currentWheelRotation=targetRot; $('drawWinnerDisplay').textContent=winner; $('todayWinner').textContent=winner; const g=getG(); const month=new Date().getMonth(),year=new Date().getFullYear(); g.winners.push({month,year,name:winner}); saveData(); renderHistory(); updateMonthWinners(); isSpinning=false; manualTarget=null; } } anim();
-}
-function randomSpin(){ if(!isAdmin) return alert('Admin only'); if(manualTarget){ const t=manualTarget; manualTarget=null; spinToWinner(t); } else { spinToWinner(null); } }
-$('spinWheelBtn').addEventListener('click',randomSpin); $('spinDrawBtn').addEventListener('click',randomSpin);
-$('manualWinnerBtn').addEventListener('click',function(){ if(!isAdmin) return; const members=getG().members; if(!members.length) return alert('ഇല്ല'); $('manualWinnerSelect').innerHTML=''; members.forEach(m=>{ const o=document.createElement('option'); o.value=m; o.textContent=m; $('manualWinnerSelect').appendChild(o); }); $('manualModal').classList.remove('hidden'); });
-$('confirmManualWinner').addEventListener('click',function(){ const name=$('manualWinnerSelect').value; if(name){ $('manualModal').classList.add('hidden'); manualTarget=name; alert('"'+name+'" തിരഞ്ഞെടുത്തു. Spin അടിക്കുക'); } });
-$('cancelManualWinner').addEventListener('click',()=>$('manualModal').classList.add('hidden'));
-$('removeWinnerBtn').addEventListener('click',function(){ if(!isAdmin) return; const g=getG(); if(!g.winners.length) return alert('ഇല്ല'); $('removeModal').classList.remove('hidden'); });
-$('confirmRemoveWinner').addEventListener('click',function(){ $('removeModal').classList.add('hidden'); const g=getG(); if(!g.winners.length) return; const last=g.winners[g.winners.length-1].name; if(g.eligibility[last]!==false){ g.eligibility[last]=false; saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); updateEligibleCounts(); } });
-$('cancelRemoveWinner').addEventListener('click',()=>$('removeModal').classList.add('hidden'));
-$('shuffleWheelBtn').addEventListener('click',function(){ if(!isAdmin) return; const g=getG(); if(g.members.length<2) return alert('2 വേണം'); for(let i=g.members.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [g.members[i],g.members[j]]=[g.members[j],g.members[i]]; } saveData(); renderMembers(); });
-$('makeAllEligibleBtn').addEventListener('click',()=>{ if(!isAdmin) return; const g=getG(); g.members.forEach(m=>g.eligibility[m]=true); saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); updateEligibleCounts(); });
-$('sendChatBtn').addEventListener('click',()=>{ const text=$('chatInput').value.trim(); if(!text) return; const user=isAdmin?'അഡ്മിൻ':'മെമ്പർ'; data.chatLog.push({user,text,time:Date.now()}); saveData(); renderChat(); $('chatInput').value=''; });
-$('exportCSV').addEventListener('click',()=>{ const w=getG().winners; let csv='Month,Year,Winner\n'; w.forEach(w=>csv+=MONTHS[w.month]+','+w.year+','+w.name+'\n'); const blob=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='winners_'+data.activeChitty+'.csv'; a.click(); });
-$('saveRulesBtn').addEventListener('click',()=>{ if(!isAdmin) return; const nr=$('rulesEdit').value.trim(); if(nr===''&&!confirm('ശൂന്യമാക്കണോ?')) return; data.rules=nr; saveData(); renderRules(); alert('Saved'); });
-$('addMemberBtn').addEventListener('click',()=>{ if(!isAdmin) return; $('newMemberName').value=''; $('newMemberPhone').value=''; $('addModal').classList.remove('hidden'); });
-$('cancelAddBtn').addEventListener('click',()=>$('addModal').classList.add('hidden'));
-$('confirmAddBtn').addEventListener('click',function(){ const rep=$('newMemberName').value.trim(); if(!rep) return alert('പേര്'); const phone=$('newMemberPhone').value.trim(); const g=getG(); if(g.members.includes(rep)) return alert('ഉണ്ട്'); g.members.push(rep); g.paymentStatus[rep]=false; g.eligibility[rep]=true; g.payments[rep]=[]; g.memberTypes[rep]={type:'single',phone:phone}; saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); renderPayments(); updateCollectionSummary(); $('addModal').classList.add('hidden'); });
-$('bulkAddBtn').addEventListener('click',()=>{ if(!isAdmin) return; $('bulkTextarea').value=''; $('bulkAddModal').classList.remove('hidden'); });
-$('confirmBulkAdd').addEventListener('click',()=>{ const text=$('bulkTextarea').value.trim(); if(!text) return alert('ഇല്ല'); const names=text.split('\n').map(s=>s.trim()).filter(s=>s); const g=getG(); let added=0; names.forEach(n=>{ if(!g.members.includes(n)){ g.members.push(n); g.paymentStatus[n]=false; g.eligibility[n]=true; g.payments[n]=[]; g.memberTypes[n]={type:'single',phone:''}; added++; } }); if(added){ saveData(); renderMembers(); drawWheel(window.currentWheelRotation||0); alert(added+' Added'); } $('bulkAddModal').classList.add('hidden'); });
-$('cancelBulkAdd').addEventListener('click',()=>$('bulkAddModal').classList.add('hidden'));
 
-document.querySelectorAll('.tab-bar button').forEach(b=>{ b.addEventListener('click',function(){ document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab-content').forEach(x=>x.classList.add('hidden')); document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden'); if(this.dataset.tab==='payments'){ renderPayments(); updateCollectionSummary(); } if(this.dataset.tab==='payout'){ renderPayouts(); populatePayoutMembers(); } if(this.dataset.tab==='history') renderHistory(); if(this.dataset.tab==='members') renderMembers(); if(this.dataset.tab==='draw'){ drawWheel(window.currentWheelRotation||0); updateEligibleCounts(); } if(this.dataset.tab==='rules') renderRules(); if(this.dataset.tab==='chat') renderChat(); }); });
+document.getElementById('spinBtn').addEventListener('click', function(){
+  const eligible = data.members.filter(m=>data.eligibility[m]!==false);
+  const members = eligible.length?eligible:data.members;
+  if(!members.length) return alert('Member ഇല്ല');
+  const winner = members[Math.floor(Math.random()*members.length)];
+  document.getElementById('winnerName').textContent='🎉 '+winner+' 🎉';
+  data.winners.push(winner);
+  saveData();
+});
 
-window.currentWheelRotation=0;
-renderChittySelector();
+document.querySelectorAll('.tab-bar button').forEach(b=>{
+  b.addEventListener('click', function(){
+    document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));
+    document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden');
+    if(this.dataset.tab==='draw') drawWheel(window.currentRot||0);
+  });
+});
+
+window.currentRot=0;
+drawWheel(0);
+updateStatus();
 </script>
 </body>
 </html>
