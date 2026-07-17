@@ -2,16 +2,34 @@
 <html lang="ml">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mashood Chitty - FULL OPTION</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+<title>Mashood Chitty - LIVE</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px;min-height:100vh}
+body.dark{background:#121212;color:#e2e8f0}
+body.dark .card{background:#1e1e2a;color:#e2e8f0}
+body.dark .tab-bar{background:#1e1e2a}
+body.dark .tab-bar button{color:#e2e8f0}
+body.dark .tab-bar button.active{background:#2E7D32;color:#fff}
+body.dark input,body.dark select,body.dark textarea{background:#2a2a3a;border-color:#444;color:#e2e8f0}
+body.dark .collection-summary{background:#1e1e2a;color:#e2e8f0}
+body.dark .group-card{background:#1e1e2a;border-color:#444}
+body.dark .group-header{background:#2E7D32}
+body.dark .sub{background:#2a2a3a;border-color:#444;color:#e2e8f0}
+body.dark .toggle-wrap{background:#1a2a1a}
+body.dark .login-card{background:#1e1e2a}
+body.dark .login-card h2{color:#FFD700}
+body.dark .modal-card{background:#1e1e2a;color:#e2e8f0}
 .container{max-width:500px;margin:0 auto;padding:16px}
 .card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}
 .btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:600;width:100%;margin:6px 0;cursor:pointer;font-size:1rem}
 .btn:active{transform:scale(0.96)}
-.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}
+.btn-outline{background:transparent;border:2px solid #2E7D32;color:#2E7D32}
+body.dark .btn-outline{border-color:#FFD700;color:#FFD700}
 .btn-danger{background:#c62828;color:#fff}
 .btn-gold{background:#FFD700;color:#1e293b}
 .btn-blue{background:#1976D2;color:#fff}
@@ -22,7 +40,7 @@ body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-
 .error{background:#fee2e2;color:#991b1b}
 .info{background:#cce5ff;color:#004085}
 .tab-bar{display:flex;gap:3px;overflow-x:auto;padding:6px;background:#fff;border-radius:30px;margin-bottom:12px;position:sticky;top:0;z-index:10}
-.tab-bar button{flex:1;min-width:50px;padding:8px 4px;border:none;background:transparent;font-weight:700;font-size:.6rem;border-radius:20px;white-space:nowrap;cursor:pointer}
+.tab-bar button{flex:1;min-width:45px;padding:8px 4px;border:none;background:transparent;font-weight:700;font-size:.6rem;border-radius:20px;white-space:nowrap;cursor:pointer}
 .tab-bar button.active{background:#2E7D32;color:#fff}
 .hidden{display:none!important}
 input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem}
@@ -43,6 +61,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 .chat-box{max-height:200px;overflow-y:auto;background:#f5f5f5;padding:10px;border-radius:12px;margin:8px 0;font-size:.9rem}
 .login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2E7D32,#1b5e20);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
 .login-card{background:#fff;border-radius:24px;padding:24px;width:100%;max-width:360px;text-align:center}
+.login-card h2{color:#2E7D32;margin-bottom:16px}
 .role-badge{padding:4px 12px;border-radius:20px;font-size:.8rem;font-weight:700}
 .admin-badge{background:#FFD700;color:#000}
 .member-badge{background:#e3f2fd;color:#1565c0}
@@ -60,6 +79,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 .toggle-wrap input[type=checkbox]{width:20px;height:20px;cursor:pointer}
 .btn-wrap{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
 .btn-wrap .btn{flex:1;min-width:100px}
+.dark-btn{position:fixed;bottom:20px;right:20px;background:#2E7D32;color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:24px;z-index:999;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer}
 </style>
 </head>
 <body>
@@ -67,7 +87,7 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 <!-- LOGIN -->
 <div id="loginScreen" class="login-screen">
 <div class="login-card">
-<h2 style="color:#2E7D32">🔐 Mashood Chitty</h2>
+<h2>🔐 Mashood Chitty</h2>
 <select id="loginRole"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select>
 <input id="loginPass" type="password" placeholder="Password">
 <button class="btn" id="loginBtn">🔓 Login</button>
@@ -82,13 +102,13 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 <div id="winSaveName" style="font-size:1.8rem;font-weight:800;color:#2E7D32;margin:10px 0">—</div>
 <div id="winSubInfo" style="background:#f5f5f5;padding:8px;border-radius:10px;font-size:.8rem;margin:8px 0"></div>
 <div id="winPhoneInfo" style="font-size:.8rem;color:#666;margin:6px 0"></div>
-<button class="btn" id="confirmSaveWin">✅ Save & Remove from Wheel</button>
-<button class="btn btn-gold" id="whatsappSendBtn">📱 Send WhatsApp</button>
-<button class="btn btn-outline" id="cancelSaveWin">❌ Don't Save</button>
+<button class="btn" id="confirmSaveWin">✅ Save & Remove</button>
+<button class="btn btn-gold" id="whatsappSendBtn">📱 WhatsApp</button>
+<button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button>
 </div>
 </div>
 
-<!-- MANUAL MODAL (Secret) -->
+<!-- MANUAL MODAL -->
 <div id="manualModal" class="modal hidden">
 <div class="modal-card">
 <h3>👤 Secret Manual Select</h3>
@@ -138,39 +158,19 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 <h3>➕ 1. Single Add</h3>
 <div class="section-box">
 <input id="singleName" placeholder="Member Name">
-<input id="singlePhone" placeholder="📱 WhatsApp Number (optional)">
+<input id="singlePhone" placeholder="📱 WhatsApp Number">
 <button class="btn" id="addSingleBtn">✅ Add</button>
 <div id="singleMsg" style="text-align:center;font-weight:700;min-height:20px;margin-top:6px"></div>
 </div>
 </div>
-
 <div class="card" style="border:2px solid #FFD700">
 <h3>📋 2. Bulk Add</h3>
-<div class="section-box" style="background:#fffbe6">
-<p style="font-size:.8rem;color:#666">ഒരു വരിയിൽ ഒരു പേര്</p>
-<textarea id="bulkText" rows="5" placeholder="രമേഷ്&#10;സുരേഷ്&#10;മഹേഷ്"></textarea>
-<button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button>
-<div id="bulkMsg" style="text-align:center;font-weight:700;min-height:20px;margin-top:6px"></div>
+<div class="section-box"><textarea id="bulkText" rows="5" placeholder="രമേഷ്&#10;സുരേഷ്&#10;മഹേഷ്"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button><div id="bulkMsg" style="text-align:center;font-weight:700;min-height:20px;margin-top:6px"></div></div>
 </div>
-</div>
-
 <div class="card" style="border:2px solid #1565c0">
 <h3>🏠 3. Group Member</h3>
-<div class="section-box" style="background:#e3f2fd">
-<div style="background:#fff3cd;padding:10px;border-radius:10px;margin-bottom:8px">
-<strong>Main Member (Wheel-ൽ കറങ്ങും):</strong>
-<input id="mainName" placeholder="Main Name">
-<input id="mainPhone" placeholder="📱 WhatsApp Number (Main)">
+<div class="section-box"><input id="mainName" placeholder="Main Name"><input id="mainPhone" placeholder="📱 Phone"><textarea id="subText" rows="3" placeholder="Sub Members (ഒരു വരിയിൽ ഒന്ന്)"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button><div id="groupMsg" style="text-align:center;font-weight:700;min-height:20px;margin-top:6px"></div></div>
 </div>
-<div style="background:#e3f2fd;padding:10px;border-radius:10px">
-<strong>Sub Members:</strong>
-<textarea id="subText" rows="4" placeholder="Sub Members (ഒരു വരിയിൽ ഒന്ന്)"></textarea>
-</div>
-<button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
-<div id="groupMsg" style="text-align:center;font-weight:700;min-height:20px;margin-top:6px"></div>
-</div>
-</div>
-
 <div class="card admin-only">
 <button class="btn btn-outline" id="makeEligibleBtn">✅ Bring All Back</button>
 <button class="btn btn-danger" id="clearAllBtn">🗑 Clear All</button>
@@ -195,20 +195,15 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 <div id="tab-draw" class="tab hidden">
 <div class="card">
 <h3>🎰 Wheel</h3>
-
-<!-- ⭐ SPIN & SHUFFLE BUTTONS - Always visible -->
 <div class="btn-wrap">
 <button class="btn" id="spinDrawBtn" style="flex:2;font-size:1.2rem;background:#2E7D32">🔄 SPIN</button>
 <button class="btn btn-outline" id="shuffleBtn" style="flex:1">🔀 Shuffle</button>
 </div>
-
-<!-- Auto Shuffle Toggle - Always visible -->
 <div class="toggle-wrap">
 <label style="display:flex;align-items:center;gap:8px;cursor:pointer;width:100%">
-<input type="checkbox" id="autoShuffleCheck"> <span>⚡ Auto Shuffle (ഓരോ സ്പിനിനും മുമ്പ് shuffle ചെയ്യും)</span>
+<input type="checkbox" id="autoShuffleCheck"> <span>⚡ Auto Shuffle</span>
 </label>
 </div>
-
 <div class="wheel-container">
 <div class="wheel-arrow">▼</div>
 <canvas id="wheelCanvas" width="400" height="400"></canvas>
@@ -220,13 +215,11 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 <span>Removed: <strong id="drawRemoved">0</strong></span>
 <span>Total: <strong id="drawTotal">0</strong></span>
 </div>
-
-<!-- Admin-only controls -->
 <div class="admin-only">
 <button class="btn btn-outline" id="bringBackBtn">↩️ Bring All Back</button>
 <button class="btn btn-danger" id="removeWinnerBtn">🗑 Remove Last Winner</button>
 </div>
-<div style="font-size:.7rem;color:#888;text-align:center;margin-top:8px">💡 Admin: Double-click on wheel for manual select</div>
+<div style="font-size:.7rem;color:#888;text-align:center;margin-top:8px">💡 Admin: Double-click on wheel for manual</div>
 </div>
 <div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div>
 </div>
@@ -248,9 +241,12 @@ input:focus,select:focus,textarea:focus{outline:2px solid #2E7D32;border-color:t
 
 </div>
 
+<!-- DARK MODE TOGGLE -->
+<button class="dark-btn" id="darkToggle">🌙</button>
+
 <script>
 // ============================================================
-// FIREBASE CONFIG
+// 🔥 FIREBASE CONFIG
 // ============================================================
 const firebaseConfig = {
     apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0",
@@ -262,21 +258,71 @@ const firebaseConfig = {
     appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
 };
 
+// ============================================================
+// ✅ INIT FIREBASE
+// ============================================================
 let dbRef = null;
+let firebaseOK = false;
+let authUser = null;
+
 try {
     const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
     const db = firebase.database();
-    dbRef = ref(db, 'mashood_full_data');
-    console.log('✅ Firebase initialized');
-} catch(e) { console.error('❌ Firebase init:', e); }
+    
+    auth.signInAnonymously()
+        .then((userCredential) => {
+            authUser = userCredential.user;
+            dbRef = ref(db, 'mashood_live_data');
+            firebaseOK = true;
+            console.log('✅ Firebase Connected - LIVE');
+            updateStatus();
+            
+            // Listen for changes
+            onValue(dbRef, (snap) => {
+                const val = snap.val();
+                if (val && val.groups) {
+                    const localCount = data.groups.length;
+                    const cloudCount = val.groups.length;
+                    if (cloudCount >= localCount || localCount === 0) {
+                        Object.assign(data, val);
+                        if (!data.passwords) data.passwords = { admin: 'ma7hood', member: 'member123' };
+                        data.passwords.admin = 'ma7hood';
+                        localStorage.setItem('MASHOOD_FULL_DATA', JSON.stringify(data));
+                        renderAll();
+                    }
+                    firebaseOK = true;
+                    updateStatus();
+                }
+            }, (err) => {
+                firebaseOK = false;
+                updateStatus();
+            });
+            
+            // Initial save
+            setTimeout(() => {
+                if (data.groups.length > 0) {
+                    set(dbRef, data).catch(() => {});
+                }
+            }, 1000);
+        })
+        .catch((err) => {
+            console.error('❌ Firebase Auth Error:', err);
+            firebaseOK = false;
+            updateStatus();
+        });
+} catch(e) {
+    console.error('❌ Firebase Init Error:', e);
+    firebaseOK = false;
+    updateStatus();
+}
 
 // ============================================================
-// DATA
+// ✅ DATA
 // ============================================================
 const MONTHS = ['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];
 
 let currentRole = null;
-let firebaseOK = false;
 let currentRot = 0;
 let manualTarget = null;
 let pendingWinner = null;
@@ -296,35 +342,15 @@ function defaultData() {
 let data = JSON.parse(localStorage.getItem('MASHOOD_FULL_DATA') || 'null');
 if (!data) {
     data = defaultData();
-    const old = localStorage.getItem('MASHOOD_FULL_OPTION_FINAL');
-    if (old) {
-        try {
-            const parsed = JSON.parse(old);
-            if (parsed && parsed.groups) {
-                data.groups = parsed.groups;
-                data.allWinners = parsed.allWinners || [];
-                data.rules = parsed.rules || defaultData().rules;
-                data.monthlyContribution = parsed.monthlyContribution || 500;
-                data.chatLog = parsed.chatLog || [];
-                data.passwords = parsed.passwords || { admin: 'ma7hood', member: 'member123' };
-                data.passwords.admin = 'ma7hood';
-            }
-        } catch(e) {}
-    }
+    localStorage.setItem('MASHOOD_FULL_DATA', JSON.stringify(data));
 }
 data.passwords.admin = 'ma7hood';
 if (!data.passwords.member) data.passwords.member = 'member123';
 
 function save() {
     localStorage.setItem('MASHOOD_FULL_DATA', JSON.stringify(data));
-    if (dbRef) {
-        set(dbRef, data).then(() => {
-            firebaseOK = true;
-            updateStatus();
-        }).catch(e => {
-            firebaseOK = false;
-            updateStatus();
-        });
+    if (dbRef && firebaseOK) {
+        set(dbRef, data).catch(() => {});
     }
     renderAll();
 }
@@ -333,11 +359,10 @@ function getEligible() { return data.groups.filter(g => g.eligibility !== false)
 function getRemoved() { return data.groups.filter(g => g.eligibility === false); }
 
 function updateStatus() {
-    const g = data.groups;
-    const count = g.length;
+    const count = data.groups.length;
     const eligible = getEligible().length;
     const s = document.getElementById('status');
-    if (firebaseOK) {
+    if (firebaseOK && dbRef && authUser) {
         s.textContent = `✅ LIVE - ${count} Groups | ${eligible} in Wheel | Cloud Sync`;
         s.className = 'status live';
     } else {
@@ -347,7 +372,7 @@ function updateStatus() {
 }
 
 // ============================================================
-// RENDER ALL
+// ✅ RENDER ALL
 // ============================================================
 function renderAll() {
     const eligible = getEligible();
@@ -367,13 +392,11 @@ function renderAll() {
     document.getElementById('contributionAmount').textContent = data.monthlyContribution;
     
     let totalPayout = 0;
-    data.groups.forEach(g => {
-        if (g.payouts) g.payouts.forEach(p => totalPayout += p.amount || 0);
-    });
+    data.groups.forEach(g => { if (g.payouts) g.payouts.forEach(p => totalPayout += p.amount || 0); });
     document.getElementById('totalPayout').textContent = '₹ ' + totalPayout;
     document.getElementById('winnerCountPayout').textContent = data.allWinners.length;
 
-    // Members list
+    // Members
     let html = '';
     if (data.groups.length === 0) {
         html = '<div style="text-align:center;color:#888;padding:20px">No Groups - Add Member</div>';
@@ -437,15 +460,9 @@ function renderAll() {
         });
     });
     document.getElementById('payoutList').innerHTML = payoutHtml || 'No payouts';
-    
     const payoutSel = document.getElementById('payoutMemberSelect');
     payoutSel.innerHTML = '';
-    data.groups.forEach(g => {
-        const o = document.createElement('option');
-        o.value = g.mainName;
-        o.textContent = g.mainName;
-        payoutSel.appendChild(o);
-    });
+    data.groups.forEach(g => { const o = document.createElement('option'); o.value = g.mainName; o.textContent = g.mainName; payoutSel.appendChild(o); });
 
     // Home
     const today = data.allWinners.length ? data.allWinners[data.allWinners.length - 1].mainName : '—';
@@ -491,11 +508,10 @@ function renderAll() {
         'Wheel-ൽ: ' + eligible.map(g => g.mainName).join(', ') + (removed.length ? '<br>Removed: ' + removed.map(g => g.mainName).join(', ') : '') : 
         'No groups';
 
-    // Removed list
+    // Removed
     let rHtml = '';
-    if (removed.length === 0) {
-        rHtml = '<div style="color:#888;text-align:center">None</div>';
-    } else {
+    if (removed.length === 0) rHtml = '<div style="color:#888;text-align:center">None</div>';
+    else {
         removed.forEach(g => {
             rHtml += `<div class="member-row">
                 <span>🚫 ${g.mainName} (${g.subMembers?.length || 0} subs)</span>
@@ -523,42 +539,33 @@ function updateMonthWinners() {
 }
 
 // ============================================================
-// WINDOW FUNCTIONS
+// ✅ WINDOW FUNCTIONS
 // ============================================================
 window.toggleElig = function(id) {
     if (currentRole !== 'admin') return;
     const g = data.groups.find(x => x.id === id);
     if (g) { g.eligibility = !g.eligibility; save(); }
 };
-
 window.togglePay = function(id) {
     if (currentRole !== 'admin') return;
     const g = data.groups.find(x => x.id === id);
-    if (g) {
-        if (!g.payments) g.payments = {};
-        g.payments[g.mainName] = !g.payments[g.mainName];
-        save();
-    }
+    if (g) { if (!g.payments) g.payments = {}; g.payments[g.mainName] = !g.payments[g.mainName]; save(); }
 };
-
 window.delGroup = function(id) {
     if (currentRole !== 'admin') return;
     if (!confirm('Delete this group?')) return;
     data.groups = data.groups.filter(x => x.id !== id);
     save();
 };
-
 window.bringBack = function(id) {
     const g = data.groups.find(x => x.id === id);
     if (g) { g.eligibility = true; save(); }
 };
-
 window.delPayout = function(gid, idx) {
     if (currentRole !== 'admin') return;
     const g = data.groups.find(x => x.id === gid);
     if (g) { g.payouts.splice(idx, 1); save(); }
 };
-
 window.logout = function() {
     currentRole = null;
     document.getElementById('mainApp').style.display = 'none';
@@ -569,7 +576,7 @@ window.logout = function() {
 };
 
 // ============================================================
-// LOGIN
+// ✅ LOGIN
 // ============================================================
 document.getElementById('loginBtn').addEventListener('click', function() {
     const role = document.getElementById('loginRole').value;
@@ -585,17 +592,17 @@ document.getElementById('loginBtn').addEventListener('click', function() {
         renderAll();
         drawWheel(0);
         updateStatus();
+        document.getElementById('loginMsg').textContent = '';
     } else {
         document.getElementById('loginMsg').textContent = '❌ Wrong Password!';
     }
 });
-
 document.getElementById('loginPass').addEventListener('keypress', function(e) {
     if (e.key === 'Enter') document.getElementById('loginBtn').click();
 });
 
 // ============================================================
-// ADD SINGLE
+// ✅ ADD FUNCTIONS
 // ============================================================
 document.getElementById('addSingleBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
@@ -605,15 +612,7 @@ document.getElementById('addSingleBtn').addEventListener('click', function() {
     if (!name) { msg.style.color = '#c62828'; msg.textContent = '❌ Name എഴുതുക'; return; }
     if (data.groups.find(g => g.mainName === name)) { msg.style.color = '#c62828'; msg.textContent = '❌ Already exists'; return; }
     const id = Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-    data.groups.push({
-        id: id,
-        mainName: name,
-        subMembers: [],
-        eligibility: true,
-        payments: {},
-        payouts: [],
-        phone: phone || ''
-    });
+    data.groups.push({ id, mainName: name, subMembers: [], eligibility: true, payments: {}, payouts: [], phone: phone || '' });
     document.getElementById('singleName').value = '';
     document.getElementById('singlePhone').value = '';
     msg.style.color = '#2E7D32';
@@ -622,9 +621,6 @@ document.getElementById('addSingleBtn').addEventListener('click', function() {
     setTimeout(() => msg.textContent = '', 3000);
 });
 
-// ============================================================
-// BULK ADD
-// ============================================================
 document.getElementById('bulkAddBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     const txt = document.getElementById('bulkText').value.trim();
@@ -635,33 +631,15 @@ document.getElementById('bulkAddBtn').addEventListener('click', function() {
     names.forEach(n => {
         if (!data.groups.find(g => g.mainName === n)) {
             const id = Date.now() + '_' + Math.random().toString(36).substr(2, 5) + added;
-            data.groups.push({
-                id: id,
-                mainName: n,
-                subMembers: [],
-                eligibility: true,
-                payments: {},
-                payouts: [],
-                phone: ''
-            });
+            data.groups.push({ id, mainName: n, subMembers: [], eligibility: true, payments: {}, payouts: [], phone: '' });
             added++;
         }
     });
-    if (added) {
-        document.getElementById('bulkText').value = '';
-        msg.style.color = '#2E7D32';
-        msg.textContent = '✅ ' + added + ' Members Added!';
-        save();
-    } else {
-        msg.style.color = '#c62828';
-        msg.textContent = '❌ All already exist';
-    }
+    if (added) { document.getElementById('bulkText').value = ''; msg.style.color = '#2E7D32'; msg.textContent = '✅ ' + added + ' Members Added!'; save(); } 
+    else { msg.style.color = '#c62828'; msg.textContent = '❌ All already exist'; }
     setTimeout(() => msg.textContent = '', 3000);
 });
 
-// ============================================================
-// ADD GROUP
-// ============================================================
 document.getElementById('addGroupBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     const main = document.getElementById('mainName').value.trim();
@@ -672,15 +650,7 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
     if (data.groups.find(g => g.mainName === main)) { msg.style.color = '#c62828'; msg.textContent = '❌ Already exists'; return; }
     const subs = subTxt ? subTxt.split('\n').map(s => s.trim()).filter(Boolean) : [];
     const id = Date.now() + '_' + Math.random().toString(36).substr(2, 5);
-    data.groups.push({
-        id: id,
-        mainName: main,
-        subMembers: subs,
-        eligibility: true,
-        payments: {},
-        payouts: [],
-        phone: phone || ''
-    });
+    data.groups.push({ id, mainName: main, subMembers: subs, eligibility: true, payments: {}, payouts: [], phone: phone || '' });
     document.getElementById('mainName').value = '';
     document.getElementById('mainPhone').value = '';
     document.getElementById('subText').value = '';
@@ -691,7 +661,7 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-// OTHER BUTTONS
+// ✅ OTHER BUTTONS
 // ============================================================
 document.getElementById('makeEligibleBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
@@ -699,7 +669,6 @@ document.getElementById('makeEligibleBtn').addEventListener('click', function() 
     save();
     alert('All back to wheel!');
 });
-
 document.getElementById('clearAllBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     if (!confirm('Clear ALL groups?')) return;
@@ -707,7 +676,6 @@ document.getElementById('clearAllBtn').addEventListener('click', function() {
     data.allWinners = [];
     save();
 });
-
 document.getElementById('setContribution').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     const v = parseFloat(document.getElementById('contributionInput').value);
@@ -716,7 +684,6 @@ document.getElementById('setContribution').addEventListener('click', function() 
     save();
     alert('Updated: ₹' + v);
 });
-
 document.getElementById('addPayout').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     const gName = document.getElementById('payoutMemberSelect').value;
@@ -726,19 +693,17 @@ document.getElementById('addPayout').addEventListener('click', function() {
     const amount = parseFloat(document.getElementById('payoutAmount').value);
     if (!amount) return alert('Amount please');
     if (!g.payouts) g.payouts = [];
-    g.payouts.push({ date: date, member: gName, amount: amount });
+    g.payouts.push({ date, member: gName, amount });
     save();
     document.getElementById('payoutAmount').value = '';
     alert('Payout added to ' + gName);
 });
-
 document.getElementById('bringBackBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     if (!confirm('Bring all back?')) return;
     data.groups.forEach(g => g.eligibility = true);
     save();
 });
-
 document.getElementById('removeWinnerBtn').addEventListener('click', function() {
     if (currentRole !== 'admin') return;
     if (!data.allWinners.length) return alert('No winners');
@@ -748,9 +713,34 @@ document.getElementById('removeWinnerBtn').addEventListener('click', function() 
     if (g) g.eligibility = true;
     save();
 });
+document.getElementById('sendChat').addEventListener('click', function() {
+    if (currentRole !== 'admin') return;
+    const txt = document.getElementById('chatInput').value.trim();
+    if (!txt) return;
+    data.chatLog.push({ user: 'Admin', text: txt, time: Date.now() });
+    save();
+    document.getElementById('chatInput').value = '';
+});
+document.getElementById('saveRules').addEventListener('click', function() {
+    if (currentRole !== 'admin') return;
+    data.rules = document.getElementById('rulesEdit').value;
+    save();
+    alert('Rules saved!');
+});
+document.getElementById('exportCSV').addEventListener('click', function() {
+    let csv = 'Main,Sub Members,Date\n';
+    data.allWinners.forEach(w => {
+        csv += '"' + w.mainName + '","' + (w.subMembers || []).join(', ') + '",' + w.date + '\n';
+    });
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'winners.csv';
+    a.click();
+});
 
 // ============================================================
-// SHUFFLE FUNCTION
+// ✅ SHUFFLE
 // ============================================================
 function shuffleWheel() {
     for (let i = data.groups.length - 1; i > 0; i--) {
@@ -764,17 +754,13 @@ function shuffleWheel() {
     status.className = 'status info';
     setTimeout(() => { updateStatus(); }, 1000);
 }
-
 document.getElementById('shuffleBtn').addEventListener('click', function() {
-    if (currentRole !== 'admin') {
-        alert('👑 Admin ആയി Login ചെയ്താൽ മാത്രം Shuffle ചെയ്യാനാകൂ!');
-        return;
-    }
+    if (currentRole !== 'admin') { alert('👑 Admin only!'); return; }
     shuffleWheel();
 });
 
 // ============================================================
-// WHEEL & SPIN
+// ✅ WHEEL & SPIN
 // ============================================================
 function drawWheel(rot) {
     const canvas = document.getElementById('wheelCanvas');
@@ -823,14 +809,9 @@ function drawWheel(rot) {
 
 function performSpin(targetId) {
     const eligible = getEligible();
-    if (!eligible.length) {
-        alert('No members in wheel');
-        return;
-    }
-    
+    if (!eligible.length) { alert('No members in wheel'); return; }
     let winner = targetId ? eligible.find(g => g.id === targetId) : eligible[Math.floor(Math.random() * eligible.length)];
     if (!winner) winner = eligible[0];
-    
     const seg = (Math.PI * 2) / eligible.length;
     const idx = eligible.indexOf(winner);
     const start = currentRot;
@@ -840,7 +821,6 @@ function performSpin(targetId) {
     const total = delta + full * Math.PI * 2;
     const targetRot = start + total;
     const dur = 4000, startTime = Date.now();
-    
     function anim() {
         const el = Date.now() - startTime;
         const p = Math.min(el / dur, 1);
@@ -868,55 +848,34 @@ function performSpin(targetId) {
 }
 
 function spinToWinner(targetId) {
-    if (currentRole !== 'admin') {
-        alert('👑 Admin ആയി Login ചെയ്താൽ മാത്രം Spin ചെയ്യാനാകൂ!');
-        return;
-    }
+    if (currentRole !== 'admin') { alert('👑 Admin only!'); return; }
     const eligible = getEligible();
-    if (!eligible.length) {
-        alert('No members in wheel');
-        return;
-    }
-    
-    // Auto shuffle if enabled
+    if (!eligible.length) { alert('No members in wheel'); return; }
     if (autoShuffle) {
         shuffleWheel();
-        setTimeout(() => {
-            performSpin(targetId);
-        }, 300);
+        setTimeout(() => { performSpin(targetId); }, 300);
     } else {
         performSpin(targetId);
     }
 }
 
-document.getElementById('spinHomeBtn').addEventListener('click', function() {
-    spinToWinner(manualTarget);
-});
-
-document.getElementById('spinDrawBtn').addEventListener('click', function() {
-    spinToWinner(manualTarget);
-});
+document.getElementById('spinHomeBtn').addEventListener('click', function() { spinToWinner(manualTarget); });
+document.getElementById('spinDrawBtn').addEventListener('click', function() { spinToWinner(manualTarget); });
 
 // ============================================================
-// AUTO SHUFFLE TOGGLE
+// ✅ AUTO SHUFFLE
 // ============================================================
 document.getElementById('autoShuffleCheck').addEventListener('change', function() {
     autoShuffle = this.checked;
 });
 
 // ============================================================
-// SECRET MANUAL SELECT - Double Click on Wheel
+// ✅ SECRET MANUAL - Double Click on Wheel
 // ============================================================
 document.getElementById('wheelCanvas').addEventListener('dblclick', function() {
-    if (currentRole !== 'admin') {
-        // silently ignore for non-admin
-        return;
-    }
+    if (currentRole !== 'admin') return;
     const eligible = getEligible();
-    if (!eligible.length) {
-        alert('No members in wheel');
-        return;
-    }
+    if (!eligible.length) { alert('No members'); return; }
     const sel = document.getElementById('manualSelect');
     sel.innerHTML = '';
     eligible.forEach(g => {
@@ -927,22 +886,16 @@ document.getElementById('wheelCanvas').addEventListener('dblclick', function() {
     });
     document.getElementById('manualModal').classList.remove('hidden');
 });
-
 document.getElementById('confirmManual').addEventListener('click', function() {
     const v = document.getElementById('manualSelect').value;
-    if (v) {
-        manualTarget = v;
-        document.getElementById('manualModal').classList.add('hidden');
-        alert('Selected! Click Spin');
-    }
+    if (v) { manualTarget = v; document.getElementById('manualModal').classList.add('hidden'); alert('Selected! Click Spin'); }
 });
-
 document.getElementById('cancelManual').addEventListener('click', function() {
     document.getElementById('manualModal').classList.add('hidden');
 });
 
 // ============================================================
-// WHATSAPP & SAVE
+// ✅ WHATSAPP & SAVE
 // ============================================================
 document.getElementById('confirmSaveWin').addEventListener('click', function() {
     if (!pendingWinner) return;
@@ -960,27 +913,21 @@ document.getElementById('confirmSaveWin').addEventListener('click', function() {
     pendingWinner = null;
     manualTarget = null;
 });
-
 document.getElementById('cancelSaveWin').addEventListener('click', function() {
     document.getElementById('winSaveModal').classList.add('hidden');
     alert('❌ Not saved');
     pendingWinner = null;
 });
-
 document.getElementById('whatsappSendBtn').addEventListener('click', function() {
     if (!pendingWinner) return;
     const phone = pendingWinner.phone || '';
-    if (!phone) {
-        alert('📱 WhatsApp number not set for this member.');
-        return;
-    }
+    if (!phone) { alert('📱 No phone number'); return; }
     const msg = `🎉 Congratulations! ${pendingWinner.mainName} won the draw!`;
-    const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
 });
 
 // ============================================================
-// TABS
+// ✅ TABS
 // ============================================================
 document.querySelectorAll('.tab-bar button').forEach(b => {
     b.addEventListener('click', function() {
@@ -993,32 +940,26 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
 });
 
 // ============================================================
-// FIREBASE LISTENER
+// ✅ DARK MODE
 // ============================================================
-if (dbRef) {
-    onValue(dbRef, (snap) => {
-        const val = snap.val();
-        if (val && val.groups) {
-            const localCount = data.groups.length;
-            const cloudCount = val.groups.length;
-            if (cloudCount >= localCount || localCount === 0) {
-                Object.assign(data, val);
-                if (!data.passwords) data.passwords = { admin: 'ma7hood', member: 'member123' };
-                data.passwords.admin = 'ma7hood';
-                localStorage.setItem('MASHOOD_FULL_DATA', JSON.stringify(data));
-            }
-            firebaseOK = true;
-            if (currentRole) renderAll();
-        }
-    });
+document.getElementById('darkToggle').addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    this.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+    localStorage.setItem('chittyDarkMode', document.body.classList.contains('dark') ? 'true' : 'false');
+});
+if (localStorage.getItem('chittyDarkMode') === 'true') {
+    document.body.classList.add('dark');
+    document.getElementById('darkToggle').textContent = '☀️';
 }
 
 // ============================================================
-// INIT
+// ✅ INIT
 // ============================================================
 drawWheel(0);
 renderAll();
-console.log('🚀 Chitty Manager - Spin, Shuffle, Auto Shuffle All Visible!');
+console.log('🚀 Mashood Chitty LIVE - All Features Included');
+console.log('Admin Password: ma7hood');
+console.log('Member Password: member123');
 </script>
 </body>
 </html>
