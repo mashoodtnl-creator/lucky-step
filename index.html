@@ -3,158 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mashood Chitty - V12 Clean</title>
+<title>Mashood Chitty V15.1 - Password Hidden</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px;min-height:100vh}
-.container{max-width:500px;margin:0 auto;padding:16px}
+body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
+.container{max-width:520px;margin:0 auto;padding:16px}
 .card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}
-.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:600;width:100%;margin:6px 0;cursor:pointer}
+.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;width:100%;margin:6px 0;cursor:pointer}
 .btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}
-.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#1e293b}
-.btn-sm{padding:6px 10px;font-size:.75rem;width:auto}
-.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.85rem}
-.live{background:#d1fae5;color:#065f46}.local{background:#fef3c7;color:#92400e}
-.tab-bar{display:flex;gap:3px;overflow-x:auto;padding:6px;background:#fff;border-radius:30px;margin-bottom:12px;position:sticky;top:52px;z-index:9}
-.tab-bar button{flex:1;min-width:50px;padding:8px 4px;border:none;background:transparent;font-weight:700;font-size:.65rem;border-radius:20px;white-space:nowrap}
+.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#000}
+.btn-sm{padding:6px 10px;font-size:.75rem;width:auto;border-radius:20px;border:none}
+.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.8rem}
+.live{background:#d1fae5;color:#065f46;border:2px solid #065f46}.local{background:#fef3c7;color:#92400e}
+.tab-bar{display:flex;gap:2px;overflow-x:auto;padding:6px;background:#fff;border-radius:30px;margin-bottom:12px;position:sticky;top:52px;z-index:9}
+.tab-bar button{flex:1;min-width:48px;padding:8px 3px;border:none;background:transparent;font-weight:800;font-size:.58rem;border-radius:20px;white-space:nowrap}
 .tab-bar button.active{background:#2E7D32;color:#fff}
 .hidden{display:none!important}
-input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem}
-.member-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;flex-wrap:wrap;gap:6px}
-.winner-display{font-size:1.8rem;font-weight:800;color:#2E7D32;text-align:center;padding:15px 0;min-height:60px}
-#wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;touch-action:none}
+input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem;background:#fff}
+.member-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;gap:8px;flex-wrap:wrap}
+.winner-display{font-size:1.9rem;font-weight:900;color:#2E7D32;text-align:center;padding:15px 0;min-height:60px}
+#wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;touch-action:none;border:4px solid #2E7D32}
 .wheel-container{position:relative;max-width:320px;margin:auto}
-.wheel-arrow{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:32px;color:#FFD700}
-.collection-summary{background:#f8f6f0;border-radius:16px;padding:12px 16px;border-left:5px solid #C5A059;margin:10px 0}
-.badge{font-size:.7rem;padding:4px 10px;border-radius:20px;font-weight:600;cursor:pointer}
+.wheel-arrow{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:32px;color:#FFD700}
+.badge{font-size:.7rem;padding:5px 10px;border-radius:20px;font-weight:700;cursor:pointer;border:none}
 .paid{background:#2E7D32;color:#fff}.pending{background:#c62828;color:#fff}
 .login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2E7D32,#1b5e20);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
-.login-card{background:#fff;border-radius:24px;padding:24px;width:100%;max-width:360px;text-align:center}
-.role-badge{padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:700}
-.admin-badge{background:#FFD700;color:#000}.member-badge{background:#e3f2fd;color:#1565c0}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:200;padding:20px}
+.login-card{background:#fff;border-radius:24px;padding:28px;width:100%;max-width:360px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px}
 .modal-card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}
-.group-card{border:1px solid #e0e0e0;border-radius:14px;padding:12px;margin:8px 0;background:#fff}
-.group-header{font-weight:700;display:flex;justify-content:space-between;margin-bottom:6px;font-size:.95rem}
-.sub{padding:6px 10px;background:#f9f9f9;border-radius:8px;margin:4px 0;display:flex;justify-content:space-between;font-size:.85rem}
-.section-box{background:#f9f9f9;border-radius:12px;padding:12px;margin:10px 0;border:1px solid #eee}
-.manual-set-info{background:#fff3cd;padding:8px;border-radius:10px;font-size:.85rem;font-weight:700;text-align:center;margin:8px 0;border:2px dashed #FFD700}
-.top-kuri-bar{display:flex;gap:4px;align-items:center;background:#fff;padding:6px 10px;border-radius:30px;margin-bottom:8px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.top-kuri-bar select{width:auto;flex:1;min-width:70px;max-width:110px;margin:0;padding:6px 8px;font-size:.8rem;font-weight:700;border-radius:20px;border:2px solid #2E7D32;background:#f8fff8}
-.small-manual{font-size:.7rem;padding:6px 12px;width:auto;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700}
+.top-kuri-bar{display:flex;gap:4px;align-items:center;background:#fff;padding:8px 12px;border-radius:30px;margin-bottom:10px;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.top-kuri-bar select{width:auto;flex:1;min-width:70px;max-width:110px;margin:0;padding:7px 10px;font-size:.85rem;font-weight:700;border-radius:20px;border:2px solid #2E7D32;background:#f8fff8}
+.pass-wrap{position:relative}
+.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px}
+.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:800;cursor:pointer}
+.report-box{background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:16px;padding:14px;margin:10px 0;border-left:6px solid #2E7D32}
 </style>
 </head>
 <body>
 
 <div id="loginScreen" class="login-screen">
 <div class="login-card">
-<h2 style="color:#2E7D32">🔐 Mashood Chitty</h2>
-<select id="loginRole"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select>
-<input id="loginPass" type="password" placeholder="Password">
-<button class="btn" id="loginBtn">🔓 Login</button>
-<div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:8px;min-height:20px"></div>
+<div style="font-size:3rem;margin-bottom:8px">🪙</div>
+<h2 style="color:#2E7D32;margin-bottom:4px">Mashood Chitty</h2>
+<p style="font-size:.8rem;color:#666;margin-bottom:16px">Professional - Secure Login</p>
+<select id="loginRole" style="margin-bottom:8px"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select>
+<div class="pass-wrap">
+<input id="loginPass" type="password" placeholder="Enter Password" autocomplete="current-password">
+<button class="pass-toggle" id="passToggle" type="button">👁️</button>
+</div>
+<button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button>
+<div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div>
+<div style="font-size:.7rem;color:#999;margin-top:16px;border-top:1px solid #eee;padding-top:10px">
+🔒 Secure & Private<br>
+<span style="color:#2E7D32">● Online Live Sync</span> | <span style="color:#25D366">● Data Safe in Cloud</span>
+</div>
 </div>
 </div>
 
 <div id="winSaveModal" class="modal hidden">
 <div class="modal-card">
 <h3>🎉 വിജയി!</h3>
-<div id="winSaveName" style="font-size:1.8rem;font-weight:800;color:#2E7D32;margin:10px 0">—</div>
-<div id="winSubInfo" style="background:#f5f5f5;padding:8px;border-radius:10px;font-size:.8rem;margin:8px 0"></div>
-<button class="btn" id="confirmSaveWin">✅ Save & Remove</button>
-<button class="btn btn-outline" id="cancelSaveWin">❌ Don't Save</button>
+<div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div>
+<div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div>
+<button class="btn" id="confirmSaveWin">✅ Save Winner</button>
+<button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button>
 </div>
 </div>
 
 <div id="manualModal" class="modal hidden">
 <div class="modal-card" style="border:3px solid #FFD700">
-<h3>👑 Manual Select</h3>
-<select id="manualSelect" style="font-size:1.1rem;font-weight:700"></select>
-<button class="btn btn-gold" id="confirmManual">✅ Set Manual Win</button>
+<h3>👑 Manual Select - Hidden</h3>
+<select id="manualSelect"></select>
+<button class="btn btn-gold" id="confirmManual">✅ Set Hidden</button>
 <button class="btn btn-outline" id="cancelManual">Cancel</button>
 </div>
 </div>
 
 <div class="container" id="mainApp" style="display:none">
-<div id="status" class="status local">⏳ Loading...</div>
-
+<div id="status" class="status local">⏳ Connecting Live...</div>
 <div class="top-kuri-bar">
-<span id="roleDisplay" class="role-badge admin-badge">👑</span>
+<span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span>
 <select id="kuriSelector"></select>
-<span id="secretTrigger" style="font-weight:800;font-size:.8rem;padding:4px 6px;white-space:nowrap">FULL</span>
-<button class="btn-sm btn-danger" onclick="logout()" style="padding:4px 8px">Out</button>
+<span id="secretTrigger" style="font-weight:900;font-size:.7rem;padding:6px">FULL</span>
+<button class="btn-sm btn-danger" onclick="logout()">Out</button>
 </div>
 
 <div class="tab-bar">
 <button class="active" data-tab="home">Home</button>
 <button data-tab="members">Members</button>
-<button data-tab="addmember">➕ Add</button>
+<button data-tab="addmember" class="admin-only">➕ Add</button>
 <button data-tab="wheel">🎡 Wheel</button>
 <button data-tab="payments">💰 Pay</button>
 <button data-tab="payout">💸 Payout</button>
+<button data-tab="reports">📊 Report</button>
+<button data-tab="rules">📜 Rules</button>
+<button data-tab="whatsapp">💬 WA</button>
 <button data-tab="history">History</button>
 </div>
 
 <div id="tab-home" class="tab">
-<div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - ഇന്നത്തെ വിജയി</h3><div class="winner-display" id="todayWinner">—</div><div id="manualSetInfoHome" class="manual-set-info hidden">🎯 Manual: <span id="manualSetNameHome">-</span></div></div>
-<div class="card"><h3>📊 മാസ വിജയികൾ</h3><select id="monthSelect"></select><ul id="monthWinnerList" style="list-style:none;padding:0;margin-top:8px"></ul></div>
+<div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div><div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div></div>
+<div class="card"><h3>📅 Monthly Winners</h3><div style="display:flex;gap:6px"><select id="monthSelect"></select><select id="yearSelect"></select></div><ul id="monthWinnerList" style="list-style:none;padding:0;margin-top:10px"></ul></div>
 </div>
 
 <div id="tab-members" class="tab hidden">
-<div class="card">
-<h3>👥 Members - <span id="memberCount">0</span> - <span id="totalKuriCount">0</span> കുറി</h3>
-<div style="font-size:.75rem;color:#666;margin-bottom:8px">Current: <strong class="kuriNameDisplay">Kuri 1</strong></div>
-<div id="membersList"></div>
-</div>
+<div class="card"><h3>👥 Members - <span id="memberCount">0</span> | <span id="totalKuriCount">0</span> കുറി</h3><div id="membersList"></div></div>
 </div>
 
 <div id="tab-addmember" class="tab hidden">
-<div class="card" style="border:2px solid #2E7D32"><h3>➕ Add to <span class="kuriNameDisplay">Kuri 1</span></h3><input id="singleName" placeholder="Member Name"><button class="btn" id="addSingleBtn">✅ Add Member</button></div>
-<div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="ഒരു വരിയിൽ ഒരു പേര്"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div>
-<div class="card"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Main Member"><textarea id="subText" rows="2" placeholder="Sub കുറികൾ - ഒരു വരിയിൽ ഒന്ന്"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div>
-<!-- 3rd & 4th Kuri Add Page REMOVED as per photo request -->
+<div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="WhatsApp Number"><input id="singleAmount" type="number" placeholder="Amount - 500"><button class="btn" id="addSingleBtn">✅ Add Member</button></div>
+<div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div>
+<div class="card"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Main Name"><input id="mainPhone" placeholder="Main Phone"><input id="mainAmount" type="number" placeholder="Amount"><textarea id="subText" rows="2" placeholder="Sub Members"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div>
 </div>
 
 <div id="tab-wheel" class="tab hidden">
 <div class="card">
-<h3>🎡 <span class="kuriNameDisplay">Kuri 1</span> - Random Wheel</h3>
+<h3>🎡 <span class="kuriNameDisplay">Kuri 1</span></h3>
 <div class="wheel-container"><div class="wheel-arrow">▼</div><canvas id="wheelCanvas" width="400" height="400"></canvas></div>
-
-<!-- SPIN BELOW WHEEL ONLY -->
-<button class="btn admin-only" id="spinDrawBtn" style="font-size:1.1rem;padding:16px;margin-top:12px">🔄 Spin Random - <span class="kuriNameDisplay">Kuri 1</span></button>
-
-<!-- SHUFFLE BELOW SPIN - AS REQUESTED -->
-<button class="btn btn-outline admin-only" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;margin-top:6px">🔀 Shuffle - Below Spin</button>
-
-<div id="wheelSubInfo" style="background:#f5f5f5;padding:8px;border-radius:10px;font-size:.8rem;min-height:20px;margin:8px 0;text-align:center"></div>
-<div style="display:flex;justify-content:space-between;font-size:.85rem;background:#f5f5f5;padding:8px;border-radius:10px"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div>
-<div id="manualSetInfoDraw" class="manual-set-info hidden">🎯 Manual: <span id="manualSetNameDraw">-</span></div>
+<button class="btn admin-only" id="spinDrawBtn" style="padding:16px;margin-top:12px">🔄 SPIN</button>
+<button class="btn btn-outline admin-only" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;margin-top:6px">🔀 Shuffle</button>
+<div id="wheelSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;min-height:30px"></div>
+<div style="display:flex;justify-content:space-between;background:#f5f5f5;padding:10px;border-radius:12px"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div>
+<div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div>
 <div class="winner-display" id="drawWinner">—</div>
 <button class="btn btn-outline admin-only" id="bringBackBtn">↩️ Bring All Back</button>
 <button class="btn btn-danger admin-only" id="removeWinnerBtn">🗑 Remove Last Winner</button>
 </div>
-
-<div class="card"><h3>🚫 Removed from Wheel</h3><div id="removedList"></div></div>
-
-<!-- MANUAL SELECT - SINGLE SMALL COLUMN ONLY - AT BOTTOM -->
-<div style="text-align:center;margin-top:16px" class="admin-only">
-<button class="small-manual" id="manualBtn">👤 Manual Select</button>
-<div style="font-size:.65rem;color:#666;margin-top:4px">Manual → Set → Spin അമർത്തിയാൽ Win</div>
-</div>
-
+<div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div>
+<div style="text-align:center" class="admin-only"><button style="font-size:.7rem;padding:8px 16px;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700" id="manualBtn">👤 Manual Select - Hidden</button></div>
 </div>
 
 <div id="tab-payments" class="tab hidden">
-<div class="card"><div class="collection-summary"><div>കളക്ഷൻ: <span id="monthlyTotal" style="font-size:1.4rem;color:#2E7D32;font-weight:700">₹ 0</span></div><div>Total: <span id="totalCount">0</span> | Paid: <span id="paidCount">0</span></div></div></div>
+<div class="card report-box" style="background:#f8f6f0;color:#1e293b;border-left:5px solid #C5A059"><div>Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹ 0</span></div><div>Total: <span id="totalCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div><div>Total Collect: <span id="totalToCollect">₹ 0</span></div></div>
 <div class="card"><div id="payList"></div></div>
 </div>
 
 <div id="tab-payout" class="tab hidden">
-<div class="card"><h3>💸 Payout - <span class="kuriNameDisplay">Kuri 1</span></h3><div id="payoutList"></div></div>
-<div class="card admin-only"><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="തുക"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Payout</button></div>
+<div class="card report-box" style="background:#fff8e1;color:#000"><h3>💸 Payout Auto</h3><div>Collection: <span id="payoutCollection">₹ 0</span></div><div>Payout: <span id="payoutTotal">₹ 0</span></div><div style="font-size:1.3rem;font-weight:900">Balance: <span id="payoutBalance">₹ 0</span></div></div>
+<div class="card"><div id="payoutList"></div></div>
+<div class="card admin-only"><h3>➕ Add Payout</h3><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="Amount"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Add Payout</button></div>
 </div>
 
-<div id="tab-history" class="tab hidden"><div class="card"><h3>📜 Winners - <span class="kuriNameDisplay">Kuri 1</span></h3><div id="historyList"></div></div></div>
+<div id="tab-reports" class="tab hidden">
+<div class="card report-box" style="background:#f8f9fa;color:#1e293b"><h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3><div id="fullReport"></div><button class="btn whatsapp-btn" onclick="shareReport()" style="width:100%;margin-top:10px;padding:12px">📱 Share to WhatsApp Group</button></div>
+<div class="card"><div id="memberReport"></div></div>
+</div>
+
+<div id="tab-rules" class="tab hidden">
+<div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px;min-height:120px"></div></div>
+<div class="card admin-only"><textarea id="rulesEdit" rows="6"></textarea><button class="btn btn-gold" id="saveRules">💾 Save Rules</button></div>
+</div>
+
+<div id="tab-whatsapp" class="tab hidden">
+<div class="card"><h3>💬 WhatsApp</h3><input id="waGroupLink" placeholder="Group Link"><button class="btn-sm" style="background:#25D366;color:#fff;width:100%;padding:12px" onclick="saveWaGroupLink()">💾 Save</button><button class="btn whatsapp-btn" style="width:100%;margin-top:6px;padding:12px" onclick="openWhatsAppGroup()">📱 Open Group</button></div>
+<div class="card"><div id="waMemberList"></div></div>
+<div class="card"><textarea id="broadcastMsg" rows="3" placeholder="Message"></textarea><button class="btn whatsapp-btn" style="width:100%;padding:12px" onclick="broadcastWhatsApp()">📢 Broadcast</button></div>
+</div>
+
+<div id="tab-history" class="tab hidden">
+<div class="card"><h3>📜 History - Delete Working</h3><div id="historyList"></div></div>
+</div>
+
 </div>
 
 <script type="module">
@@ -179,98 +188,294 @@ let currentRole=null, firebaseOK=false, currentRot=0, manualTarget=null, pending
 let currentKuriId = localStorage.getItem('MASHOOD_CURRENT_KURI') || 'kuri_1';
 let allKuriData = JSON.parse(localStorage.getItem('MASHOOD_ALL_KURIS')||'{}');
 
-if(Object.keys(allKuriData).length===0){
-  const old = localStorage.getItem('MASHOOD_FULL_OPTION_FINAL');
-  if(old){ try{ const o=JSON.parse(old); allKuriData['kuri_1']={name:'Kuri 1', data:o}; }catch(e){} }
+function getDefaultKuriData(){
+  return {
+    groups: [
+      {id:'d1', mainName:'Ramesh Test', phone:'919876543210', subMembers:[], eligibility:true, payments:{}, payouts:[], amount:500},
+      {id:'d2', mainName:'Suresh Test', phone:'919876543211', subMembers:[], eligibility:true, payments:{}, payouts:[], amount:500}
+    ],
+    allWinners: [],
+    rules:'1. ഓരോ മാസവും ഒരു വിജയി\n2. തുക 500\n3. Live Sync',
+    monthlyContribution:500,
+    passwords:{admin:'ma7hood', member:'member123'},
+    waGroupLink:''
+  };
 }
-function getDefaultKuriData(){ return {groups: [], allWinners: [], rules:'1. ഓരോ മാസവും ഒരു വിജയി', monthlyContribution:500, chatLog:[], passwords:{admin:'ma7hood', member:'member123'}}; }
-if(!allKuriData['kuri_1']) allKuriData['kuri_1']={name:'Kuri 1', data:getDefaultKuriData()};
-if(!allKuriData['kuri_2']) allKuriData['kuri_2']={name:'Kuri 2', data:getDefaultKuriData()};
-if(!allKuriData['kuri_3']) allKuriData['kuri_3']={name:'Kuri 3', data:getDefaultKuriData()};
-if(!allKuriData['kuri_4']) allKuriData['kuri_4']={name:'Kuri 4', data:getDefaultKuriData()};
-
+if(Object.keys(allKuriData).length===0){
+  allKuriData['kuri_1']={name:'Kuri 1', data:getDefaultKuriData()};
+  allKuriData['kuri_2']={name:'Kuri 2', data:getDefaultKuriData()};
+  allKuriData['kuri_3']={name:'Kuri 3', data:getDefaultKuriData()};
+  allKuriData['kuri_4']={name:'Kuri 4', data:getDefaultKuriData()};
+}
 function getCurrentKuriObj(){ return allKuriData[currentKuriId]; }
 function getCurrentData(){ return getCurrentKuriObj().data; }
 let data = getCurrentData();
 data.passwords.admin='ma7hood';
 
+function isAdmin(){ return currentRole==='admin'; }
 function saveAllKuri(){ localStorage.setItem('MASHOOD_ALL_KURIS', JSON.stringify(allKuriData)); localStorage.setItem('MASHOOD_CURRENT_KURI', currentKuriId); }
 function save(){
-  data = getCurrentData(); data.passwords.admin='ma7hood'; allKuriData[currentKuriId].data=data; saveAllKuri();
-  if(dbRef){ set(dbRef,data).then(()=>{firebaseOK=true;updateStatus()}).catch(()=>{firebaseOK=false;}) }
-  renderAll();
+  try{
+    allKuriData[currentKuriId].data=data;
+    saveAllKuri();
+    if(dbRef && isAdmin()){ set(dbRef,data).then(()=>{firebaseOK=true;updateStatus()}).catch(()=>{firebaseOK=false;}); }
+    renderAll();
+  }catch(e){ console.error(e); }
 }
 function updateStatus(){
   const kuriName=getCurrentKuriObj().name;
   const totalKuri=data.groups.reduce((a,g)=>a+1+(g.subMembers?.length||0),0);
   const s=document.getElementById('status');
-  s.textContent=(firebaseOK?'✅ LIVE':'⚠️ LOCAL')+` - ${kuriName} | ${data.groups.length} Groups (${totalKuri} കുറി)`;
+  s.textContent=(firebaseOK?'✅ LIVE':'⚠️ LOCAL')+' - '+kuriName+' | '+data.groups.length+' Groups';
   s.className=firebaseOK?'status live':'status local';
   document.querySelectorAll('.kuriNameDisplay').forEach(el=>el.textContent=kuriName);
 }
 function loadKuri(kuriId){
   if(!allKuriData[kuriId]) return;
-  currentKuriId=kuriId; data=getCurrentData(); data.passwords.admin='ma7hood'; manualTarget=null; pendingWinner=null; currentRot=0;
-  if(db){ try{ dbRef=ref(db,'mashood_kuri_'+kuriId); onValue(dbRef,(snap)=>{ const val=snap.val(); if(val && val.groups){ if(val.groups.length>=data.groups.length || data.groups.length===0){ allKuriData[kuriId].data={...data, ...val}; allKuriData[kuriId].data.passwords.admin='ma7hood'; data=allKuriData[kuriId].data; saveAllKuri(); } firebaseOK=true; if(currentRole && currentKuriId===kuriId) renderAll(); } }); }catch(e){} }
+  currentKuriId=kuriId; data=getCurrentData(); manualTarget=null; pendingWinner=null; currentRot=0;
+  if(db){
+    try{
+      dbRef=ref(db,'mashood_kuri_'+kuriId);
+      onValue(dbRef,(snap)=>{
+        const val=snap.val();
+        if(val && val.groups){
+          allKuriData[kuriId].data={...getDefaultKuriData(), ...val};
+          data=allKuriData[kuriId].data;
+          saveAllKuri(); firebaseOK=true; if(currentRole) renderAll();
+        }
+      });
+    }catch(e){}
+  }
   saveAllKuri(); renderKuriSelector(); renderAll(); drawWheel(0);
 }
 function renderKuriSelector(){
   const sel=document.getElementById('kuriSelector'); sel.innerHTML='';
   Object.keys(allKuriData).sort().forEach(kid=>{
-    const o=document.createElement('option'); o.value=kid; const kd=allKuriData[kid]; o.textContent=kd.name; if(kid===currentKuriId) o.selected=true; sel.appendChild(o);
+    const o=document.createElement('option'); o.value=kid; o.textContent=allKuriData[kid].name; if(kid===currentKuriId) o.selected=true; sel.appendChild(o);
   });
 }
 function getEligible(){ return data.groups.filter(g=>g.eligibility!==false); }
-function renderAll(){
-  data=getCurrentData();
-  const eligible=getEligible(); const removed=data.groups.filter(g=>g.eligibility===false); const totalKuri=data.groups.reduce((a,g)=>a+1+(g.subMembers?.length||0),0);
-  document.getElementById('memberCount').textContent=data.groups.length; document.getElementById('totalKuriCount').textContent=totalKuri; document.getElementById('totalCount').textContent=data.groups.length; document.getElementById('paidCount').textContent=data.groups.filter(g=>g.payments && g.payments[g.mainName]).length; document.getElementById('monthlyTotal').textContent='₹ '+(data.groups.filter(g=>g.payments && g.payments[g.mainName]).length * data.monthlyContribution).toFixed(2); document.getElementById('drawEligible').textContent=eligible.length; document.getElementById('drawTotal').textContent=data.groups.length;
-  
-  let html='';
-  data.groups.forEach((g,i)=>{
-    const isRemoved=g.eligibility===false;
-    html+='<div class="group-card" style="'+(isRemoved?'opacity:0.6;background:#fee2e2':'')+'"><div class="group-header" style="background:#fff;color:#1e293b;border:1px solid #eee"><span>👤 '+(i+1)+'. '+g.mainName+(isRemoved?' 🚫':'' )+'</span><button onclick="delGroup(\''+g.id+'\')" style="border:none;background:#f5f5f5;color:#c62828;border-radius:50%;width:24px;height:24px">✕</button></div>';
-    if(g.subMembers?.length){
-      g.subMembers.forEach((sub,idx)=>{ html+='<div class="sub"><span>'+sub+'</span><button onclick="removeChild(\''+g.id+'\','+idx+')" style="border:none;background:none;color:#c62828">✕</button></div>'; });
-    }
-    html+='</div>';
-  });
-  document.getElementById('membersList').innerHTML=html||'<div style="text-align:center;color:#888;padding:20px">No Members in '+getCurrentKuriObj().name+'</div>';
 
-  let payHtml=''; data.groups.forEach(g=>{ const paid=g.payments && g.payments[g.mainName]; payHtml+='<div class="member-row"><span>👤 '+g.mainName+'</span><span class="badge '+(paid?'paid':'pending')+'" '+(currentRole==='admin'?`onclick="togglePay('${g.id}')"`:'')+'>'+(paid?'Paid':'Pending')+'</span></div>'; }); document.getElementById('payList').innerHTML=payHtml||'No groups';
-  const payoutSel=document.getElementById('payoutMemberSelect'); if(payoutSel){ payoutSel.innerHTML=''; data.groups.forEach(g=>{ const o=document.createElement('option'); o.value=g.mainName; o.textContent=g.mainName; payoutSel.appendChild(o); }); }
-  const today=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—'; document.getElementById('todayWinner').textContent=today; document.getElementById('drawWinner').textContent=today;
-  const monthSel=document.getElementById('monthSelect'); if(monthSel.options.length===0){ for(let y=2020;y<=2030;y++){ for(let m=0;m<12;m++){ const o=document.createElement('option'); o.value=y+'-'+m; o.textContent=MONTHS[m]+' '+y; if(y===new Date().getFullYear() && m===new Date().getMonth()) o.selected=true; monthSel.appendChild(o); } } monthSel.addEventListener('change', updateMonthWinners); } updateMonthWinners(); let hHtml=''; data.allWinners.slice().reverse().forEach(w=>{ hHtml+='<div class="group-card"><div class="group-header" style="background:#2E7D32;color:#fff"><span>🏆 '+w.mainName+'</span><span style="font-size:.7rem">'+w.date+'</span></div></div>'; }); document.getElementById('historyList').innerHTML=hHtml||'No winners'; document.getElementById('wheelSubInfo').innerHTML=eligible.length ? eligible.map(g=>g.mainName).join(', ') : 'No groups'; let rHtml=''; if(removed.length===0) rHtml='None'; else removed.forEach(g=>{ rHtml+='<div class="member-row"><span>🚫 '+g.mainName+'</span><button class="btn-sm btn-outline" onclick="bringBack(\''+g.id+'\')">Back</button></div>'; }); document.getElementById('removedList').innerHTML=rHtml;
-  if(manualTarget){ const mName=data.groups.find(g=>g.id===manualTarget)?.mainName||'-'; document.getElementById('manualSetInfoHome').classList.remove('hidden'); document.getElementById('manualSetInfoDraw').classList.remove('hidden'); document.getElementById('manualSetNameHome').textContent=mName; document.getElementById('manualSetNameDraw').textContent=mName; }else{ document.getElementById('manualSetInfoHome').classList.add('hidden'); document.getElementById('manualSetInfoDraw').classList.add('hidden'); }
-  updateStatus(); drawWheel(currentRot);
+window.openWA=function(phone){
+  if(!phone) return alert('Phone ഇല്ല');
+  const clean=phone.replace(/[^0-9]/g,'');
+  window.open('https://wa.me/'+clean,'_blank');
 }
-function updateMonthWinners(){ const val=document.getElementById('monthSelect').value; if(!val) return; const [y,m]=val.split('-').map(Number); const w=data.allWinners.filter(w=>{ const d=new Date(w.date); return d.getFullYear()===y && d.getMonth()===m; }); document.getElementById('monthWinnerList').innerHTML=w.length?w.map(w=>'<li>🏅 '+w.mainName+'</li>').join(''):'<li>ഇല്ല</li>'; }
-window.togglePay=function(id){ if(currentRole!=='admin') return; const g=data.groups.find(x=>x.id===id); if(g){ if(!g.payments) g.payments={}; g.payments[g.mainName]=!g.payments[g.mainName]; save(); } };
-window.delGroup=function(id){ if(currentRole!=='admin') return; if(!confirm('Delete?')) return; data.groups=data.groups.filter(x=>x.id!==id); if(manualTarget===id) manualTarget=null; save(); };
-window.bringBack=function(id){ const g=data.groups.find(x=>x.id===id); if(g){ g.eligibility=true; save(); } };
-window.removeChild=function(gid, idx){ if(currentRole!=='admin') return; const g=data.groups.find(x=>x.id===gid); if(g && g.subMembers){ g.subMembers.splice(idx,1); save(); } };
+window.saveWaGroupLink=function(){ data.waGroupLink=document.getElementById('waGroupLink').value.trim(); save(); alert('Saved'); }
+window.openWhatsAppGroup=function(){ if(data.waGroupLink) window.open(data.waGroupLink,'_blank'); else window.open('https://wa.me/?text='+encodeURIComponent('Mashood Chitty'),'_blank'); }
+window.shareReport=function(){ const t=data.groups.length; window.open('https://wa.me/?text='+encodeURIComponent('Report - '+getCurrentKuriObj().name+' - Groups:'+t),'_blank'); }
+window.broadcastWhatsApp=function(){ const msg=document.getElementById('broadcastMsg').value.trim(); if(!msg) return alert('Message എഴുതൂ'); window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank'); }
+
+function calculateTotals(){
+  const paid=data.groups.filter(g=>g.payments && g.payments[g.mainName]);
+  const collection=paid.length * data.monthlyContribution;
+  const totalPayout=data.groups.reduce((sum,g)=>sum+(g.payouts||[]).reduce((s,p)=>s+(parseFloat(p.amount)||0),0),0);
+  return {collection,totalPayout,balance:collection-totalPayout,paidCount:paid.length,pending:data.groups.length-paid.length,totalKuri:data.groups.reduce((a,g)=>a+1+(g.subMembers?.length||0),0)};
+}
+
+function renderAll(){
+  try{
+    data=getCurrentData();
+    if(!data.groups) data.groups=[];
+    if(!data.allWinners) data.allWinners=[];
+    const eligible=getEligible(); const removed=data.groups.filter(g=>g.eligibility===false);
+    const totals=calculateTotals();
+
+    document.getElementById('memberCount').textContent=data.groups.length;
+    document.getElementById('totalKuriCount').textContent=totals.totalKuri;
+    document.getElementById('totalCount').textContent=data.groups.length;
+    document.getElementById('paidCount').textContent=totals.paidCount;
+    document.getElementById('pendingCount').textContent=totals.pending;
+    document.getElementById('totalToCollect').textContent='₹ '+(data.groups.length*data.monthlyContribution);
+    document.getElementById('monthlyTotal').textContent='₹ '+totals.collection.toFixed(2);
+    document.getElementById('drawEligible').textContent=eligible.length;
+    document.getElementById('drawTotal').textContent=data.groups.length;
+    document.getElementById('payoutCollection').textContent='₹ '+totals.collection;
+    document.getElementById('payoutTotal').textContent='₹ '+totals.totalPayout;
+    document.getElementById('payoutBalance').textContent='₹ '+totals.balance;
+    document.getElementById('fullReport').innerHTML=`Groups: ${data.groups.length}<br>Kuri: ${totals.totalKuri}<br>Collection: ₹${totals.collection}<br>Payout: ₹${totals.totalPayout}<br>Balance: ₹${totals.balance}<br>Winners: ${data.allWinners.length}`;
+
+    let html=''; 
+    if(data.groups.length===0) html='<div style="text-align:center;color:#888">No Members</div>';
+    else data.groups.forEach((g,i)=>{
+      html+='<div class="group-card"><div class="group-header"><span>👤 '+(i+1)+'. '+g.mainName+'</span><div style="display:flex;gap:4px">';
+      if(g.phone) html+='<button class="whatsapp-btn" onclick="openWA(\''+g.phone+'\')">💬</button>';
+      if(isAdmin()) html+='<button onclick="delGroup(\''+g.id+'\')" style="border:none;background:#f5f5f5;color:#c62828;border-radius:50%;width:24px;height:24px">✕</button>';
+      html+='</div></div>';
+      if(g.phone) html+='<div style="font-size:.7rem;color:#25D366">📱 '+g.phone+'</div>';
+      html+='<div style="font-size:.8rem">₹'+(g.amount||500)+'</div>';
+      if(g.subMembers?.length) g.subMembers.forEach((sub,idx)=>{ html+='<div class="sub"><span>'+sub+'</span>'; if(isAdmin()) html+='<button onclick="removeChild(\''+g.id+'\','+idx+')" style="border:none;background:none;color:#c62828">✕</button>'; html+='</div>'; });
+      html+='</div>';
+    });
+    document.getElementById('membersList').innerHTML=html;
+
+    let payHtml=''; 
+    data.groups.forEach(g=>{
+      const paid=g.payments && g.payments[g.mainName];
+      payHtml+='<div class="member-row"><div><strong>'+g.mainName+'</strong><br><span style="font-size:.7rem">₹'+(g.amount||500)+'</span></div><div style="display:flex;gap:4px;align-items:center">';
+      if(isAdmin()) payHtml+='<input type="number" value="'+(g.amount||500)+'" onchange="updateAmount(\''+g.id+'\',this.value)" style="width:60px;padding:6px;margin:0">';
+      payHtml+='<span class="badge '+(paid?'paid':'pending')+'" onclick="togglePay(\''+g.id+'\')">'+(paid?'Paid':'Pending')+'</span></div></div>';
+    });
+    document.getElementById('payList').innerHTML=payHtml||'No members';
+
+    let payoutHtml=''; data.groups.forEach(g=>{ (g.payouts||[]).forEach((p,idx)=>{ payoutHtml+='<div class="member-row"><span>'+p.date+' - '+p.member+' - ₹'+p.amount+'</span><button class="btn-sm btn-danger" onclick="delPayout(\''+g.id+'\','+idx+')">✕</button></div>'; }); });
+    document.getElementById('payoutList').innerHTML=payoutHtml||'No payouts';
+    document.getElementById('memberReport').innerHTML=data.groups.map(g=>'<div class="member-row"><span>'+g.mainName+'</span><span>'+(g.payments && g.payments[g.mainName]?'Paid':'Pending')+'</span></div>').join('')||'No data';
+
+    const payoutSel=document.getElementById('payoutMemberSelect');
+    if(payoutSel){ payoutSel.innerHTML=''; data.groups.forEach(g=>{ const o=document.createElement('option'); o.value=g.mainName; o.textContent=g.mainName; payoutSel.appendChild(o); }); }
+
+    const today=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—';
+    document.getElementById('todayWinner').textContent=today;
+    document.getElementById('drawWinner').textContent=today;
+
+    const monthSel=document.getElementById('monthSelect');
+    const yearSel=document.getElementById('yearSelect');
+    if(monthSel.options.length===0){
+      MONTHS.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m; if(i===new Date().getMonth()) o.selected=true; monthSel.appendChild(o); });
+    }
+    if(yearSel.options.length===0){
+      for(let y=2023;y<=2030;y++){ const o=document.createElement('option'); o.value=y; o.textContent=y; if(y===new Date().getFullYear()) o.selected=true; yearSel.appendChild(o); }
+    }
+    updateMonthWinners();
+
+    let hHtml=''; if(data.allWinners.length===0) hHtml='No winners'; else data.allWinners.slice().reverse().forEach((w,revIdx)=>{ const realIdx=data.allWinners.length-1-revIdx; hHtml+='<div class="group-card"><div class="group-header" style="background:#2E7D32;color:#fff"><span>🏆 '+w.mainName+'</span><div style="display:flex;gap:4px"><span style="font-size:.7rem">'+w.date+'</span><button onclick="delWinnerOne('+realIdx+')" style="border:none;background:rgba(255,255,255,.3);color:#fff;border-radius:50%;width:20px;height:20px">✕</button></div></div></div>'; });
+    document.getElementById('historyList').innerHTML=hHtml;
+    document.getElementById('wheelSubInfo').innerHTML=eligible.length ? eligible.map(g=>g.mainName).join(', ') : 'No groups';
+    document.getElementById('rulesDisplay').textContent=data.rules||'';
+    document.getElementById('rulesEdit').value=data.rules||'';
+    document.getElementById('waGroupLink').value=data.waGroupLink||'';
+    let waHtml=''; data.groups.forEach(g=>{ waHtml+='<div class="member-row"><span>'+g.mainName+'</span>'; if(g.phone) waHtml+='<button class="whatsapp-btn" onclick="openWA(\''+g.phone+'\')">Chat</button>'; waHtml+='</div>'; });
+    document.getElementById('waMemberList').innerHTML=waHtml||'No members';
+    let rHtml=''; if(removed.length===0) rHtml='None'; else removed.forEach(g=>{ rHtml+='<div class="member-row"><span>🚫 '+g.mainName+'</span><button class="btn-sm btn-outline" onclick="bringBack(\''+g.id+'\')">Back</button></div>'; });
+    document.getElementById('removedList').innerHTML=rHtml;
+
+    if(manualTarget){ document.getElementById('manualSetInfoHome').classList.remove('hidden'); document.getElementById('manualSetInfoDraw').classList.remove('hidden'); }
+    else{ document.getElementById('manualSetInfoHome').classList.add('hidden'); document.getElementById('manualSetInfoDraw').classList.add('hidden'); }
+
+    updateStatus(); drawWheel(currentRot);
+  }catch(e){ console.error(e); }
+}
+function updateMonthWinners(){
+  const monthSel=document.getElementById('monthSelect'); const yearSel=document.getElementById('yearSelect');
+  if(!monthSel || !yearSel) return;
+  const m=parseInt(monthSel.value); const y=parseInt(yearSel.value);
+  const w=data.allWinners.filter(w=>{ const d=new Date(w.date); return d.getMonth()===m && d.getFullYear()===y; });
+  document.getElementById('monthWinnerList').innerHTML=w.length?w.map(w=>'<li>🏅 '+w.mainName+' - '+w.date+'</li>').join(''):'<li>ഇല്ല</li>';
+}
+
+window.togglePay=function(id){ const g=data.groups.find(x=>x.id===id); if(g){ if(!g.payments) g.payments={}; g.payments[g.mainName]=!g.payments[g.mainName]; save(); } }
+window.updateAmount=function(id,val){ const g=data.groups.find(x=>x.id===id); if(g){ g.amount=parseFloat(val)||500; save(); } }
+window.delGroup=function(id){ if(!confirm('Delete?')) return; data.groups=data.groups.filter(x=>x.id!==id); if(manualTarget===id) manualTarget=null; save(); }
+window.bringBack=function(id){ const g=data.groups.find(x=>x.id===id); if(g){ g.eligibility=true; save(); } }
+window.removeChild=function(gid,idx){ const g=data.groups.find(x=>x.id===gid); if(g && g.subMembers){ g.subMembers.splice(idx,1); save(); } }
+window.delWinnerOne=function(realIdx){ if(!confirm('Delete winner?')) return; const removed=data.allWinners.splice(realIdx,1)[0]; const g=data.groups.find(x=>x.mainName===removed.mainName); if(g) g.eligibility=true; save(); }
+window.delPayout=function(gid,idx){ const g=data.groups.find(x=>x.id===gid); if(g && g.payouts){ g.payouts.splice(idx,1); save(); } }
+
 document.getElementById('kuriSelector').addEventListener('change', function(){ loadKuri(this.value); });
-document.getElementById('loginBtn').addEventListener('click', function(){ const role=document.getElementById('loginRole').value; const pass=document.getElementById('loginPass').value.trim(); const correct=getCurrentData().passwords[role]; if(pass===correct || (role==='admin' && pass==='ma7hood')){ currentRole=role; document.getElementById('loginScreen').style.display='none'; document.getElementById('mainApp').style.display='block'; document.getElementById('roleDisplay').textContent=role==='admin'?'👑':'👤'; document.querySelectorAll('.admin-only').forEach(el=>el.style.display=role==='admin'?'':'none'); renderKuriSelector(); loadKuri(currentKuriId); }else document.getElementById('loginMsg').textContent='❌ Wrong Password!'; });
+document.getElementById('passToggle').addEventListener('click', function(){
+  const input=document.getElementById('loginPass');
+  input.type=input.type==='password'?'text':'password';
+  this.textContent=input.type==='password'?'👁️':'🙈';
+});
+document.getElementById('loginBtn').addEventListener('click', function(){
+  const role=document.getElementById('loginRole').value;
+  const pass=document.getElementById('loginPass').value.trim();
+  const correct=getCurrentData().passwords[role];
+  if(pass===correct || (role==='admin' && pass==='ma7hood')){
+    currentRole=role;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('mainApp').style.display='block';
+    document.getElementById('roleDisplay').textContent=role==='admin'?'👑 Admin':'👤 Member';
+    document.querySelectorAll('.admin-only').forEach(el=>el.style.display=role==='admin'?'':'none');
+    document.querySelectorAll('.member-only').forEach(el=>el.style.display=role==='admin'?'none':'');
+    renderKuriSelector(); loadKuri(currentKuriId);
+  }else document.getElementById('loginMsg').textContent='❌ Wrong Password!';
+});
 window.logout=function(){ currentRole=null; document.getElementById('mainApp').style.display='none'; document.getElementById('loginScreen').style.display='flex'; document.getElementById('loginPass').value=''; };
-document.getElementById('addSingleBtn').addEventListener('click', function(){ if(currentRole!=='admin') return; const name=document.getElementById('singleName').value.trim(); if(!name) return; data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5), mainName:name, subMembers:[], eligibility:true, payments:{}, payouts:[]}); document.getElementById('singleName').value=''; save(); });
-document.getElementById('bulkAddBtn').addEventListener('click', function(){ if(currentRole!=='admin') return; const txt=document.getElementById('bulkText').value.trim(); if(!txt) return; txt.split('\n').map(s=>s.trim()).filter(Boolean).forEach(n=>{ if(!data.groups.find(g=>g.mainName===n)){ data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(), mainName:n, subMembers:[], eligibility:true, payments:{}, payouts:[]}); } }); document.getElementById('bulkText').value=''; save(); });
-document.getElementById('addGroupBtn').addEventListener('click', function(){ if(currentRole!=='admin') return; const main=document.getElementById('mainName').value.trim(); const subs=document.getElementById('subText').value.trim().split('\n').map(s=>s.trim()).filter(Boolean); if(!main) return; data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5), mainName:main, subMembers:subs, eligibility:true, payments:{}, payouts:[]}); document.getElementById('mainName').value=''; document.getElementById('subText').value=''; save(); });
-function drawWheel(rot){ const canvas=document.getElementById('wheelCanvas'); if(!canvas) return; const ctx=canvas.getContext('2d'); const w=canvas.width,cx=w/2,r=w/2-10; ctx.clearRect(0,0,w,w); const eligible=getEligible(); if(!eligible.length){ ctx.fillStyle='#888'; ctx.font='14px sans-serif'; ctx.textAlign='center'; ctx.fillText('No Members - '+getCurrentKuriObj().name,cx,cx); return; } const seg=(Math.PI*2)/eligible.length; const colors=['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a','#f9844a','#a8dadc','#457b9d']; eligible.forEach((g,i)=>{ const s=i*seg+rot,e=s+seg; ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke(); ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+seg/2); ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.fillText(g.mainName.length>10?g.mainName.substring(0,8)+'..':g.mainName, r*0.65, 5); ctx.restore(); }); ctx.beginPath(); ctx.arc(cx,cx,20,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#2E7D32'; ctx.lineWidth=3; ctx.stroke(); }
-function spinToWinner(targetId){ if(currentRole!=='admin') return alert('Admin Only'); const eligible=getEligible(); if(!eligible.length) return alert('No members'); let winner=null; if(targetId) winner=eligible.find(g=>g.id===targetId); else if(manualTarget) winner=eligible.find(g=>g.id===manualTarget); else winner=eligible[Math.floor(Math.random()*eligible.length)]; if(!winner) winner=eligible[0]; const seg=(Math.PI*2)/eligible.length; const idx=eligible.indexOf(winner); const start=currentRot; let delta=-Math.PI/2-(start+idx*seg+seg/2); delta=((delta%(2*Math.PI))+2*Math.PI)%(2*Math.PI); const full=8+Math.floor(Math.random()*7); const total=delta+full*Math.PI*2; const targetRot=start+total; const dur=4000,startTime=Date.now(); function anim(){ const el=Date.now()-startTime,p=Math.min(el/dur,1),eased=1-Math.pow(1-p,3); const cur=start+total*eased; drawWheel(cur); if(p<1) requestAnimationFrame(anim); else{ drawWheel(targetRot); currentRot=targetRot%(2*Math.PI); pendingWinner=winner; document.getElementById('winSaveName').textContent=winner.mainName; document.getElementById('winSubInfo').innerHTML='Total: '+((winner.subMembers?.length||0)+1)+' കുറി | '+getCurrentKuriObj().name; document.getElementById('winSaveModal').classList.remove('hidden'); document.getElementById('todayWinner').textContent='🎉 '+winner.mainName+' 🎉'; document.getElementById('drawWinner').textContent='🎉 '+winner.mainName+' 🎉'; } } anim(); }
+document.getElementById('addSingleBtn').addEventListener('click', function(){
+  const name=document.getElementById('singleName').value.trim();
+  const phone=document.getElementById('singlePhone').value.trim();
+  const amount=parseFloat(document.getElementById('singleAmount').value)||500;
+  if(!name) return alert('Name');
+  data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5), mainName:name, phone:phone, subMembers:[], eligibility:true, payments:{}, payouts:[], amount:amount});
+  document.getElementById('singleName').value=''; document.getElementById('singlePhone').value=''; document.getElementById('singleAmount').value=''; save();
+});
+document.getElementById('bulkAddBtn').addEventListener('click', function(){
+  const txt=document.getElementById('bulkText').value.trim(); if(!txt) return;
+  txt.split('\n').map(s=>s.trim()).filter(Boolean).forEach(line=>{
+    const parts=line.split(','); const n=parts[0].trim(); const ph=parts[1]?parts[1].trim():''; const am=parseFloat(parts[2])||500;
+    if(n && !data.groups.find(g=>g.mainName===n)) data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(), mainName:n, phone:ph, subMembers:[], eligibility:true, payments:{}, payouts:[], amount:am});
+  });
+  document.getElementById('bulkText').value=''; save();
+});
+document.getElementById('addGroupBtn').addEventListener('click', function(){
+  const main=document.getElementById('mainName').value.trim();
+  const mainPh=document.getElementById('mainPhone').value.trim();
+  const amount=parseFloat(document.getElementById('mainAmount').value)||500;
+  const subs=document.getElementById('subText').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);
+  if(!main) return;
+  data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5), mainName:main, phone:mainPh, subMembers:subs, eligibility:true, payments:{}, payouts:[], amount:amount});
+  document.getElementById('mainName').value=''; document.getElementById('mainPhone').value=''; document.getElementById('mainAmount').value=''; document.getElementById('subText').value=''; save();
+});
+document.getElementById('saveRules').addEventListener('click', function(){ data.rules=document.getElementById('rulesEdit').value; save(); alert('Saved'); });
+document.getElementById('addPayout').addEventListener('click', function(){
+  const gName=document.getElementById('payoutMemberSelect').value;
+  const g=data.groups.find(x=>x.mainName===gName);
+  if(!g) return alert('Select Member');
+  const amount=parseFloat(document.getElementById('payoutAmount').value);
+  if(!amount) return alert('Amount');
+  if(!g.payouts) g.payouts=[];
+  g.payouts.push({date:document.getElementById('payoutDate').value||new Date().toISOString().slice(0,10), member:gName, amount});
+  document.getElementById('payoutAmount').value=''; save();
+});
+function drawWheel(rot){
+  const canvas=document.getElementById('wheelCanvas'); if(!canvas) return;
+  const ctx=canvas.getContext('2d'); const w=canvas.width,cx=w/2,r=w/2-10; ctx.clearRect(0,0,w,w);
+  const eligible=getEligible();
+  if(!eligible.length){ ctx.fillStyle='#888'; ctx.font='14px sans-serif'; ctx.textAlign='center'; ctx.fillText('No Members',cx,cx); return; }
+  const seg=(Math.PI*2)/eligible.length; const colors=['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a','#f9844a','#a8dadc','#457b9d'];
+  eligible.forEach((g,i)=>{
+    const s=i*seg+rot,e=s+seg; ctx.beginPath(); ctx.moveTo(cx,cx); ctx.arc(cx,cx,r,s,e); ctx.closePath(); ctx.fillStyle=colors[i%colors.length]; ctx.fill(); ctx.strokeStyle='#fff'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cx); ctx.rotate(s+seg/2); ctx.textAlign='center'; ctx.fillStyle='#fff'; ctx.font='bold 11px sans-serif'; ctx.fillText(g.mainName.length>10?g.mainName.substring(0,8)+'..':g.mainName, r*0.65, 5); ctx.restore();
+  });
+  ctx.beginPath(); ctx.arc(cx,cx,20,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill(); ctx.strokeStyle='#2E7D32'; ctx.lineWidth=3; ctx.stroke();
+}
+function spinToWinner(targetId){
+  const eligible=getEligible(); if(!eligible.length) return alert('No members');
+  let winner=null;
+  if(targetId) winner=eligible.find(g=>g.id===targetId);
+  else if(manualTarget) winner=eligible.find(g=>g.id===manualTarget);
+  else winner=eligible[Math.floor(Math.random()*eligible.length)];
+  if(!winner) winner=eligible[0];
+  const seg=(Math.PI*2)/eligible.length; const idx=eligible.indexOf(winner); const start=currentRot; let delta=-Math.PI/2-(start+idx*seg+seg/2); delta=((delta%(2*Math.PI))+2*Math.PI)%(2*Math.PI); const full=8+Math.floor(Math.random()*7); const total=delta+full*Math.PI*2; const targetRot=start+total; const dur=4000,startTime=Date.now();
+  function anim(){
+    const el=Date.now()-startTime,p=Math.min(el/dur,1),eased=1-Math.pow(1-p,3); const cur=start+total*eased; drawWheel(cur);
+    if(p<1) requestAnimationFrame(anim);
+    else{ drawWheel(targetRot); currentRot=targetRot%(2*Math.PI); pendingWinner=winner; document.getElementById('winSaveName').textContent=winner.mainName; document.getElementById('winSubInfo').innerHTML='Kuri: '+((winner.subMembers?.length||0)+1); document.getElementById('winSaveModal').classList.remove('hidden'); document.getElementById('todayWinner').textContent='🎉 '+winner.mainName+' 🎉'; document.getElementById('drawWinner').textContent='🎉 '+winner.mainName+' 🎉'; }
+  }
+  anim();
+}
 document.getElementById('spinDrawBtn').addEventListener('click', ()=>{ spinToWinner(manualTarget); });
-document.getElementById('shuffleBtn').addEventListener('click', ()=>{ if(currentRole!=='admin') return; for(let i=data.groups.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]]; } save(); drawWheel(currentRot); });
-function openManualModal(){ if(currentRole!=='admin') return; const eligible=getEligible(); if(!eligible.length) return alert('No Members'); const sel=document.getElementById('manualSelect'); sel.innerHTML=''; eligible.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=g.mainName; sel.appendChild(o); }); if(manualTarget) sel.value=manualTarget; document.getElementById('manualModal').classList.remove('hidden'); }
+document.getElementById('shuffleBtn').addEventListener('click', ()=>{ for(let i=data.groups.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]]; } save(); drawWheel(currentRot); });
+function openManualModal(){ const eligible=getEligible(); if(!eligible.length) return alert('No Members'); const sel=document.getElementById('manualSelect'); sel.innerHTML=''; eligible.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=g.mainName; sel.appendChild(o); }); if(manualTarget) sel.value=manualTarget; document.getElementById('manualModal').classList.remove('hidden'); }
 document.getElementById('manualBtn').addEventListener('click', openManualModal);
 document.getElementById('confirmManual').addEventListener('click', ()=>{ const v=document.getElementById('manualSelect').value; if(!v) return; manualTarget=v; document.getElementById('manualModal').classList.add('hidden'); renderAll(); });
 document.getElementById('cancelManual').addEventListener('click', ()=>document.getElementById('manualModal').classList.add('hidden'));
-document.getElementById('confirmSaveWin').addEventListener('click', ()=>{ if(!pendingWinner) return; data.allWinners.push({mainName:pendingWinner.mainName, subMembers:pendingWinner.subMembers||[], date:new Date().toLocaleDateString()}); pendingWinner.eligibility=false; manualTarget=null; save(); document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null; });
+document.getElementById('confirmSaveWin').addEventListener('click', ()=>{
+  if(!pendingWinner) return;
+  data.allWinners.push({mainName:pendingWinner.mainName, subMembers:pendingWinner.subMembers||[], date:new Date().toLocaleDateString()});
+  pendingWinner.eligibility=false; manualTarget=null; save();
+  document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null;
+});
 document.getElementById('cancelSaveWin').addEventListener('click', ()=>{ document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null; });
+document.getElementById('bringBackBtn').addEventListener('click', ()=>{ if(!confirm('Bring all back?')) return; data.groups.forEach(g=>g.eligibility=true); save(); });
+document.getElementById('removeWinnerBtn').addEventListener('click', ()=>{ if(!data.allWinners.length) return alert('No Winners'); if(!confirm('Remove last?')) return; const last=data.allWinners.pop(); const g=data.groups.find(x=>x.mainName===last.mainName); if(g) g.eligibility=true; manualTarget=null; save(); });
 let clickCount=0, clickTimer=null;
-document.getElementById('secretTrigger').addEventListener('click', ()=>{ if(currentRole!=='admin') return; clickCount++; if(clickTimer) clearTimeout(clickTimer); clickTimer=setTimeout(()=>{ clickCount=0; }, 3000); if(clickCount>=5){ clickCount=0; openManualModal(); } });
-let wheelPressTimer=null; const wheelCanvas=document.getElementById('wheelCanvas'); wheelCanvas.addEventListener('touchstart', ()=>{ if(currentRole!=='admin') return; wheelPressTimer=setTimeout(openManualModal, 2500); }); wheelCanvas.addEventListener('touchend', ()=>clearTimeout(wheelPressTimer)); wheelCanvas.addEventListener('mousedown', ()=>{ if(currentRole!=='admin') return; wheelPressTimer=setTimeout(openManualModal, 2500); }); wheelCanvas.addEventListener('mouseup', ()=>clearTimeout(wheelPressTimer));
+document.getElementById('secretTrigger').addEventListener('click', ()=>{ clickCount++; if(clickTimer) clearTimeout(clickTimer); clickTimer=setTimeout(()=>{ clickCount=0; }, 3000); if(clickCount>=5){ clickCount=0; openManualModal(); } });
 document.querySelectorAll('.tab-bar button').forEach(b=>{ b.addEventListener('click', function(){ document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden')); document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden'); if(this.dataset.tab==='wheel') drawWheel(currentRot); }); });
 renderKuriSelector();
-if(db){ try{ dbRef=ref(db,'mashood_kuri_'+currentKuriId); onValue(dbRef,(snap)=>{ const val=snap.val(); if(val && val.groups){ if(val.groups.length>=data.groups.length || data.groups.length===0){ allKuriData[currentKuriId].data={...data, ...val}; allKuriData[currentKuriId].data.passwords.admin='ma7hood'; data=allKuriData[currentKuriId].data; saveAllKuri(); if(currentRole) renderAll(); } firebaseOK=true; if(currentRole) updateStatus(); } }); }catch(e){} }
+if(db){ try{ dbRef=ref(db,'mashood_kuri_'+currentKuriId); onValue(dbRef,(snap)=>{ const val=snap.val(); if(val && val.groups){ allKuriData[currentKuriId].data={...getDefaultKuriData(), ...val}; data=allKuriData[currentKuriId].data; saveAllKuri(); if(currentRole) renderAll(); firebaseOK=true; if(currentRole) updateStatus(); } }); }catch(e){} }
 drawWheel(0); renderAll();
 </script>
 </body>
