@@ -348,8 +348,9 @@ try { const app = initializeApp(firebaseConfig); db = getDatabase(app); } catch 
 const MONTHS = ['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];
 const TOTAL_INSTALLMENTS = 25;
 
-let currentRole = null; // 'admin' or 'member'
-let currentMemberName = null;
+// Load session from sessionStorage
+let currentRole = sessionStorage.getItem('mashood_role') || null;
+let currentMemberName = sessionStorage.getItem('mashood_member') || null;
 let firebaseOK = false;
 let currentRot = 0;
 let manualTarget = null;
@@ -669,9 +670,7 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
-        // ============================================================
-        //  SHOW/HIDE ADMIN BUTTONS - FIXED! (No CSS display:none)
-        // ============================================================
+        // Show/Hide admin buttons
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
@@ -832,7 +831,7 @@ window.broadcastWhatsApp = function() {
 };
 
 // ============================================================
-//  LOGIN LOGIC (UPDATED)
+//  LOGIN LOGIC (with sessionStorage)
 // ============================================================
 const loginRole = document.getElementById('loginRole');
 const adminLoginFields = document.getElementById('adminLoginFields');
@@ -862,7 +861,6 @@ document.getElementById('loginBtn').addEventListener('click', function() {
             document.getElementById('loginMsg').textContent = '❌ Wrong Admin Password!';
         }
     } else {
-        // Member login: use password to find member
         const pass = document.getElementById('memberPass').value.trim();
         if (!pass) {
             document.getElementById('loginMsg').textContent = '❌ Please enter your password (6 digits).';
@@ -880,6 +878,12 @@ document.getElementById('loginBtn').addEventListener('click', function() {
 function doLogin(role, memberName) {
     currentRole = role;
     currentMemberName = memberName;
+    
+    // Save session
+    sessionStorage.setItem('mashood_role', role);
+    if (memberName) sessionStorage.setItem('mashood_member', memberName);
+    else sessionStorage.removeItem('mashood_member');
+
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
 
@@ -890,7 +894,6 @@ function doLogin(role, memberName) {
         roleDisplay.textContent = '👤 ' + memberName;
     }
 
-    // Show admin buttons if admin
     document.querySelectorAll('.admin-only-btn').forEach(el => {
         el.style.display = (role === 'admin') ? '' : 'none';
     });
@@ -917,6 +920,8 @@ function doLogin(role, memberName) {
 window.logout = function() {
     currentRole = null;
     currentMemberName = null;
+    sessionStorage.removeItem('mashood_role');
+    sessionStorage.removeItem('mashood_member');
     document.getElementById('mainApp').style.display = 'none';
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('loginPass').value = '';
@@ -1218,9 +1223,36 @@ document.getElementById('monthSelect').addEventListener('change', updateMonthWin
 document.getElementById('yearSelect').addEventListener('change', updateMonthWinners);
 
 // ============================================================
-//  INIT
+//  INIT - Auto restore session
 // ============================================================
 renderKuriSelector();
+
+// If session exists, auto-login
+if (currentRole) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    const roleDisplay = document.getElementById('roleDisplay');
+    if (currentRole === 'admin') {
+        roleDisplay.textContent = '👑 Admin';
+    } else {
+        roleDisplay.textContent = '👤 ' + (currentMemberName || 'Member');
+    }
+    // Show admin buttons if admin
+    document.querySelectorAll('.admin-only-btn').forEach(el => {
+        el.style.display = (currentRole === 'admin') ? '' : 'none';
+    });
+    if (currentRole === 'member' && currentMemberName) {
+        document.getElementById('memberWelcomeBanner').classList.remove('hidden');
+        document.getElementById('memberPaymentStatus').classList.remove('hidden');
+        document.getElementById('welcomeMemberName').textContent = 'Welcome, ' + currentMemberName + '! 🎉';
+        document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + getCurrentKuriObj().name;
+    }
+    loadKuri(currentKuriId);
+} else {
+    // Show login screen
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+}
 
 if (db) {
     try {
