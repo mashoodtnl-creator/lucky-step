@@ -46,8 +46,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 .pay-dot{width:100%;aspect-ratio:1/1;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;background:#f5f5f5}
 .pay-dot.paid-dot{background:#2E7D32;border-color:#2E7D32;color:#fff}
 .pay-dot.pending-dot{background:#fff;border-color:#c62828}
-.member-login-select select{font-size:1rem;padding:12px;border-radius:20px;border:2px solid #2E7D32}
-.admin-only-btn{display:none}
 .status-card{background:#f8f9fa;border-radius:16px;padding:14px;margin:8px 0}
 .status-card .row{display:flex;justify-content:space-between;padding:4px 0;font-size:.95rem}
 .status-card .row .label{color:#666}
@@ -125,7 +123,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
     <div class="top-kuri-bar">
         <span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span>
         <select id="kuriSelector"></select>
-        <span id="secretTrigger" style="font-weight:900;font-size:.7rem;padding:6px;cursor:pointer">FULL</span>
         <button class="btn-sm btn-danger" onclick="logout()">Out</button>
     </div>
 
@@ -243,8 +240,8 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <h3>🚫 Removed</h3>
             <div id="removedList"></div>
         </div>
-        <div style="text-align:center" class="admin-only-btn">
-            <button style="font-size:.7rem;padding:8px 16px;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700" id="manualBtn">👤 Manual Select - Hidden</button>
+        <div style="text-align:center">
+            <button class="admin-only-btn" style="font-size:.7rem;padding:8px 16px;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700" id="manualBtn">👤 Manual Select - Hidden</button>
         </div>
     </div>
 
@@ -416,7 +413,6 @@ function getMemberPassword(phone) {
 }
 
 function findMemberByPassword(pass) {
-    // Search for member whose phone ends with the given 6-digit pass
     const cleanPass = pass.replace(/[^0-9]/g, '');
     if (cleanPass.length !== 6) return null;
     return data.groups.find(g => {
@@ -673,10 +669,14 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
+        // ============================================================
+        //  SHOW/HIDE ADMIN BUTTONS - FIXED! (No CSS display:none)
+        // ============================================================
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
         });
+
         const banner = document.getElementById('memberWelcomeBanner');
         const payStatus = document.getElementById('memberPaymentStatus');
         if (isMember() && currentMemberName) {
@@ -686,10 +686,6 @@ function renderAll() {
         } else {
             banner.classList.add('hidden');
             payStatus.classList.add('hidden');
-        }
-        const addTabBtn = document.querySelector('[data-tab="addmember"]');
-        if (addTabBtn) {
-            addTabBtn.style.display = isAdminUser ? '' : 'none';
         }
 
         updateStatus();
@@ -894,6 +890,7 @@ function doLogin(role, memberName) {
         roleDisplay.textContent = '👤 ' + memberName;
     }
 
+    // Show admin buttons if admin
     document.querySelectorAll('.admin-only-btn').forEach(el => {
         el.style.display = (role === 'admin') ? '' : 'none';
     });
@@ -908,11 +905,6 @@ function doLogin(role, memberName) {
     } else {
         banner.classList.add('hidden');
         payStatus.classList.add('hidden');
-    }
-
-    const addTabBtn = document.querySelector('[data-tab="addmember"]');
-    if (addTabBtn) {
-        addTabBtn.style.display = (role === 'admin') ? '' : 'none';
     }
 
     renderKuriSelector();
@@ -1077,20 +1069,6 @@ document.getElementById('removeWinnerBtn').addEventListener('click', () => {
     if (g) g.eligibility = true;
     manualTarget = null;
     save();
-});
-
-// ============================================================
-//  SECRET TRIGGER
-// ============================================================
-let clickCount = 0, clickTimer = null;
-document.getElementById('secretTrigger').addEventListener('click', () => {
-    clickCount++;
-    if (clickTimer) clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => { clickCount = 0; }, 3000);
-    if (clickCount >= 5) {
-        clickCount = 0;
-        openManualModal();
-    }
 });
 
 // ============================================================
@@ -1272,4 +1250,4 @@ if (document.getElementById('loginRole').value === 'member') {
 }
 </script>
 </body>
-</html> 
+</html>
