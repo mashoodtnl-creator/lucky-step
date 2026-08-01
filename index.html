@@ -62,6 +62,8 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <div style="font-size:3rem;margin-bottom:8px">🪙</div>
         <h2 style="color:#2E7D32;margin-bottom:4px">Mashood Chitty</h2>
         <p style="font-size:.8rem;color:#666;margin-bottom:16px">Professional - Secure Login</p>
+
+        <!-- No Kuri selector for members - only role and password -->
         <select id="loginRole" style="margin-bottom:8px">
             <option value="admin">👑 Admin Login</option>
             <option value="member">👤 Member Login</option>
@@ -69,6 +71,8 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 
         <!-- Admin login fields -->
         <div id="adminLoginFields">
+            <div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div>
+            <select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"></select>
             <div class="pass-wrap">
                 <input id="loginPass" type="password" placeholder="Enter Admin Password" autocomplete="current-password">
                 <button class="pass-toggle" id="passToggle" type="button">👁️</button>
@@ -413,14 +417,23 @@ function getMemberPassword(phone) {
     return clean.slice(-6);
 }
 
-function findMemberByPassword(pass) {
+// Find member across all kuris by password (last 6 digits)
+function findMemberByPasswordAcrossKuris(pass) {
     const cleanPass = pass.replace(/[^0-9]/g, '');
     if (cleanPass.length !== 6) return null;
-    return data.groups.find(g => {
-        if (!g.phone) return false;
-        const last6 = g.phone.replace(/[^0-9]/g, '').slice(-6);
-        return last6 === cleanPass;
-    });
+    for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
+        const kuriData = kuriObj.data;
+        if (!kuriData) continue;
+        const member = kuriData.groups.find(g => {
+            if (!g.phone) return false;
+            const last6 = g.phone.replace(/[^0-9]/g, '').slice(-6);
+            return last6 === cleanPass;
+        });
+        if (member) {
+            return { kuriId, member };
+        }
+    }
+    return null;
 }
 
 function getEligible() { return data.groups.filter(g => g.eligibility !== false); }
@@ -831,11 +844,25 @@ window.broadcastWhatsApp = function() {
 };
 
 // ============================================================
-//  LOGIN LOGIC (with sessionStorage)
+//  LOGIN LOGIC (with sessionStorage and auto Kuri detection)
 // ============================================================
 const loginRole = document.getElementById('loginRole');
 const adminLoginFields = document.getElementById('adminLoginFields');
 const memberLoginFields = document.getElementById('memberLoginFields');
+const loginKuriSelector = document.getElementById('loginKuriSelector');
+
+// Populate login Kuri selector for admin
+function populateLoginKuriSelector() {
+    loginKuriSelector.innerHTML = '';
+    Object.keys(allKuriData).sort().forEach(kid => {
+        const o = document.createElement('option');
+        o.value = kid;
+        o.textContent = allKuriData[kid].name;
+        if (kid === currentKuriId) o.selected = true;
+        loginKuriSelector.appendChild(o);
+    });
+}
+populateLoginKuriSelector();
 
 loginRole.addEventListener('change', function() {
     if (this.value === 'admin') {
@@ -853,24 +880,39 @@ document.getElementById('loginBtn').addEventListener('click', function() {
     const role = document.getElementById('loginRole').value;
 
     if (role === 'admin') {
+        // Admin: select Kuri and enter admin password
+        const selectedKuri = loginKuriSelector.value;
+        const kuriData = allKuriData[selectedKuri]?.data;
+        if (!kuriData) {
+            document.getElementById('loginMsg').textContent = '❌ Selected Kuri not found.';
+            return;
+        }
         const pass = document.getElementById('loginPass').value.trim();
-        const correct = getCurrentData().passwords.admin;
+        const correct = kuriData.passwords.admin;
         if (pass === correct) {
+            currentKuriId = selectedKuri;
+            data = kuriData;
+            saveAllKuri();
             doLogin('admin', null);
         } else {
-            document.getElementById('loginMsg').textContent = '❌ Wrong Admin Password!';
+            document.getElementById('loginMsg').textContent = '❌ Wrong Admin Password for this Kuri!';
         }
     } else {
+        // Member: only password, auto-detect Kuri
         const pass = document.getElementById('memberPass').value.trim();
         if (!pass) {
             document.getElementById('loginMsg').textContent = '❌ Please enter your password (6 digits).';
             return;
         }
-        const member = findMemberByPassword(pass);
-        if (member) {
+        const result = findMemberByPasswordAcrossKuris(pass);
+        if (result) {
+            const { kuriId, member } = result;
+            currentKuriId = kuriId;
+            data = allKuriData[kuriId].data;
+            saveAllKuri();
             doLogin('member', member.mainName);
         } else {
-            document.getElementById('loginMsg').textContent = '❌ No member found with that password. Please check your phone number.';
+            document.getElementById('loginMsg').textContent = '❌ No member found with that password in any Kuri. Please check your phone number.';
         }
     }
 });
@@ -927,6 +969,7 @@ window.logout = function() {
     document.getElementById('loginPass').value = '';
     document.getElementById('memberPass').value = '';
     document.getElementById('loginMsg').textContent = '';
+    populateLoginKuriSelector(); // refresh Kuri list in case of changes
 };
 
 // ============================================================
@@ -1210,7 +1253,7 @@ document.getElementById('memberPassToggle').addEventListener('click', function()
 });
 
 // ============================================================
-//  KURI SELECTOR
+//  KURI SELECTOR (main app) - sync with login
 // ============================================================
 document.getElementById('kuriSelector').addEventListener('change', function() {
     loadKuri(this.value);
@@ -1237,7 +1280,6 @@ if (currentRole) {
     } else {
         roleDisplay.textContent = '👤 ' + (currentMemberName || 'Member');
     }
-    // Show admin buttons if admin
     document.querySelectorAll('.admin-only-btn').forEach(el => {
         el.style.display = (currentRole === 'admin') ? '' : 'none';
     });
@@ -1249,7 +1291,6 @@ if (currentRole) {
     }
     loadKuri(currentKuriId);
 } else {
-    // Show login screen
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
 }
