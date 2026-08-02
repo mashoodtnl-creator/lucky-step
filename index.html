@@ -468,10 +468,10 @@ function getLoggedInMember() {
     return data.groups.find(g => g.mainName === currentMemberName);
 }
 
-// 🔥 ULTIMATE FIX FOR iPHONE & ALL DEVICES: 
-// Extracts numbers, takes last 4 digits, ignores spaces/hyphens.
+// 🔥 ULTIMATE FIX FOR SAFARI & CHROME: 
+// Takes the last 4 digits from any messy input
 function findMemberByPasswordAcrossKuris(pass) {
-    // 1. Clean the input: Remove everything except numbers, then take LAST 4 digits.
+    // 1. Clean the input: Remove EVERYTHING except numbers, then take ONLY the LAST 4 digits.
     const cleanPass = pass.replace(/[^0-9]/g, '').slice(-4);
     
     // 2. If the result is empty or not exactly 4 digits, reject it.
