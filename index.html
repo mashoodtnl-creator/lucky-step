@@ -468,17 +468,22 @@ function getLoggedInMember() {
     return data.groups.find(g => g.mainName === currentMemberName);
 }
 
-// 🔥 FIXED: Checks last 4 digits AND auto-trims spaces so it works on any phone
+// 🔥 ULTIMATE FIX FOR iPHONE & ALL DEVICES: 
+// Extracts numbers, takes last 4 digits, ignores spaces/hyphens.
 function findMemberByPasswordAcrossKuris(pass) {
-    const cleanPass = pass.replace(/[^0-9]/g, '').trim(); // Removed length restriction. Cleans and trims.
-    if (!cleanPass) return null;
+    // 1. Clean the input: Remove everything except numbers, then take LAST 4 digits.
+    const cleanPass = pass.replace(/[^0-9]/g, '').slice(-4);
+    
+    // 2. If the result is empty or not exactly 4 digits, reject it.
+    if (!cleanPass || cleanPass.length !== 4) return null;
     
     for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
         const kuriData = kuriObj.data;
         if (!kuriData) continue;
         const member = kuriData.groups.find(g => {
             if (!g.phone) return false;
-            const last4 = g.phone.replace(/[^0-9]/g, '').slice(-4); // Extract last 4 digits
+            // Extract last 4 digits from stored phone number
+            const last4 = g.phone.replace(/[^0-9]/g, '').slice(-4);
             return last4 === cleanPass;
         });
         if (member) {
@@ -1090,7 +1095,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
             saveAllKuri();
             doLogin('member', member.mainName);
         } else {
-            document.getElementById('loginMsg').textContent = '❌ No member found with that password in any Kuri. Please check your phone number.';
+            document.getElementById('loginMsg').textContent = '❌ No member found with that password. Check phone number entered in app.';
         }
     }
 });
