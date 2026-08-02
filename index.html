@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashood Chitty V16 - Member Login</title>
 <style>
-/* ... all styles same as before ... */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
 .container{max-width:520px;margin:0 auto;padding:16px}
@@ -64,6 +63,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <h2 style="color:#2E7D32;margin-bottom:4px">Mashood Chitty</h2>
         <p style="font-size:.8rem;color:#666;margin-bottom:16px">Professional - Secure Login</p>
 
+        <!-- No Kuri selector for members - only role and password -->
         <select id="loginRole" style="margin-bottom:8px">
             <option value="admin">👑 Admin Login</option>
             <option value="member">👤 Member Login</option>
@@ -122,7 +122,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 
 <!-- ===== MAIN APP ===== -->
 <div class="container" id="mainApp" style="display:none">
-    <div id="status" class="status local">⏳ Connecting...</div>
+    <div id="status" class="status local">⏳ Connecting Live...</div>
 
     <div class="top-kuri-bar">
         <span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span>
@@ -344,23 +344,7 @@ const firebaseConfig = {
 };
 
 let db = null, dbRef = null;
-let firebaseConnected = false; // real connection status
-try { 
-    const app = initializeApp(firebaseConfig); 
-    db = getDatabase(app); 
-    // Listen to connection state
-    const connectedRef = ref(db, '.info/connected');
-    onValue(connectedRef, (snap) => {
-        firebaseConnected = snap.val() === true;
-        if (firebaseConnected && currentRole) {
-            firebaseOK = true;
-            updateStatus();
-        } else {
-            firebaseOK = false;
-            updateStatus();
-        }
-    });
-} catch (e) { console.warn('Firebase init error:', e); }
+try { const app = initializeApp(firebaseConfig); db = getDatabase(app); } catch (e) {}
 
 // ============================================================
 //  CONSTANTS & STATE
@@ -368,9 +352,10 @@ try {
 const MONTHS = ['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];
 const TOTAL_INSTALLMENTS = 25;
 
+// Load session from sessionStorage
 let currentRole = sessionStorage.getItem('mashood_role') || null;
 let currentMemberName = sessionStorage.getItem('mashood_member') || null;
-let firebaseOK = false; // will be set by connection listener
+let firebaseOK = false;
 let currentRot = 0;
 let manualTarget = null;
 let pendingWinner = null;
@@ -432,6 +417,7 @@ function getMemberPassword(phone) {
     return clean.slice(-6);
 }
 
+// Find member across all kuris by password (last 6 digits)
 function findMemberByPasswordAcrossKuris(pass) {
     const cleanPass = pass.replace(/[^0-9]/g, '');
     if (cleanPass.length !== 6) return null;
@@ -465,8 +451,8 @@ function save() {
         ensurePaymentFields();
         allKuriData[currentKuriId].data = data;
         saveAllKuri();
-        if (dbRef && isAdmin() && firebaseConnected) {
-            set(dbRef, data).then(() => { firebaseOK = true; updateStatus(); }).catch(() => { firebaseOK = false; updateStatus(); });
+        if (dbRef && isAdmin()) {
+            set(dbRef, data).then(() => { firebaseOK = true; updateStatus(); }).catch(() => { firebaseOK = false; });
         }
         renderAll();
     } catch (e) { console.error(e); }
@@ -475,9 +461,8 @@ function save() {
 function updateStatus() {
     const kuriName = getCurrentKuriObj().name;
     const s = document.getElementById('status');
-    const isLive = firebaseConnected && firebaseOK;
-    s.textContent = (isLive ? '✅ LIVE' : '⚠️ LOCAL') + ' - ' + kuriName + ' | ' + data.groups.length + ' Members';
-    s.className = isLive ? 'status live' : 'status local';
+    s.textContent = (firebaseOK ? '✅ LIVE' : '⚠️ LOCAL') + ' - ' + kuriName + ' | ' + data.groups.length + ' Members';
+    s.className = firebaseOK ? 'status live' : 'status local';
     document.querySelectorAll('.kuriNameDisplay').forEach(el => el.textContent = kuriName);
     document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + kuriName;
 }
@@ -497,7 +482,6 @@ function loadKuri(kuriId) {
     if (db) {
         try {
             dbRef = ref(db, 'mashood_kuri_' + kuriId);
-            // Listen for changes
             onValue(dbRef, (snap) => {
                 const val = snap.val();
                 if (val && val.groups) {
@@ -505,17 +489,9 @@ function loadKuri(kuriId) {
                     data = allKuriData[kuriId].data;
                     ensurePaymentFields();
                     saveAllKuri();
-                    firebaseOK = true; // we got data, so connected
-                } else {
-                    // No data yet, but still connected
                     firebaseOK = true;
+                    if (currentRole) renderAll();
                 }
-                if (currentRole) renderAll();
-                updateStatus();
-            }, (error) => {
-                console.warn('Firebase read error:', error);
-                firebaseOK = false;
-                updateStatus();
             });
         } catch (e) {}
     }
@@ -555,7 +531,7 @@ function calculateTotals() {
 }
 
 // ============================================================
-//  RENDER ALL (same as before, but we call updateStatus at the end)
+//  RENDER ALL
 // ============================================================
 function renderAll() {
     try {
@@ -707,6 +683,7 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
+        // Show/Hide admin buttons
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
@@ -723,13 +700,13 @@ function renderAll() {
             payStatus.classList.add('hidden');
         }
 
-        updateStatus(); // update live/local
+        updateStatus();
         drawWheel(currentRot);
     } catch (e) { console.error(e); }
 }
 
 // ============================================================
-//  MEMBER PAYMENT STATUS (unchanged)
+//  MEMBER PAYMENT STATUS
 // ============================================================
 function updateMemberPaymentStatus() {
     const mem = getLoggedInMember();
@@ -867,13 +844,14 @@ window.broadcastWhatsApp = function() {
 };
 
 // ============================================================
-//  LOGIN LOGIC (unchanged)
+//  LOGIN LOGIC (with sessionStorage and auto Kuri detection)
 // ============================================================
 const loginRole = document.getElementById('loginRole');
 const adminLoginFields = document.getElementById('adminLoginFields');
 const memberLoginFields = document.getElementById('memberLoginFields');
 const loginKuriSelector = document.getElementById('loginKuriSelector');
 
+// Populate login Kuri selector for admin
 function populateLoginKuriSelector() {
     loginKuriSelector.innerHTML = '';
     Object.keys(allKuriData).sort().forEach(kid => {
@@ -902,6 +880,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
     const role = document.getElementById('loginRole').value;
 
     if (role === 'admin') {
+        // Admin: select Kuri and enter admin password
         const selectedKuri = loginKuriSelector.value;
         const kuriData = allKuriData[selectedKuri]?.data;
         if (!kuriData) {
@@ -919,6 +898,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
             document.getElementById('loginMsg').textContent = '❌ Wrong Admin Password for this Kuri!';
         }
     } else {
+        // Member: only password, auto-detect Kuri
         const pass = document.getElementById('memberPass').value.trim();
         if (!pass) {
             document.getElementById('loginMsg').textContent = '❌ Please enter your password (6 digits).';
@@ -941,6 +921,7 @@ function doLogin(role, memberName) {
     currentRole = role;
     currentMemberName = memberName;
     
+    // Save session
     sessionStorage.setItem('mashood_role', role);
     if (memberName) sessionStorage.setItem('mashood_member', memberName);
     else sessionStorage.removeItem('mashood_member');
@@ -988,11 +969,11 @@ window.logout = function() {
     document.getElementById('loginPass').value = '';
     document.getElementById('memberPass').value = '';
     document.getElementById('loginMsg').textContent = '';
-    populateLoginKuriSelector();
+    populateLoginKuriSelector(); // refresh Kuri list in case of changes
 };
 
 // ============================================================
-//  WHEEL (unchanged)
+//  WHEEL
 // ============================================================
 function drawWheel(rot) {
     const canvas = document.getElementById('wheelCanvas');
@@ -1153,7 +1134,7 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
 });
 
 // ============================================================
-//  ADD MEMBER (unchanged)
+//  ADD MEMBER
 // ============================================================
 document.getElementById('addSingleBtn').addEventListener('click', function() {
     const name = document.getElementById('singleName').value.trim();
@@ -1233,7 +1214,7 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-//  RULES & PAYOUT (unchanged)
+//  RULES & PAYOUT
 // ============================================================
 document.getElementById('saveRules').addEventListener('click', function() {
     data.rules = document.getElementById('rulesEdit').value;
@@ -1272,7 +1253,7 @@ document.getElementById('memberPassToggle').addEventListener('click', function()
 });
 
 // ============================================================
-//  KURI SELECTOR
+//  KURI SELECTOR (main app) - sync with login
 // ============================================================
 document.getElementById('kuriSelector').addEventListener('change', function() {
     loadKuri(this.value);
@@ -1289,6 +1270,7 @@ document.getElementById('yearSelect').addEventListener('change', updateMonthWinn
 // ============================================================
 renderKuriSelector();
 
+// If session exists, auto-login
 if (currentRole) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('mainApp').style.display = 'block';
@@ -1313,19 +1295,28 @@ if (currentRole) {
     document.getElementById('mainApp').style.display = 'none';
 }
 
-// Additional connection check for status
 if (db) {
-    // already have connection listener above
-    // Also try to read data to set status
     try {
         dbRef = ref(db, 'mashood_kuri_' + currentKuriId);
-        // Will be handled in loadKuri or connection listener
-    } catch(e) {}
+        onValue(dbRef, (snap) => {
+            const val = snap.val();
+            if (val && val.groups) {
+                allKuriData[currentKuriId].data = { ...getDefaultKuriData(), ...val };
+                data = allKuriData[currentKuriId].data;
+                ensurePaymentFields();
+                saveAllKuri();
+                if (currentRole) renderAll();
+                firebaseOK = true;
+                if (currentRole) updateStatus();
+            }
+        });
+    } catch (e) {}
 }
 
 drawWheel(0);
 renderAll();
 
+// Ensure member fields are hidden initially
 if (document.getElementById('loginRole').value === 'member') {
     adminLoginFields.classList.add('hidden');
     memberLoginFields.classList.remove('hidden');
