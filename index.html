@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashood Chitty V16 - Member Login</title>
 <style>
-/* ... existing styles ... */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
 .container{max-width:520px;margin:0 auto;padding:16px}
@@ -233,6 +232,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
                 <select id="monthSelectMonthly" style="flex:1;min-width:80px;"></select>
                 <select id="yearSelectMonthly" style="flex:1;min-width:80px;"></select>
                 <button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button>
+                <button class="btn-sm btn-danger" id="clearMonthBtn" style="background:#c62828;color:#fff;padding:8px 16px;">🗑️ Clear All</button>
             </div>
             <div id="monthlyPayList"></div>
             <div style="font-size:.8rem;color:#666;margin-top:8px">✓ Click on a member to toggle paid/unpaid for selected month.</div>
@@ -862,6 +862,25 @@ window.toggleMonthlyPay = function(id, monthKey) {
     renderAll();
 };
 
+// Clear all monthly payments for the current month
+window.clearMonthlyPayments = function() {
+    if (!isAdmin()) return;
+    if (!confirm('⚠️ Clear all payments for the selected month? This cannot be undone!')) return;
+    const monthSel = document.getElementById('monthSelectMonthly');
+    const yearSel = document.getElementById('yearSelectMonthly');
+    const month = parseInt(monthSel.value);
+    const year = parseInt(yearSel.value);
+    const key = year + '-' + String(month+1).padStart(2,'0');
+    data.groups.forEach(g => {
+        if (g.monthlyPayments && g.monthlyPayments[key]) {
+            delete g.monthlyPayments[key];
+        }
+    });
+    save();
+    loadMonthlyData();
+    renderAll();
+};
+
 // Initialize month/year dropdowns for monthly tab
 function initMonthlySelectors() {
     const monthSel = document.getElementById('monthSelectMonthly');
@@ -889,6 +908,9 @@ function initMonthlySelectors() {
     yearSel.addEventListener('change', loadMonthlyData);
     // Load initial
     setTimeout(loadMonthlyData, 100);
+    
+    // Add clear button event
+    document.getElementById('clearMonthBtn')?.addEventListener('click', clearMonthlyPayments);
 }
 
 // ============================================================
