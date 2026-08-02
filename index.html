@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashood Chitty V16 - Member Login</title>
 <style>
+/* ... all styles same as before ... */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color<!DOCTYPE html>
+<html lang="ml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mashood Chitty V16 - Member Login</title>
+<style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
 .container{max-width:520px;margin:0 auto;padding:16px}
@@ -1317,6 +1326,1331 @@ drawWheel(0);
 renderAll();
 
 // Ensure member fields are hidden initially
+if (document.getElementById('loginRole').value === 'member') {
+    adminLoginFields.classList.add('hidden');
+    memberLoginFields.classList.remove('hidden');
+}
+</script>
+</body>
+</html>1e293b;padding-bottom:80px}
+.container{max-width:520px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}
+.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;width:100%;margin:6px 0;cursor:pointer}
+.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}
+.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#000}
+.btn-sm{padding:6px 10px;font-size:.75rem;width:auto;border-radius:20px;border:none;cursor:pointer}
+.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.8rem}
+.live{background:#d1fae5;color:#065f46;border:2px solid #065f46}.local{background:#fef3c7;color:#92400e}
+.tab-bar{display:flex;gap:2px;overflow-x:auto;padding:6px;background:#fff;border-radius:30px;margin-bottom:12px;position:sticky;top:52px;z-index:9}
+.tab-bar button{flex:1;min-width:48px;padding:8px 3px;border:none;background:transparent;font-weight:800;font-size:.58rem;border-radius:20px;white-space:nowrap;cursor:pointer}
+.tab-bar button.active{background:#2E7D32;color:#fff}
+.hidden{display:none!important}
+input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem;background:#fff}
+.member-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;gap:8px;flex-wrap:wrap}
+.winner-display{font-size:1.9rem;font-weight:900;color:#2E7D32;text-align:center;padding:15px 0;min-height:60px}
+#wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;touch-action:none;border:4px solid #2E7D32}
+.wheel-container{position:relative;max-width:320px;margin:auto}
+.wheel-arrow{position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:32px;color:#FFD700}
+.badge{font-size:.7rem;padding:5px 10px;border-radius:20px;font-weight:700;cursor:pointer;border:none}
+.paid{background:#2E7D32;color:#fff}.pending{background:#c62828;color:#fff}
+.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2E7D32,#1b5e20);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}
+.login-card{background:#fff;border-radius:24px;padding:28px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px}
+.modal-card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}
+.top-kuri-bar{display:flex;gap:4px;align-items:center;background:#fff;padding:8px 12px;border-radius:30px;margin-bottom:10px;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.top-kuri-bar select{width:auto;flex:1;min-width:70px;max-width:110px;margin:0;padding:7px 10px;font-size:.85rem;font-weight:700;border-radius:20px;border:2px solid #2E7D32;background:#f8fff8}
+.pass-wrap{position:relative}
+.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px}
+.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:800;cursor:pointer}
+.report-box{background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:16px;padding:14px;margin:10px 0;border-left:6px solid #2E7D32}
+.welcome-banner{background:linear-gradient(135deg,#2E7D32,#1b5e20);color:#fff;border-radius:20px;padding:20px 16px;text-align:center;margin-bottom:12px}
+.welcome-banner h2{font-size:1.5rem;margin-bottom:4px}
+.welcome-banner p{font-size:.95rem;opacity:.9}
+.progress-wrap{background:#e9ecef;border-radius:30px;height:20px;overflow:hidden;margin:8px 0;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,#2E7D32,#4CAF50);border-radius:30px;transition:width .5s ease;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:700;min-width:30px}
+.pay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin:10px 0}
+.pay-dot{width:100%;aspect-ratio:1/1;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;background:#f5f5f5}
+.pay-dot.paid-dot{background:#2E7D32;border-color:#2E7D32;color:#fff}
+.pay-dot.pending-dot{background:#fff;border-color:#c62828}
+.status-card{background:#f8f9fa;border-radius:16px;padding:14px;margin:8px 0}
+.status-card .row{display:flex;justify-content:space-between;padding:4px 0;font-size:.95rem}
+.status-card .row .label{color:#666}
+.status-card .row .value{font-weight:700;color:#1e293b}
+.status-card .row .value.green{color:#2E7D32}
+.status-card .row .value.red{color:#c62828}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN SCREEN ===== -->
+<div id="loginScreen" class="login-screen">
+    <div class="login-card">
+        <div style="font-size:3rem;margin-bottom:8px">🪙</div>
+        <h2 style="color:#2E7D32;margin-bottom:4px">Mashood Chitty</h2>
+        <p style="font-size:.8rem;color:#666;margin-bottom:16px">Professional - Secure Login</p>
+
+        <select id="loginRole" style="margin-bottom:8px">
+            <option value="admin">👑 Admin Login</option>
+            <option value="member">👤 Member Login</option>
+        </select>
+
+        <!-- Admin login fields -->
+        <div id="adminLoginFields">
+            <div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div>
+            <select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"></select>
+            <div class="pass-wrap">
+                <input id="loginPass" type="password" placeholder="Enter Admin Password" autocomplete="current-password">
+                <button class="pass-toggle" id="passToggle" type="button">👁️</button>
+            </div>
+        </div>
+
+        <!-- Member login fields (only password) -->
+        <div id="memberLoginFields" class="hidden">
+            <p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Enter your password (last 6 digits of your phone number)</p>
+            <div class="pass-wrap">
+                <input id="memberPass" type="password" placeholder="Enter 6-digit password" autocomplete="current-password" maxlength="6" inputmode="numeric">
+                <button class="pass-toggle" id="memberPassToggle" type="button">👁️</button>
+            </div>
+            <div style="font-size:.7rem;color:#999;margin-top:4px">Example: if phone is 9876543210, password = 543210</div>
+        </div>
+
+        <button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button>
+        <div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div>
+
+        <div style="font-size:.7rem;color:#999;margin-top:16px;border-top:1px solid #eee;padding-top:10px">
+            🔒 Secure & Private<br>
+            <span style="color:#2E7D32">● Online Live Sync</span> |
+            <span style="color:#25D366">● Data Safe in Cloud</span>
+        </div>
+    </div>
+</div>
+
+<!-- ===== MODALS ===== -->
+<div id="winSaveModal" class="modal hidden">
+    <div class="modal-card">
+        <h3>🎉 വിജയി!</h3>
+        <div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div>
+        <div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div>
+        <button class="btn" id="confirmSaveWin">✅ Save Winner</button>
+        <button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button>
+    </div>
+</div>
+
+<div id="manualModal" class="modal hidden">
+    <div class="modal-card" style="border:3px solid #FFD700">
+        <h3>👑 Manual Select - Hidden</h3>
+        <select id="manualSelect"></select>
+        <button class="btn btn-gold" id="confirmManual">✅ Set Hidden</button>
+        <button class="btn btn-outline" id="cancelManual">Cancel</button>
+    </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div class="container" id="mainApp" style="display:none">
+    <div id="status" class="status local">⏳ Connecting...</div>
+
+    <div class="top-kuri-bar">
+        <span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span>
+        <select id="kuriSelector"></select>
+        <button class="btn-sm btn-danger" onclick="logout()">Out</button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="tab-bar">
+        <button class="active" data-tab="home">🏠 Home</button>
+        <button data-tab="members">👥 Members</button>
+        <button data-tab="addmember" class="admin-only-btn">➕ Add</button>
+        <button data-tab="wheel">🎡 Wheel</button>
+        <button data-tab="payments">💰 Pay</button>
+        <button data-tab="payout" class="admin-only-btn">💸 Payout</button>
+        <button data-tab="reports">📊 Report</button>
+        <button data-tab="rules">📜 Rules</button>
+        <button data-tab="whatsapp">💬 WA</button>
+        <button data-tab="history">📜 History</button>
+    </div>
+
+    <!-- ===== TAB: HOME ===== -->
+    <div id="tab-home" class="tab">
+        <div id="memberWelcomeBanner" class="hidden welcome-banner">
+            <h2 id="welcomeMemberName">Welcome, Member! 🎉</h2>
+            <p id="welcomeKuriName">Welcome to Kuri 1</p>
+        </div>
+
+        <div class="card">
+            <h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3>
+            <div class="winner-display" id="todayWinner">—</div>
+            <div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div>
+        </div>
+
+        <!-- Member Payment Status (visible only to members) -->
+        <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32">
+            <h3>💳 Your Payment Status</h3>
+            <div id="memberPayStatusContent">
+                <div class="status-card">
+                    <div class="row"><span class="label">📅 Total Installments</span><span class="value">25</span></div>
+                    <div class="row"><span class="label">✅ Paid</span><span class="value green" id="memPaidCount">0</span></div>
+                    <div class="row"><span class="label">⏳ Remaining</span><span class="value red" id="memRemainingCount">25</span></div>
+                    <div class="row"><span class="label">💰 Amount Paid</span><span class="value green" id="memAmountPaid">₹ 0</span></div>
+                    <div class="row"><span class="label">📌 Remaining Amount</span><span class="value red" id="memRemainingAmount">₹ 0</span></div>
+                </div>
+                <div class="progress-wrap">
+                    <div class="progress-fill" id="memProgressFill" style="width:0%">0%</div>
+                </div>
+                <div style="font-size:.75rem;color:#666;text-align:center;margin-top:6px">
+                    <span id="memPaidLabel">0</span> / 25 paid
+                </div>
+                <div class="pay-grid" id="memberPayGrid"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>📅 Monthly Winners</h3>
+            <div style="display:flex;gap:6px">
+                <select id="monthSelect"></select>
+                <select id="yearSelect"></select>
+            </div>
+            <ul id="monthWinnerList" style="list-style:none;padding:0;margin-top:10px"></ul>
+        </div>
+    </div>
+
+    <!-- ===== TAB: MEMBERS ===== -->
+    <div id="tab-members" class="tab hidden">
+        <div class="card">
+            <h3>👥 Members - <span id="memberCount">0</span> | <span id="totalKuriCount">0</span> കുറി</h3>
+            <div id="membersList"></div>
+        </div>
+    </div>
+
+    <!-- ===== TAB: ADD MEMBER ===== -->
+    <div id="tab-addmember" class="tab hidden">
+        <div class="card" style="border:2px solid #2E7D32">
+            <h3>➕ Add Member</h3>
+            <input id="singleName" placeholder="Name">
+            <input id="singlePhone" placeholder="WhatsApp Number">
+            <input id="singleAmount" type="number" placeholder="Amount - 500">
+            <button class="btn" id="addSingleBtn">✅ Add Member</button>
+        </div>
+        <div class="card">
+            <h3>📋 Bulk Add</h3>
+            <textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea>
+            <button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button>
+        </div>
+        <div class="card">
+            <h3>🏠 Group Add</h3>
+            <input id="mainName" placeholder="Main Name">
+            <input id="mainPhone" placeholder="Main Phone">
+            <input id="mainAmount" type="number" placeholder="Amount">
+            <textarea id="subText" rows="2" placeholder="Sub Members"></textarea>
+            <button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB: WHEEL ===== -->
+    <div id="tab-wheel" class="tab hidden">
+        <div class="card">
+            <h3>🎡 <span class="kuriNameDisplay">Kuri 1</span></h3>
+            <div class="wheel-container">
+                <div class="wheel-arrow">▼</div>
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
+            </div>
+            <button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:12px">🔄 SPIN</button>
+            <button class="btn btn-outline admin-only-btn" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;margin-top:6px">🔀 Shuffle</button>
+            <div id="wheelSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;min-height:30px"></div>
+            <div style="display:flex;justify-content:space-between;background:#f5f5f5;padding:10px;border-radius:12px">
+                <span>Wheel: <strong id="drawEligible">0</strong></span>
+                <span>Total: <strong id="drawTotal">0</strong></span>
+            </div>
+            <div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div>
+            <div class="winner-display" id="drawWinner">—</div>
+            <button class="btn btn-outline admin-only-btn" id="bringBackBtn">↩️ Bring All Back</button>
+            <button class="btn btn-danger admin-only-btn" id="removeWinnerBtn">🗑 Remove Last Winner</button>
+        </div>
+        <div class="card">
+            <h3>🚫 Removed</h3>
+            <div id="removedList"></div>
+        </div>
+        <div style="text-align:center">
+            <button class="admin-only-btn" style="font-size:.7rem;padding:8px 16px;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700" id="manualBtn">👤 Manual Select - Hidden</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB: PAYMENTS ===== -->
+    <div id="tab-payments" class="tab hidden">
+        <div class="card report-box" style="background:#f8f6f0;color:#1e293b;border-left:5px solid #C5A059">
+            <div>Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹ 0</span></div>
+            <div>Total: <span id="totalCount">0</span> | Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span></div>
+            <div>Total Collect: <span id="totalToCollect">₹ 0</span></div>
+        </div>
+        <div class="card">
+            <div id="payList"></div>
+        </div>
+    </div>
+
+    <!-- ===== TAB: PAYOUT ===== -->
+    <div id="tab-payout" class="tab hidden">
+        <div class="card report-box" style="background:#fff8e1;color:#000">
+            <h3>💸 Payout Auto</h3>
+            <div>Collection: <span id="payoutCollection">₹ 0</span></div>
+            <div>Payout: <span id="payoutTotal">₹ 0</span></div>
+            <div style="font-size:1.3rem;font-weight:900">Balance: <span id="payoutBalance">₹ 0</span></div>
+        </div>
+        <div class="card"><div id="payoutList"></div></div>
+        <div class="card admin-only-btn">
+            <h3>➕ Add Payout</h3>
+            <input type="date" id="payoutDate">
+            <input type="number" id="payoutAmount" placeholder="Amount">
+            <select id="payoutMemberSelect"></select>
+            <button class="btn btn-gold" id="addPayout">➕ Add Payout</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB: REPORTS ===== -->
+    <div id="tab-reports" class="tab hidden">
+        <div class="card report-box" style="background:#f8f9fa;color:#1e293b">
+            <h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3>
+            <div id="fullReport"></div>
+            <button class="btn whatsapp-btn" onclick="shareReport()" style="width:100%;margin-top:10px;padding:12px">📱 Share to WhatsApp Group</button>
+        </div>
+        <div class="card"><div id="memberReport"></div></div>
+    </div>
+
+    <!-- ===== TAB: RULES ===== -->
+    <div id="tab-rules" class="tab hidden">
+        <div class="card">
+            <h3>📜 Rules</h3>
+            <div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px;min-height:120px"></div>
+        </div>
+        <div class="card admin-only-btn">
+            <textarea id="rulesEdit" rows="6"></textarea>
+            <button class="btn btn-gold" id="saveRules">💾 Save Rules</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB: WHATSAPP ===== -->
+    <div id="tab-whatsapp" class="tab hidden">
+        <div class="card">
+            <h3>💬 WhatsApp</h3>
+            <input id="waGroupLink" placeholder="Group Link">
+            <button class="btn-sm" style="background:#25D366;color:#fff;width:100%;padding:12px" onclick="saveWaGroupLink()">💾 Save</button>
+            <button class="btn whatsapp-btn" style="width:100%;margin-top:6px;padding:12px" onclick="openWhatsAppGroup()">📱 Open Group</button>
+        </div>
+        <div class="card"><div id="waMemberList"></div></div>
+        <div class="card">
+            <textarea id="broadcastMsg" rows="3" placeholder="Message"></textarea>
+            <button class="btn whatsapp-btn" style="width:100%;padding:12px" onclick="broadcastWhatsApp()">📢 Broadcast</button>
+        </div>
+    </div>
+
+    <!-- ===== TAB: HISTORY ===== -->
+    <div id="tab-history" class="tab hidden">
+        <div class="card">
+            <h3>📜 History - Delete Working</h3>
+            <div id="historyList"></div>
+        </div>
+    </div>
+
+</div>
+
+<script type="module">
+// ============================================================
+//  IMPORTS & CONFIG
+// ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0",
+    authDomain: "mashood-kuri.firebaseapp.com",
+    databaseURL: "https://mashood-kuri-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mashood-kuri",
+    storageBucket: "mashood-kuri.firebasestorage.app",
+    messagingSenderId: "1016691708150",
+    appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
+};
+
+let db = null, dbRef = null;
+let firebaseConnected = false; // real connection status
+try { 
+    const app = initializeApp(firebaseConfig); 
+    db = getDatabase(app); 
+    // Listen to connection state
+    const connectedRef = ref(db, '.info/connected');
+    onValue(connectedRef, (snap) => {
+        firebaseConnected = snap.val() === true;
+        if (firebaseConnected && currentRole) {
+            firebaseOK = true;
+            updateStatus();
+        } else {
+            firebaseOK = false;
+            updateStatus();
+        }
+    });
+} catch (e) { console.warn('Firebase init error:', e); }
+
+// ============================================================
+//  CONSTANTS & STATE
+// ============================================================
+const MONTHS = ['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];
+const TOTAL_INSTALLMENTS = 25;
+
+let currentRole = sessionStorage.getItem('mashood_role') || null;
+let currentMemberName = sessionStorage.getItem('mashood_member') || null;
+let firebaseOK = false; // will be set by connection listener
+let currentRot = 0;
+let manualTarget = null;
+let pendingWinner = null;
+
+let currentKuriId = localStorage.getItem('MASHOOD_CURRENT_KURI') || 'kuri_1';
+let allKuriData = JSON.parse(localStorage.getItem('MASHOOD_ALL_KURIS') || '{}');
+
+// ============================================================
+//  DEFAULT DATA
+// ============================================================
+function getDefaultKuriData() {
+    return {
+        groups: [
+            { id: 'd1', mainName: 'Ramesh', phone: '919876543210', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, paidCount: 0, paymentDates: [] },
+            { id: 'd2', mainName: 'Suresh', phone: '919876543211', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, paidCount: 0, paymentDates: [] }
+        ],
+        allWinners: [],
+        rules: '1. ഓരോ മാസവും ഒരു വിജയി\n2. തുക 500\n3. Live Sync',
+        monthlyContribution: 500,
+        passwords: { admin: 'ma7hood' },
+        waGroupLink: ''
+    };
+}
+
+if (Object.keys(allKuriData).length === 0) {
+    allKuriData['kuri_1'] = { name: 'Kuri 1', data: getDefaultKuriData() };
+    allKuriData['kuri_2'] = { name: 'Kuri 2', data: getDefaultKuriData() };
+    allKuriData['kuri_3'] = { name: 'Kuri 3', data: getDefaultKuriData() };
+    allKuriData['kuri_4'] = { name: 'Kuri 4', data: getDefaultKuriData() };
+}
+
+function getCurrentKuriObj() { return allKuriData[currentKuriId]; }
+function getCurrentData() { return getCurrentKuriObj().data; }
+let data = getCurrentData();
+if (!data.passwords) data.passwords = {};
+data.passwords.admin = 'ma7hood';
+
+function ensurePaymentFields() {
+    data.groups.forEach(g => {
+        if (g.paidCount === undefined) g.paidCount = 0;
+        if (!g.paymentDates) g.paymentDates = [];
+        if (g.paidCount > TOTAL_INSTALLMENTS) g.paidCount = TOTAL_INSTALLMENTS;
+        while (g.paymentDates.length > g.paidCount) g.paymentDates.pop();
+    });
+}
+ensurePaymentFields();
+
+function isAdmin() { return currentRole === 'admin'; }
+function isMember() { return currentRole === 'member'; }
+
+function getLoggedInMember() {
+    if (!isMember() || !currentMemberName) return null;
+    return data.groups.find(g => g.mainName === currentMemberName);
+}
+
+function getMemberPassword(phone) {
+    if (!phone) return '';
+    const clean = phone.replace(/[^0-9]/g, '');
+    return clean.slice(-6);
+}
+
+function findMemberByPasswordAcrossKuris(pass) {
+    const cleanPass = pass.replace(/[^0-9]/g, '');
+    if (cleanPass.length !== 6) return null;
+    for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
+        const kuriData = kuriObj.data;
+        if (!kuriData) continue;
+        const member = kuriData.groups.find(g => {
+            if (!g.phone) return false;
+            const last6 = g.phone.replace(/[^0-9]/g, '').slice(-6);
+            return last6 === cleanPass;
+        });
+        if (member) {
+            return { kuriId, member };
+        }
+    }
+    return null;
+}
+
+function getEligible() { return data.groups.filter(g => g.eligibility !== false); }
+
+// ============================================================
+//  SAVE / SYNC
+// ============================================================
+function saveAllKuri() {
+    localStorage.setItem('MASHOOD_ALL_KURIS', JSON.stringify(allKuriData));
+    localStorage.setItem('MASHOOD_CURRENT_KURI', currentKuriId);
+}
+
+function save() {
+    try {
+        ensurePaymentFields();
+        allKuriData[currentKuriId].data = data;
+        saveAllKuri();
+        if (dbRef && isAdmin() && firebaseConnected) {
+            set(dbRef, data).then(() => { firebaseOK = true; updateStatus(); }).catch(() => { firebaseOK = false; updateStatus(); });
+        }
+        renderAll();
+    } catch (e) { console.error(e); }
+}
+
+function updateStatus() {
+    const kuriName = getCurrentKuriObj().name;
+    const s = document.getElementById('status');
+    const isLive = firebaseConnected && firebaseOK;
+    s.textContent = (isLive ? '✅ LIVE' : '⚠️ LOCAL') + ' - ' + kuriName + ' | ' + data.groups.length + ' Members';
+    s.className = isLive ? 'status live' : 'status local';
+    document.querySelectorAll('.kuriNameDisplay').forEach(el => el.textContent = kuriName);
+    document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + kuriName;
+}
+
+// ============================================================
+//  LOAD KURI
+// ============================================================
+function loadKuri(kuriId) {
+    if (!allKuriData[kuriId]) return;
+    currentKuriId = kuriId;
+    data = getCurrentData();
+    ensurePaymentFields();
+    manualTarget = null;
+    pendingWinner = null;
+    currentRot = 0;
+
+    if (db) {
+        try {
+            dbRef = ref(db, 'mashood_kuri_' + kuriId);
+            // Listen for changes
+            onValue(dbRef, (snap) => {
+                const val = snap.val();
+                if (val && val.groups) {
+                    allKuriData[kuriId].data = { ...getDefaultKuriData(), ...val };
+                    data = allKuriData[kuriId].data;
+                    ensurePaymentFields();
+                    saveAllKuri();
+                    firebaseOK = true; // we got data, so connected
+                } else {
+                    // No data yet, but still connected
+                    firebaseOK = true;
+                }
+                if (currentRole) renderAll();
+                updateStatus();
+            }, (error) => {
+                console.warn('Firebase read error:', error);
+                firebaseOK = false;
+                updateStatus();
+            });
+        } catch (e) {}
+    }
+    saveAllKuri();
+    renderKuriSelector();
+    renderAll();
+    drawWheel(0);
+}
+
+function renderKuriSelector() {
+    const sel = document.getElementById('kuriSelector');
+    sel.innerHTML = '';
+    Object.keys(allKuriData).sort().forEach(kid => {
+        const o = document.createElement('option');
+        o.value = kid;
+        o.textContent = allKuriData[kid].name;
+        if (kid === currentKuriId) o.selected = true;
+        sel.appendChild(o);
+    });
+}
+
+// ============================================================
+//  CALCULATE TOTALS
+// ============================================================
+function calculateTotals() {
+    const paid = data.groups.filter(g => g.payments && g.payments[g.mainName]);
+    const collection = paid.length * data.monthlyContribution;
+    const totalPayout = data.groups.reduce((sum, g) => sum + (g.payouts || []).reduce((s, p) => s + (parseFloat(p.amount) || 0), 0), 0);
+    return {
+        collection,
+        totalPayout,
+        balance: collection - totalPayout,
+        paidCount: paid.length,
+        pending: data.groups.length - paid.length,
+        totalKuri: data.groups.reduce((a, g) => a + 1 + (g.subMembers?.length || 0), 0)
+    };
+}
+
+// ============================================================
+//  RENDER ALL (same as before, but we call updateStatus at the end)
+// ============================================================
+function renderAll() {
+    try {
+        data = getCurrentData();
+        if (!data.groups) data.groups = [];
+        if (!data.allWinners) data.allWinners = [];
+        ensurePaymentFields();
+
+        const eligible = getEligible();
+        const removed = data.groups.filter(g => g.eligibility === false);
+        const totals = calculateTotals();
+
+        document.getElementById('memberCount').textContent = data.groups.length;
+        document.getElementById('totalKuriCount').textContent = totals.totalKuri;
+        document.getElementById('totalCount').textContent = data.groups.length;
+        document.getElementById('paidCount').textContent = totals.paidCount;
+        document.getElementById('pendingCount').textContent = totals.pending;
+        document.getElementById('totalToCollect').textContent = '₹ ' + (data.groups.length * data.monthlyContribution);
+        document.getElementById('monthlyTotal').textContent = '₹ ' + totals.collection.toFixed(2);
+        document.getElementById('drawEligible').textContent = eligible.length;
+        document.getElementById('drawTotal').textContent = data.groups.length;
+        document.getElementById('payoutCollection').textContent = '₹ ' + totals.collection;
+        document.getElementById('payoutTotal').textContent = '₹ ' + totals.totalPayout;
+        document.getElementById('payoutBalance').textContent = '₹ ' + totals.balance;
+        document.getElementById('fullReport').innerHTML =
+            `Groups: ${data.groups.length}<br>Kuri: ${totals.totalKuri}<br>Collection: ₹${totals.collection}<br>Payout: ₹${totals.totalPayout}<br>Balance: ₹${totals.balance}<br>Winners: ${data.allWinners.length}`;
+
+        let html = '';
+        if (data.groups.length === 0) html = '<div style="text-align:center;color:#888">No Members</div>';
+        else data.groups.forEach((g, i) => {
+            const paidCount = g.paidCount || 0;
+            html += '<div class="group-card"><div class="group-header"><span>👤 ' + (i+1) + '. ' + g.mainName + '</span><div style="display:flex;gap:4px">';
+            if (g.phone) html += '<button class="whatsapp-btn" onclick="openWA(\'' + g.phone + '\')">💬</button>';
+            if (isAdmin()) html += '<button onclick="delGroup(\'' + g.id + '\')" style="border:none;background:#f5f5f5;color:#c62828;border-radius:50%;width:24px;height:24px">✕</button>';
+            html += '</div></div>';
+            if (g.phone) html += '<div style="font-size:.7rem;color:#25D366">📱 ' + g.phone + '</div>';
+            html += '<div style="font-size:.8rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; Paid: ' + paidCount + '/' + TOTAL_INSTALLMENTS + '</div>';
+            if (g.subMembers?.length) g.subMembers.forEach((sub, idx) => {
+                html += '<div class="sub"><span>' + sub + '</span>';
+                if (isAdmin()) html += '<button onclick="removeChild(\'' + g.id + '\',' + idx + ')" style="border:none;background:none;color:#c62828">✕</button>';
+                html += '</div>';
+            });
+            html += '</div>';
+        });
+        document.getElementById('membersList').innerHTML = html;
+
+        let payHtml = '';
+        data.groups.forEach(g => {
+            const paidCount = g.paidCount || 0;
+            const isPaid = paidCount >= TOTAL_INSTALLMENTS;
+            payHtml += '<div class="member-row"><div><strong>' + g.mainName + '</strong><br><span style="font-size:.7rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; ' + paidCount + '/' + TOTAL_INSTALLMENTS + '</span></div><div style="display:flex;gap:4px;align-items:center">';
+            if (isAdmin()) {
+                payHtml += '<input type="number" value="' + (g.amount || 500) + '" onchange="updateAmount(\'' + g.id + '\',this.value)" style="width:60px;padding:6px;margin:0">';
+                if (paidCount < TOTAL_INSTALLMENTS) {
+                    payHtml += '<button class="btn-sm" style="background:#2E7D32;color:#fff" onclick="markPaid(\'' + g.id + '\')">✅ Paid</button>';
+                } else {
+                    payHtml += '<span class="badge paid">✅ Complete</span>';
+                }
+                if (paidCount > 0) {
+                    payHtml += '<button class="btn-sm btn-danger" onclick="unmarkPaid(\'' + g.id + '\')">↩️</button>';
+                }
+            } else {
+                payHtml += '<span class="badge ' + (isPaid ? 'paid' : 'pending') + '">' + (isPaid ? 'Complete' : 'Pending') + '</span>';
+            }
+            payHtml += '</div></div>';
+        });
+        document.getElementById('payList').innerHTML = payHtml || 'No members';
+
+        let payoutHtml = '';
+        data.groups.forEach(g => {
+            (g.payouts || []).forEach((p, idx) => {
+                payoutHtml += '<div class="member-row"><span>' + p.date + ' - ' + p.member + ' - ₹' + p.amount + '</span><button class="btn-sm btn-danger" onclick="delPayout(\'' + g.id + '\',' + idx + ')">✕</button></div>';
+            });
+        });
+        document.getElementById('payoutList').innerHTML = payoutHtml || 'No payouts';
+        document.getElementById('memberReport').innerHTML = data.groups.map(g =>
+            '<div class="member-row"><span>' + g.mainName + '</span><span>' + ((g.paidCount || 0) >= TOTAL_INSTALLMENTS ? '✅ Complete' : ((g.paidCount || 0) + '/' + TOTAL_INSTALLMENTS)) + '</span></div>'
+        ).join('') || 'No data';
+
+        const payoutSel = document.getElementById('payoutMemberSelect');
+        if (payoutSel) {
+            payoutSel.innerHTML = '';
+            data.groups.forEach(g => {
+                const o = document.createElement('option');
+                o.value = g.mainName;
+                o.textContent = g.mainName;
+                payoutSel.appendChild(o);
+            });
+        }
+
+        const today = data.allWinners.length ? data.allWinners[data.allWinners.length-1].mainName : '—';
+        document.getElementById('todayWinner').textContent = today;
+        document.getElementById('drawWinner').textContent = today;
+
+        const monthSel = document.getElementById('monthSelect');
+        const yearSel = document.getElementById('yearSelect');
+        if (monthSel.options.length === 0) {
+            MONTHS.forEach((m, i) => {
+                const o = document.createElement('option');
+                o.value = i;
+                o.textContent = m;
+                if (i === new Date().getMonth()) o.selected = true;
+                monthSel.appendChild(o);
+            });
+        }
+        if (yearSel.options.length === 0) {
+            for (let y = 2023; y <= 2030; y++) {
+                const o = document.createElement('option');
+                o.value = y;
+                o.textContent = y;
+                if (y === new Date().getFullYear()) o.selected = true;
+                yearSel.appendChild(o);
+            }
+        }
+        updateMonthWinners();
+
+        let hHtml = '';
+        if (data.allWinners.length === 0) hHtml = 'No winners';
+        else data.allWinners.slice().reverse().forEach((w, revIdx) => {
+            const realIdx = data.allWinners.length - 1 - revIdx;
+            hHtml += '<div class="group-card"><div class="group-header" style="background:#2E7D32;color:#fff"><span>🏆 ' + w.mainName + '</span><div style="display:flex;gap:4px"><span style="font-size:.7rem">' + w.date + '</span><button onclick="delWinnerOne(' + realIdx + ')" style="border:none;background:rgba(255,255,255,.3);color:#fff;border-radius:50%;width:20px;height:20px">✕</button></div></div></div>';
+        });
+        document.getElementById('historyList').innerHTML = hHtml;
+        document.getElementById('wheelSubInfo').innerHTML = eligible.length ? eligible.map(g => g.mainName).join(', ') : 'No groups';
+        document.getElementById('rulesDisplay').textContent = data.rules || '';
+        document.getElementById('rulesEdit').value = data.rules || '';
+        document.getElementById('waGroupLink').value = data.waGroupLink || '';
+        let waHtml = '';
+        data.groups.forEach(g => {
+            waHtml += '<div class="member-row"><span>' + g.mainName + '</span>';
+            if (g.phone) waHtml += '<button class="whatsapp-btn" onclick="openWA(\'' + g.phone + '\')">Chat</button>';
+            waHtml += '</div>';
+        });
+        document.getElementById('waMemberList').innerHTML = waHtml || 'No members';
+        let rHtml = '';
+        if (removed.length === 0) rHtml = 'None';
+        else removed.forEach(g => {
+            rHtml += '<div class="member-row"><span>🚫 ' + g.mainName + '</span><button class="btn-sm btn-outline" onclick="bringBack(\'' + g.id + '\')">Back</button></div>';
+        });
+        document.getElementById('removedList').innerHTML = rHtml;
+
+        if (manualTarget) {
+            document.getElementById('manualSetInfoHome').classList.remove('hidden');
+            document.getElementById('manualSetInfoDraw').classList.remove('hidden');
+        } else {
+            document.getElementById('manualSetInfoHome').classList.add('hidden');
+            document.getElementById('manualSetInfoDraw').classList.add('hidden');
+        }
+
+        updateMemberPaymentStatus();
+
+        const isAdminUser = isAdmin();
+        document.querySelectorAll('.admin-only-btn').forEach(el => {
+            el.style.display = isAdminUser ? '' : 'none';
+        });
+
+        const banner = document.getElementById('memberWelcomeBanner');
+        const payStatus = document.getElementById('memberPaymentStatus');
+        if (isMember() && currentMemberName) {
+            banner.classList.remove('hidden');
+            payStatus.classList.remove('hidden');
+            document.getElementById('welcomeMemberName').textContent = 'Welcome, ' + currentMemberName + '! 🎉';
+        } else {
+            banner.classList.add('hidden');
+            payStatus.classList.add('hidden');
+        }
+
+        updateStatus(); // update live/local
+        drawWheel(currentRot);
+    } catch (e) { console.error(e); }
+}
+
+// ============================================================
+//  MEMBER PAYMENT STATUS (unchanged)
+// ============================================================
+function updateMemberPaymentStatus() {
+    const mem = getLoggedInMember();
+    if (!mem) {
+        document.getElementById('memberPaymentStatus').classList.add('hidden');
+        return;
+    }
+    document.getElementById('memberPaymentStatus').classList.remove('hidden');
+    const paid = mem.paidCount || 0;
+    const remaining = TOTAL_INSTALLMENTS - paid;
+    const amount = mem.amount || 500;
+    const amountPaid = paid * amount;
+    const remainingAmount = remaining * amount;
+    document.getElementById('memPaidCount').textContent = paid;
+    document.getElementById('memRemainingCount').textContent = remaining;
+    document.getElementById('memAmountPaid').textContent = '₹ ' + amountPaid;
+    document.getElementById('memRemainingAmount').textContent = '₹ ' + remainingAmount;
+    document.getElementById('memPaidLabel').textContent = paid;
+    const pct = Math.round((paid / TOTAL_INSTALLMENTS) * 100);
+    const fill = document.getElementById('memProgressFill');
+    fill.style.width = pct + '%';
+    fill.textContent = pct + '%';
+    const grid = document.getElementById('memberPayGrid');
+    grid.innerHTML = '';
+    for (let i = 0; i < TOTAL_INSTALLMENTS; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'pay-dot ' + (i < paid ? 'paid-dot' : 'pending-dot');
+        dot.textContent = i + 1;
+        grid.appendChild(dot);
+    }
+}
+
+// ============================================================
+//  MONTH WINNERS
+// ============================================================
+function updateMonthWinners() {
+    const monthSel = document.getElementById('monthSelect');
+    const yearSel = document.getElementById('yearSelect');
+    if (!monthSel || !yearSel) return;
+    const m = parseInt(monthSel.value);
+    const y = parseInt(yearSel.value);
+    const w = data.allWinners.filter(w => {
+        const d = new Date(w.date);
+        return d.getMonth() === m && d.getFullYear() === y;
+    });
+    document.getElementById('monthWinnerList').innerHTML = w.length ? w.map(w => '<li>🏅 ' + w.mainName + ' - ' + w.date + '</li>').join('') : '<li>ഇല്ല</li>';
+}
+
+// ============================================================
+//  PAYMENT ACTIONS (Admin)
+// ============================================================
+window.markPaid = function(id) {
+    if (!isAdmin()) return;
+    const g = data.groups.find(x => x.id === id);
+    if (!g) return;
+    if ((g.paidCount || 0) >= TOTAL_INSTALLMENTS) {
+        alert('This member has already completed all ' + TOTAL_INSTALLMENTS + ' payments.');
+        return;
+    }
+    g.paidCount = (g.paidCount || 0) + 1;
+    if (!g.paymentDates) g.paymentDates = [];
+    g.paymentDates.push(new Date().toISOString().slice(0, 10));
+    save();
+};
+window.unmarkPaid = function(id) {
+    if (!isAdmin()) return;
+    const g = data.groups.find(x => x.id === id);
+    if (!g) return;
+    if ((g.paidCount || 0) <= 0) return;
+    g.paidCount = (g.paidCount || 0) - 1;
+    if (g.paymentDates && g.paymentDates.length > 0) {
+        g.paymentDates.pop();
+    }
+    save();
+};
+window.updateAmount = function(id, val) {
+    const g = data.groups.find(x => x.id === id);
+    if (g) { g.amount = parseFloat(val) || 500; save(); }
+};
+window.delGroup = function(id) {
+    if (!confirm('Delete this member?')) return;
+    data.groups = data.groups.filter(x => x.id !== id);
+    if (manualTarget === id) manualTarget = null;
+    if (currentMemberName && !data.groups.find(g => g.mainName === currentMemberName)) {
+        logout();
+        return;
+    }
+    save();
+};
+window.bringBack = function(id) {
+    const g = data.groups.find(x => x.id === id);
+    if (g) { g.eligibility = true; save(); }
+};
+window.removeChild = function(gid, idx) {
+    const g = data.groups.find(x => x.id === gid);
+    if (g && g.subMembers) { g.subMembers.splice(idx, 1); save(); }
+};
+window.delWinnerOne = function(realIdx) {
+    if (!confirm('Delete winner?')) return;
+    const removed = data.allWinners.splice(realIdx, 1)[0];
+    const g = data.groups.find(x => x.mainName === removed.mainName);
+    if (g) g.eligibility = true;
+    save();
+};
+window.delPayout = function(gid, idx) {
+    const g = data.groups.find(x => x.id === gid);
+    if (g && g.payouts) { g.payouts.splice(idx, 1); save(); }
+};
+
+// ============================================================
+//  WHATSAPP HELPERS
+// ============================================================
+window.openWA = function(phone) {
+    if (!phone) return alert('Phone ഇല്ല');
+    const clean = phone.replace(/[^0-9]/g, '');
+    window.open('https://wa.me/' + clean, '_blank');
+};
+window.saveWaGroupLink = function() {
+    data.waGroupLink = document.getElementById('waGroupLink').value.trim();
+    save();
+    alert('Saved');
+};
+window.openWhatsAppGroup = function() {
+    if (data.waGroupLink) window.open(data.waGroupLink, '_blank');
+    else window.open('https://wa.me/?text=' + encodeURIComponent('Mashood Chitty'), '_blank');
+};
+window.shareReport = function() {
+    const t = data.groups.length;
+    window.open('https://wa.me/?text=' + encodeURIComponent('Report - ' + getCurrentKuriObj().name + ' - Members:' + t), '_blank');
+};
+window.broadcastWhatsApp = function() {
+    const msg = document.getElementById('broadcastMsg').value.trim();
+    if (!msg) return alert('Message എഴുതൂ');
+    window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+};
+
+// ============================================================
+//  LOGIN LOGIC (unchanged)
+// ============================================================
+const loginRole = document.getElementById('loginRole');
+const adminLoginFields = document.getElementById('adminLoginFields');
+const memberLoginFields = document.getElementById('memberLoginFields');
+const loginKuriSelector = document.getElementById('loginKuriSelector');
+
+function populateLoginKuriSelector() {
+    loginKuriSelector.innerHTML = '';
+    Object.keys(allKuriData).sort().forEach(kid => {
+        const o = document.createElement('option');
+        o.value = kid;
+        o.textContent = allKuriData[kid].name;
+        if (kid === currentKuriId) o.selected = true;
+        loginKuriSelector.appendChild(o);
+    });
+}
+populateLoginKuriSelector();
+
+loginRole.addEventListener('change', function() {
+    if (this.value === 'admin') {
+        adminLoginFields.classList.remove('hidden');
+        memberLoginFields.classList.add('hidden');
+        document.getElementById('loginPass').placeholder = 'Enter Admin Password';
+    } else {
+        adminLoginFields.classList.add('hidden');
+        memberLoginFields.classList.remove('hidden');
+        document.getElementById('loginPass').placeholder = 'Enter Admin Password';
+    }
+});
+
+document.getElementById('loginBtn').addEventListener('click', function() {
+    const role = document.getElementById('loginRole').value;
+
+    if (role === 'admin') {
+        const selectedKuri = loginKuriSelector.value;
+        const kuriData = allKuriData[selectedKuri]?.data;
+        if (!kuriData) {
+            document.getElementById('loginMsg').textContent = '❌ Selected Kuri not found.';
+            return;
+        }
+        const pass = document.getElementById('loginPass').value.trim();
+        const correct = kuriData.passwords.admin;
+        if (pass === correct) {
+            currentKuriId = selectedKuri;
+            data = kuriData;
+            saveAllKuri();
+            doLogin('admin', null);
+        } else {
+            document.getElementById('loginMsg').textContent = '❌ Wrong Admin Password for this Kuri!';
+        }
+    } else {
+        const pass = document.getElementById('memberPass').value.trim();
+        if (!pass) {
+            document.getElementById('loginMsg').textContent = '❌ Please enter your password (6 digits).';
+            return;
+        }
+        const result = findMemberByPasswordAcrossKuris(pass);
+        if (result) {
+            const { kuriId, member } = result;
+            currentKuriId = kuriId;
+            data = allKuriData[kuriId].data;
+            saveAllKuri();
+            doLogin('member', member.mainName);
+        } else {
+            document.getElementById('loginMsg').textContent = '❌ No member found with that password in any Kuri. Please check your phone number.';
+        }
+    }
+});
+
+function doLogin(role, memberName) {
+    currentRole = role;
+    currentMemberName = memberName;
+    
+    sessionStorage.setItem('mashood_role', role);
+    if (memberName) sessionStorage.setItem('mashood_member', memberName);
+    else sessionStorage.removeItem('mashood_member');
+
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+
+    const roleDisplay = document.getElementById('roleDisplay');
+    if (role === 'admin') {
+        roleDisplay.textContent = '👑 Admin';
+    } else {
+        roleDisplay.textContent = '👤 ' + memberName;
+    }
+
+    document.querySelectorAll('.admin-only-btn').forEach(el => {
+        el.style.display = (role === 'admin') ? '' : 'none';
+    });
+
+    const banner = document.getElementById('memberWelcomeBanner');
+    const payStatus = document.getElementById('memberPaymentStatus');
+    if (role === 'member' && memberName) {
+        banner.classList.remove('hidden');
+        payStatus.classList.remove('hidden');
+        document.getElementById('welcomeMemberName').textContent = 'Welcome, ' + memberName + '! 🎉';
+        document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + getCurrentKuriObj().name;
+    } else {
+        banner.classList.add('hidden');
+        payStatus.classList.add('hidden');
+    }
+
+    renderKuriSelector();
+    loadKuri(currentKuriId);
+    document.getElementById('loginMsg').textContent = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('memberPass').value = '';
+}
+
+window.logout = function() {
+    currentRole = null;
+    currentMemberName = null;
+    sessionStorage.removeItem('mashood_role');
+    sessionStorage.removeItem('mashood_member');
+    document.getElementById('mainApp').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('memberPass').value = '';
+    document.getElementById('loginMsg').textContent = '';
+    populateLoginKuriSelector();
+};
+
+// ============================================================
+//  WHEEL (unchanged)
+// ============================================================
+function drawWheel(rot) {
+    const canvas = document.getElementById('wheelCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width, cx = w/2, r = w/2 - 10;
+    ctx.clearRect(0, 0, w, w);
+    const eligible = getEligible();
+    if (!eligible.length) {
+        ctx.fillStyle = '#888';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('No Members', cx, cx);
+        return;
+    }
+    const seg = (Math.PI * 2) / eligible.length;
+    const colors = ['#e63946','#f4a261','#2a9d8f','#264653','#e9c46a','#f9844a','#a8dadc','#457b9d'];
+    eligible.forEach((g, i) => {
+        const s = i * seg + rot, e = s + seg;
+        ctx.beginPath();
+        ctx.moveTo(cx, cx);
+        ctx.arc(cx, cx, r, s, e);
+        ctx.closePath();
+        ctx.fillStyle = colors[i % colors.length];
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        ctx.save();
+        ctx.translate(cx, cx);
+        ctx.rotate(s + seg/2);
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText(g.mainName.length > 10 ? g.mainName.substring(0,8)+'..' : g.mainName, r*0.65, 5);
+        ctx.restore();
+    });
+    ctx.beginPath();
+    ctx.arc(cx, cx, 20, 0, Math.PI * 2);
+    ctx.fillStyle = '#fff';
+    ctx.fill();
+    ctx.strokeStyle = '#2E7D32';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+}
+
+function spinToWinner(targetId) {
+    const eligible = getEligible();
+    if (!eligible.length) return alert('No members');
+    let winner = null;
+    if (targetId) winner = eligible.find(g => g.id === targetId);
+    else if (manualTarget) winner = eligible.find(g => g.id === manualTarget);
+    else winner = eligible[Math.floor(Math.random() * eligible.length)];
+    if (!winner) winner = eligible[0];
+    const seg = (Math.PI * 2) / eligible.length;
+    const idx = eligible.indexOf(winner);
+    const start = currentRot;
+    let delta = -Math.PI/2 - (start + idx*seg + seg/2);
+    delta = ((delta % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI);
+    const full = 8 + Math.floor(Math.random() * 7);
+    const total = delta + full * Math.PI * 2;
+    const targetRot = start + total;
+    const dur = 4000, startTime = Date.now();
+    function anim() {
+        const el = Date.now() - startTime, p = Math.min(el/dur, 1), eased = 1 - Math.pow(1-p, 3);
+        const cur = start + total * eased;
+        drawWheel(cur);
+        if (p < 1) requestAnimationFrame(anim);
+        else {
+            drawWheel(targetRot);
+            currentRot = targetRot % (2*Math.PI);
+            pendingWinner = winner;
+            document.getElementById('winSaveName').textContent = winner.mainName;
+            document.getElementById('winSubInfo').innerHTML = 'Kuri: ' + ((winner.subMembers?.length || 0) + 1);
+            document.getElementById('winSaveModal').classList.remove('hidden');
+            document.getElementById('todayWinner').textContent = '🎉 ' + winner.mainName + ' 🎉';
+            document.getElementById('drawWinner').textContent = '🎉 ' + winner.mainName + ' 🎉';
+        }
+    }
+    anim();
+}
+
+document.getElementById('spinDrawBtn').addEventListener('click', () => { spinToWinner(manualTarget); });
+document.getElementById('shuffleBtn').addEventListener('click', () => {
+    for (let i = data.groups.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [data.groups[i], data.groups[j]] = [data.groups[j], data.groups[i]];
+    }
+    save();
+    drawWheel(currentRot);
+});
+
+function openManualModal() {
+    const eligible = getEligible();
+    if (!eligible.length) return alert('No Members');
+    const sel = document.getElementById('manualSelect');
+    sel.innerHTML = '';
+    eligible.forEach(g => {
+        const o = document.createElement('option');
+        o.value = g.id;
+        o.textContent = g.mainName;
+        sel.appendChild(o);
+    });
+    if (manualTarget) sel.value = manualTarget;
+    document.getElementById('manualModal').classList.remove('hidden');
+}
+document.getElementById('manualBtn').addEventListener('click', openManualModal);
+document.getElementById('confirmManual').addEventListener('click', () => {
+    const v = document.getElementById('manualSelect').value;
+    if (!v) return;
+    manualTarget = v;
+    document.getElementById('manualModal').classList.add('hidden');
+    renderAll();
+});
+document.getElementById('cancelManual').addEventListener('click', () => document.getElementById('manualModal').classList.add('hidden'));
+
+document.getElementById('confirmSaveWin').addEventListener('click', () => {
+    if (!pendingWinner) return;
+    data.allWinners.push({ mainName: pendingWinner.mainName, subMembers: pendingWinner.subMembers || [], date: new Date().toLocaleDateString() });
+    pendingWinner.eligibility = false;
+    manualTarget = null;
+    save();
+    document.getElementById('winSaveModal').classList.add('hidden');
+    pendingWinner = null;
+});
+document.getElementById('cancelSaveWin').addEventListener('click', () => {
+    document.getElementById('winSaveModal').classList.add('hidden');
+    pendingWinner = null;
+});
+
+document.getElementById('bringBackBtn').addEventListener('click', () => {
+    if (!confirm('Bring all back?')) return;
+    data.groups.forEach(g => g.eligibility = true);
+    save();
+});
+document.getElementById('removeWinnerBtn').addEventListener('click', () => {
+    if (!data.allWinners.length) return alert('No Winners');
+    if (!confirm('Remove last winner?')) return;
+    const last = data.allWinners.pop();
+    const g = data.groups.find(x => x.mainName === last.mainName);
+    if (g) g.eligibility = true;
+    manualTarget = null;
+    save();
+});
+
+// ============================================================
+//  TAB SWITCHING
+// ============================================================
+document.querySelectorAll('.tab-bar button').forEach(b => {
+    b.addEventListener('click', function() {
+        document.querySelectorAll('.tab-bar button').forEach(x => x.classList.remove('active'));
+        this.classList.add('active');
+        document.querySelectorAll('.tab').forEach(x => x.classList.add('hidden'));
+        document.getElementById('tab-' + this.dataset.tab).classList.remove('hidden');
+        if (this.dataset.tab === 'wheel') drawWheel(currentRot);
+        if (this.dataset.tab === 'home') updateMemberPaymentStatus();
+    });
+});
+
+// ============================================================
+//  ADD MEMBER (unchanged)
+// ============================================================
+document.getElementById('addSingleBtn').addEventListener('click', function() {
+    const name = document.getElementById('singleName').value.trim();
+    const phone = document.getElementById('singlePhone').value.trim();
+    const amount = parseFloat(document.getElementById('singleAmount').value) || 500;
+    if (!name) return alert('Name required');
+    if (data.groups.find(g => g.mainName === name)) return alert('Name already exists');
+    data.groups.push({
+        id: Date.now() + '_' + Math.random().toString(36).substr(2,5),
+        mainName: name,
+        phone: phone,
+        subMembers: [],
+        eligibility: true,
+        payments: [],
+        payouts: [],
+        amount: amount,
+        paidCount: 0,
+        paymentDates: []
+    });
+    document.getElementById('singleName').value = '';
+    document.getElementById('singlePhone').value = '';
+    document.getElementById('singleAmount').value = '';
+    save();
+});
+
+document.getElementById('bulkAddBtn').addEventListener('click', function() {
+    const txt = document.getElementById('bulkText').value.trim();
+    if (!txt) return;
+    txt.split('\n').map(s => s.trim()).filter(Boolean).forEach(line => {
+        const parts = line.split(',');
+        const n = parts[0].trim();
+        const ph = parts[1] ? parts[1].trim() : '';
+        const am = parseFloat(parts[2]) || 500;
+        if (n && !data.groups.find(g => g.mainName === n)) {
+            data.groups.push({
+                id: Date.now() + '_' + Math.random().toString(36).substr(2,5) + Math.random(),
+                mainName: n,
+                phone: ph,
+                subMembers: [],
+                eligibility: true,
+                payments: [],
+                payouts: [],
+                amount: am,
+                paidCount: 0,
+                paymentDates: []
+            });
+        }
+    });
+    document.getElementById('bulkText').value = '';
+    save();
+});
+
+document.getElementById('addGroupBtn').addEventListener('click', function() {
+    const main = document.getElementById('mainName').value.trim();
+    const mainPh = document.getElementById('mainPhone').value.trim();
+    const amount = parseFloat(document.getElementById('mainAmount').value) || 500;
+    const subs = document.getElementById('subText').value.trim().split('\n').map(s => s.trim()).filter(Boolean);
+    if (!main) return;
+    if (data.groups.find(g => g.mainName === main)) return alert('Main name already exists');
+    data.groups.push({
+        id: Date.now() + '_' + Math.random().toString(36).substr(2,5),
+        mainName: main,
+        phone: mainPh,
+        subMembers: subs,
+        eligibility: true,
+        payments: [],
+        payouts: [],
+        amount: amount,
+        paidCount: 0,
+        paymentDates: []
+    });
+    document.getElementById('mainName').value = '';
+    document.getElementById('mainPhone').value = '';
+    document.getElementById('mainAmount').value = '';
+    document.getElementById('subText').value = '';
+    save();
+});
+
+// ============================================================
+//  RULES & PAYOUT (unchanged)
+// ============================================================
+document.getElementById('saveRules').addEventListener('click', function() {
+    data.rules = document.getElementById('rulesEdit').value;
+    save();
+    alert('Rules saved!');
+});
+
+document.getElementById('addPayout').addEventListener('click', function() {
+    const gName = document.getElementById('payoutMemberSelect').value;
+    const g = data.groups.find(x => x.mainName === gName);
+    if (!g) return alert('Select Member');
+    const amount = parseFloat(document.getElementById('payoutAmount').value);
+    if (!amount || amount <= 0) return alert('Enter valid amount');
+    if (!g.payouts) g.payouts = [];
+    g.payouts.push({
+        date: document.getElementById('payoutDate').value || new Date().toISOString().slice(0,10),
+        member: gName,
+        amount: amount
+    });
+    document.getElementById('payoutAmount').value = '';
+    save();
+});
+
+// ============================================================
+//  PASS TOGGLES
+// ============================================================
+document.getElementById('passToggle').addEventListener('click', function() {
+    const input = document.getElementById('loginPass');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    this.textContent = input.type === 'password' ? '👁️' : '🙈';
+});
+document.getElementById('memberPassToggle').addEventListener('click', function() {
+    const input = document.getElementById('memberPass');
+    input.type = input.type === 'password' ? 'text' : 'password';
+    this.textContent = input.type === 'password' ? '👁️' : '🙈';
+});
+
+// ============================================================
+//  KURI SELECTOR
+// ============================================================
+document.getElementById('kuriSelector').addEventListener('change', function() {
+    loadKuri(this.value);
+});
+
+// ============================================================
+//  MONTH / YEAR WINNERS
+// ============================================================
+document.getElementById('monthSelect').addEventListener('change', updateMonthWinners);
+document.getElementById('yearSelect').addEventListener('change', updateMonthWinners);
+
+// ============================================================
+//  INIT - Auto restore session
+// ============================================================
+renderKuriSelector();
+
+if (currentRole) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('mainApp').style.display = 'block';
+    const roleDisplay = document.getElementById('roleDisplay');
+    if (currentRole === 'admin') {
+        roleDisplay.textContent = '👑 Admin';
+    } else {
+        roleDisplay.textContent = '👤 ' + (currentMemberName || 'Member');
+    }
+    document.querySelectorAll('.admin-only-btn').forEach(el => {
+        el.style.display = (currentRole === 'admin') ? '' : 'none';
+    });
+    if (currentRole === 'member' && currentMemberName) {
+        document.getElementById('memberWelcomeBanner').classList.remove('hidden');
+        document.getElementById('memberPaymentStatus').classList.remove('hidden');
+        document.getElementById('welcomeMemberName').textContent = 'Welcome, ' + currentMemberName + '! 🎉';
+        document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + getCurrentKuriObj().name;
+    }
+    loadKuri(currentKuriId);
+} else {
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('mainApp').style.display = 'none';
+}
+
+// Additional connection check for status
+if (db) {
+    // already have connection listener above
+    // Also try to read data to set status
+    try {
+        dbRef = ref(db, 'mashood_kuri_' + currentKuriId);
+        // Will be handled in loadKuri or connection listener
+    } catch(e) {}
+}
+
+drawWheel(0);
+renderAll();
+
 if (document.getElementById('loginRole').value === 'member') {
     adminLoginFields.classList.add('hidden');
     memberLoginFields.classList.remove('hidden');
