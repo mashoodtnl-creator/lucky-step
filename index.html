@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashood Chitty V16 - Member Login</title>
 <style>
+/* ... existing styles ... */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
 .container{max-width:520px;margin:0 auto;padding:16px}
@@ -68,6 +69,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <option value="member">👤 Member Login</option>
         </select>
 
+        <!-- Admin login fields -->
         <div id="adminLoginFields">
             <div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div>
             <select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"></select>
@@ -77,6 +79,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             </div>
         </div>
 
+        <!-- Member login fields (only password) -->
         <div id="memberLoginFields" class="hidden">
             <p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Enter your password (last 6 digits of your phone number)</p>
             <div class="pass-wrap">
@@ -127,6 +130,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button class="btn-sm btn-danger" onclick="logout()">Out</button>
     </div>
 
+    <!-- Tab Bar -->
     <div class="tab-bar">
         <button class="active" data-tab="home">🏠 Home</button>
         <button data-tab="members">👥 Members</button>
@@ -141,7 +145,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button data-tab="history">📜 History</button>
     </div>
 
-    <!-- ===== HOME ===== -->
+    <!-- ===== TAB: HOME (unchanged) ===== -->
     <div id="tab-home" class="tab">
         <div id="memberWelcomeBanner" class="hidden welcome-banner">
             <h2 id="welcomeMemberName">Welcome, Member! 🎉</h2>
@@ -152,6 +156,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <div class="winner-display" id="todayWinner">—</div>
             <div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div>
         </div>
+        <!-- Member Payment Status -->
         <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32">
             <h3>💳 Your Payment Status</h3>
             <div id="memberPayStatusContent">
@@ -182,7 +187,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== MEMBERS ===== -->
+    <!-- ===== TAB: MEMBERS (unchanged) ===== -->
     <div id="tab-members" class="tab hidden">
         <div class="card">
             <h3>👥 Members - <span id="memberCount">0</span> | <span id="totalKuriCount">0</span> കുറി</h3>
@@ -190,12 +195,12 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== ADD MEMBER ===== -->
+    <!-- ===== TAB: ADD MEMBER (unchanged) ===== -->
     <div id="tab-addmember" class="tab hidden">
         <div class="card" style="border:2px solid #2E7D32">
             <h3>➕ Add Member</h3>
             <input id="singleName" placeholder="Name">
-            <input id="singlePhone" placeholder="WhatsApp Number (with country code, e.g., 919876543210)">
+            <input id="singlePhone" placeholder="WhatsApp Number">
             <input id="singleAmount" type="number" placeholder="Amount - 500">
             <button class="btn" id="addSingleBtn">✅ Add Member</button>
         </div>
@@ -212,6 +217,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <textarea id="subText" rows="2" placeholder="Sub Members"></textarea>
             <button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
         </div>
+        <!-- Clear Data Button -->
         <div class="card admin-only-btn" style="border:2px solid #c62828;margin-top:12px">
             <h3 style="color:#c62828">⚠️ Danger Zone</h3>
             <button class="btn btn-danger" id="clearDataBtn">🗑️ Clear All Data (Reset)</button>
@@ -219,7 +225,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== MONTHLY ===== -->
+    <!-- ===== TAB: MONTHLY PAY ===== -->
     <div id="tab-monthly" class="tab hidden">
         <div class="card">
             <h3>📆 Monthly Payment Marking</h3>
@@ -233,7 +239,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== WHEEL ===== -->
+    <!-- ===== TAB: WHEEL ===== -->
     <div id="tab-wheel" class="tab hidden">
         <div class="card">
             <h3>🎡 <span class="kuriNameDisplay">Kuri 1</span></h3>
@@ -262,7 +268,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== PAYMENTS ===== -->
+    <!-- ===== TAB: PAYMENTS (now shows overall status) ===== -->
     <div id="tab-payments" class="tab hidden">
         <div class="card report-box" style="background:#f8f6f0;color:#1e293b;border-left:5px solid #C5A059">
             <div>Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹ 0</span></div>
@@ -274,7 +280,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== PAYOUT ===== -->
+    <!-- ===== TAB: PAYOUT (unchanged) ===== -->
     <div id="tab-payout" class="tab hidden">
         <div class="card report-box" style="background:#fff8e1;color:#000">
             <h3>💸 Payout Auto</h3>
@@ -292,7 +298,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== REPORTS ===== -->
+    <!-- ===== TAB: REPORTS (unchanged) ===== -->
     <div id="tab-reports" class="tab hidden">
         <div class="card report-box" style="background:#f8f9fa;color:#1e293b">
             <h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3>
@@ -302,7 +308,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <div class="card"><div id="memberReport"></div></div>
     </div>
 
-    <!-- ===== RULES ===== -->
+    <!-- ===== TAB: RULES (unchanged) ===== -->
     <div id="tab-rules" class="tab hidden">
         <div class="card">
             <h3>📜 Rules</h3>
@@ -314,7 +320,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== WHATSAPP ===== -->
+    <!-- ===== TAB: WHATSAPP (unchanged) ===== -->
     <div id="tab-whatsapp" class="tab hidden">
         <div class="card">
             <h3>💬 WhatsApp</h3>
@@ -329,7 +335,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== HISTORY ===== -->
+    <!-- ===== TAB: HISTORY (unchanged) ===== -->
     <div id="tab-history" class="tab hidden">
         <div class="card">
             <h3>📜 History - Delete Working</h3>
@@ -346,41 +352,33 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 
-// 🔥 **നിങ്ങളുടെ Firebase Config ഇവിടെ ചേർക്കുക**
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-    projectId: "YOUR_PROJECT",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0",
+    authDomain: "mashood-kuri.firebaseapp.com",
+    databaseURL: "https://mashood-kuri-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mashood-kuri",
+    storageBucket: "mashood-kuri.firebasestorage.app",
+    messagingSenderId: "1016691708150",
+    appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7"
 };
 
 let db = null, dbRef = null;
-let firebaseConnected = true;
+let firebaseConnected = false;
 try { 
     const app = initializeApp(firebaseConfig); 
     db = getDatabase(app); 
-    firebaseOK = true;
-    firebaseConnected = true;
-    updateStatus();
     const connectedRef = ref(db, '.info/connected');
     onValue(connectedRef, (snap) => {
         firebaseConnected = snap.val() === true;
         if (firebaseConnected && currentRole) {
             firebaseOK = true;
+            updateStatus();
         } else {
             firebaseOK = false;
+            updateStatus();
         }
-        updateStatus();
     });
-} catch (e) { 
-    console.warn('Firebase init error:', e);
-    firebaseOK = false;
-    firebaseConnected = false;
-    updateStatus();
-}
+} catch (e) { console.warn('Firebase init error:', e); }
 
 // ============================================================
 //  CONSTANTS & STATE
@@ -390,7 +388,7 @@ const TOTAL_INSTALLMENTS = 25;
 
 let currentRole = sessionStorage.getItem('mashood_role') || null;
 let currentMemberName = sessionStorage.getItem('mashood_member') || null;
-let firebaseOK = true;
+let firebaseOK = false;
 let currentRot = 0;
 let manualTarget = null;
 let pendingWinner = null;
@@ -399,7 +397,7 @@ let currentKuriId = localStorage.getItem('MASHOOD_CURRENT_KURI') || 'kuri_1';
 let allKuriData = JSON.parse(localStorage.getItem('MASHOOD_ALL_KURIS') || '{}');
 
 // ============================================================
-//  DEFAULT DATA
+//  DEFAULT DATA (with monthlyPayments)
 // ============================================================
 function getDefaultKuriData() {
     return {
@@ -422,9 +420,13 @@ if (Object.keys(allKuriData).length === 0) {
     allKuriData['kuri_4'] = { name: 'Kuri 4', data: getDefaultKuriData() };
 }
 
+// Migrate old data: if a group has paidCount but no monthlyPayments, convert.
 function migrateOldData(kuriData) {
     kuriData.groups.forEach(g => {
         if (g.paidCount !== undefined && g.paidCount > 0 && (!g.monthlyPayments || Object.keys(g.monthlyPayments).length === 0)) {
+            // Create dummy monthly payments for past months (simulate paidCount)
+            // For simplicity, we'll mark the last 'paidCount' months as paid.
+            // We'll generate month keys for the last paidCount months from current date.
             if (!g.monthlyPayments) g.monthlyPayments = {};
             const now = new Date();
             const currentMonth = now.getMonth();
@@ -434,12 +436,14 @@ function migrateOldData(kuriData) {
                 let y = currentYear;
                 if (m < 0) { m += 12; y -= 1; }
                 const key = y + '-' + String(m+1).padStart(2,'0');
-                g.monthlyPayments[key] = true;
+                g.monthlyPayments[key] = true; // mark as paid
             }
         }
+        // Ensure monthlyPayments exists
         if (!g.monthlyPayments) g.monthlyPayments = {};
     });
 }
+// Apply migration to all kuris
 Object.keys(allKuriData).forEach(kid => {
     if (allKuriData[kid].data) migrateOldData(allKuriData[kid].data);
 });
@@ -450,6 +454,7 @@ let data = getCurrentData();
 if (!data.passwords) data.passwords = {};
 data.passwords.admin = 'ma7hood';
 
+// Ensure monthlyPayments for all groups
 function ensureMonthlyPayments() {
     data.groups.forEach(g => {
         if (!g.monthlyPayments) g.monthlyPayments = {};
@@ -457,6 +462,7 @@ function ensureMonthlyPayments() {
 }
 ensureMonthlyPayments();
 
+// Helper: compute paidCount from monthlyPayments
 function computePaidCount(g) {
     if (!g.monthlyPayments) return 0;
     return Object.keys(g.monthlyPayments).filter(key => g.monthlyPayments[key] === true).length;
@@ -470,13 +476,15 @@ function getLoggedInMember() {
     return data.groups.find(g => g.mainName === currentMemberName);
 }
 
+function getMemberPassword(phone) {
+    if (!phone) return '';
+    const clean = phone.replace(/[^0-9]/g, '');
+    return clean.slice(-6);
+}
+
 function findMemberByPasswordAcrossKuris(pass) {
     const cleanPass = pass.replace(/[^0-9]/g, '');
-    console.log('🔍 Searching for password:', cleanPass);
-    if (cleanPass.length !== 6) {
-        console.warn('Password must be 6 digits');
-        return null;
-    }
+    if (cleanPass.length !== 6) return null;
     for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
         const kuriData = kuriObj.data;
         if (!kuriData) continue;
@@ -486,11 +494,9 @@ function findMemberByPasswordAcrossKuris(pass) {
             return last6 === cleanPass;
         });
         if (member) {
-            console.log('✅ Found member:', member.mainName, 'in Kuri:', kuriId);
             return { kuriId, member };
         }
     }
-    console.warn('❌ No member found with that password.');
     return null;
 }
 
@@ -549,8 +555,10 @@ function loadKuri(kuriId) {
                     ensureMonthlyPayments();
                     migrateOldData(data);
                     saveAllKuri();
+                    firebaseOK = true;
+                } else {
+                    firebaseOK = true;
                 }
-                firebaseOK = true;
                 if (currentRole) renderAll();
                 updateStatus();
             }, (error) => {
@@ -558,10 +566,7 @@ function loadKuri(kuriId) {
                 firebaseOK = false;
                 updateStatus();
             });
-        } catch (e) {
-            firebaseOK = false;
-            updateStatus();
-        }
+        } catch (e) {}
     }
     saveAllKuri();
     renderKuriSelector();
@@ -582,7 +587,7 @@ function renderKuriSelector() {
 }
 
 // ============================================================
-//  CALCULATE TOTALS
+//  CALCULATE TOTALS (based on monthlyPayments)
 // ============================================================
 function calculateTotals() {
     const paid = data.groups.filter(g => computePaidCount(g) > 0);
@@ -612,6 +617,7 @@ function renderAll() {
         const removed = data.groups.filter(g => g.eligibility === false);
         const totals = calculateTotals();
 
+        // Update counts
         document.getElementById('memberCount').textContent = data.groups.length;
         document.getElementById('totalKuriCount').textContent = totals.totalKuri;
         document.getElementById('totalCount').textContent = data.groups.length;
@@ -627,6 +633,7 @@ function renderAll() {
         document.getElementById('fullReport').innerHTML =
             `Groups: ${data.groups.length}<br>Kuri: ${totals.totalKuri}<br>Collection: ₹${totals.collection}<br>Payout: ₹${totals.totalPayout}<br>Balance: ₹${totals.balance}<br>Winners: ${data.allWinners.length}`;
 
+        // Members list
         let html = '';
         if (data.groups.length === 0) html = '<div style="text-align:center;color:#888">No Members</div>';
         else data.groups.forEach((g, i) => {
@@ -646,6 +653,7 @@ function renderAll() {
         });
         document.getElementById('membersList').innerHTML = html;
 
+        // Payments list (overall)
         let payHtml = '';
         data.groups.forEach(g => {
             const paid = computePaidCount(g);
@@ -661,6 +669,7 @@ function renderAll() {
         });
         document.getElementById('payList').innerHTML = payHtml || 'No members';
 
+        // Payout list
         let payoutHtml = '';
         data.groups.forEach(g => {
             (g.payouts || []).forEach((p, idx) => {
@@ -684,10 +693,12 @@ function renderAll() {
             });
         }
 
+        // Winners
         const today = data.allWinners.length ? data.allWinners[data.allWinners.length-1].mainName : '—';
         document.getElementById('todayWinner').textContent = today;
         document.getElementById('drawWinner').textContent = today;
 
+        // Month/Year for winners
         const monthSel = document.getElementById('monthSelect');
         const yearSel = document.getElementById('yearSelect');
         if (monthSel.options.length === 0) {
@@ -710,6 +721,7 @@ function renderAll() {
         }
         updateMonthWinners();
 
+        // History
         let hHtml = '';
         if (data.allWinners.length === 0) hHtml = 'No winners';
         else data.allWinners.slice().reverse().forEach((w, revIdx) => {
@@ -745,6 +757,7 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
+        // Admin buttons visibility
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
@@ -763,6 +776,7 @@ function renderAll() {
 
         updateStatus();
         drawWheel(currentRot);
+        // Refresh monthly pay list if on monthly tab
         if (document.getElementById('tab-monthly') && !document.getElementById('tab-monthly').classList.contains('hidden')) {
             loadMonthlyData();
         }
@@ -770,7 +784,7 @@ function renderAll() {
 }
 
 // ============================================================
-//  MEMBER PAYMENT STATUS
+//  MEMBER PAYMENT STATUS (updated with monthly info)
 // ============================================================
 function updateMemberPaymentStatus() {
     const mem = getLoggedInMember();
@@ -801,12 +815,13 @@ function updateMemberPaymentStatus() {
         dot.textContent = i + 1;
         grid.appendChild(dot);
     }
+    // Show paid months list
     const monthsPaid = Object.keys(mem.monthlyPayments).filter(k => mem.monthlyPayments[k] === true).sort();
     document.getElementById('memPaidMonths').textContent = monthsPaid.length ? monthsPaid.join(', ') : 'None';
 }
 
 // ============================================================
-//  MONTHLY PAY TAB (FIXED)
+//  MONTHLY PAY TAB FUNCTIONS
 // ============================================================
 function loadMonthlyData() {
     const monthSel = document.getElementById('monthSelectMonthly');
@@ -836,15 +851,18 @@ window.toggleMonthlyPay = function(id, monthKey) {
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
     if (!g.monthlyPayments) g.monthlyPayments = {};
-    // Toggle the specific month
     g.monthlyPayments[monthKey] = !g.monthlyPayments[monthKey];
-    // If false, delete key to keep object clean
-    if (g.monthlyPayments[monthKey] === false) {
-        delete g.monthlyPayments[monthKey];
-    }
-    save(); // This calls renderAll and reloads monthly data
+    // If false, delete key to clean up
+    if (g.monthlyPayments[monthKey] === false) delete g.monthlyPayments[monthKey];
+    // Auto-save
+    save();
+    // Reload monthly list
+    loadMonthlyData();
+    // Also update other views
+    renderAll();
 };
 
+// Initialize month/year dropdowns for monthly tab
 function initMonthlySelectors() {
     const monthSel = document.getElementById('monthSelectMonthly');
     const yearSel = document.getElementById('yearSelectMonthly');
@@ -866,15 +884,15 @@ function initMonthlySelectors() {
     }
     const currentYear = new Date().getFullYear();
     yearSel.value = currentYear;
+    // Load data on change
     monthSel.addEventListener('change', loadMonthlyData);
     yearSel.addEventListener('change', loadMonthlyData);
-    // Load button
-    document.getElementById('loadMonthBtn').addEventListener('click', loadMonthlyData);
+    // Load initial
     setTimeout(loadMonthlyData, 100);
 }
 
 // ============================================================
-//  MONTH WINNERS
+//  MONTH WINNERS (unchanged)
 // ============================================================
 function updateMonthWinners() {
     const monthSel = document.getElementById('monthSelect');
@@ -890,8 +908,10 @@ function updateMonthWinners() {
 }
 
 // ============================================================
-//  PAYMENT ACTIONS (Admin)
+//  PAYMENT ACTIONS (Admin) - now we rely on monthlyPayments
 // ============================================================
+// We can keep markPaid/unmarkPaid but they will modify monthlyPayments for current month.
+// We'll keep them for backward compatibility but redirect to monthly toggling.
 window.markPaid = function(id) {
     if (!isAdmin()) return;
     const g = data.groups.find(x => x.id === id);
@@ -900,6 +920,7 @@ window.markPaid = function(id) {
         alert('This member has already completed all ' + TOTAL_INSTALLMENTS + ' payments.');
         return;
     }
+    // Mark current month as paid
     const now = new Date();
     const key = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     if (!g.monthlyPayments) g.monthlyPayments = {};
@@ -915,6 +936,7 @@ window.unmarkPaid = function(id) {
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
     if (computePaidCount(g) <= 0) return;
+    // Unmark latest paid month (or last month)
     const paidKeys = Object.keys(g.monthlyPayments).filter(k => g.monthlyPayments[k] === true).sort();
     if (paidKeys.length === 0) return;
     const lastKey = paidKeys[paidKeys.length-1];
@@ -962,17 +984,21 @@ window.delPayout = function(gid, idx) {
 document.getElementById('clearDataBtn')?.addEventListener('click', function() {
     if (!confirm('⚠️ Are you sure you want to delete ALL data for ALL Kuris? This cannot be undone!')) return;
     if (!confirm('Really? All members, payments, winners, rules will be reset to default.')) return;
+    // Reset allKuriData to default
     allKuriData = {
         'kuri_1': { name: 'Kuri 1', data: getDefaultKuriData() },
         'kuri_2': { name: 'Kuri 2', data: getDefaultKuriData() },
         'kuri_3': { name: 'Kuri 3', data: getDefaultKuriData() },
         'kuri_4': { name: 'Kuri 4', data: getDefaultKuriData() }
     };
+    // Also clear localStorage
     localStorage.removeItem('MASHOOD_ALL_KURIS');
     localStorage.removeItem('MASHOOD_CURRENT_KURI');
+    // Reset current data
     currentKuriId = 'kuri_1';
     data = allKuriData['kuri_1'].data;
     saveAllKuri();
+    // Reload everything
     renderKuriSelector();
     renderAll();
     populateLoginKuriSelector();
@@ -1007,7 +1033,7 @@ window.broadcastWhatsApp = function() {
 };
 
 // ============================================================
-//  LOGIN LOGIC (with debug logs)
+//  LOGIN LOGIC
 // ============================================================
 const loginRole = document.getElementById('loginRole');
 const adminLoginFields = document.getElementById('adminLoginFields');
@@ -1116,6 +1142,7 @@ function doLogin(role, memberName) {
     document.getElementById('loginMsg').textContent = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('memberPass').value = '';
+    // Initialize monthly selectors if admin
     if (role === 'admin') {
         initMonthlySelectors();
     }
@@ -1135,7 +1162,7 @@ window.logout = function() {
 };
 
 // ============================================================
-//  WHEEL
+//  WHEEL (unchanged)
 // ============================================================
 function drawWheel(rot) {
     const canvas = document.getElementById('wheelCanvas');
@@ -1300,14 +1327,13 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
 });
 
 // ============================================================
-//  ADD MEMBER (ensure phone is stored)
+//  ADD MEMBER (updated to include monthlyPayments)
 // ============================================================
 document.getElementById('addSingleBtn').addEventListener('click', function() {
     const name = document.getElementById('singleName').value.trim();
     const phone = document.getElementById('singlePhone').value.trim();
     const amount = parseFloat(document.getElementById('singleAmount').value) || 500;
     if (!name) return alert('Name required');
-    if (!phone) return alert('Phone number is required for member login.');
     if (data.groups.find(g => g.mainName === name)) return alert('Name already exists');
     data.groups.push({
         id: Date.now() + '_' + Math.random().toString(36).substr(2,5),
@@ -1358,7 +1384,6 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
     const amount = parseFloat(document.getElementById('mainAmount').value) || 500;
     const subs = document.getElementById('subText').value.trim().split('\n').map(s => s.trim()).filter(Boolean);
     if (!main) return;
-    if (!mainPh) return alert('Main phone is required.');
     if (data.groups.find(g => g.mainName === main)) return alert('Main name already exists');
     data.groups.push({
         id: Date.now() + '_' + Math.random().toString(36).substr(2,5),
@@ -1379,7 +1404,7 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-//  RULES & PAYOUT
+//  RULES & PAYOUT (unchanged)
 // ============================================================
 document.getElementById('saveRules').addEventListener('click', function() {
     data.rules = document.getElementById('rulesEdit').value;
@@ -1460,6 +1485,13 @@ if (currentRole) {
 } else {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
+}
+
+if (db) {
+    try {
+        dbRef = ref(db, 'mashood_kuri_' + currentKuriId);
+        // listener already in loadKuri
+    } catch(e) {}
 }
 
 drawWheel(0);
