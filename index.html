@@ -78,14 +78,14 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             </div>
         </div>
 
-        <!-- Member login fields (only password) -->
+        <!-- Member login fields (UPDATED TO 4 DIGITS) -->
         <div id="memberLoginFields" class="hidden">
-            <p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Enter your password (last 6 digits of your phone number)</p>
+            <p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Enter your password (last 4 digits of your phone number)</p>
             <div class="pass-wrap">
-                <input id="memberPass" type="password" placeholder="Enter 6-digit password" autocomplete="current-password" maxlength="6" inputmode="numeric">
+                <input id="memberPass" type="password" placeholder="Enter 4-digit password" autocomplete="current-password" maxlength="4" inputmode="numeric">
                 <button class="pass-toggle" id="memberPassToggle" type="button">👁️</button>
             </div>
-            <div style="font-size:.7rem;color:#999;margin-top:4px">Example: if phone is 9876543210, password = 543210</div>
+            <div style="font-size:.7rem;color:#999;margin-top:4px">Example: if phone is 9876543210, password = 3210</div>
         </div>
 
         <button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button>
@@ -144,7 +144,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button data-tab="history">📜 History</button>
     </div>
 
-    <!-- ===== TAB: HOME (unchanged) ===== -->
+    <!-- ===== TAB: HOME ===== -->
     <div id="tab-home" class="tab">
         <div id="memberWelcomeBanner" class="hidden welcome-banner">
             <h2 id="welcomeMemberName">Welcome, Member! 🎉</h2>
@@ -155,7 +155,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <div class="winner-display" id="todayWinner">—</div>
             <div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div>
         </div>
-        <!-- Member Payment Status -->
         <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32">
             <h3>💳 Your Payment Status</h3>
             <div id="memberPayStatusContent">
@@ -186,7 +185,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: MEMBERS (unchanged) ===== -->
+    <!-- ===== TAB: MEMBERS ===== -->
     <div id="tab-members" class="tab hidden">
         <div class="card">
             <h3>👥 Members - <span id="memberCount">0</span> | <span id="totalKuriCount">0</span> കുറി</h3>
@@ -194,7 +193,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: ADD MEMBER (unchanged) ===== -->
+    <!-- ===== TAB: ADD MEMBER ===== -->
     <div id="tab-addmember" class="tab hidden">
         <div class="card" style="border:2px solid #2E7D32">
             <h3>➕ Add Member</h3>
@@ -216,7 +215,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <textarea id="subText" rows="2" placeholder="Sub Members"></textarea>
             <button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
         </div>
-        <!-- Clear Data Button -->
         <div class="card admin-only-btn" style="border:2px solid #c62828;margin-top:12px">
             <h3 style="color:#c62828">⚠️ Danger Zone</h3>
             <button class="btn btn-danger" id="clearDataBtn">🗑️ Clear All Data (Reset)</button>
@@ -268,7 +266,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: PAYMENTS (now shows overall status) ===== -->
+    <!-- ===== TAB: PAYMENTS ===== -->
     <div id="tab-payments" class="tab hidden">
         <div class="card report-box" style="background:#f8f6f0;color:#1e293b;border-left:5px solid #C5A059">
             <div>Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹ 0</span></div>
@@ -280,7 +278,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: PAYOUT (unchanged) ===== -->
+    <!-- ===== TAB: PAYOUT ===== -->
     <div id="tab-payout" class="tab hidden">
         <div class="card report-box" style="background:#fff8e1;color:#000">
             <h3>💸 Payout Auto</h3>
@@ -298,7 +296,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: REPORTS (unchanged) ===== -->
+    <!-- ===== TAB: REPORTS ===== -->
     <div id="tab-reports" class="tab hidden">
         <div class="card report-box" style="background:#f8f9fa;color:#1e293b">
             <h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3>
@@ -308,7 +306,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <div class="card"><div id="memberReport"></div></div>
     </div>
 
-    <!-- ===== TAB: RULES (unchanged) ===== -->
+    <!-- ===== TAB: RULES ===== -->
     <div id="tab-rules" class="tab hidden">
         <div class="card">
             <h3>📜 Rules</h3>
@@ -320,7 +318,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: WHATSAPP (unchanged) ===== -->
+    <!-- ===== TAB: WHATSAPP ===== -->
     <div id="tab-whatsapp" class="tab hidden">
         <div class="card">
             <h3>💬 WhatsApp</h3>
@@ -335,7 +333,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: HISTORY (unchanged) ===== -->
+    <!-- ===== TAB: HISTORY ===== -->
     <div id="tab-history" class="tab hidden">
         <div class="card">
             <h3>📜 History - Delete Working</h3>
@@ -420,13 +418,9 @@ if (Object.keys(allKuriData).length === 0) {
     allKuriData['kuri_4'] = { name: 'Kuri 4', data: getDefaultKuriData() };
 }
 
-// Migrate old data: if a group has paidCount but no monthlyPayments, convert.
 function migrateOldData(kuriData) {
     kuriData.groups.forEach(g => {
         if (g.paidCount !== undefined && g.paidCount > 0 && (!g.monthlyPayments || Object.keys(g.monthlyPayments).length === 0)) {
-            // Create dummy monthly payments for past months (simulate paidCount)
-            // For simplicity, we'll mark the last 'paidCount' months as paid.
-            // We'll generate month keys for the last paidCount months from current date.
             if (!g.monthlyPayments) g.monthlyPayments = {};
             const now = new Date();
             const currentMonth = now.getMonth();
@@ -436,14 +430,12 @@ function migrateOldData(kuriData) {
                 let y = currentYear;
                 if (m < 0) { m += 12; y -= 1; }
                 const key = y + '-' + String(m+1).padStart(2,'0');
-                g.monthlyPayments[key] = true; // mark as paid
+                g.monthlyPayments[key] = true;
             }
         }
-        // Ensure monthlyPayments exists
         if (!g.monthlyPayments) g.monthlyPayments = {};
     });
 }
-// Apply migration to all kuris
 Object.keys(allKuriData).forEach(kid => {
     if (allKuriData[kid].data) migrateOldData(allKuriData[kid].data);
 });
@@ -454,7 +446,6 @@ let data = getCurrentData();
 if (!data.passwords) data.passwords = {};
 data.passwords.admin = 'ma7hood';
 
-// Ensure monthlyPayments for all groups
 function ensureMonthlyPayments() {
     data.groups.forEach(g => {
         if (!g.monthlyPayments) g.monthlyPayments = {};
@@ -462,7 +453,6 @@ function ensureMonthlyPayments() {
 }
 ensureMonthlyPayments();
 
-// Helper: compute paidCount from monthlyPayments
 function computePaidCount(g) {
     if (!g.monthlyPayments) return 0;
     return Object.keys(g.monthlyPayments).filter(key => g.monthlyPayments[key] === true).length;
@@ -476,22 +466,17 @@ function getLoggedInMember() {
     return data.groups.find(g => g.mainName === currentMemberName);
 }
 
-function getMemberPassword(phone) {
-    if (!phone) return '';
-    const clean = phone.replace(/[^0-9]/g, '');
-    return clean.slice(-6);
-}
-
+// UPDATED: Now checks last 4 digits instead of 6
 function findMemberByPasswordAcrossKuris(pass) {
     const cleanPass = pass.replace(/[^0-9]/g, '');
-    if (cleanPass.length !== 6) return null;
+    if (cleanPass.length !== 4) return null; // Check length 4
     for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
         const kuriData = kuriObj.data;
         if (!kuriData) continue;
         const member = kuriData.groups.find(g => {
             if (!g.phone) return false;
-            const last6 = g.phone.replace(/[^0-9]/g, '').slice(-6);
-            return last6 === cleanPass;
+            const last4 = g.phone.replace(/[^0-9]/g, '').slice(-4); // Extract last 4 digits
+            return last4 === cleanPass;
         });
         if (member) {
             return { kuriId, member };
@@ -617,7 +602,6 @@ function renderAll() {
         const removed = data.groups.filter(g => g.eligibility === false);
         const totals = calculateTotals();
 
-        // Update counts
         document.getElementById('memberCount').textContent = data.groups.length;
         document.getElementById('totalKuriCount').textContent = totals.totalKuri;
         document.getElementById('totalCount').textContent = data.groups.length;
@@ -633,7 +617,6 @@ function renderAll() {
         document.getElementById('fullReport').innerHTML =
             `Groups: ${data.groups.length}<br>Kuri: ${totals.totalKuri}<br>Collection: ₹${totals.collection}<br>Payout: ₹${totals.totalPayout}<br>Balance: ₹${totals.balance}<br>Winners: ${data.allWinners.length}`;
 
-        // Members list
         let html = '';
         if (data.groups.length === 0) html = '<div style="text-align:center;color:#888">No Members</div>';
         else data.groups.forEach((g, i) => {
@@ -653,7 +636,6 @@ function renderAll() {
         });
         document.getElementById('membersList').innerHTML = html;
 
-        // Payments list (overall)
         let payHtml = '';
         data.groups.forEach(g => {
             const paid = computePaidCount(g);
@@ -669,7 +651,6 @@ function renderAll() {
         });
         document.getElementById('payList').innerHTML = payHtml || 'No members';
 
-        // Payout list
         let payoutHtml = '';
         data.groups.forEach(g => {
             (g.payouts || []).forEach((p, idx) => {
@@ -693,12 +674,10 @@ function renderAll() {
             });
         }
 
-        // Winners
         const today = data.allWinners.length ? data.allWinners[data.allWinners.length-1].mainName : '—';
         document.getElementById('todayWinner').textContent = today;
         document.getElementById('drawWinner').textContent = today;
 
-        // Month/Year for winners
         const monthSel = document.getElementById('monthSelect');
         const yearSel = document.getElementById('yearSelect');
         if (monthSel.options.length === 0) {
@@ -721,7 +700,6 @@ function renderAll() {
         }
         updateMonthWinners();
 
-        // History
         let hHtml = '';
         if (data.allWinners.length === 0) hHtml = 'No winners';
         else data.allWinners.slice().reverse().forEach((w, revIdx) => {
@@ -757,7 +735,6 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
-        // Admin buttons visibility
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
@@ -776,7 +753,6 @@ function renderAll() {
 
         updateStatus();
         drawWheel(currentRot);
-        // Refresh monthly pay list if on monthly tab
         if (document.getElementById('tab-monthly') && !document.getElementById('tab-monthly').classList.contains('hidden')) {
             loadMonthlyData();
         }
@@ -815,13 +791,12 @@ function updateMemberPaymentStatus() {
         dot.textContent = i + 1;
         grid.appendChild(dot);
     }
-    // Show paid months list
     const monthsPaid = Object.keys(mem.monthlyPayments).filter(k => mem.monthlyPayments[k] === true).sort();
     document.getElementById('memPaidMonths').textContent = monthsPaid.length ? monthsPaid.join(', ') : 'None';
 }
 
 // ============================================================
-//  MONTHLY PAY TAB FUNCTIONS
+//  MONTHLY PAY TAB FUNCTIONS (FIXED)
 // ============================================================
 function loadMonthlyData() {
     const monthSel = document.getElementById('monthSelectMonthly');
@@ -846,23 +821,27 @@ function loadMonthlyData() {
     listDiv.innerHTML = html;
 }
 
+// FIXED: Toggle only the specific month for the specific member
 window.toggleMonthlyPay = function(id, monthKey) {
     if (!isAdmin()) return;
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
     if (!g.monthlyPayments) g.monthlyPayments = {};
-    g.monthlyPayments[monthKey] = !g.monthlyPayments[monthKey];
-    // If false, delete key to clean up
-    if (g.monthlyPayments[monthKey] === false) delete g.monthlyPayments[monthKey];
-    // Auto-save
+    
+    // Toggle the specific month
+    if (g.monthlyPayments[monthKey] === true) {
+        delete g.monthlyPayments[monthKey];
+    } else {
+        g.monthlyPayments[monthKey] = true;
+    }
+    
+    // Save and refresh
     save();
-    // Reload monthly list
     loadMonthlyData();
-    // Also update other views
     renderAll();
 };
 
-// Clear all monthly payments for the current month
+// FIXED: Clear all payments for the selected month
 window.clearMonthlyPayments = function() {
     if (!isAdmin()) return;
     if (!confirm('⚠️ Clear all payments for the selected month? This cannot be undone!')) return;
@@ -881,7 +860,6 @@ window.clearMonthlyPayments = function() {
     renderAll();
 };
 
-// Initialize month/year dropdowns for monthly tab
 function initMonthlySelectors() {
     const monthSel = document.getElementById('monthSelectMonthly');
     const yearSel = document.getElementById('yearSelectMonthly');
@@ -903,18 +881,15 @@ function initMonthlySelectors() {
     }
     const currentYear = new Date().getFullYear();
     yearSel.value = currentYear;
-    // Load data on change
     monthSel.addEventListener('change', loadMonthlyData);
     yearSel.addEventListener('change', loadMonthlyData);
-    // Load initial
+    document.getElementById('loadMonthBtn').addEventListener('click', loadMonthlyData);
+    document.getElementById('clearMonthBtn').addEventListener('click', clearMonthlyPayments);
     setTimeout(loadMonthlyData, 100);
-    
-    // Add clear button event
-    document.getElementById('clearMonthBtn')?.addEventListener('click', clearMonthlyPayments);
 }
 
 // ============================================================
-//  MONTH WINNERS (unchanged)
+//  MONTH WINNERS
 // ============================================================
 function updateMonthWinners() {
     const monthSel = document.getElementById('monthSelect');
@@ -930,10 +905,8 @@ function updateMonthWinners() {
 }
 
 // ============================================================
-//  PAYMENT ACTIONS (Admin) - now we rely on monthlyPayments
+//  PAYMENT ACTIONS (Admin)
 // ============================================================
-// We can keep markPaid/unmarkPaid but they will modify monthlyPayments for current month.
-// We'll keep them for backward compatibility but redirect to monthly toggling.
 window.markPaid = function(id) {
     if (!isAdmin()) return;
     const g = data.groups.find(x => x.id === id);
@@ -942,7 +915,6 @@ window.markPaid = function(id) {
         alert('This member has already completed all ' + TOTAL_INSTALLMENTS + ' payments.');
         return;
     }
-    // Mark current month as paid
     const now = new Date();
     const key = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
     if (!g.monthlyPayments) g.monthlyPayments = {};
@@ -958,7 +930,6 @@ window.unmarkPaid = function(id) {
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
     if (computePaidCount(g) <= 0) return;
-    // Unmark latest paid month (or last month)
     const paidKeys = Object.keys(g.monthlyPayments).filter(k => g.monthlyPayments[k] === true).sort();
     if (paidKeys.length === 0) return;
     const lastKey = paidKeys[paidKeys.length-1];
@@ -1001,26 +972,22 @@ window.delPayout = function(gid, idx) {
 };
 
 // ============================================================
-//  CLEAR DATA
+//  CLEAR ALL DATA
 // ============================================================
 document.getElementById('clearDataBtn')?.addEventListener('click', function() {
     if (!confirm('⚠️ Are you sure you want to delete ALL data for ALL Kuris? This cannot be undone!')) return;
     if (!confirm('Really? All members, payments, winners, rules will be reset to default.')) return;
-    // Reset allKuriData to default
     allKuriData = {
         'kuri_1': { name: 'Kuri 1', data: getDefaultKuriData() },
         'kuri_2': { name: 'Kuri 2', data: getDefaultKuriData() },
         'kuri_3': { name: 'Kuri 3', data: getDefaultKuriData() },
         'kuri_4': { name: 'Kuri 4', data: getDefaultKuriData() }
     };
-    // Also clear localStorage
     localStorage.removeItem('MASHOOD_ALL_KURIS');
     localStorage.removeItem('MASHOOD_CURRENT_KURI');
-    // Reset current data
     currentKuriId = 'kuri_1';
     data = allKuriData['kuri_1'].data;
     saveAllKuri();
-    // Reload everything
     renderKuriSelector();
     renderAll();
     populateLoginKuriSelector();
@@ -1109,7 +1076,7 @@ document.getElementById('loginBtn').addEventListener('click', function() {
     } else {
         const pass = document.getElementById('memberPass').value.trim();
         if (!pass) {
-            document.getElementById('loginMsg').textContent = '❌ Please enter your password (6 digits).';
+            document.getElementById('loginMsg').textContent = '❌ Please enter your password (4 digits).';
             return;
         }
         const result = findMemberByPasswordAcrossKuris(pass);
@@ -1164,7 +1131,6 @@ function doLogin(role, memberName) {
     document.getElementById('loginMsg').textContent = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('memberPass').value = '';
-    // Initialize monthly selectors if admin
     if (role === 'admin') {
         initMonthlySelectors();
     }
@@ -1184,7 +1150,7 @@ window.logout = function() {
 };
 
 // ============================================================
-//  WHEEL (unchanged)
+//  WHEEL
 // ============================================================
 function drawWheel(rot) {
     const canvas = document.getElementById('wheelCanvas');
@@ -1349,7 +1315,7 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
 });
 
 // ============================================================
-//  ADD MEMBER (updated to include monthlyPayments)
+//  ADD MEMBER
 // ============================================================
 document.getElementById('addSingleBtn').addEventListener('click', function() {
     const name = document.getElementById('singleName').value.trim();
@@ -1426,7 +1392,7 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
 });
 
 // ============================================================
-//  RULES & PAYOUT (unchanged)
+//  RULES & PAYOUT
 // ============================================================
 document.getElementById('saveRules').addEventListener('click', function() {
     data.rules = document.getElementById('rulesEdit').value;
@@ -1507,13 +1473,6 @@ if (currentRole) {
 } else {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
-}
-
-if (db) {
-    try {
-        dbRef = ref(db, 'mashood_kuri_' + currentKuriId);
-        // listener already in loadKuri
-    } catch(e) {}
 }
 
 drawWheel(0);
