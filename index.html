@@ -215,6 +215,8 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <textarea id="subText" rows="2" placeholder="Sub Members"></textarea>
             <button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
         </div>
+        
+        <!-- Danger Zone - Now HIDDEN for members (Added admin-only-btn) -->
         <div class="card admin-only-btn" style="border:2px solid #c62828;margin-top:12px">
             <h3 style="color:#c62828">⚠️ Danger Zone</h3>
             <button class="btn btn-danger" id="clearDataBtn">🗑️ Clear All Data (Reset)</button>
@@ -466,10 +468,11 @@ function getLoggedInMember() {
     return data.groups.find(g => g.mainName === currentMemberName);
 }
 
-// UPDATED: Now checks last 4 digits instead of 6
+// 🔥 FIXED: Checks last 4 digits AND auto-trims spaces so it works on any phone
 function findMemberByPasswordAcrossKuris(pass) {
-    const cleanPass = pass.replace(/[^0-9]/g, '');
-    if (cleanPass.length !== 4) return null; // Check length 4
+    const cleanPass = pass.replace(/[^0-9]/g, '').trim(); // Removed length restriction. Cleans and trims.
+    if (!cleanPass) return null;
+    
     for (const [kuriId, kuriObj] of Object.entries(allKuriData)) {
         const kuriData = kuriObj.data;
         if (!kuriData) continue;
