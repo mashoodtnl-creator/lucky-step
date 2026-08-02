@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mashood Chitty V16 - Member Login</title>
 <style>
-/* ... existing styles ... */
+/* ... all styles same as before ... */
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
 .container{max-width:520px;margin:0 auto;padding:16px}
@@ -135,7 +135,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button class="active" data-tab="home">🏠 Home</button>
         <button data-tab="members">👥 Members</button>
         <button data-tab="addmember" class="admin-only-btn">➕ Add</button>
-        <button data-tab="monthly" class="admin-only-btn">📅 Monthly</button>
         <button data-tab="wheel">🎡 Wheel</button>
         <button data-tab="payments">💰 Pay</button>
         <button data-tab="payout" class="admin-only-btn">💸 Payout</button>
@@ -145,18 +144,20 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button data-tab="history">📜 History</button>
     </div>
 
-    <!-- ===== TAB: HOME (unchanged) ===== -->
+    <!-- ===== TAB: HOME ===== -->
     <div id="tab-home" class="tab">
         <div id="memberWelcomeBanner" class="hidden welcome-banner">
             <h2 id="welcomeMemberName">Welcome, Member! 🎉</h2>
             <p id="welcomeKuriName">Welcome to Kuri 1</p>
         </div>
+
         <div class="card">
             <h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3>
             <div class="winner-display" id="todayWinner">—</div>
             <div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div>
         </div>
-        <!-- Member Payment Status -->
+
+        <!-- Member Payment Status (visible only to members) -->
         <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32">
             <h3>💳 Your Payment Status</h3>
             <div id="memberPayStatusContent">
@@ -166,7 +167,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
                     <div class="row"><span class="label">⏳ Remaining</span><span class="value red" id="memRemainingCount">25</span></div>
                     <div class="row"><span class="label">💰 Amount Paid</span><span class="value green" id="memAmountPaid">₹ 0</span></div>
                     <div class="row"><span class="label">📌 Remaining Amount</span><span class="value red" id="memRemainingAmount">₹ 0</span></div>
-                    <div class="row"><span class="label">📆 Paid Months</span><span class="value" id="memPaidMonths">—</span></div>
                 </div>
                 <div class="progress-wrap">
                     <div class="progress-fill" id="memProgressFill" style="width:0%">0%</div>
@@ -177,6 +177,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
                 <div class="pay-grid" id="memberPayGrid"></div>
             </div>
         </div>
+
         <div class="card">
             <h3>📅 Monthly Winners</h3>
             <div style="display:flex;gap:6px">
@@ -187,7 +188,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: MEMBERS (unchanged) ===== -->
+    <!-- ===== TAB: MEMBERS ===== -->
     <div id="tab-members" class="tab hidden">
         <div class="card">
             <h3>👥 Members - <span id="memberCount">0</span> | <span id="totalKuriCount">0</span> കുറി</h3>
@@ -195,7 +196,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: ADD MEMBER (unchanged) ===== -->
+    <!-- ===== TAB: ADD MEMBER ===== -->
     <div id="tab-addmember" class="tab hidden">
         <div class="card" style="border:2px solid #2E7D32">
             <h3>➕ Add Member</h3>
@@ -216,26 +217,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
             <input id="mainAmount" type="number" placeholder="Amount">
             <textarea id="subText" rows="2" placeholder="Sub Members"></textarea>
             <button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button>
-        </div>
-        <!-- Clear Data Button -->
-        <div class="card admin-only-btn" style="border:2px solid #c62828;margin-top:12px">
-            <h3 style="color:#c62828">⚠️ Danger Zone</h3>
-            <button class="btn btn-danger" id="clearDataBtn">🗑️ Clear All Data (Reset)</button>
-            <p style="font-size:.7rem;color:#666;margin-top:6px">This will delete all Kuri data and reset to default. This cannot be undone!</p>
-        </div>
-    </div>
-
-    <!-- ===== TAB: MONTHLY PAY ===== -->
-    <div id="tab-monthly" class="tab hidden">
-        <div class="card">
-            <h3>📆 Monthly Payment Marking</h3>
-            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
-                <select id="monthSelectMonthly" style="flex:1;min-width:80px;"></select>
-                <select id="yearSelectMonthly" style="flex:1;min-width:80px;"></select>
-                <button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button>
-            </div>
-            <div id="monthlyPayList"></div>
-            <div style="font-size:.8rem;color:#666;margin-top:8px">✓ Click on a member to toggle paid/unpaid for selected month.</div>
         </div>
     </div>
 
@@ -268,7 +249,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: PAYMENTS (now shows overall status) ===== -->
+    <!-- ===== TAB: PAYMENTS ===== -->
     <div id="tab-payments" class="tab hidden">
         <div class="card report-box" style="background:#f8f6f0;color:#1e293b;border-left:5px solid #C5A059">
             <div>Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹ 0</span></div>
@@ -280,7 +261,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: PAYOUT (unchanged) ===== -->
+    <!-- ===== TAB: PAYOUT ===== -->
     <div id="tab-payout" class="tab hidden">
         <div class="card report-box" style="background:#fff8e1;color:#000">
             <h3>💸 Payout Auto</h3>
@@ -298,7 +279,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: REPORTS (unchanged) ===== -->
+    <!-- ===== TAB: REPORTS ===== -->
     <div id="tab-reports" class="tab hidden">
         <div class="card report-box" style="background:#f8f9fa;color:#1e293b">
             <h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3>
@@ -308,7 +289,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <div class="card"><div id="memberReport"></div></div>
     </div>
 
-    <!-- ===== TAB: RULES (unchanged) ===== -->
+    <!-- ===== TAB: RULES ===== -->
     <div id="tab-rules" class="tab hidden">
         <div class="card">
             <h3>📜 Rules</h3>
@@ -320,7 +301,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: WHATSAPP (unchanged) ===== -->
+    <!-- ===== TAB: WHATSAPP ===== -->
     <div id="tab-whatsapp" class="tab hidden">
         <div class="card">
             <h3>💬 WhatsApp</h3>
@@ -335,7 +316,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
     </div>
 
-    <!-- ===== TAB: HISTORY (unchanged) ===== -->
+    <!-- ===== TAB: HISTORY ===== -->
     <div id="tab-history" class="tab hidden">
         <div class="card">
             <h3>📜 History - Delete Working</h3>
@@ -363,10 +344,11 @@ const firebaseConfig = {
 };
 
 let db = null, dbRef = null;
-let firebaseConnected = false;
+let firebaseConnected = false; // real connection status
 try { 
     const app = initializeApp(firebaseConfig); 
     db = getDatabase(app); 
+    // Listen to connection state
     const connectedRef = ref(db, '.info/connected');
     onValue(connectedRef, (snap) => {
         firebaseConnected = snap.val() === true;
@@ -388,7 +370,7 @@ const TOTAL_INSTALLMENTS = 25;
 
 let currentRole = sessionStorage.getItem('mashood_role') || null;
 let currentMemberName = sessionStorage.getItem('mashood_member') || null;
-let firebaseOK = false;
+let firebaseOK = false; // will be set by connection listener
 let currentRot = 0;
 let manualTarget = null;
 let pendingWinner = null;
@@ -397,13 +379,13 @@ let currentKuriId = localStorage.getItem('MASHOOD_CURRENT_KURI') || 'kuri_1';
 let allKuriData = JSON.parse(localStorage.getItem('MASHOOD_ALL_KURIS') || '{}');
 
 // ============================================================
-//  DEFAULT DATA (with monthlyPayments)
+//  DEFAULT DATA
 // ============================================================
 function getDefaultKuriData() {
     return {
         groups: [
-            { id: 'd1', mainName: 'Ramesh', phone: '919876543210', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, monthlyPayments: {} },
-            { id: 'd2', mainName: 'Suresh', phone: '919876543211', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, monthlyPayments: {} }
+            { id: 'd1', mainName: 'Ramesh', phone: '919876543210', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, paidCount: 0, paymentDates: [] },
+            { id: 'd2', mainName: 'Suresh', phone: '919876543211', subMembers: [], eligibility: true, payments: [], payouts: [], amount: 500, paidCount: 0, paymentDates: [] }
         ],
         allWinners: [],
         rules: '1. ഓരോ മാസവും ഒരു വിജയി\n2. തുക 500\n3. Live Sync',
@@ -420,53 +402,21 @@ if (Object.keys(allKuriData).length === 0) {
     allKuriData['kuri_4'] = { name: 'Kuri 4', data: getDefaultKuriData() };
 }
 
-// Migrate old data: if a group has paidCount but no monthlyPayments, convert.
-function migrateOldData(kuriData) {
-    kuriData.groups.forEach(g => {
-        if (g.paidCount !== undefined && g.paidCount > 0 && (!g.monthlyPayments || Object.keys(g.monthlyPayments).length === 0)) {
-            // Create dummy monthly payments for past months (simulate paidCount)
-            // For simplicity, we'll mark the last 'paidCount' months as paid.
-            // We'll generate month keys for the last paidCount months from current date.
-            if (!g.monthlyPayments) g.monthlyPayments = {};
-            const now = new Date();
-            const currentMonth = now.getMonth();
-            const currentYear = now.getFullYear();
-            for (let i = 0; i < g.paidCount; i++) {
-                let m = currentMonth - i;
-                let y = currentYear;
-                if (m < 0) { m += 12; y -= 1; }
-                const key = y + '-' + String(m+1).padStart(2,'0');
-                g.monthlyPayments[key] = true; // mark as paid
-            }
-        }
-        // Ensure monthlyPayments exists
-        if (!g.monthlyPayments) g.monthlyPayments = {};
-    });
-}
-// Apply migration to all kuris
-Object.keys(allKuriData).forEach(kid => {
-    if (allKuriData[kid].data) migrateOldData(allKuriData[kid].data);
-});
-
 function getCurrentKuriObj() { return allKuriData[currentKuriId]; }
 function getCurrentData() { return getCurrentKuriObj().data; }
 let data = getCurrentData();
 if (!data.passwords) data.passwords = {};
 data.passwords.admin = 'ma7hood';
 
-// Ensure monthlyPayments for all groups
-function ensureMonthlyPayments() {
+function ensurePaymentFields() {
     data.groups.forEach(g => {
-        if (!g.monthlyPayments) g.monthlyPayments = {};
+        if (g.paidCount === undefined) g.paidCount = 0;
+        if (!g.paymentDates) g.paymentDates = [];
+        if (g.paidCount > TOTAL_INSTALLMENTS) g.paidCount = TOTAL_INSTALLMENTS;
+        while (g.paymentDates.length > g.paidCount) g.paymentDates.pop();
     });
 }
-ensureMonthlyPayments();
-
-// Helper: compute paidCount from monthlyPayments
-function computePaidCount(g) {
-    if (!g.monthlyPayments) return 0;
-    return Object.keys(g.monthlyPayments).filter(key => g.monthlyPayments[key] === true).length;
-}
+ensurePaymentFields();
 
 function isAdmin() { return currentRole === 'admin'; }
 function isMember() { return currentRole === 'member'; }
@@ -512,7 +462,7 @@ function saveAllKuri() {
 
 function save() {
     try {
-        ensureMonthlyPayments();
+        ensurePaymentFields();
         allKuriData[currentKuriId].data = data;
         saveAllKuri();
         if (dbRef && isAdmin() && firebaseConnected) {
@@ -539,7 +489,7 @@ function loadKuri(kuriId) {
     if (!allKuriData[kuriId]) return;
     currentKuriId = kuriId;
     data = getCurrentData();
-    ensureMonthlyPayments();
+    ensurePaymentFields();
     manualTarget = null;
     pendingWinner = null;
     currentRot = 0;
@@ -547,16 +497,17 @@ function loadKuri(kuriId) {
     if (db) {
         try {
             dbRef = ref(db, 'mashood_kuri_' + kuriId);
+            // Listen for changes
             onValue(dbRef, (snap) => {
                 const val = snap.val();
                 if (val && val.groups) {
                     allKuriData[kuriId].data = { ...getDefaultKuriData(), ...val };
                     data = allKuriData[kuriId].data;
-                    ensureMonthlyPayments();
-                    migrateOldData(data);
+                    ensurePaymentFields();
                     saveAllKuri();
-                    firebaseOK = true;
+                    firebaseOK = true; // we got data, so connected
                 } else {
+                    // No data yet, but still connected
                     firebaseOK = true;
                 }
                 if (currentRole) renderAll();
@@ -587,10 +538,10 @@ function renderKuriSelector() {
 }
 
 // ============================================================
-//  CALCULATE TOTALS (based on monthlyPayments)
+//  CALCULATE TOTALS
 // ============================================================
 function calculateTotals() {
-    const paid = data.groups.filter(g => computePaidCount(g) > 0);
+    const paid = data.groups.filter(g => g.payments && g.payments[g.mainName]);
     const collection = paid.length * data.monthlyContribution;
     const totalPayout = data.groups.reduce((sum, g) => sum + (g.payouts || []).reduce((s, p) => s + (parseFloat(p.amount) || 0), 0), 0);
     return {
@@ -604,20 +555,19 @@ function calculateTotals() {
 }
 
 // ============================================================
-//  RENDER ALL
+//  RENDER ALL (same as before, but we call updateStatus at the end)
 // ============================================================
 function renderAll() {
     try {
         data = getCurrentData();
         if (!data.groups) data.groups = [];
         if (!data.allWinners) data.allWinners = [];
-        ensureMonthlyPayments();
+        ensurePaymentFields();
 
         const eligible = getEligible();
         const removed = data.groups.filter(g => g.eligibility === false);
         const totals = calculateTotals();
 
-        // Update counts
         document.getElementById('memberCount').textContent = data.groups.length;
         document.getElementById('totalKuriCount').textContent = totals.totalKuri;
         document.getElementById('totalCount').textContent = data.groups.length;
@@ -633,17 +583,16 @@ function renderAll() {
         document.getElementById('fullReport').innerHTML =
             `Groups: ${data.groups.length}<br>Kuri: ${totals.totalKuri}<br>Collection: ₹${totals.collection}<br>Payout: ₹${totals.totalPayout}<br>Balance: ₹${totals.balance}<br>Winners: ${data.allWinners.length}`;
 
-        // Members list
         let html = '';
         if (data.groups.length === 0) html = '<div style="text-align:center;color:#888">No Members</div>';
         else data.groups.forEach((g, i) => {
-            const paid = computePaidCount(g);
+            const paidCount = g.paidCount || 0;
             html += '<div class="group-card"><div class="group-header"><span>👤 ' + (i+1) + '. ' + g.mainName + '</span><div style="display:flex;gap:4px">';
             if (g.phone) html += '<button class="whatsapp-btn" onclick="openWA(\'' + g.phone + '\')">💬</button>';
             if (isAdmin()) html += '<button onclick="delGroup(\'' + g.id + '\')" style="border:none;background:#f5f5f5;color:#c62828;border-radius:50%;width:24px;height:24px">✕</button>';
             html += '</div></div>';
             if (g.phone) html += '<div style="font-size:.7rem;color:#25D366">📱 ' + g.phone + '</div>';
-            html += '<div style="font-size:.8rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; Paid: ' + paid + '/' + TOTAL_INSTALLMENTS + '</div>';
+            html += '<div style="font-size:.8rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; Paid: ' + paidCount + '/' + TOTAL_INSTALLMENTS + '</div>';
             if (g.subMembers?.length) g.subMembers.forEach((sub, idx) => {
                 html += '<div class="sub"><span>' + sub + '</span>';
                 if (isAdmin()) html += '<button onclick="removeChild(\'' + g.id + '\',' + idx + ')" style="border:none;background:none;color:#c62828">✕</button>';
@@ -653,15 +602,21 @@ function renderAll() {
         });
         document.getElementById('membersList').innerHTML = html;
 
-        // Payments list (overall)
         let payHtml = '';
         data.groups.forEach(g => {
-            const paid = computePaidCount(g);
-            const isPaid = paid >= TOTAL_INSTALLMENTS;
-            payHtml += '<div class="member-row"><div><strong>' + g.mainName + '</strong><br><span style="font-size:.7rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; ' + paid + '/' + TOTAL_INSTALLMENTS + '</span></div><div style="display:flex;gap:4px;align-items:center">';
+            const paidCount = g.paidCount || 0;
+            const isPaid = paidCount >= TOTAL_INSTALLMENTS;
+            payHtml += '<div class="member-row"><div><strong>' + g.mainName + '</strong><br><span style="font-size:.7rem">₹' + (g.amount || 500) + ' &nbsp;|&nbsp; ' + paidCount + '/' + TOTAL_INSTALLMENTS + '</span></div><div style="display:flex;gap:4px;align-items:center">';
             if (isAdmin()) {
                 payHtml += '<input type="number" value="' + (g.amount || 500) + '" onchange="updateAmount(\'' + g.id + '\',this.value)" style="width:60px;padding:6px;margin:0">';
-                payHtml += '<span class="badge ' + (isPaid ? 'paid' : 'pending') + '">' + (isPaid ? 'Complete' : 'Pending') + '</span>';
+                if (paidCount < TOTAL_INSTALLMENTS) {
+                    payHtml += '<button class="btn-sm" style="background:#2E7D32;color:#fff" onclick="markPaid(\'' + g.id + '\')">✅ Paid</button>';
+                } else {
+                    payHtml += '<span class="badge paid">✅ Complete</span>';
+                }
+                if (paidCount > 0) {
+                    payHtml += '<button class="btn-sm btn-danger" onclick="unmarkPaid(\'' + g.id + '\')">↩️</button>';
+                }
             } else {
                 payHtml += '<span class="badge ' + (isPaid ? 'paid' : 'pending') + '">' + (isPaid ? 'Complete' : 'Pending') + '</span>';
             }
@@ -669,7 +624,6 @@ function renderAll() {
         });
         document.getElementById('payList').innerHTML = payHtml || 'No members';
 
-        // Payout list
         let payoutHtml = '';
         data.groups.forEach(g => {
             (g.payouts || []).forEach((p, idx) => {
@@ -677,10 +631,9 @@ function renderAll() {
             });
         });
         document.getElementById('payoutList').innerHTML = payoutHtml || 'No payouts';
-        document.getElementById('memberReport').innerHTML = data.groups.map(g => {
-            const paid = computePaidCount(g);
-            return '<div class="member-row"><span>' + g.mainName + '</span><span>' + (paid >= TOTAL_INSTALLMENTS ? '✅ Complete' : (paid + '/' + TOTAL_INSTALLMENTS)) + '</span></div>';
-        }).join('') || 'No data';
+        document.getElementById('memberReport').innerHTML = data.groups.map(g =>
+            '<div class="member-row"><span>' + g.mainName + '</span><span>' + ((g.paidCount || 0) >= TOTAL_INSTALLMENTS ? '✅ Complete' : ((g.paidCount || 0) + '/' + TOTAL_INSTALLMENTS)) + '</span></div>'
+        ).join('') || 'No data';
 
         const payoutSel = document.getElementById('payoutMemberSelect');
         if (payoutSel) {
@@ -693,12 +646,10 @@ function renderAll() {
             });
         }
 
-        // Winners
         const today = data.allWinners.length ? data.allWinners[data.allWinners.length-1].mainName : '—';
         document.getElementById('todayWinner').textContent = today;
         document.getElementById('drawWinner').textContent = today;
 
-        // Month/Year for winners
         const monthSel = document.getElementById('monthSelect');
         const yearSel = document.getElementById('yearSelect');
         if (monthSel.options.length === 0) {
@@ -721,7 +672,6 @@ function renderAll() {
         }
         updateMonthWinners();
 
-        // History
         let hHtml = '';
         if (data.allWinners.length === 0) hHtml = 'No winners';
         else data.allWinners.slice().reverse().forEach((w, revIdx) => {
@@ -757,7 +707,6 @@ function renderAll() {
 
         updateMemberPaymentStatus();
 
-        // Admin buttons visibility
         const isAdminUser = isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el => {
             el.style.display = isAdminUser ? '' : 'none';
@@ -774,17 +723,13 @@ function renderAll() {
             payStatus.classList.add('hidden');
         }
 
-        updateStatus();
+        updateStatus(); // update live/local
         drawWheel(currentRot);
-        // Refresh monthly pay list if on monthly tab
-        if (document.getElementById('tab-monthly') && !document.getElementById('tab-monthly').classList.contains('hidden')) {
-            loadMonthlyData();
-        }
     } catch (e) { console.error(e); }
 }
 
 // ============================================================
-//  MEMBER PAYMENT STATUS (updated with monthly info)
+//  MEMBER PAYMENT STATUS (unchanged)
 // ============================================================
 function updateMemberPaymentStatus() {
     const mem = getLoggedInMember();
@@ -793,7 +738,7 @@ function updateMemberPaymentStatus() {
         return;
     }
     document.getElementById('memberPaymentStatus').classList.remove('hidden');
-    const paid = computePaidCount(mem);
+    const paid = mem.paidCount || 0;
     const remaining = TOTAL_INSTALLMENTS - paid;
     const amount = mem.amount || 500;
     const amountPaid = paid * amount;
@@ -815,84 +760,10 @@ function updateMemberPaymentStatus() {
         dot.textContent = i + 1;
         grid.appendChild(dot);
     }
-    // Show paid months list
-    const monthsPaid = Object.keys(mem.monthlyPayments).filter(k => mem.monthlyPayments[k] === true).sort();
-    document.getElementById('memPaidMonths').textContent = monthsPaid.length ? monthsPaid.join(', ') : 'None';
 }
 
 // ============================================================
-//  MONTHLY PAY TAB FUNCTIONS
-// ============================================================
-function loadMonthlyData() {
-    const monthSel = document.getElementById('monthSelectMonthly');
-    const yearSel = document.getElementById('yearSelectMonthly');
-    const month = parseInt(monthSel.value);
-    const year = parseInt(yearSel.value);
-    const key = year + '-' + String(month+1).padStart(2,'0');
-    const listDiv = document.getElementById('monthlyPayList');
-    if (!data.groups.length) {
-        listDiv.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">No members</div>';
-        return;
-    }
-    let html = '<div style="display:flex;flex-direction:column;gap:8px;">';
-    data.groups.forEach(g => {
-        const paid = g.monthlyPayments && g.monthlyPayments[key] === true;
-        html += `<div class="member-row" style="cursor:pointer;background:${paid ? '#d1fae5' : '#fef3c7'};border-radius:12px;padding:8px 12px;" onclick="toggleMonthlyPay('${g.id}','${key}')">
-            <span><strong>${g.mainName}</strong> ${paid ? '✅' : '⬜'}</span>
-            <span class="badge ${paid ? 'paid' : 'pending'}">${paid ? 'Paid' : 'Pending'}</span>
-        </div>`;
-    });
-    html += '</div>';
-    listDiv.innerHTML = html;
-}
-
-window.toggleMonthlyPay = function(id, monthKey) {
-    if (!isAdmin()) return;
-    const g = data.groups.find(x => x.id === id);
-    if (!g) return;
-    if (!g.monthlyPayments) g.monthlyPayments = {};
-    g.monthlyPayments[monthKey] = !g.monthlyPayments[monthKey];
-    // If false, delete key to clean up
-    if (g.monthlyPayments[monthKey] === false) delete g.monthlyPayments[monthKey];
-    // Auto-save
-    save();
-    // Reload monthly list
-    loadMonthlyData();
-    // Also update other views
-    renderAll();
-};
-
-// Initialize month/year dropdowns for monthly tab
-function initMonthlySelectors() {
-    const monthSel = document.getElementById('monthSelectMonthly');
-    const yearSel = document.getElementById('yearSelectMonthly');
-    monthSel.innerHTML = '';
-    MONTHS.forEach((m, i) => {
-        const o = document.createElement('option');
-        o.value = i;
-        o.textContent = m;
-        monthSel.appendChild(o);
-    });
-    const currentMonth = new Date().getMonth();
-    monthSel.value = currentMonth;
-    yearSel.innerHTML = '';
-    for (let y = 2023; y <= 2030; y++) {
-        const o = document.createElement('option');
-        o.value = y;
-        o.textContent = y;
-        yearSel.appendChild(o);
-    }
-    const currentYear = new Date().getFullYear();
-    yearSel.value = currentYear;
-    // Load data on change
-    monthSel.addEventListener('change', loadMonthlyData);
-    yearSel.addEventListener('change', loadMonthlyData);
-    // Load initial
-    setTimeout(loadMonthlyData, 100);
-}
-
-// ============================================================
-//  MONTH WINNERS (unchanged)
+//  MONTH WINNERS
 // ============================================================
 function updateMonthWinners() {
     const monthSel = document.getElementById('monthSelect');
@@ -908,42 +779,32 @@ function updateMonthWinners() {
 }
 
 // ============================================================
-//  PAYMENT ACTIONS (Admin) - now we rely on monthlyPayments
+//  PAYMENT ACTIONS (Admin)
 // ============================================================
-// We can keep markPaid/unmarkPaid but they will modify monthlyPayments for current month.
-// We'll keep them for backward compatibility but redirect to monthly toggling.
 window.markPaid = function(id) {
     if (!isAdmin()) return;
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
-    if (computePaidCount(g) >= TOTAL_INSTALLMENTS) {
+    if ((g.paidCount || 0) >= TOTAL_INSTALLMENTS) {
         alert('This member has already completed all ' + TOTAL_INSTALLMENTS + ' payments.');
         return;
     }
-    // Mark current month as paid
-    const now = new Date();
-    const key = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
-    if (!g.monthlyPayments) g.monthlyPayments = {};
-    if (!g.monthlyPayments[key]) {
-        g.monthlyPayments[key] = true;
-        save();
-    } else {
-        alert('Already paid for this month.');
-    }
+    g.paidCount = (g.paidCount || 0) + 1;
+    if (!g.paymentDates) g.paymentDates = [];
+    g.paymentDates.push(new Date().toISOString().slice(0, 10));
+    save();
 };
 window.unmarkPaid = function(id) {
     if (!isAdmin()) return;
     const g = data.groups.find(x => x.id === id);
     if (!g) return;
-    if (computePaidCount(g) <= 0) return;
-    // Unmark latest paid month (or last month)
-    const paidKeys = Object.keys(g.monthlyPayments).filter(k => g.monthlyPayments[k] === true).sort();
-    if (paidKeys.length === 0) return;
-    const lastKey = paidKeys[paidKeys.length-1];
-    delete g.monthlyPayments[lastKey];
+    if ((g.paidCount || 0) <= 0) return;
+    g.paidCount = (g.paidCount || 0) - 1;
+    if (g.paymentDates && g.paymentDates.length > 0) {
+        g.paymentDates.pop();
+    }
     save();
 };
-
 window.updateAmount = function(id, val) {
     const g = data.groups.find(x => x.id === id);
     if (g) { g.amount = parseFloat(val) || 500; save(); }
@@ -979,33 +840,6 @@ window.delPayout = function(gid, idx) {
 };
 
 // ============================================================
-//  CLEAR DATA
-// ============================================================
-document.getElementById('clearDataBtn')?.addEventListener('click', function() {
-    if (!confirm('⚠️ Are you sure you want to delete ALL data for ALL Kuris? This cannot be undone!')) return;
-    if (!confirm('Really? All members, payments, winners, rules will be reset to default.')) return;
-    // Reset allKuriData to default
-    allKuriData = {
-        'kuri_1': { name: 'Kuri 1', data: getDefaultKuriData() },
-        'kuri_2': { name: 'Kuri 2', data: getDefaultKuriData() },
-        'kuri_3': { name: 'Kuri 3', data: getDefaultKuriData() },
-        'kuri_4': { name: 'Kuri 4', data: getDefaultKuriData() }
-    };
-    // Also clear localStorage
-    localStorage.removeItem('MASHOOD_ALL_KURIS');
-    localStorage.removeItem('MASHOOD_CURRENT_KURI');
-    // Reset current data
-    currentKuriId = 'kuri_1';
-    data = allKuriData['kuri_1'].data;
-    saveAllKuri();
-    // Reload everything
-    renderKuriSelector();
-    renderAll();
-    populateLoginKuriSelector();
-    alert('All data has been reset to default.');
-});
-
-// ============================================================
 //  WHATSAPP HELPERS
 // ============================================================
 window.openWA = function(phone) {
@@ -1033,7 +867,7 @@ window.broadcastWhatsApp = function() {
 };
 
 // ============================================================
-//  LOGIN LOGIC
+//  LOGIN LOGIC (unchanged)
 // ============================================================
 const loginRole = document.getElementById('loginRole');
 const adminLoginFields = document.getElementById('adminLoginFields');
@@ -1142,10 +976,6 @@ function doLogin(role, memberName) {
     document.getElementById('loginMsg').textContent = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('memberPass').value = '';
-    // Initialize monthly selectors if admin
-    if (role === 'admin') {
-        initMonthlySelectors();
-    }
 }
 
 window.logout = function() {
@@ -1319,15 +1149,11 @@ document.querySelectorAll('.tab-bar button').forEach(b => {
         document.getElementById('tab-' + this.dataset.tab).classList.remove('hidden');
         if (this.dataset.tab === 'wheel') drawWheel(currentRot);
         if (this.dataset.tab === 'home') updateMemberPaymentStatus();
-        if (this.dataset.tab === 'monthly' && isAdmin()) {
-            initMonthlySelectors();
-            loadMonthlyData();
-        }
     });
 });
 
 // ============================================================
-//  ADD MEMBER (updated to include monthlyPayments)
+//  ADD MEMBER (unchanged)
 // ============================================================
 document.getElementById('addSingleBtn').addEventListener('click', function() {
     const name = document.getElementById('singleName').value.trim();
@@ -1344,7 +1170,8 @@ document.getElementById('addSingleBtn').addEventListener('click', function() {
         payments: [],
         payouts: [],
         amount: amount,
-        monthlyPayments: {}
+        paidCount: 0,
+        paymentDates: []
     });
     document.getElementById('singleName').value = '';
     document.getElementById('singlePhone').value = '';
@@ -1370,7 +1197,8 @@ document.getElementById('bulkAddBtn').addEventListener('click', function() {
                 payments: [],
                 payouts: [],
                 amount: am,
-                monthlyPayments: {}
+                paidCount: 0,
+                paymentDates: []
             });
         }
     });
@@ -1394,7 +1222,8 @@ document.getElementById('addGroupBtn').addEventListener('click', function() {
         payments: [],
         payouts: [],
         amount: amount,
-        monthlyPayments: {}
+        paidCount: 0,
+        paymentDates: []
     });
     document.getElementById('mainName').value = '';
     document.getElementById('mainPhone').value = '';
@@ -1456,7 +1285,7 @@ document.getElementById('monthSelect').addEventListener('change', updateMonthWin
 document.getElementById('yearSelect').addEventListener('change', updateMonthWinners);
 
 // ============================================================
-//  INIT
+//  INIT - Auto restore session
 // ============================================================
 renderKuriSelector();
 
@@ -1478,19 +1307,19 @@ if (currentRole) {
         document.getElementById('welcomeMemberName').textContent = 'Welcome, ' + currentMemberName + '! 🎉';
         document.getElementById('welcomeKuriName').textContent = 'Welcome to ' + getCurrentKuriObj().name;
     }
-    if (currentRole === 'admin') {
-        initMonthlySelectors();
-    }
     loadKuri(currentKuriId);
 } else {
     document.getElementById('loginScreen').style.display = 'flex';
     document.getElementById('mainApp').style.display = 'none';
 }
 
+// Additional connection check for status
 if (db) {
+    // already have connection listener above
+    // Also try to read data to set status
     try {
         dbRef = ref(db, 'mashood_kuri_' + currentKuriId);
-        // listener already in loadKuri
+        // Will be handled in loadKuri or connection listener
     } catch(e) {}
 }
 
