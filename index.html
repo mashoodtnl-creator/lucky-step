@@ -20,45 +20,9 @@
   };
 })();
 </script><script>window.Intl=window.Intl||{};Intl.t=function(s){return(Intl._locale&&Intl._locale[s])||s;};</script>
-<link rel="manifest" href="./manifest.json">
-<meta name="theme-color" content="#2E7D32">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Mashood Chitty">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/138/138292.png">
-<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/138/138292.png">
-<script>
-if('serviceWorker' in navigator){
-  window.addEventListener('load',()=>{
-    navigator.serviceWorker.register('./sw.js').then(reg=>{
-      console.log('SW registered',reg);
-    }).catch(err=>console.log('SW fail',err));
-  });
-}
-let deferredPrompt=null;
-window.addEventListener('beforeinstallprompt', (e)=>{
-  e.preventDefault();
-  deferredPrompt=e;
-  const banner=document.getElementById('pwaInstallBanner');
-  if(banner) banner.style.display='flex';
-});
-function installPWA(){
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(choice=>{
-      if(choice.outcome==='accepted'){ console.log('PWA installed'); }
-      deferredPrompt=null;
-      document.getElementById('pwaInstallBanner').style.display='none';
-    });
-  } else {
-    alert('iPhone: Share button → Add to Home Screen\nAndroid: Menu → Add to Home Screen / Install App');
-  }
-}
-</script>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mashood V20.2 - With Notifications</title>
+<title>Mashood Chitty V20 - Final</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:80px}
@@ -99,10 +63,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 .pay-dot{width:100%;aspect-ratio:1/1;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;background:#f5f5f5}
 .pay-dot.paid-dot{background:#2E7D32;border-color:#2E7D32;color:#fff}
 .pay-dot.pending-dot{background:#fff;border-color:#c62828}
-.scroll-banner-wrap{background:#000;border-top:3px solid #ff0000;border-bottom:3px solid #ff0000;overflow:hidden;height:46px;display:flex;align-items:center;position:sticky;top:52px;z-index:20;margin:0 -16px 10px -16px}
-.scroll-banner{white-space:nowrap;display:inline-block;padding-left:100%;animation:scroll-left 15s linear infinite;font-size:1.25rem;font-weight:900;color:#ff0000}
-@keyframes scroll-left{0%{transform:translateX(0)}100%{transform:translateX(-100%)}}
-.notif-card{border:2px solid #25D366!important;background:linear-gradient(135deg,#f0fdf4,#dcfce7)!important}
 </style>
 </head>
 <body>
@@ -111,7 +71,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
     <div class="login-card">
         <div style="font-size:3rem;margin-bottom:8px">🪙</div>
         <h2 style="color:#2E7D32;margin-bottom:4px">Mashood Chitty</h2>
-        <p style="font-size:.8rem;color:#666;margin-bottom:16px">V20.2 - With Notifications</p>
+        <p style="font-size:.8rem;color:#666;margin-bottom:16px">Secure & Live Sync</p>
         <select id="loginRole" style="margin-bottom:8px">
             <option value="admin">👑 Admin Login</option>
             <option value="member">👤 Member Login</option>
@@ -139,23 +99,16 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         </div>
         <button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button>
         <div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div>
+        <div style="font-size:.65rem;color:#888;margin-top:10px">Problem? <button onclick="hardReset()" style="border:none;background:#fee;color:#c00;padding:4px 8px;border-radius:10px">Reset</button></div>
     </div>
 </div>
 
-<div id="winSaveModal" class="modal hidden"><div class="modal-card"><h3>🎉 വിജയി!</h3><div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div><div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div>
-<p style="font-size:.75rem;color:#25D366;margin:8px 0">📢 Save ചെയ്താൽ എല്ലാവർക്കും Notification പോകും + WhatsApp Group-ൽ Message പോകും</p>
-<button class="btn" id="confirmSaveWin">✅ Save & Notify All</button><button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button></div></div>
+<div id="winSaveModal" class="modal hidden"><div class="modal-card"><h3>🎉 വിജയി!</h3><div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div><div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div><button class="btn" id="confirmSaveWin">✅ Save Winner</button><button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button></div></div>
+<div id="manualModal" class="modal hidden"><div class="modal-card" style="border:3px solid #FFD700"><h3>👑 Manual Select - Hidden</h3><select id="manualSelect"></select><button class="btn btn-gold" id="confirmManual">✅ Set Hidden</button><button class="btn btn-outline" id="cancelManual">Cancel</button></div></div>
 
-
-<div id="pwaInstallBanner" style="display:none;background:linear-gradient(135deg,#2E7D32,#1b5e20);color:#fff;padding:14px;margin:10px;border-radius:16px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:99">
-<div><div style="font-weight:900">📲 Install App</div><div style="font-size:.75rem">App പോലെ ഉപയോഗിക്കാൻ Install ചെയ്യൂ</div></div>
-<button onclick="installPWA()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:20px;font-weight:800">Install</button>
-</div>
 <div class="container" id="mainApp" style="display:none">
     <div id="status" class="status local">⏳ Connecting...</div>
-    <div class="top-kuri-bar"><span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span><select id="kuriSelector"></select><button class="btn-sm" style="background:#25D366;color:#fff;padding:6px 10px;border-radius:20px" onclick="requestNotifPermission()">🔔</button><button class="btn-sm btn-danger" onclick="logout()">Out</button></div>
-    <div id="scrollBannerWrap" class="scroll-banner-wrap"><div id="scrollBanner" class="scroll-banner">ലോഡിംഗ്...</div></div>
-    
+    <div class="top-kuri-bar"><span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span><select id="kuriSelector"></select><button class="btn-sm btn-danger" onclick="logout()">Out</button></div>
     <div class="tab-bar">
         <button class="active" data-tab="home">🏠 Home</button>
         <button data-tab="members">👥 Members</button>
@@ -164,8 +117,6 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
         <button data-tab="wheel">🎡 Wheel</button>
         <button data-tab="payments">💰 Pay</button>
         <button data-tab="payout">💸 Payout</button>
-        <button data-tab="timer" class="admin-only-btn">⏰ Timer</button>
-        <button data-tab="notif" class="admin-only-btn">🔔 Notif</button>
         <button data-tab="reports">📊 Report</button>
         <button data-tab="rules">📜 Rules</button>
         <button data-tab="whatsapp">💬 WA</button>
@@ -174,234 +125,81 @@ input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px soli
 
     <div id="tab-home" class="tab">
         <div id="memberWelcomeBanner" class="hidden welcome-banner"><h2 id="welcomeMemberName">Welcome!</h2><p id="welcomeKuriName">Kuri 1</p></div>
-        <div class="card notif-card" id="notifEnableCard"><h3 style="color:#065f46">🔔 Notification Enable ചെയ്യൂ</h3><p style="font-size:.75rem;color:#065f46;margin:6px 0">Link ഉള്ളവർക്ക് App പോലെ notification കിട്ടാൻ Allow ചെയ്യൂ - Winner, പുതിയ അംഗം ചേർത്താൽ, പൈസ അടച്ചാൽ എല്ലാം notification വരും</p><button class="btn" style="background:#25D366" onclick="requestNotifPermission()">🔔 Enable Notifications - App പോലെ</button><div id="notifStatus"></div><div id="notifDebug" style="font-size:.6rem;color:#666;margin-top:4px;word-break:break-all;background:#f5f5f5;padding:6px;border-radius:8px" style="font-size:.7rem;color:#065f46;margin-top:6px"></div></div>
-        <div class="card" id="countdownCard" style="border:2px solid #ff0000;background:linear-gradient(135deg,#fff5f5,#ffe0e0)"><h3 style="color:#c62828">⏰ <span class="kuriNameDisplay">Kuri 1</span> - Countdown</h3><div id="countdownDisplay" style="font-size:1.5rem;font-weight:900;color:#c62828;text-align:center;padding:10px 0">ലോഡിംഗ്...</div><div id="countdownSub" style="text-align:center;font-size:.8rem;color:#666"></div></div>
         <div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div><div id="manualSetInfoHome" class="hidden" style="background:#fff3cd;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700">🎯 Manual Set - Hidden</div></div>
         <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32"><h3>💳 Your Payment Status</h3><div class="status-card"><div style="display:flex;justify-content:space-between"><span>✅ Paid</span><span style="color:#2E7D32;font-weight:800" id="memPaidCount">0</span></div><div style="display:flex;justify-content:space-between"><span>⏳ Remaining</span><span style="color:#c62828;font-weight:800" id="memRemainingCount">25</span></div><div style="display:flex;justify-content:space-between"><span>💰 Paid</span><span id="memAmountPaid">₹0</span></div></div><div class="progress-wrap"><div class="progress-fill" id="memProgressFill" style="width:0%">0%</div></div><div class="pay-grid" id="memberPayGrid"></div><div id="memPaidMonths" style="font-size:.7rem;color:#666;margin-top:6px"></div></div>
         <div class="card"><h3>📅 Monthly Winners</h3><div style="display:flex;gap:6px"><select id="monthSelect"></select><select id="yearSelect"></select></div><ul id="monthWinnerList" style="list-style:none;padding:0;margin-top:10px"></ul></div>
     </div>
 
     <div id="tab-members" class="tab hidden"><div class="card"><h3>👥 Members - <span id="memberCount">0</span></h3><div id="membersList"></div></div></div>
+    
     <div id="tab-addmember" class="tab hidden">
-        <div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 500"><button class="btn" id="addSingleBtn">✅ Add Member + Notify</button><div style="font-size:.7rem;color:#666">Password = Last 4 digits auto + Notification പോകും</div></div>
-        <div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add + Notify</button></div>
+        <div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 500"><button class="btn" id="addSingleBtn">✅ Add Member</button><div style="font-size:.7rem;color:#666">Password = Last 4 digits auto</div></div>
+        <div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div>
+        <div class="card" style="border:2px solid #1565c0"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Group Head Name"><input id="mainPhone" placeholder="Head Phone"><input id="mainAmount" type="number" placeholder="Amount"><textarea id="subText" rows="3" placeholder="Sub Members - one per line"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div>
     </div>
+
     <div id="tab-monthly" class="tab hidden"><div class="card"><h3>📆 Monthly - LIVE</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><select id="monthSelectMonthly"></select><select id="yearSelectMonthly"></select><button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button><button class="btn-sm btn-danger" id="clearMonthBtn" style="background:#c62828;color:#fff;padding:8px 16px;">Clear</button></div><div id="monthlyPayList"></div></div></div>
+
     <div id="tab-wheel" class="tab hidden">
         <div class="card" style="background:#1a1a2e;color:#fff"><h3 style="color:#fff">🎡 <span class="kuriNameDisplay">Kuri 1</span> <span id="memberWheelInfo" style="font-size:.7rem;background:#FFD700;color:#000;padding:4px 8px;border-radius:10px;margin-left:6px">VIEW ONLY</span></h3>
-            <div class="wheel-container"><div class="wheel-arrow">▶</div><canvas id="wheelCanvas" width="500" height="500" style="box-shadow:0 8px 30px rgba(0,0,0,.4);border-radius:50%"></canvas></div>
-            <button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:14px;background:#FF3B30;font-size:1.2rem;font-weight:900">🎯 SPIN NOW</button>
-            <div id="memberNoSpinMsg" class="hidden" style="background:#fff3cd;color:#000;padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-top:14px">👀 Member View Only</div>
+            <div class="wheel-container"><div class="wheel-arrow">▶</div><canvas id="wheelCanvas" width="500" height="500" style="box-shadow:0 8px 30px rgba(0,0,0,.4);border-radius:50%"></canvas><div id="tapToSpinText" style="display:none" data-old=" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);color:#fff;font-weight:900;font-size:1.4rem;text-shadow:0 2px 8px rgba(0,0,0,.8);pointer-events:none;z-index:5;text-align:center;line-height:1"></div></div>
+            <button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:14px;background:#FF3B30;font-size:1.2rem;font-weight:900">🎯 SPIN NOW - CLICK HERE</button>
+            <div id="memberNoSpinMsg" class="hidden" style="background:#fff3cd;color:#000;padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-top:14px">👀 Member View Only - Admin can spin</div>
+            <button class="btn btn-outline admin-only-btn" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;margin-top:8px">🔀 Shuffle Names</button>
             <div id="wheelSubInfo" style="background:rgba(255,255,255,.1);padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;color:#fff"></div>
             <div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.1);padding:10px;border-radius:12px;color:#fff"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div>
-            <div class="winner-display" id="drawWinner" style="color:#FFD700">—</div>
+            <div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;color:#000;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div><div class="winner-display" id="drawWinner" style="color:#FFD700">—</div>
             <button class="btn btn-outline admin-only-btn" id="bringBackBtn">↩️ Bring All Back</button><button class="btn btn-danger admin-only-btn" id="removeWinnerBtn">🗑 Remove Last Winner</button>
         </div>
         <div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div>
+        <div style="text-align:center"><button class="admin-only-btn" style="font-size:.7rem;padding:8px 16px;margin:10px auto;display:block;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700" id="manualBtn">👤 Manual Select - Hidden</button></div>
     </div>
+
     <div id="tab-payments" class="tab hidden">
         <div class="card report-box"><div>ഈ മാസം Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹0</span></div><div>Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span> | Total: <span id="totalPaidMonths">0</span></div></div>
         <div class="card"><div id="payList"></div></div>
     </div>
-    <div id="tab-payout" class="tab hidden"><div class="card report-box" style="background:#fff8e1"><h3>💸 Payout</h3><div>Collection: <span id="payoutCollection">₹0</span></div><div>Payout: <span id="payoutTotal">₹0</span></div><div>Balance: <span id="payoutBalance">₹0</span></div></div><div class="card"><div id="payoutList"></div></div><div class="card admin-only-btn"><h3>➕ Add Payout</h3><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="Amount"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Add Payout + Notify</button></div></div>
-    <div id="tab-timer" class="tab hidden"><div class="card" style="border:3px solid #ff0000"><h3 style="color:#c62828">⏰ Timer Settings</h3></div><div id="timerSettingsList"></div></div>
-    <div id="tab-notif" class="tab hidden">
-        <div class="card notif-card"><h3>🔔 Notification System - എങ്ങനെ Work ആവും?</h3>
-            <div style="font-size:.8rem;line-height:1.6;margin-top:10px;color:#000">
-            <b>1. Link ഉള്ളവർക്ക് (Browser Notification - App പോലെ):</b><br>
-            • ഈ link open ചെയ്ത് 🔔 Allow ചെയ്യുന്ന എല്ലാവർക്കും<br>
-            • Phone-ൽ App notification പോലെ വരും, Chrome/Safari background-ൽ ആണെങ്കിലും<br>
-            • Winner ആയാൽ, പുതിയ member ചേർത്താൽ, payment ആയാൽ auto notification<br><br>
-            <b>2. WhatsApp Group-ന്:</b><br>
-            • Admin winner save ചെയ്യുമ്പോൾ auto WhatsApp group-ൽ message പോകാൻ button<br>
-            • Settings-ൽ WhatsApp Group Link save ചെയ്യൂ<br>
-            • പുതിയ winner: "🎉 Kuri 1 Winner: Ramesh - 20-01-2026" എന്ന് group-ൽ പോകും<br><br>
-            <b>3. SMS ആയി (Optional - Paid):</b><br>
-            • Fast2SMS / Twilio വഴി SMS അയക്കാം - ഒരു SMS-ന് ₹0.15-0.30<br>
-            • എല്ലാ member-ന്റെ phone-ലേക്കും SMS പോകും<br><br>
-            <b>4. App ആക്കിയാൽ (Best):</b><br>
-            • ഈ HTML-നെ PWA ആക്കി Home Screen-ൽ Add ചെയ്താൽ 100% App പോലെ notification<br>
-            • അല്ലെങ്കിൽ APK ആക്കി Play Store ഇല്ലാതെ install ചെയ്യിക്കാം - Firebase Push Notification
-            </div>
-        </div>
-        <div class="card"><h3>📢 Test Notification</h3><input id="notifTitle" placeholder="Title - ഉദാ: Kuri Winner!" value="🎉 Mashood Chitty"><textarea id="notifBody" rows="2" placeholder="Message">Winner Announcement Test</textarea><button class="btn" style="background:#25D366" onclick="sendTestNotif()">🔔 Send Test Notification to All</button><button class="btn btn-gold" onclick="sendWhatsAppNotif()">💬 Send WhatsApp Message to Group</button></div>
-        <div class="card"><h3>📊 Notification Log</h3><div id="notifLog" style="font-size:.75rem;max-height:200px;overflow-y:auto"></div></div>
-    </div>
+
+    <div id="tab-payout" class="tab hidden"><div class="card report-box" style="background:#fff8e1"><h3>💸 Payout</h3><div>Collection: <span id="payoutCollection">₹0</span></div><div>Payout: <span id="payoutTotal">₹0</span></div><div>Balance: <span id="payoutBalance">₹0</span></div></div><div class="card"><div id="payoutList"></div></div><div class="card admin-only-btn"><h3>➕ Add Payout</h3><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="Amount"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Add Payout</button></div></div>
     <div id="tab-reports" class="tab hidden"><div class="card report-box"><h3>📊 Report - <span class="kuriNameDisplay">Kuri 1</span></h3><div id="fullReport"></div></div><div class="card"><div id="memberReport"></div></div></div>
-    <div id="tab-rules" class="tab hidden"><div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px"></div></div><div class="card admin-only-btn"><textarea id="rulesEdit" rows="6"></textarea><button class="btn btn-gold" id="saveRules">💾 Save + Notify</button></div></div>
-    <div id="tab-whatsapp" class="tab hidden"><div class="card"><h3>💬 WhatsApp Group</h3><input id="waGroupLink" placeholder="Group Link"><button class="btn-sm" style="background:#25D366;color:#fff;width:100%;padding:12px" onclick="saveWaGroupLink()">💾 Save Link</button><button class="btn whatsapp-btn" style="width:100%;margin-top:6px;padding:12px" onclick="openWhatsAppGroup()">📱 Open Group</button><div style="font-size:.7rem;color:#666;margin-top:8px">Winner ആയാൽ auto ഈ group-ൽ message പോകാൻ link save ചെയ്യൂ</div></div><div class="card"><div id="waMemberList"></div></div><div class="card"><textarea id="broadcastMsg" rows="3" placeholder="Message to broadcast"></textarea><button class="btn whatsapp-btn" style="width:100%;padding:12px" onclick="broadcastWhatsApp()">📢 Broadcast to WhatsApp</button></div></div>
+    <div id="tab-rules" class="tab hidden"><div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px"></div></div><div class="card admin-only-btn"><textarea id="rulesEdit" rows="6"></textarea><button class="btn btn-gold" id="saveRules">💾 Save</button></div></div>
+    <div id="tab-whatsapp" class="tab hidden"><div class="card"><h3>💬 WhatsApp - Members Can Message</h3><input id="waGroupLink" placeholder="Group Link"><button class="btn-sm" style="background:#25D366;color:#fff;width:100%;padding:12px" onclick="saveWaGroupLink()">💾 Save</button><button class="btn whatsapp-btn" style="width:100%;margin-top:6px;padding:12px" onclick="openWhatsAppGroup()">📱 Open Group</button></div><div class="card"><div id="waMemberList"></div></div><div class="card"><textarea id="broadcastMsg" rows="3" placeholder="Message to broadcast"></textarea><button class="btn whatsapp-btn" style="width:100%;padding:12px" onclick="broadcastWhatsApp()">📢 Broadcast to WhatsApp</button></div></div>
     <div id="tab-history" class="tab hidden"><div class="card"><h3>📜 History</h3><div id="historyList"></div></div></div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, get, child, push } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, get, child } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
 const firebaseConfig = { apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0", authDomain: "mashood-kuri.firebaseapp.com", databaseURL: "https://mashood-kuri-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "mashood-kuri", storageBucket: "mashood-kuri.firebasestorage.app", messagingSenderId: "1016691708150", appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7" };
-let db=null, firebaseConnected=false, dbRef=null;
-try { const app=initializeApp(firebaseConfig); db=getDatabase(app); const cRef=ref(db,'.info/connected'); onValue(cRef,s=>{ firebaseConnected=s.val()===true; updateStatus(); }); } catch(e){}
+let db=null, firebaseConnected=false, dbRef=null, firebaseOK=false;
+try { const app=initializeApp(firebaseConfig); db=getDatabase(app); const cRef=ref(db,'.info/connected'); onValue(cRef,s=>{ firebaseConnected=s.val()===true; firebaseOK=firebaseConnected; updateStatus(); }); } catch(e){}
 const MONTHS=['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];
 const TOTAL_INSTALLMENTS=25;
 let currentRole=sessionStorage.getItem('mashood_role')||null;
 let currentMemberName=sessionStorage.getItem('mashood_member')||null;
 let currentRot=0, manualTarget=null, pendingWinner=null, isSpinning=false;
 let currentKuriId = localStorage.getItem('MASHOOD_CURRENT_KURI') || 'kuri_1';
+
 let allKuriData={};
 try { const st=localStorage.getItem('MASHOOD_ALL_KURIS'); if(st) allKuriData=JSON.parse(st); } catch(e){ allKuriData={}; }
-function getDefaultTimer(){ return { startDay:20, endDay:25, scrollText:"🔴 {kuri} - {days} ദിവസം ബാക്കി - പൈസ അടക്കാൻ മറക്കരുത്! 🔴", enabled:true }; }
-function getDefaultKuriData(){ return { groups: [], allWinners:[], rules:'', monthlyContribution:500, passwords:{admin:'ma7hood'}, waGroupLink:'', timer:getDefaultTimer(), notifications:[] }; }
+function getDefaultKuriData(){ return { groups: [], allWinners:[], rules:'1. ഓരോ മാസവും ഒരു വിജയി\n2. തുക 500', monthlyContribution:500, passwords:{admin:'ma7hood'}, waGroupLink:'' }; }
 function ensureDefaultKuris(){
     if(!allKuriData || typeof allKuriData!=='object' || Object.keys(allKuriData).length===0){
-        allKuriData={'kuri_1':{name:'Kuri 1',data:{...getDefaultKuriData(), timer:{startDay:20,endDay:25,scrollText:"🔴 Kuri 1 - 20-ന് കുറി, {days} ദിവസം ബാക്കി! 🔴", enabled:true}}},'kuri_2':{name:'Kuri 2',data:{...getDefaultKuriData(), timer:{startDay:15,endDay:20,scrollText:"🔴 Kuri 2 - {days} ദിവസം ബാക്കി! 🔴", enabled:true}}},'kuri_3':{name:'Kuri 3',data:{...getDefaultKuriData(), timer:{startDay:10,endDay:15,scrollText:"🔴 Kuri 3 - {days} ദിവസം! 🔴", enabled:true}}},'kuri_4':{name:'Kuri 4',data:{...getDefaultKuriData(), timer:{startDay:5,endDay:10,scrollText:"🔴 Kuri 4 - {days} ദിവസം! 🔴", enabled:true}}}};
+        allKuriData={'kuri_1':{name:'Kuri 1',data:getDefaultKuriData()},'kuri_2':{name:'Kuri 2',data:getDefaultKuriData()},'kuri_3':{name:'Kuri 3',data:getDefaultKuriData()},'kuri_4':{name:'Kuri 4',data:getDefaultKuriData()}};
         localStorage.setItem('MASHOOD_ALL_KURIS', JSON.stringify(allKuriData));
     }
-    Object.keys(allKuriData).forEach(kid=>{ if(!allKuriData[kid].data.timer) allKuriData[kid].data.timer=getDefaultTimer(); if(!allKuriData[kid].data.notifications) allKuriData[kid].data.notifications=[]; });
 }
 ensureDefaultKuris();
 function getCurrentKuriObj(){ return allKuriData[currentKuriId] || allKuriData['kuri_1']; }
 function getCurrentData(){ return getCurrentKuriObj().data; }
-let data=getCurrentData(); if(!data.passwords) data.passwords={}; data.passwords.admin='ma7hood'; if(!data.timer) data.timer=getDefaultTimer(); if(!data.notifications) data.notifications=[];
+let data=getCurrentData(); if(!data.passwords) data.passwords={}; data.passwords.admin='ma7hood';
 function ensureMonthlyPayments(){ if(!data.groups) data.groups=[]; data.groups.forEach(g=>{ if(!g.monthlyPayments) g.monthlyPayments={}; }); }
 ensureMonthlyPayments();
 function computePaidCount(g){ if(!g.monthlyPayments) return 0; return Object.keys(g.monthlyPayments).filter(k=>g.monthlyPayments[k]===true).length; }
 function isAdmin(){ return currentRole==='admin'; }
+function getLoggedInMember(){ if(!isMember()||!currentMemberName) return null; return data.groups.find(g=>g.mainName===currentMemberName); }
 function isMember(){ return currentRole==='member'; }
 function getLast4(p){ if(!p) return ''; return p.replace(/[^0-9]/g,'').slice(-4); }
-
-// NOTIFICATION SYSTEM
-window.requestNotifPermission=async function(){
-  const statusEl=document.getElementById('notifStatus');
-  const debugEl=document.getElementById('notifDebug');
-  try{
-    if(location.protocol==='file:'){
-      alert('❌ file:// ആയി open ചെയ്താൽ notification work ആവില്ല!\n\nGitHub Pages / Netlify പോലെ HTTPS link-ൽ ആയിരിക്കണം.\n\nFile നേരിട്ട് open ചെയ്യാതെ, GitHub-ൽ upload ചെയ്ത് link വഴി open ചെയ്യൂ.');
-      if(statusEl) statusEl.textContent='ERROR: Need HTTPS (file:// not allowed)';
-      if(debugEl) debugEl.textContent='Protocol: '+location.protocol+' | Host: '+location.host+' | SecureContext: '+window.isSecureContext;
-      return;
-    }
-    if(!('Notification' in window)){
-      alert('❌ ഈ browser notification support ചെയ്യുന്നില്ല\nChrome / Safari latest version ഉപയോഗിക്കൂ');
-      if(statusEl) statusEl.textContent='Not Supported';
-      return;
-    }
-    if(!window.isSecureContext && location.hostname!=='localhost' && location.hostname!=='127.0.0.1'){
-      alert('❌ HTTPS വേണം! HTTP-ൽ notification work ആവില്ല.\nGitHub Pages link ഉപയോഗിക്കൂ.');
-      if(statusEl) statusEl.textContent='ERROR: Need HTTPS';
-      return;
-    }
-    // iOS check
-    const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent);
-    const isStandalone=window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-    if(isIOS && !isStandalone){
-      alert('📱 iPhone-ൽ Notification കിട്ടാൻ:\n1. Share button → Add to Home Screen ചെയ്ത് App ആയി install ചെയ്യണം\n2. App ആയി open ചെയ്ത ശേഷം Enable ചെയ്യണം\n\nSafari-ൽ നേരിട്ട് notification work ആവില്ല!');
-    }
-    if(statusEl) statusEl.textContent='Requesting permission...';
-    const perm=await Notification.requestPermission();
-    if(statusEl) statusEl.textContent='Permission: '+perm+' | Secure: '+window.isSecureContext+' | Protocol: '+location.protocol;
-    if(debugEl) debugEl.textContent='Permission: '+perm+' | Protocol: '+location.protocol+' | Host: '+location.host+' | SecureContext: '+window.isSecureContext+' | SW: '+('serviceWorker' in navigator)+' | iOS: '+isIOS+' | Standalone: '+isStandalone;
-    if(perm==='granted'){
-      // try service worker notification for better support
-      try{
-        if('serviceWorker' in navigator){
-          const reg=await navigator.serviceWorker.ready;
-          await reg.showNotification('✅ Mashood Chitty - Enabled!', {body:'Notifications Enabled! Winner, Payment എല്ലാം ഇനി App പോലെ കിട്ടും', icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png', badge:'https://cdn-icons-png.flaticon.com/512/138/138292.png', vibrate:[200,100,200]});
-        } else {
-          new Notification('✅ Mashood Chitty', {body:'Notifications Enabled! Winner, Payment എല്ലാം ഇനി കിട്ടും', icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-        }
-      } catch(e){
-        new Notification('✅ Mashood Chitty', {body:'Notifications Enabled!', icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-      }
-      localStorage.setItem('mashood_notif_enabled','yes');
-      const card=document.getElementById('notifEnableCard');
-      if(card) card.style.display='none';
-      addNotifLog('✅ Notification Enabled - '+perm);
-      // test push to firebase
-      pushNotificationToFirebase('🔔 Test', 'Notification enabled for '+ (currentMemberName||currentRole||'user'));
-    } else if(perm==='denied'){
-      alert('❌ Blocked! Browser settings-ൽ പോയി Notifications Allow ചെയ്യണം:\n\nChrome: Settings → Privacy → Site Settings → Notifications → Allow\n\nഈ site-ന്റെ lock icon click → Notifications Allow');
-      addNotifLog('❌ Permission Denied - User blocked');
-    } else {
-      alert('Permission: '+perm);
-    }
-  } catch(err){
-    alert('Error: '+err.message);
-    if(statusEl) statusEl.textContent='Error: '+err.message;
-    console.error(err);
-  }
-}
-function checkNotifEnabled(){
-  try{
-    const enabled=localStorage.getItem('mashood_notif_enabled');
-    const perm=typeof Notification!=='undefined' ? Notification.permission : 'unsupported';
-    const statusEl=document.getElementById('notifStatus');
-    const debugEl=document.getElementById('notifDebug');
-    if(statusEl) statusEl.textContent='Status: '+perm+' | Enabled: '+(enabled||'no')+' | Protocol: '+location.protocol+' | Secure: '+window.isSecureContext;
-    if(debugEl) debugEl.textContent='Protocol: '+location.protocol+' | Host: '+location.host+' | SecureContext: '+window.isSecureContext+' | SW: '+('serviceWorker' in navigator)+' | Permission: '+perm+' | iOS: '+(/iPad|iPhone|iPod/.test(navigator.userAgent));
-    const card=document.getElementById('notifEnableCard');
-    if(card && perm==='granted' && enabled==='yes'){ card.style.display='none'; }
-  } catch(e){ console.error(e); }
-}
-window.sendTestNotif=function(){
-  try{
-    const title=document.getElementById('notifTitle').value||'Mashood Chitty';
-    const body=document.getElementById('notifBody').value||'Test Message';
-    if(typeof Notification==='undefined'){ alert('Notification not supported'); return; }
-    if(Notification.permission!=='granted'){ alert('First Enable Notifications - Allow click ചെയ്യൂ'); requestNotifPermission(); return; }
-    // use SW if available
-    if('serviceWorker' in navigator){
-      navigator.serviceWorker.ready.then(reg=>{
-        reg.showNotification(title, {body:body, icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png', badge:'https://cdn-icons-png.flaticon.com/512/138/138292.png', vibrate:[200,100,200]});
-      }).catch(()=>{
-        new Notification(title, {body:body, icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-      });
-    } else {
-      new Notification(title, {body:body, icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-    }
-    pushNotificationToFirebase(title, body);
-    addNotifLog('📢 Test Sent: '+title);
-  } catch(err){ alert('Test failed: '+err.message); }
-}
-function pushNotificationToFirebase(title, body){
-  if(!db || !firebaseConnected) return;
-  try{
-    const notifRef=ref(db, 'mashood_notifications_'+currentKuriId);
-    const newRef=push(notifRef);
-    set(newRef, {title, body, date:new Date().toISOString(), kuri:currentKuriId}).then(()=>{
-      addNotifLog('📢 '+title+': '+body);
-    });
-  }catch(e){ console.error(e); }
-}
-window.sendWhatsAppNotif=function(){
-  const title=document.getElementById('notifTitle').value||'Mashood Chitty';
-  const body=document.getElementById('notifBody').value||'';
-  const msg=title+'\n\n'+body;
-  if(data.waGroupLink){ window.open(data.waGroupLink, '_blank'); setTimeout(()=>{ window.open('https://wa.me/?text='+encodeURIComponent(msg), '_blank'); },1000); }
-  else { window.open('https://wa.me/?text='+encodeURIComponent(msg), '_blank'); }
-  addNotifLog('💬 WhatsApp: '+msg);
-}
-function addNotifLog(txt){
-  const log=document.getElementById('notifLog');
-  const time=new Date().toLocaleTimeString();
-  log.innerHTML='<div style="padding:4px 0;border-bottom:1px solid #eee">['+time+'] '+txt+'</div>'+log.innerHTML;
-  // save locally
-  let logs=JSON.parse(localStorage.getItem('mashood_notif_logs')||'[]');
-  logs.unshift({time, txt}); if(logs.length>50) logs=logs.slice(0,50);
-  localStorage.setItem('mashood_notif_logs', JSON.stringify(logs));
-}
-function loadNotifLogs(){
-  const logs=JSON.parse(localStorage.getItem('mashood_notif_logs')||'[]');
-  document.getElementById('notifLog').innerHTML=logs.map(l=>'<div style="padding:4px 0;border-bottom:1px solid #eee">['+l.time+'] '+l.txt+'</div>').join('')||'No logs';
-}
-function notifyAll(title, body){
-  // browser notification
-  if(Notification.permission==='granted'){
-    new Notification(title, {body:body, icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png', badge:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-  }
-  pushNotificationToFirebase(title, body);
-  addNotifLog(title+': '+body);
-  // vibrate
-  if(navigator.vibrate) navigator.vibrate([200,100,200]);
-}
-
 async function findMemberByPasswordAcrossKuris(pass){
     const clean=pass.replace(/[^0-9]/g,''); if(clean.length!==4) return null;
     for(const [kuriId,kuriObj] of Object.entries(allKuriData)){
@@ -419,7 +217,7 @@ async function findMemberByPasswordAcrossKuris(pass){
                     const f=val.groups.find(g=> g.phone && getLast4(g.phone)===clean);
                     if(f){
                         if(!allKuriData[kid]) allKuriData[kid]={name:'Kuri '+i, data:getDefaultKuriData()};
-                        allKuriData[kid].data={...getDefaultKuriData(), ...val, timer:{...getDefaultTimer(), ...(val.timer||{})}};
+                        allKuriData[kid].data={...getDefaultKuriData(), ...val};
                         localStorage.setItem('MASHOOD_ALL_KURIS', JSON.stringify(allKuriData));
                         return {kuriId:kid, member:f};
                     }
@@ -438,9 +236,9 @@ function save(){
         saveAllKuri();
         if(db && firebaseConnected){
             if(!dbRef) dbRef=ref(db,'mashood_kuri_'+currentKuriId);
-            set(dbRef, data).then(()=>{ updateStatus(); }).catch(()=>{});
+            set(dbRef, data).then(()=>{ firebaseOK=true; updateStatus(); }).catch(()=>{ firebaseOK=false; updateStatus(); });
         }
-        renderAll(); updateTimerBanner();
+        renderAll();
     }catch(e){console.error(e);}
 }
 function updateStatus(){
@@ -454,119 +252,42 @@ function updateStatus(){
 }
 function loadKuri(kuriId){
     if(!allKuriData[kuriId]) { ensureDefaultKuris(); kuriId='kuri_1'; }
-    currentKuriId=kuriId; data=getCurrentData(); if(!data.timer) data.timer=getDefaultTimer(); if(!data.notifications) data.notifications=[]; ensureMonthlyPayments(); manualTarget=null; pendingWinner=null; currentRot=0;
+    currentKuriId=kuriId; data=getCurrentData(); ensureMonthlyPayments(); manualTarget=null; pendingWinner=null; currentRot=0;
     if(db){
         try{
             dbRef=ref(db,'mashood_kuri_'+kuriId);
             onValue(dbRef,(snap)=>{
                 const val=snap.val();
                 if(val && val.groups){
-                    allKuriData[kuriId].data={...getDefaultKuriData(),...val, timer:{...getDefaultTimer(), ...(val.timer||{})}, notifications:val.notifications||[]};
-                    data=allKuriData[kuriId].data; ensureMonthlyPayments(); saveAllKuri();
+                    allKuriData[kuriId].data={...getDefaultKuriData(),...val};
+                    data=allKuriData[kuriId].data; ensureMonthlyPayments(); saveAllKuri(); firebaseOK=true;
                 } else {
                     if(isAdmin() && data.groups.length>0 && firebaseConnected){ set(dbRef, data); }
+                    firebaseOK=true;
                 }
-                if(currentRole) renderAll(); updateStatus(); updateTimerBanner();
-            });
-            // listen for notifications from firebase
-            const notifRef=ref(db, 'mashood_notifications_'+kuriId);
-            onValue(notifRef, (snap)=>{
-                const val=snap.val();
-                if(val){
-                    const keys=Object.keys(val);
-                    const lastKey=keys[keys.length-1];
-                    const lastNotif=val[lastKey];
-                    const lastSeen=localStorage.getItem('mashood_last_notif_'+kuriId);
-                    if(lastSeen!==lastKey && lastNotif){
-                        localStorage.setItem('mashood_last_notif_'+kuriId, lastKey);
-                        if(Notification.permission==='granted' && currentRole){
-                            new Notification(lastNotif.title, {body:lastNotif.body, icon:'https://cdn-icons-png.flaticon.com/512/138/138292.png'});
-                            if(navigator.vibrate) navigator.vibrate([200,100,200]);
-                            addNotifLog('🔔 '+lastNotif.title+': '+lastNotif.body);
-                        }
-                    }
-                }
+                if(currentRole) renderAll(); updateStatus();
             });
         }catch(e){}
     }
-    saveAllKuri(); renderKuriSelector(); renderAll(); drawWheel(0); updateTimerBanner(); checkNotifEnabled(); loadNotifLogs();
+    saveAllKuri(); renderKuriSelector(); renderAll(); drawWheel(0);
 }
 function renderKuriSelector(){
     const sel=document.getElementById('kuriSelector'); const loginSel=document.getElementById('loginKuriSelector');
     [sel, loginSel].forEach(s=>{
         if(!s) return;
+        const currentVal=s.value;
         s.innerHTML='';
         Object.keys(allKuriData).sort().forEach(kid=>{
-            const o=document.createElement('option'); o.value=kid; o.textContent=allKuriData[kid].name+' ('+(allKuriData[kid].data.timer?.startDay||20)+'th)'; 
+            const o=document.createElement('option'); o.value=kid; o.textContent=allKuriData[kid].name;
             if(kid===currentKuriId) o.selected=true; s.appendChild(o);
         });
+        if(s.options.length===0){
+            ['kuri_1','kuri_2','kuri_3','kuri_4'].forEach((kid,i)=>{
+                const o=document.createElement('option'); o.value=kid; o.textContent='Kuri '+(i+1); s.appendChild(o);
+            });
+        }
     });
 }
-function calculateDaysForKuri(timer){
-  const now=new Date(); const today=now.getDate(); const start=timer.startDay||20; const end=timer.endDay||25;
-  let nextKuriDate=new Date(now.getFullYear(), now.getMonth(), start);
-  if(today>start){ nextKuriDate=new Date(now.getFullYear(), now.getMonth()+1, start); }
-  const diffTime=nextKuriDate - now;
-  const diffDays=Math.ceil(diffTime/(1000*60*60*24));
-  let phase='upcoming'; let payDaysLeft=0;
-  if(today>=start && today<=end){ phase='payment'; payDaysLeft=end-today; }
-  if(today===start) phase='kuri_day';
-  return {diffDays, phase, payDaysLeft, nextKuriDate, today, start, end};
-}
-function updateTimerBanner(){
-  try{
-    const timer=data.timer||getDefaultTimer();
-    if(!timer.enabled){ document.getElementById('scrollBannerWrap').style.display='none'; return; }
-    document.getElementById('scrollBannerWrap').style.display='flex';
-    const calc=calculateDaysForKuri(timer);
-    const kuriName=getCurrentKuriObj().name;
-    let displayText=timer.scrollText||"കുറിക്ക് {days} ദിവസം";
-    displayText=displayText.replace(/{kuri}/g, kuriName).replace(/{days}/g, calc.diffDays).replace(/{start}/g, timer.startDay).replace(/{end}/g, timer.endDay);
-    let extra='';
-    if(calc.phase==='kuri_day'){ extra=` 🔥 ഇന്ന് ${kuriName} കുറി ദിവസം! 🔥 `; }
-    else if(calc.phase==='payment'){ extra=` 💰 പൈസ അടക്കാൻ ${calc.payDaysLeft} ദിവസം മാത്രം! 💰 `; }
-    const fullText=extra+" "+displayText+" "+extra+" | ";
-    document.getElementById('scrollBanner').textContent=fullText.repeat(3);
-    const cdEl=document.getElementById('countdownDisplay');
-    const subEl=document.getElementById('countdownSub');
-    if(cdEl){
-      if(calc.phase==='kuri_day'){ cdEl.textContent='🔴 ഇന്ന് കുറി ദിവസം! 🔴'; subEl.textContent=`${kuriName} - ഇന്ന് ${timer.startDay} ആം തീയതി`; }
-      else if(calc.phase==='payment'){ cdEl.textContent=`💰 ${calc.payDaysLeft} ദിവസം - പൈസ അടക്കാൻ`; subEl.textContent=`അടുത്ത കുറിക്ക് ${calc.diffDays} ദിവസം`; }
-      else { cdEl.textContent=`⏰ അടുത്ത കുറിക്ക് ${calc.diffDays} ദിവസം ബാക്കി`; subEl.textContent=`${calc.nextKuriDate.toLocaleDateString()} - ${kuriName}`; }
-    }
-  }catch(e){}
-}
-function renderTimerSettings(){
-  const container=document.getElementById('timerSettingsList');
-  if(!container) return;
-  let html='';
-  Object.keys(allKuriData).sort().forEach(kid=>{
-    const k=allKuriData[kid]; const t=k.data.timer||getDefaultTimer();
-    html+=`<div class="card" style="border:2px solid #2E7D32"><h3>📅 ${k.name} - Timer</h3>
-    <div style="display:flex;gap:8px"><div style="flex:1"><label style="font-size:.75rem;font-weight:800">Start Day</label><input type="number" min="1" max="31" value="${t.startDay}" id="start_${kid}"></div>
-    <div style="flex:1"><label style="font-size:.75rem;font-weight:800">End Day</label><input type="number" min="1" max="31" value="${t.endDay}" id="end_${kid}"></div></div>
-    <label style="font-size:.75rem;font-weight:800">Scroll Text</label><textarea rows="2" id="text_${kid}">${t.scrollText}</textarea>
-    <div style="display:flex;gap:6px;align-items:center;margin-top:6px"><input type="checkbox" ${t.enabled?'checked':''} id="en_${kid}" style="width:auto"><label style="font-size:.8rem">Enable Banner</label><span style="margin-left:auto;background:#ff0000;color:#fff;padding:4px 10px;border-radius:20px;font-size:.7rem;font-weight:800">${calculateDaysForKuri(t).diffDays} days</span></div>
-    <button class="btn btn-gold" style="margin-top:8px" onclick="updateTimerSetting('${kid}')">💾 Save Timer + Notify</button>
-    </div>`;
-  });
-  container.innerHTML=html;
-}
-window.updateTimerSetting=function(kid){
-  const start=parseInt(document.getElementById('start_'+kid).value)||20;
-  const end=parseInt(document.getElementById('end_'+kid).value)||25;
-  const text=document.getElementById('text_'+kid).value;
-  const en=document.getElementById('en_'+kid).checked;
-  allKuriData[kid].data.timer={startDay:start, endDay:end, scrollText:text, enabled:en};
-  if(kid===currentKuriId) data=allKuriData[kid].data;
-  saveAllKuri(); 
-  if(kid===currentKuriId){ updateTimerBanner(); renderKuriSelector(); renderAll(); }
-  else renderTimerSettings();
-  if(db && dbRef && isAdmin() && allKuriData[kid].data.groups.length>0) set(ref(db, 'mashood_kuri_'+kid), allKuriData[kid].data);
-  notifyAll('⏰ Timer Updated', allKuriData[kid].name+' timer: '+start+' മുതൽ '+end+' വരെ');
-  alert('Saved + Notified!');
-};
-
 function calculateTotals(){
     const now=new Date(); const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
     let totalPaidMonths=0, paidThisMonth=0, totalPayout=0;
@@ -575,7 +296,7 @@ function calculateTotals(){
 }
 function renderAll(){
     try{
-        data=getCurrentData(); if(!data.groups) data.groups=[]; if(!data.allWinners) data.allWinners=[]; if(!data.timer) data.timer=getDefaultTimer(); ensureMonthlyPayments();
+        data=getCurrentData(); if(!data.groups) data.groups=[]; if(!data.allWinners) data.allWinners=[]; ensureMonthlyPayments();
         const eligible=getEligible(); const removed=data.groups.filter(g=>g.eligibility===false); const totals=calculateTotals();
         document.getElementById('memberCount').textContent=data.groups.length;
         document.getElementById('paidCount').textContent=totals.paidCount;
@@ -589,7 +310,7 @@ function renderAll(){
         document.getElementById('payoutBalance').textContent='₹ '+totals.balance;
         const fr=document.getElementById('fullReport'); if(fr) fr.innerHTML=`Members: ${data.groups.length}<br>Total Months: ${totals.totalPaidMonths}<br>This Month: ₹${totals.thisMonthCollection}`;
 
-        let html=''; if(data.groups.length===0) html='<div style="text-align:center;color:#888;padding:20px">No Members</div>'; else data.groups.forEach((g,i)=>{ const paid=computePaidCount(g); const last4=getLast4(g.phone); html+=`<div class="card" style="margin:8px 0;padding:12px"><div style="display:flex;justify-content:space-between"><strong>👤 ${i+1}. ${g.mainName}</strong>${isAdmin()?`<button onclick="delGroup('${g.id}')" style="border:none;background:#fee;color:#c62828;border-radius:50%;width:28px;height:28px">✕</button>`:''}</div><div style="font-size:.75rem;color:#666">📱 ${g.phone||''} | 🔑 ${last4} | Paid: ${paid}/25</div></div>`; });
+        let html=''; if(data.groups.length===0) html='<div style="text-align:center;color:#888;padding:20px">No Members</div>'; else data.groups.forEach((g,i)=>{ const paid=computePaidCount(g); const last4=getLast4(g.phone); html+=`<div class="card" style="margin:8px 0;padding:12px"><div style="display:flex;justify-content:space-between"><strong>👤 ${i+1}. ${g.mainName}</strong>${isAdmin()?`<button onclick="delGroup('${g.id}')" style="border:none;background:#fee;color:#c62828;border-radius:50%;width:28px;height:28px">✕</button>`:''}</div><div style="font-size:.75rem;color:#666">📱 ${g.phone||''} | 🔑 ${last4} | Paid: ${paid}/25</div>${g.subMembers && g.subMembers.length?`<div style="font-size:.7rem;color:#1565c0;margin-top:4px">👥 ${g.subMembers.join(', ')}</div>`:''}</div>`; });
         document.getElementById('membersList').innerHTML=html;
 
         const now=new Date(); const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');
@@ -612,7 +333,10 @@ function renderAll(){
         const wg=document.getElementById('waGroupLink'); if(wg) wg.value=data.waGroupLink||'';
         let waHtml=''; data.groups.forEach(g=>{ waHtml+=`<div class="member-row"><span>${g.mainName}</span>${g.phone?`<button class="whatsapp-btn" onclick="openWA('${g.phone}')">Message 💬</button>`:''}</div>`; }); const wml=document.getElementById('waMemberList'); if(wml) wml.innerHTML=waHtml||'No members';
         let rHtml=''; if(removed.length===0) rHtml='None'; else removed.forEach(g=>{ rHtml+=`<div class="member-row"><span>🚫 ${g.mainName}</span><button class="btn-sm btn-outline" onclick="bringBack('${g.id}')">Back</button></div>`; }); const rl=document.getElementById('removedList'); if(rl) rl.innerHTML=rHtml;
+        if(manualTarget){ document.getElementById('manualSetInfoHome')?.classList.remove('hidden'); document.getElementById('manualSetInfoDraw')?.classList.remove('hidden'); } else { document.getElementById('manualSetInfoHome')?.classList.add('hidden'); document.getElementById('manualSetInfoDraw')?.classList.add('hidden'); }
         updateMemberPaymentStatus();
+        
+        // ROLE BASED UI
         const isAdminUser=isAdmin();
         document.querySelectorAll('.admin-only-btn').forEach(el=>{ el.style.display=isAdminUser?'':'none'; });
         const memberWheelInfo=document.getElementById('memberWheelInfo');
@@ -627,28 +351,17 @@ function renderAll(){
             if(memberNoSpin) memberNoSpin.classList.remove('hidden');
             if(spinBtn) spinBtn.style.display='none';
         }
+        
         const banner=document.getElementById('memberWelcomeBanner'); const payStatus=document.getElementById('memberPaymentStatus');
         if(isMember() && currentMemberName){ if(banner) banner.classList.remove('hidden'); if(payStatus) payStatus.classList.remove('hidden'); const wmn=document.getElementById('welcomeMemberName'); if(wmn) wmn.textContent='Welcome, '+currentMemberName+'! 🎉'; } else { if(banner) banner.classList.add('hidden'); if(payStatus) payStatus.classList.add('hidden'); }
-        updateStatus(); drawWheel(currentRot); renderTimerSettings(); checkNotifEnabled();
-    }catch(e){console.error(e);}
+        updateStatus(); drawWheel(currentRot);
+    }catch(e){console.error('renderAll error', e);}
 }
-function updateMemberPaymentStatus(){ 
-  const mem=data.groups.find(g=>g.mainName===currentMemberName); 
-  if(!mem){ document.getElementById('memberPaymentStatus')?.classList.add('hidden'); return; } 
-  const paid=computePaidCount(mem); const rem=TOTAL_INSTALLMENTS-paid; 
-  document.getElementById('memPaidCount').textContent=paid; 
-  document.getElementById('memRemainingCount').textContent=rem; 
-  document.getElementById('memAmountPaid').textContent='₹ '+(paid*(mem.amount||500)); 
-  const pct=Math.round((paid/TOTAL_INSTALLMENTS)*100); 
-  const fill=document.getElementById('memProgressFill'); 
-  if(fill){ fill.style.width=pct+'%'; fill.textContent=pct+'%'; } 
-  const grid=document.getElementById('memberPayGrid'); 
-  if(grid){ grid.innerHTML=''; for(let i=0;i<TOTAL_INSTALLMENTS;i++){ const d=document.createElement('div'); d.className='pay-dot '+(i<paid?'paid-dot':'pending-dot'); d.textContent=i+1; grid.appendChild(d); } } 
-}
+function updateMemberPaymentStatus(){ const mem=getLoggedInMember(); if(!mem){ document.getElementById('memberPaymentStatus')?.classList.add('hidden'); return; } const card=document.getElementById('memberPaymentStatus'); if(card) card.classList.remove('hidden'); const paid=computePaidCount(mem); const rem=TOTAL_INSTALLMENTS-paid; document.getElementById('memPaidCount').textContent=paid; document.getElementById('memRemainingCount').textContent=rem; document.getElementById('memAmountPaid').textContent='₹ '+(paid*(mem.amount||500)); const pct=Math.round((paid/TOTAL_INSTALLMENTS)*100); const fill=document.getElementById('memProgressFill'); if(fill){ fill.style.width=pct+'%'; fill.textContent=pct+'%'; } const grid=document.getElementById('memberPayGrid'); if(grid){ grid.innerHTML=''; for(let i=0;i<TOTAL_INSTALLMENTS;i++){ const d=document.createElement('div'); d.className='pay-dot '+(i<paid?'paid-dot':'pending-dot'); d.textContent=i+1; grid.appendChild(d); } } const mp=document.getElementById('memPaidMonths'); if(mp){ const months=Object.keys(mem.monthlyPayments).filter(k=>mem.monthlyPayments[k]).sort(); mp.textContent=months.length?'Paid: '+months.join(', '):'No payments yet'; } }
 function loadMonthlyData(){ const ms=document.getElementById('monthSelectMonthly'); const ys=document.getElementById('yearSelectMonthly'); if(!ms||!ys) return; const key=parseInt(ys.value)+'-'+String(parseInt(ms.value)+1).padStart(2,'0'); const div=document.getElementById('monthlyPayList'); if(!data.groups.length){ div.innerHTML='<div style="text-align:center;color:#888;padding:20px">No members</div>'; return; } let h='<div style="display:flex;flex-direction:column;gap:8px">'; data.groups.forEach(g=>{ const paid=g.monthlyPayments && g.monthlyPayments[key]===true; h+=`<div class="member-row" style="background:${paid?'#d1fae5':'#fef3c7'};border-radius:12px;padding:12px"><span><strong>${g.mainName}</strong> (${getLast4(g.phone)}) ${paid?'✅':''}</span><button class="badge ${paid?'paid':'pending'}" style="border:none;min-width:90px;padding:8px 14px" onclick="event.stopPropagation(); toggleMonthlyPay('${g.id}','${key}')">${paid?'Paid':'Pending'}</button></div>`; }); h+='</div>'; div.innerHTML=h; }
-window.toggleMonthlyPay=function(id,key){ if(!isAdmin()) return; const g=data.groups.find(x=>x.id===id); if(!g) return; if(!g.monthlyPayments) g.monthlyPayments={}; const wasPaid=g.monthlyPayments[key]; if(wasPaid) delete g.monthlyPayments[key]; else g.monthlyPayments[key]=true; save(); setTimeout(loadMonthlyData,50); if(!wasPaid) notifyAll('💰 Payment', g.mainName+' - '+key+' Paid ✅'); };
+window.toggleMonthlyPay=function(id,key){ if(!isAdmin()) return; const g=data.groups.find(x=>x.id===id); if(!g) return; if(!g.monthlyPayments) g.monthlyPayments={}; if(g.monthlyPayments[key]) delete g.monthlyPayments[key]; else g.monthlyPayments[key]=true; save(); setTimeout(loadMonthlyData,50); };
 window.clearMonthlyPayments=function(){ if(!isAdmin()) return; if(!confirm('Clear this month?')) return; const ms=document.getElementById('monthSelectMonthly'); const ys=document.getElementById('yearSelectMonthly'); const key=parseInt(ys.value)+'-'+String(parseInt(ms.value)+1).padStart(2,'0'); data.groups.forEach(g=>{ if(g.monthlyPayments) delete g.monthlyPayments[key]; }); save(); loadMonthlyData(); };
-window.toggleCurrentMonthPay=function(id){ if(!isAdmin()) return; const g=data.groups.find(x=>x.id===id); if(!g) return; if(!g.monthlyPayments) g.monthlyPayments={}; const now=new Date(); const key=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'); const wasPaid=g.monthlyPayments[key]; if(wasPaid) delete g.monthlyPayments[key]; else g.monthlyPayments[key]=true; save(); if(!wasPaid) notifyAll('💰 Payment Received', g.mainName+' paid for '+key); };
+window.toggleCurrentMonthPay=function(id){ if(!isAdmin()) return; const g=data.groups.find(x=>x.id===id); if(!g) return; if(!g.monthlyPayments) g.monthlyPayments={}; const now=new Date(); const key=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'); if(g.monthlyPayments[key]) delete g.monthlyPayments[key]; else g.monthlyPayments[key]=true; save(); };
 function initMonthlySelectors(){ const ms=document.getElementById('monthSelectMonthly'); const ys=document.getElementById('yearSelectMonthly'); if(!ms||!ys) return; ms.innerHTML=''; MONTHS.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m; ms.appendChild(o); }); ms.value=new Date().getMonth(); ys.innerHTML=''; for(let y=2023;y<=2030;y++){ const o=document.createElement('option'); o.value=y; o.textContent=y; ys.appendChild(o); } ys.value=new Date().getFullYear(); ms.onchange=loadMonthlyData; ys.onchange=loadMonthlyData; const lb=document.getElementById('loadMonthBtn'); if(lb) lb.onclick=loadMonthlyData; const cb=document.getElementById('clearMonthBtn'); if(cb) cb.onclick=clearMonthlyPayments; setTimeout(loadMonthlyData,100); }
 function updateMonthWinners(){ const ms=document.getElementById('monthSelect'); const ys=document.getElementById('yearSelect'); if(!ms||!ys) return; const m=parseInt(ms.value); const y=parseInt(ys.value); const w=data.allWinners.filter(w=>{ const d=new Date(w.date); return d.getMonth()===m && d.getFullYear()===y; }); const ul=document.getElementById('monthWinnerList'); if(ul) ul.innerHTML=w.length?w.map(x=>`<li>🏅 ${x.mainName} - ${x.date}</li>`).join(''):'<li>ഇല്ല</li>'; }
 window.delGroup=function(id){ if(!isAdmin()) return; if(!confirm('Delete member?')) return; data.groups=data.groups.filter(x=>x.id!==id); if(manualTarget===id) manualTarget=null; if(currentMemberName && !data.groups.find(g=>g.mainName===currentMemberName)){ logout(); return; } save(); };
@@ -657,9 +370,10 @@ window.delWinnerOne=function(idx){ if(!isAdmin()) return; if(!confirm('Delete wi
 window.delPayout=function(gid,idx){ if(!isAdmin()) return; const g=data.groups.find(x=>x.id===gid); if(g && g.payouts){ g.payouts.splice(idx,1); save(); } };
 window.openWA=function(p){ if(!p) return; window.open('https://wa.me/'+p.replace(/[^0-9]/g,''),'_blank'); };
 window.saveWaGroupLink=function(){ if(!isAdmin()) return alert('Only admin'); data.waGroupLink=document.getElementById('waGroupLink').value.trim(); save(); alert('Saved'); };
-window.openWhatsAppGroup=function(){ if(data.waGroupLink) window.open(data.waGroupLink,'_blank'); else window.open('https://wa.me/?text='+encodeURIComponent('Mashood Chitty'),' _blank'); };
 window.broadcastWhatsApp=function(){ const msg=document.getElementById('broadcastMsg').value.trim(); if(!msg) return alert('Enter message'); window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank'); };
+window.hardReset=function(){ if(!confirm('Reset local cache? Firebase safe.')) return; localStorage.removeItem('MASHOOD_ALL_KURIS'); localStorage.removeItem('MASHOOD_CURRENT_KURI'); sessionStorage.clear(); location.reload(); };
 
+// WHEEL - BIG TEXT, ONLY BUTTON SPIN
 function drawWheel(rot){
     const canvas=document.getElementById('wheelCanvas'); if(!canvas) return;
     const ctx=canvas.getContext('2d'); const w=canvas.width,cx=w/2,cy=w/2,r=w/2-10;
@@ -683,7 +397,8 @@ function drawWheel(rot){
         else if(eligible.length <= 12) baseSize=20;
         else if(eligible.length <= 20) baseSize=16;
         else baseSize=13;
-        let displayName=g.mainName.trim();
+        let name=g.mainName.trim();
+        let displayName=name;
         let fontSize=baseSize;
         ctx.font=`900 ${fontSize}px 'Segoe UI', Arial, sans-serif`;
         let textWidth=ctx.measureText(displayName).width;
@@ -722,25 +437,22 @@ function spinToWinner(targetId){
 }
 
 document.getElementById('spinDrawBtn')?.addEventListener('click',()=>{ spinToWinner(manualTarget); });
+// NO canvas click - only button as requested
 document.getElementById('shuffleBtn')?.addEventListener('click',()=>{ if(!isAdmin()) return; for(let i=data.groups.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]]; } save(); drawWheel(currentRot); });
-document.getElementById('confirmSaveWin')?.addEventListener('click',()=>{
-  if(!isAdmin()) return; if(!pendingWinner) return;
-  data.allWinners.push({mainName:pendingWinner.mainName,subMembers:pendingWinner.subMembers||[],date:new Date().toLocaleDateString()});
-  pendingWinner.eligibility=false; manualTarget=null; save();
-  // NOTIFY ALL + WHATSAPP
-  const msg=`🎉 ${getCurrentKuriObj().name} Winner!\n\n🏆 ${pendingWinner.mainName}\n📅 ${new Date().toLocaleDateString()}\n\nMashood Chitty`;
-  notifyAll('🎉 Winner: '+pendingWinner.mainName, getCurrentKuriObj().name+' Winner is '+pendingWinner.mainName);
-  if(data.waGroupLink){ setTimeout(()=>{ window.open('https://wa.me/?text='+encodeURIComponent(msg), '_blank'); },500); }
-  document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null;
-});
+function openManualModal(){ if(!isAdmin()) return; const eligible=getEligible(); if(!eligible.length) return alert('No Members'); const sel=document.getElementById('manualSelect'); sel.innerHTML=''; eligible.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=g.mainName; sel.appendChild(o); }); if(manualTarget) sel.value=manualTarget; document.getElementById('manualModal').classList.remove('hidden'); }
+document.getElementById('manualBtn')?.addEventListener('click',openManualModal);
+document.getElementById('confirmManual')?.addEventListener('click',()=>{ const v=document.getElementById('manualSelect').value; if(!v) return; manualTarget=v; document.getElementById('manualModal').classList.add('hidden'); renderAll(); });
+document.getElementById('cancelManual')?.addEventListener('click',()=>document.getElementById('manualModal').classList.add('hidden'));
+document.getElementById('confirmSaveWin')?.addEventListener('click',()=>{ if(!isAdmin()) return; if(!pendingWinner) return; data.allWinners.push({mainName:pendingWinner.mainName,subMembers:pendingWinner.subMembers||[],date:new Date().toLocaleDateString()}); pendingWinner.eligibility=false; manualTarget=null; save(); document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null; });
 document.getElementById('cancelSaveWin')?.addEventListener('click',()=>{ document.getElementById('winSaveModal').classList.add('hidden'); pendingWinner=null; });
 document.getElementById('bringBackBtn')?.addEventListener('click',()=>{ if(!isAdmin()) return; if(!confirm('Bring all back?')) return; data.groups.forEach(g=>g.eligibility=true); save(); });
 document.getElementById('removeWinnerBtn')?.addEventListener('click',()=>{ if(!isAdmin()) return; if(!data.allWinners.length) return alert('No Winners'); if(!confirm('Remove last winner?')) return; const last=data.allWinners.pop(); const g=data.groups.find(x=>x.mainName===last.mainName); if(g) g.eligibility=true; manualTarget=null; save(); });
-document.querySelectorAll('.tab-bar button').forEach(b=>{ b.addEventListener('click',function(){ document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden')); document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden'); if(this.dataset.tab==='wheel') drawWheel(currentRot); if(this.dataset.tab==='monthly' && isAdmin()){ initMonthlySelectors(); loadMonthlyData(); } if(this.dataset.tab==='timer') renderTimerSettings(); }); });
-document.getElementById('addSingleBtn')?.addEventListener('click',function(){ if(!isAdmin()) return; const name=document.getElementById('singleName').value.trim(); const phone=document.getElementById('singlePhone').value.trim(); const amount=parseFloat(document.getElementById('singleAmount').value)||500; if(!name) return alert('Name required'); if(data.groups.find(g=>g.mainName===name)) return alert('Name exists'); data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:name,phone:phone,subMembers:[],eligibility:true,payouts:[],amount:amount,monthlyPayments:{}}); document.getElementById('singleName').value=''; document.getElementById('singlePhone').value=''; document.getElementById('singleAmount').value=''; save(); notifyAll('👤 New Member', name+' added to '+getCurrentKuriObj().name); });
-document.getElementById('bulkAddBtn')?.addEventListener('click',function(){ if(!isAdmin()) return; const txt=document.getElementById('bulkText').value.trim(); if(!txt) return; let count=0; txt.split('\n').forEach(line=>{ const parts=line.split(','); const n=parts[0]?.trim(); const ph=parts[1]?.trim()||''; const am=parseFloat(parts[2])||500; if(n && !data.groups.find(g=>g.mainName===n)){ data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(),mainName:n,phone:ph,subMembers:[],eligibility:true,payouts:[],amount:am,monthlyPayments:{}}); count++; } }); document.getElementById('bulkText').value=''; save(); if(count>0) notifyAll('👥 Members Added', count+' new members added'); });
-document.getElementById('addPayout')?.addEventListener('click',function(){ if(!isAdmin()) return; const gName=document.getElementById('payoutMemberSelect').value; const g=data.groups.find(x=>x.mainName===gName); if(!g) return alert('Select Member'); const amount=parseFloat(document.getElementById('payoutAmount').value); if(!amount||amount<=0) return alert('Valid amount'); if(!g.payouts) g.payouts=[]; g.payouts.push({date:document.getElementById('payoutDate').value||new Date().toISOString().slice(0,10),member:gName,amount:amount}); document.getElementById('payoutAmount').value=''; save(); notifyAll('💸 Payout', gName+' received ₹'+amount); });
-document.getElementById('saveRules')?.addEventListener('click',function(){ if(!isAdmin()) return; data.rules=document.getElementById('rulesEdit').value; save(); notifyAll('📜 Rules Updated', 'Check new rules'); alert('Saved + Notified'); });
+document.querySelectorAll('.tab-bar button').forEach(b=>{ b.addEventListener('click',function(){ document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden')); document.getElementById('tab-'+this.dataset.tab).classList.remove('hidden'); if(this.dataset.tab==='wheel') drawWheel(currentRot); if(this.dataset.tab==='home') updateMemberPaymentStatus(); if(this.dataset.tab==='monthly' && isAdmin()){ initMonthlySelectors(); loadMonthlyData(); } }); });
+document.getElementById('addSingleBtn')?.addEventListener('click',function(){ if(!isAdmin()) return; const name=document.getElementById('singleName').value.trim(); const phone=document.getElementById('singlePhone').value.trim(); const amount=parseFloat(document.getElementById('singleAmount').value)||500; if(!name) return alert('Name required'); if(data.groups.find(g=>g.mainName===name)) return alert('Name exists'); if(phone && phone.replace(/[^0-9]/g,'').length<10) return alert('10 digits'); data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:name,phone:phone,subMembers:[],eligibility:true,payouts:[],amount:amount,monthlyPayments:{}}); document.getElementById('singleName').value=''; document.getElementById('singlePhone').value=''; document.getElementById('singleAmount').value=''; save(); });
+document.getElementById('bulkAddBtn')?.addEventListener('click',function(){ if(!isAdmin()) return; const txt=document.getElementById('bulkText').value.trim(); if(!txt) return; txt.split('\n').forEach(line=>{ const parts=line.split(','); const n=parts[0]?.trim(); const ph=parts[1]?.trim()||''; const am=parseFloat(parts[2])||500; if(n && !data.groups.find(g=>g.mainName===n)){ data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(),mainName:n,phone:ph,subMembers:[],eligibility:true,payouts:[],amount:am,monthlyPayments:{}}); } }); document.getElementById('bulkText').value=''; save(); });
+document.getElementById('addGroupBtn')?.addEventListener('click',function(){ if(!isAdmin()) return; const main=document.getElementById('mainName').value.trim(); const mainPh=document.getElementById('mainPhone').value.trim(); const amount=parseFloat(document.getElementById('mainAmount').value)||500; const subs=document.getElementById('subText').value.trim().split('\n').map(s=>s.trim()).filter(Boolean); if(!main) return alert('Main Name required'); if(data.groups.find(g=>g.mainName===main)) return alert('Exists'); data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:main,phone:mainPh,subMembers:subs,eligibility:true,payouts:[],amount:amount,monthlyPayments:{}}); document.getElementById('mainName').value=''; document.getElementById('mainPhone').value=''; document.getElementById('mainAmount').value=''; document.getElementById('subText').value=''; save(); alert('Group Added'); });
+document.getElementById('saveRules')?.addEventListener('click',function(){ if(!isAdmin()) return; data.rules=document.getElementById('rulesEdit').value; save(); alert('Saved'); });
+document.getElementById('addPayout')?.addEventListener('click',function(){ if(!isAdmin()) return; const gName=document.getElementById('payoutMemberSelect').value; const g=data.groups.find(x=>x.mainName===gName); if(!g) return alert('Select Member'); const amount=parseFloat(document.getElementById('payoutAmount').value); if(!amount||amount<=0) return alert('Valid amount'); if(!g.payouts) g.payouts=[]; g.payouts.push({date:document.getElementById('payoutDate').value||new Date().toISOString().slice(0,10),member:gName,amount:amount}); document.getElementById('payoutAmount').value=''; save(); });
 document.getElementById('passToggle')?.addEventListener('click',function(){ const i=document.getElementById('loginPass'); i.type=i.type==='password'?'text':'password'; this.textContent=i.type==='password'?'👁️':'🙈'; });
 document.getElementById('memberPassToggle')?.addEventListener('click',function(){ const i=document.getElementById('memberPass'); i.type=i.type==='password'?'text':'password'; this.textContent=i.type==='password'?'👁️':'🙈'; });
 document.getElementById('kuriSelector')?.addEventListener('change',function(){ loadKuri(this.value); });
@@ -773,13 +485,12 @@ document.getElementById('loginBtn')?.addEventListener('click', async function(){
     btn.textContent='🔓 Secure Login'; btn.disabled=false;
 });
 
-function doLogin(role,memberName){ currentRole=role; currentMemberName=memberName; sessionStorage.setItem('mashood_role',role); if(memberName) sessionStorage.setItem('mashood_member',memberName); else sessionStorage.removeItem('mashood_member'); document.getElementById('loginScreen').style.display='none'; document.getElementById('mainApp').style.display='block'; const rd=document.getElementById('roleDisplay'); if(rd) rd.textContent=role==='admin'?'👑 Admin':'👤 '+memberName; renderKuriSelector(); loadKuri(currentKuriId); document.getElementById('loginPass').value=''; document.getElementById('memberPass').value=''; if(role==='admin') initMonthlySelectors(); checkNotifEnabled(); }
+function doLogin(role,memberName){ currentRole=role; currentMemberName=memberName; sessionStorage.setItem('mashood_role',role); if(memberName) sessionStorage.setItem('mashood_member',memberName); else sessionStorage.removeItem('mashood_member'); document.getElementById('loginScreen').style.display='none'; document.getElementById('mainApp').style.display='block'; const rd=document.getElementById('roleDisplay'); if(rd) rd.textContent=role==='admin'?'👑 Admin':'👤 '+memberName; renderKuriSelector(); loadKuri(currentKuriId); document.getElementById('loginPass').value=''; document.getElementById('memberPass').value=''; if(role==='admin') initMonthlySelectors(); }
 window.logout=function(){ currentRole=null; currentMemberName=null; sessionStorage.removeItem('mashood_role'); sessionStorage.removeItem('mashood_member'); document.getElementById('mainApp').style.display='none'; document.getElementById('loginScreen').style.display='flex'; document.getElementById('loginPass').value=''; document.getElementById('memberPass').value=''; document.getElementById('loginMsg').textContent=''; renderKuriSelector(); };
 
 renderKuriSelector();
 if(currentRole){ document.getElementById('loginScreen').style.display='none'; document.getElementById('mainApp').style.display='block'; const rd=document.getElementById('roleDisplay'); if(rd) rd.textContent=currentRole==='admin'?'👑 Admin':'👤 '+(currentMemberName||'Member'); if(currentRole==='admin') initMonthlySelectors(); loadKuri(currentKuriId); } else { document.getElementById('loginScreen').style.display='flex'; document.getElementById('mainApp').style.display='none'; }
-drawWheel(0); renderAll(); checkNotifEnabled(); loadNotifLogs();
-setInterval(updateTimerBanner, 60000);
+drawWheel(0); renderAll();
 </script>
 </body>
 </html>
