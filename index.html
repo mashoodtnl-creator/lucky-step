@@ -32,7 +32,47 @@
         <div id="status" class="status local">⏳ Connecting...</div>
         <div class="top-kuri-bar"><span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span><select id="kuriSelector"></select><button class="btn-sm btn-danger" onclick="logout()">Out</button></div>
         <div class="tab-bar"><button class="active" data-tab="home">🏠 Home</button><button data-tab="members">👥 Members</button><button data-tab="addmember" class="admin-only-btn">➕ Add</button><button data-tab="monthly" class="admin-only-btn">📅 Monthly</button><button data-tab="wheel">🎡 Wheel</button><button data-tab="payments">💰 Pay</button><button data-tab="payout">💸 Payout</button><button data-tab="reports">📊 Report</button><button data-tab="rules">📜 Rules</button><button data-tab="whatsapp">💬 WA</button><button data-tab="history">📜 History</button><button data-tab="settings">⚙️ Settings</button></div>
-        <div id="tab-home" class="tab"><div id="memberWelcomeBanner" class="hidden welcome-banner"><h2 id="welcomeMemberName">Welcome!</h2><p id="welcomeKuriName">Kuri 1</p></div><div class="countdown-wrap" id="countdownWrap"><div class="countdown-inner"><div class="countdown-label">⏳ കുറിക്ക് ശേഷിക്കുന്ന ദിവസങ്ങൾ</div><div class="countdown-digits" id="countdownDigits"><div class="cd-item"><span class="cd-num" id="cdDays">--</span><span class="cd-label">ദിവസം</span></div><div class="cd-item"><span class="cd-num" id="cdHours">--</span><span class="cd-label">മണി</span></div><div class="cd-item"><span class="cd-num" id="cdMins">--</span><span class="cd-label">മിനി</span></div><div class="cd-item"><span class="cd-num" id="cdSecs">--</span><span class="cd-label">സെക്കൻ</span></div></div><div class="countdown-sub" id="countdownSub">അടുത്ത കുറി തീയതി സജ്ജമാക്കുക</div><div class="cd-setting"><input type="date" id="nextKuriDate"><button onclick="setKuriDate()">📌 സെറ്റ്</button></div></div></div><div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div></div><div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32"><h3>💳 Your Payment Status</h3><div class="status-card"><div style="display:flex;justify-content:space-between"><span>✅ Paid</span><span style="color:#2E7D32;font-weight:800" id="memPaidCount">0</span></div><div style="display:flex;justify-content:space-between"><span>⏳ Remaining</span><span style="color:#c62828;font-weight:800" id="memRemainingCount">25</span></div><div style="display:flex;justify-content:space-between"><span>💰 Paid</span><span id="memAmountPaid">₹0</span></div></div><div class="progress-wrap"><div class="progress-fill" id="memProgressFill" style="width:0%">0%</div></div><div class="pay-grid" id="memberPayGrid"></div><div id="memPaidMonths" style="font-size:.7rem;color:#666;margin-top:6px"></div></div><div class="card"><h3>📅 Monthly Winners</h3><div style="display:flex;gap:6px"><select id="monthSelect"></select><select id="yearSelect"></select></div><ul id="monthWinnerList" style="list-style:none;padding:0;margin-top:10px"></ul></div></div>
+        <div id="tab-home" class="tab">
+  <div id="memberWelcomeBanner" class="hidden welcome-banner">
+    <h2 id="welcomeMemberName">Welcome!</h2>
+    <p id="welcomeKuriName">Kuri 1</p>
+  </div>
+
+  <!-- ✅ NEW TEASER - 25 x 20000 = 5,00,000 - OLD TIMER REMOVED -->
+  <div class="teaser-card-new" id="teaserBoxNew" onclick="toggleTeaserNew()" style="background:radial-gradient(ellipse at center,#0a1a2a 0%,#020a14 100%);border:2.5px solid #d4af37;border-radius:24px;padding:18px;margin:12px 0;text-align:center;cursor:pointer">
+    <div style="color:#ffec8b;font-weight:800;font-size:14px">❄️ Mashood Thennala - ടീസർ ബോക്സ്</div>
+    <div style="font-size:10px;color:#4ade80;margin:4px 0">25 പേർ x ₹20,000 = ₹5,00,000</div>
+    <div class="jar-row" style="display:flex;justify-content:center;gap:12px;align-items:center;margin:12px 0">
+      <div class="jar-mini-new frosted" id="frostMini" style="width:100px;height:115px;background:rgba(200,230,255,0.14);backdrop-filter:blur(12px);border:2px solid #fff;border-radius:16px 16px 32px 32px;display:flex;align-items:center;justify-content:center">
+        <div style="filter:blur(4px);font-size:10px;color:#cde6ff;text-align:center">₹20,000<br>₹5,00,000</div>
+      </div>
+      <div class="jar-mini-new revealed hidden" id="revealedMini" style="width:100px;height:115px;background:linear-gradient(#ffec8b,#d4af37);border-radius:16px 16px 32px 32px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px gold">
+        <div style="font-size:11px;font-weight:900;color:#000;text-align:center">₹5,00,000<br>25x₹20,000<br>Ready</div>
+      </div>
+      <div style="text-align:left;font-size:11px;color:#ccc">
+        <div id="teaserStateNew" style="color:#8ec8ff">BEFORE • FROSTED</div>
+        <div>₹5,00,000 / ₹5,00,000</div>
+        <div style="color:#4ade80">100% Collected</div>
+      </div>
+    </div>
+    <button id="teaserBtnNew" style="background:linear-gradient(90deg,#d4af37,#ffec8b);border:none;padding:10px 22px;border-radius:30px;font-weight:800;font-size:12px">Tap to Reveal →</button>
+  </div>
+  <script>
+  function toggleTeaserNew(){
+    var f=document.getElementById('frostMini');
+    var r=document.getElementById('revealedMini');
+    var s=document.getElementById('teaserStateNew');
+    var b=document.getElementById('teaserBtnNew');
+    if(!f||!r) return;
+    if(f.classList.contains('hidden')){f.classList.remove('hidden');r.classList.add('hidden');s.innerText='BEFORE • FROSTED';b.innerText='Tap to Reveal →';}
+    else{f.classList.add('hidden');r.classList.remove('hidden');s.innerText='AFTER • REVEALED • ₹5,00,000';b.innerText='Cash Ready • 25 × ₹20,000';}
+  }
+  </script>
+
+  <!-- ബാക്കി പഴയ Code തുടരും -->
+  <div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div></div>
+  ...
+</div>
         <div id="tab-members" class="tab hidden"><div class="card"><h3>👥 Members - <span id="memberCount">0</span></h3><div id="membersList"></div></div></div>
         <div id="tab-addmember" class="tab hidden"><div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 500"><button class="btn" id="addSingleBtn">✅ Add Member</button><div style="font-size:.7rem;color:#666">Password = Last 4 digits auto</div></div><div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div><div class="card" style="border:2px solid #1565c0"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Group Head Name"><input id="mainPhone" placeholder="Head Phone"><input id="mainAmount" type="number" placeholder="Amount"><textarea id="subText" rows="3" placeholder="Sub Members - one per line"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div></div>
         <div id="tab-monthly" class="tab hidden"><div class="card"><h3>📆 Monthly - LIVE</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><select id="monthSelectMonthly"></select><select id="yearSelectMonthly"></select><button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button><button class="btn-sm btn-danger" id="clearMonthBtn" style="background:#c62828;color:#fff;padding:8px 16px;">Clear</button></div><div id="monthlyPayList"></div></div></div>
