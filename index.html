@@ -1,99 +1,43 @@
 <!DOCTYPE html>
 <html lang="ml">
-<head>
+<head><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mashood V30 - New Menu Icons</title>
+<title>Mashood V31 - Festival Live Theme + Sound + WA Group</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:100px;overflow-x:hidden}.container{max-width:520px;margin:0 auto;padding:16px}.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;width:100%;margin:6px 0;cursor:pointer;font-size:1rem}.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#000}.btn-sm{padding:6px 10px;font-size:.75rem;width:auto;border-radius:20px;border:none;cursor:pointer}.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.8rem}.live{background:#d1fae5;color:#065f46;border:2px solid #065f46}.local{background:#fef3c7;color:#92400e}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:100px;overflow-x:hidden;position:relative}.container{max-width:520px;margin:0 auto;padding:16px;position:relative;z-index:2}.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;width:100%;margin:6px 0;cursor:pointer;font-size:1rem}.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#000}.btn-sm{padding:6px 10px;font-size:.75rem;width:auto;border-radius:20px;border:none;cursor:pointer}.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.8rem}.live{background:#d1fae5;color:#065f46;border:2px solid #065f46}.local{background:#fef3c7;color:#92400e}
 .hidden{display:none!important}input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem;background:#fff;font-family:inherit}textarea{resize:vertical;min-height:60px}.member-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;gap:8px;flex-wrap:wrap}.winner-display{font-size:1.9rem;font-weight:900;color:#2E7D32;text-align:center;padding:15px 0;min-height:60px}#wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;touch-action:none;border:4px solid #2E7D32}.wheel-container{position:relative;max-width:380px;margin:auto}.wheel-arrow{position:absolute;top:50%;right:-10px;transform:translateY(-50%) rotate(180deg);font-size:38px;color:#007AFF;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}.badge{font-size:.7rem;padding:5px 10px;border-radius:20px;font-weight:700;cursor:pointer;border:none}.paid{background:#2E7D32;color:#fff}.pending{background:#c62828;color:#fff}.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2E7D32,#1b5e20);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}.login-card{background:#fff;border-radius:24px;padding:28px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px}.modal-card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}.top-kuri-bar{display:flex;gap:4px;align-items:center;background:#fff;padding:8px 12px;border-radius:30px;margin-bottom:10px;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}.top-kuri-bar select{width:auto;flex:1;min-width:70px;max-width:110px;margin:0;padding:7px 10px;font-size:.85rem;font-weight:700;border-radius:20px;border:2px solid #2E7D32;background:#f8fff8}.pass-wrap{position:relative}.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px}.report-box{background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:16px;padding:14px;margin:10px 0;border-left:6px solid #2E7D32}
-
-/* ===== NEW MENU - PREMIUM ICON MODEL ===== */
-.tab-bar{
-  display:flex;
-  gap:6px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  padding:10px 10px 14px 10px;
-  background:rgba(255,255,255,.95);
-  backdrop-filter:blur(20px);
-  border-radius:22px;
-  margin-bottom:14px;
-  position:sticky;
-  top:52px;
-  z-index:20;
-  box-shadow:0 8px 30px rgba(0,0,0,.08), 0 1px 0 rgba(0,0,0,.05) inset;
-  border:1px solid rgba(0,0,0,.06);
-  scrollbar-width:thin;
-  -webkit-overflow-scrolling:touch;
-  scroll-behavior:smooth;
-  scroll-snap-type:x proximity;
-}
-.tab-bar button{scroll-snap-align:start;}
-.tab-bar::-webkit-scrollbar{height:6px;display:block}
-.tab-bar::-webkit-scrollbar-thumb{background:#2E7D32;border-radius:10px}
-
+.tab-bar{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:10px 10px 14px 10px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:22px;margin-bottom:14px;position:sticky;top:52px;z-index:20;box-shadow:0 8px 30px rgba(0,0,0,.08), 0 1px 0 rgba(0,0,0,.05) inset;border:1px solid rgba(0,0,0,.06);scrollbar-width:thin;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scroll-snap-type:x proximity;}
+.tab-bar button{scroll-snap-align:start;flex:0 0 auto;min-width:58px;padding:0;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .25s cubic-bezier(.2,1,.3,1);position:relative;}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab-bar button{
-  flex:0 0 auto;
-  min-width:58px;
-  padding:0;
-  border:none;
-  background:transparent;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-  transition:all .25s cubic-bezier(.2,1,.3,1);
-  position:relative;
-}
-.tab-bar button .tab-icon{
-  width:42px;height:42px;
-  border-radius:12px;
-  background:#f3f4f6;
-  display:flex;align-items:center;justify-content:center;
-  font-size:18px;
-  transition:all .25s;
-  border:1.5px solid transparent;
-}
-.tab-bar button .tab-label{
-  font-size:.58rem;
-  font-weight:800;
-  color:#888;
-  letter-spacing:.3px;
-  text-transform:uppercase;
-}
-.tab-bar button.active .tab-icon{
-  background:linear-gradient(135deg,#1a3a1a,#2E7D32);
-  color:#fff;
-  box-shadow:0 6px 16px rgba(46,125,50,.35);
-  transform:translateY(-2px) scale(1.05);
-  border-color:#4caf50;
-}
-.tab-bar button.active .tab-label{
-  color:#2E7D32;
-}
-.tab-bar button.active::after{
-  content:'';
-  position:absolute;
-  bottom:-6px;
-  width:20px;height:3px;
-  background:#2E7D32;
-  border-radius:10px;
-}
-/* Admin buttons gold accent */
-.tab-bar button.admin-only-btn .tab-icon{
-  background:linear-gradient(135deg,#fff8e1,#ffec8b);
-  border-color:#f9d949;
-}
-.tab-bar button.admin-only-btn.active .tab-icon{
-  background:linear-gradient(135deg,#d4af37,#ffec8b);
-  color:#000;
-  box-shadow:0 6px 16px rgba(212,175,55,.4);
-  border-color:#d4af37;
-}
-
+.tab-bar button .tab-icon{width:42px;height:42px;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .25s;border:1.5px solid transparent;}
+.tab-bar button .tab-label{font-size:.58rem;font-weight:800;color:#888;letter-spacing:.3px;text-transform:uppercase;}
+.tab-bar button.active .tab-icon{background:linear-gradient(135deg,#1a3a1a,#2E7D32);color:#fff;box-shadow:0 6px 16px rgba(46,125,50,.35);transform:translateY(-2px) scale(1.05);border-color:#4caf50;}
+.tab-bar button.active .tab-label{color:#2E7D32;}
+.tab-bar button.active::after{content:'';position:absolute;bottom:-6px;width:20px;height:3px;background:#2E7D32;border-radius:10px;}
+.tab-bar button.admin-only-btn .tab-icon{background:linear-gradient(135deg,#fff8e1,#ffec8b);border-color:#f9d949;}
+.tab-bar button.admin-only-btn.active .tab-icon{background:linear-gradient(135deg,#d4af37,#ffec8b);color:#000;box-shadow:0 6px 16px rgba(212,175,55,.4);border-color:#d4af37;}
 .welcome-banner{background: radial-gradient(ellipse at top, #2e7d32 0%, #0f2810 40%, #000 100%);border:2px solid #d4af37;border-radius:22px;padding:22px 18px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 10px 40px rgba(46,125,50,.4), 0 0 0 1px rgba(212,175,55,.3) inset;}
 .welcome-banner::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.08) 50%, transparent 60%);animation: movieShine 3.5s infinite;}
 @keyframes movieShine{0%{transform:translateX(-100%) rotate(15deg)}100%{transform:translateX(100%) rotate(15deg)}}
@@ -160,30 +104,44 @@
 .timer-edit-panel button{padding:8px 16px;border:none;border-radius:20px;background:#FFD700;color:#000;font-weight:800;font-size:.7rem;cursor:pointer;}
 .progress-wrap{background:#e9ecef;border-radius:30px;height:20px;overflow:hidden;margin:8px 0}.progress-fill{height:100%;background:linear-gradient(90deg,#2E7D32,#4CAF50);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:700}.pay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin:10px 0}.pay-dot{width:100%;aspect-ratio:1/1;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;background:#f5f5f5}.pay-dot.paid-dot{background:#2E7D32;border-color:#2E7D32;color:#fff}.pay-dot.pending-dot{background:#fff;border-color:#c62828}.wa-member-select{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee}.wa-member-select input[type="checkbox"]{width:20px;height:20px;margin:0;accent-color:#25D366;flex-shrink:0}.wa-member-select label{flex:1;font-weight:600;font-size:.9rem}.select-all-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid #25D366;margin-bottom:8px}.select-all-row input[type="checkbox"]{width:22px;height:22px;accent-color:#25D366}.select-all-row label{font-weight:800;font-size:.95rem}.sms-status{font-size:.7rem;color:#1976D2;margin-top:6px;min-height:20px;font-weight:700}.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:800;cursor:pointer}
 
-/* FESTIVAL THEME BANNER - SHOWS ON ALL PAGES */
-.festival-theme-banner{border-radius:20px;overflow:hidden;margin-bottom:14px;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.12);border:2px solid #d4af37;display:none}
-.festival-theme-banner.show{display:block}
+/* FESTIVAL GLOBAL THEME */
+#globalFestivalBg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;opacity:0;transition:opacity .6s ease;pointer-events:none;filter:blur(1.5px) brightness(0.95);}
+body.festival-active #globalFestivalBg{opacity:0.22;}
+body.festival-active{background:#fffef5;}
+.festival-theme-banner{border-radius:20px;overflow:hidden;margin-bottom:14px;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.18);border:2px solid #d4af37;display:none;z-index:3}
+.festival-theme-banner.show{display:block;animation: festivalPop .6s cubic-bezier(.2,1.5,.5,1);}
+@keyframes festivalPop{0%{transform:scale(.9) translateY(-20px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
 .festival-theme-banner img{width:100%;max-height:380px;object-fit:cover;display:block}
-.festival-theme-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg, rgba(0,0,0,.85) 0%, transparent 100%);padding:16px 14px 12px;color:#fff}
-.festival-theme-overlay b{color:#ffec8b;font-size:.95rem;display:block}
-.festival-close{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;font-size:14px;cursor:pointer}
+.festival-theme-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.4) 60%, transparent 100%);padding:18px 14px 14px;color:#fff}
+.festival-theme-overlay b{color:#ffec8b;font-size:1.05rem;display:block;letter-spacing:.5px}
+.festival-theme-overlay span{font-size:.75rem;opacity:.9}
+.festival-close{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:14px;cursor:pointer;backdrop-filter:blur(6px)}
 .theme-upload-card{border:2px dashed #d4af37;background:linear-gradient(135deg,#fffef5,#fff9db);border-radius:20px;padding:16px;margin:12px 0}
-.theme-preview{width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin:10px 0;border:2px solid #eee;display:none}
+.theme-preview{width:100%;max-height:240px;object-fit:cover;border-radius:14px;margin:10px 0;border:2px solid #eee;display:none}
 .theme-preview.show{display:block}
-
+.wa-group-card{border:2px solid #25D366;background:linear-gradient(135deg,#f0fff4,#e6ffed);border-radius:20px;padding:16px;margin:12px 0}
+.pulse-dot{width:10px;height:10px;background:#ff3b30;border-radius:50%;display:inline-block;animation:pulse 1.2s infinite;box-shadow:0 0 8px #ff3b30}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
 </style>
 </head>
 <body>
-<div id="loginScreen" class="login-screen"><div class="login-card"><div style="font-size:3rem;margin-bottom:8px">🪙</div><h2 style="color:#2E7D32;margin-bottom:4px">Mashood thennala</h2><p style="font-size:.8rem;color:#666;margin-bottom:16px">Secure & Live Sync</p><select id="loginRole" style="margin-bottom:8px"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select><div id="adminLoginFields"><div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div><select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"><option value="kuri_1">Kuri 1</option><option value="kuri_2">Kuri 2</option><option value="kuri_3">Kuri 3</option><option value="kuri_4">Kuri 4</option></select><div class="pass-wrap"><input id="loginPass" type="password" placeholder="Enter Admin Password"><button class="pass-toggle" id="passToggle" type="button">👁</button></div></div><div id="memberLoginFields" class="hidden"><p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Last 4 digits of your phone</p><div class="pass-wrap"><input id="memberPass" type="password" placeholder="4-digit" maxlength="4" inputmode="numeric"><button class="pass-toggle" id="memberPassToggle" type="button">👁</button></div></div><button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button><div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div></div></div>
+<div id="globalFestivalBg"></div>
+
+<!-- WHEEL SPIN SOUNDS -->
+<audio id="wheelSpinSound" preload="auto" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+<audio id="wheelTickSound" preload="auto" loop>
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_6cc265a55f.mp3?filename=roulette-wheel-spin-121244.mp3" type="audio/mpeg">
+</audio>
+<audio id="wheelWinSound" preload="auto" src="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg"></audio>
+
+<div id="loginScreen" class="login-screen"><div class="login-card"><div style="font-size:3rem;margin-bottom:8px">🪙</div><h2 style="color:#2E7D32;margin-bottom:4px">Mashood thennala</h2><p style="font-size:.8rem;color:#666;margin-bottom:16px">V31 Festival Live • Secure</p><select id="loginRole" style="margin-bottom:8px"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select><div id="adminLoginFields"><div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div><select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"><option value="kuri_1">Kuri 1</option><option value="kuri_2">Kuri 2</option><option value="kuri_3">Kuri 3</option><option value="kuri_4">Kuri 4</option></select><div class="pass-wrap"><input id="loginPass" type="password" placeholder="Enter Admin Password"><button class="pass-toggle" id="passToggle" type="button">👁</button></div></div><div id="memberLoginFields" class="hidden"><p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Last 4 digits of your phone</p><div class="pass-wrap"><input id="memberPass" type="password" placeholder="4-digit" maxlength="4" inputmode="numeric"><button class="pass-toggle" id="memberPassToggle" type="button">👁</button></div></div><button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button><div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div></div></div>
 <div id="winSaveModal" class="modal hidden"><div class="modal-card"><h3>🎉 വിജയി!</h3><div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div><div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div><button class="btn" id="confirmSaveWin">✅ Save Winner</button><button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button></div></div>
 <div id="manualModal" class="modal hidden"><div class="modal-card" style="border:3px solid #FFD700"><h3>👑 Manual Select - Hidden</h3><select id="manualSelect"></select><button class="btn btn-gold" id="confirmManual">✅ Set Hidden</button><button class="btn btn-outline" id="cancelManual">Cancel</button></div></div>
 <div class="container" id="mainApp" style="display:none">
 <div id="status" class="status local">⏳ Connecting...</div>
 <div class="top-kuri-bar"><span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span><select id="kuriSelector"></select><button class="btn-sm btn-danger" onclick="logout()">Out</button></div>
 
-<!-- NEW MENU MODEL WITH ICONS -->
-
-<!-- FESTIVAL THEME BANNER - ALL PAGES -->
+<!-- FESTIVAL BANNER - ALL PAGES LIVE -->
 <div class="festival-theme-banner" id="festivalBanner">
 <img id="festivalImg" src="" alt="Festival">
 <div class="festival-theme-overlay"><b id="festivalTitle">Festival Wishes</b><span id="festivalSub">Mashood Thennala Kuri</span></div>
@@ -191,143 +149,82 @@
 </div>
 
 <div class="tab-bar">
-  <button class="active" data-tab="home">
-    <div class="tab-icon">◉</div>
-    <div class="tab-label">Home</div>
-  </button>
-  <button data-tab="members">
-    <div class="tab-icon">◎</div>
-    <div class="tab-label">Members</div>
-  </button>
-  <button data-tab="addmember" class="admin-only-btn">
-    <div class="tab-icon">＋</div>
-    <div class="tab-label">Add</div>
-  </button>
-  <button data-tab="monthly" class="admin-only-btn">
-    <div class="tab-icon">◍</div>
-    <div class="tab-label">Monthly</div>
-  </button>
-  <button data-tab="wheel">
-    <div class="tab-icon">⦿</div>
-    <div class="tab-label">Wheel</div>
-  </button>
-  <button data-tab="payments">
-    <div class="tab-icon">₹</div>
-    <div class="tab-label">Pay</div>
-  </button>
-  <button data-tab="payout">
-    <div class="tab-icon">₴</div>
-    <div class="tab-label">Payout</div>
-  </button>
-  <button data-tab="reports">
-    <div class="tab-icon">▤</div>
-    <div class="tab-label">Report</div>
-  </button>
-  <button data-tab="rules">
-    <div class="tab-icon">≡</div>
-    <div class="tab-label">Rules</div>
-  </button>
-  <button data-tab="whatsapp">
-    <div class="tab-icon">✆</div>
-    <div class="tab-label">WA</div>
-  </button>
-  <button data-tab="history">
-    <div class="tab-icon">↻</div>
-    <div class="tab-label">History</div>
-  </button>
-  <button data-tab="settings">
-    <div class="tab-icon">⚙</div>
-    <div class="tab-label">Settings</div>
-  </button>
+  <button class="active" data-tab="home"><div class="tab-icon">◉</div><div class="tab-label">Home</div></button>
+  <button data-tab="members"><div class="tab-icon">◎</div><div class="tab-label">Members</div></button>
+  <button data-tab="addmember" class="admin-only-btn"><div class="tab-icon">＋</div><div class="tab-label">Add</div></button>
+  <button data-tab="monthly" class="admin-only-btn"><div class="tab-icon">◍</div><div class="tab-label">Monthly</div></button>
+  <button data-tab="wheel"><div class="tab-icon">⦿</div><div class="tab-label">Wheel</div></button>
+  <button data-tab="payments"><div class="tab-icon">₹</div><div class="tab-label">Pay</div></button>
+  <button data-tab="payout"><div class="tab-icon">₴</div><div class="tab-label">Payout</div></button>
+  <button data-tab="reports"><div class="tab-icon">▤</div><div class="tab-label">Report</div></button>
+  <button data-tab="rules"><div class="tab-icon">≡</div><div class="tab-label">Rules</div></button>
+  <button data-tab="whatsapp"><div class="tab-icon">✆</div><div class="tab-label">WA</div></button>
+  <button data-tab="history"><div class="tab-icon">↻</div><div class="tab-label">History</div></button>
+  <button data-tab="settings"><div class="tab-icon">⚙</div><div class="tab-label">Settings</div></button>
 </div>
 
 <div id="tab-home" class="tab">
-  <div id="memberWelcomeBanner" class="hidden welcome-banner">
-    <div class="wb-badge">✦ MASHOOD THENNALA KURI ✦</div>
-    <h2 id="welcomeMemberName">Welcome!</h2>
-    <p id="welcomeKuriName">Kuri 1</p>
-    <div class="wb-actions">
-      <button class="wb-voice-btn" onclick="speakWelcome(currentMemberName||'Member')">🔊 Voice</button>
-      <button class="wb-voice-btn" id="voiceToggleBtn" onclick="toggleVoice()">🔇 ON</button>
-    </div>
-  </div>
-
-  <div class="coll-card" id="collectionCard">
-    <div class="coll-header">
-      <div class="coll-header-left">
-        <b><span class="coll-live-dot"></span> COLLECTION SUMMARY</b>
-        <span id="collKuriName">25 പേർ × ₹20,000 = ₹5,00,000</span>
-      </div>
-      <div class="coll-header-right" id="collStatusBadge">₹5L • READY</div>
-    </div>
-    <div class="coll-grid">
-      <div class="coll-box gold"><div class="coll-box-label">👥 Members</div><div class="coll-box-value">25</div><div class="coll-box-sub">Fixed</div></div>
-      <div class="coll-box"><div class="coll-box-label">💵 Per Person</div><div class="coll-box-value"><small>₹</small>20,000</div><div class="coll-box-sub">ഒരാൾക്ക്</div></div>
-      <div class="coll-box dark"><div class="coll-box-label">💰 Total Pool</div><div class="coll-box-value"><small>₹</small>5,00,000</div><div class="coll-box-sub">25 × 20k</div></div>
-      <div class="coll-box green"><div class="coll-box-label">✅ This Month</div><div class="coll-box-value"><small>₹</small><span id="collCollected">0</span></div><div class="coll-box-sub" id="collCollectedSub">Collected</div></div>
-    </div>
-    <div class="coll-formula"><span class="f-chip">25</span><span>×</span><span class="f-chip">₹20,000</span><span class="f-eq">=</span><span class="f-chip" style="background:#2E7D32;color:#fff">₹5,00,000</span></div>
-    <div class="coll-progress-section">
-      <div class="coll-progress-top"><span>Progress</span><span id="collProgressText" style="color:#2E7D32">0% Complete</span></div>
-      <div class="coll-progress-bar"><div class="coll-progress-fill" id="collProgressFill"></div></div>
-      <div class="coll-stats">
-        <div class="coll-stat paid"><b id="collPaidCount">0</b><span>Paid</span></div>
-        <div class="coll-stat pending"><b id="collPendingCount">25</b><span>Pending</span></div>
-        <div class="coll-stat"><b>₹5L</b><span>Target</span></div>
-      </div>
-    </div>
-    <div class="coll-footer"><span>25 × ₹20,000 = ₹5,00,000</span><b id="collReadyText">✓ Ready</b></div>
-  </div>
-
-  <div class="timer-card">
-    <div class="timer-top">
-      <div class="timer-top-left">
-        <div class="timer-icon">⏳</div>
-        <div><b>KURI DAY COUNTDOWN</b><span id="timerKuriLabel">Next Kuri Date</span></div>
-      </div>
-      <button class="timer-edit-btn admin-only-btn" onclick="toggleTimerEdit()">✏ Edit</button>
-    </div>
-    <div class="timer-grid">
-      <div class="timer-unit"><div class="timer-num gold" id="cdDays">--</div><div class="timer-label">Days</div></div>
-      <div class="timer-unit"><div class="timer-num" id="cdHours">--</div><div class="timer-label">Hours</div></div>
-      <div class="timer-unit"><div class="timer-num" id="cdMins">--</div><div class="timer-label">Mins</div></div>
-      <div class="timer-unit"><div class="timer-num" id="cdSecs">--</div><div class="timer-label">Secs</div></div>
-    </div>
-    <div class="timer-date-row"><span>📅 Date:</span><b id="countdownSub">തീയതി സജ്ജമാക്കുക</b></div>
-    <div class="timer-edit-panel hidden admin-only-btn" id="timerEditPanel"><input type="date" id="nextKuriDate"><button onclick="setKuriDate()">Set Date</button></div>
-  </div>
-
+  <div id="memberWelcomeBanner" class="hidden welcome-banner"><div class="wb-badge">✦ MASHOOD THENNALA KURI ✦</div><h2 id="welcomeMemberName">Welcome!</h2><p id="welcomeKuriName">Kuri 1</p><div class="wb-actions"><button class="wb-voice-btn" onclick="speakWelcome(currentMemberName||'Member')">🔊 Voice</button><button class="wb-voice-btn" id="voiceToggleBtn" onclick="toggleVoice()">🔇 ON</button></div></div>
+  <div class="coll-card" id="collectionCard"><div class="coll-header"><div class="coll-header-left"><b><span class="coll-live-dot"></span> COLLECTION SUMMARY</b><span id="collKuriName">25 പേർ × ₹20,000 = ₹5,00,000</span></div><div class="coll-header-right" id="collStatusBadge">₹5L • READY</div></div><div class="coll-grid"><div class="coll-box gold"><div class="coll-box-label">👥 Members</div><div class="coll-box-value">25</div><div class="coll-box-sub">Fixed</div></div><div class="coll-box"><div class="coll-box-label">💵 Per Person</div><div class="coll-box-value"><small>₹</small>20,000</div><div class="coll-box-sub">ഒരാൾക്ക്</div></div><div class="coll-box dark"><div class="coll-box-label">💰 Total Pool</div><div class="coll-box-value"><small>₹</small>5,00,000</div><div class="coll-box-sub">25 × 20k</div></div><div class="coll-box green"><div class="coll-box-label">✅ This Month</div><div class="coll-box-value"><small>₹</small><span id="collCollected">0</span></div><div class="coll-box-sub" id="collCollectedSub">Collected</div></div></div><div class="coll-formula"><span class="f-chip">25</span><span>×</span><span class="f-chip">₹20,000</span><span class="f-eq">=</span><span class="f-chip" style="background:#2E7D32;color:#fff">₹5,00,000</span></div><div class="coll-progress-section"><div class="coll-progress-top"><span>Progress</span><span id="collProgressText" style="color:#2E7D32">0% Complete</span></div><div class="coll-progress-bar"><div class="coll-progress-fill" id="collProgressFill"></div></div><div class="coll-stats"><div class="coll-stat paid"><b id="collPaidCount">0</b><span>Paid</span></div><div class="coll-stat pending"><b id="collPendingCount">25</b><span>Pending</span></div><div class="coll-stat"><b>₹5L</b><span>Target</span></div></div></div><div class="coll-footer"><span>25 × ₹20,000 = ₹5,00,000</span><b id="collReadyText">✓ Ready</b></div></div>
+  <div class="timer-card"><div class="timer-top"><div class="timer-top-left"><div class="timer-icon">⏳</div><div><b>KURI DAY COUNTDOWN</b><span id="timerKuriLabel">Next Kuri Date</span></div></div><button class="timer-edit-btn admin-only-btn" onclick="toggleTimerEdit()">✏ Edit</button></div><div class="timer-grid"><div class="timer-unit"><div class="timer-num gold" id="cdDays">--</div><div class="timer-label">Days</div></div><div class="timer-unit"><div class="timer-num" id="cdHours">--</div><div class="timer-label">Hours</div></div><div class="timer-unit"><div class="timer-num" id="cdMins">--</div><div class="timer-label">Mins</div></div><div class="timer-unit"><div class="timer-num" id="cdSecs">--</div><div class="timer-label">Secs</div></div></div><div class="timer-date-row"><span>📅 Date:</span><b id="countdownSub">തീയതി സജ്ജമാക്കുക</b></div><div class="timer-edit-panel hidden admin-only-btn" id="timerEditPanel"><input type="date" id="nextKuriDate"><button onclick="setKuriDate()">Set Date</button></div></div>
   <div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div></div>
   <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32"><h3>💳 Your Payments</h3><div style="display:flex;justify-content:space-between;margin:8px 0"><span>Paid: <strong id="memPaidCount">0</strong></span><span>Remaining: <strong id="memRemainingCount">25</strong></span></div><div>Amount: <span id="memAmountPaid">₹ 0</span></div><div class="progress-wrap"><div class="progress-fill" id="memProgressFill" style="width:0%">0%</div></div><div class="pay-grid" id="memberPayGrid"></div><div id="memPaidMonths" style="font-size:.7rem;color:#666"></div></div>
 </div>
 
 <div id="tab-members" class="tab hidden"><div class="card"><h3>👥 Members - <span id="memberCount">0</span></h3><div id="membersList"></div></div></div>
-<div id="tab-addmember" class="tab hidden"><div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 20000"><button class="btn" id="addSingleBtn">✅ Add Member</button></div><div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div><div class="card" style="border:2px solid #1565c0"><h3>🏠 Group Add - Multiple Members</h3><input id="mainName" placeholder="Group Head Name"><input id="mainPhone" placeholder="Head Phone"><input id="mainAmount" type="number" placeholder="Amount 20000" value="20000"><textarea id="subText" rows="3" placeholder="Sub Members - one per line (ഉദാ: Raju
-Saju
-Mani)"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div></div>
+<div id="tab-addmember" class="tab hidden"><div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 20000"><button class="btn" id="addSingleBtn">✅ Add Member</button></div><div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div><div class="card" style="border:2px solid #1565c0"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Group Head Name"><input id="mainPhone" placeholder="Head Phone"><input id="mainAmount" type="number" placeholder="Amount 20000" value="20000"><textarea id="subText" rows="3" placeholder="Sub Members - one per line"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div></div>
 <div id="tab-monthly" class="tab hidden"><div class="card"><h3>📆 Monthly</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><select id="monthSelectMonthly"></select><select id="yearSelectMonthly"></select><button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button><button class="btn-sm btn-danger" id="clearMonthBtn" style="background:#c62828;color:#fff;padding:8px 16px;">Clear</button></div><div id="monthlyPayList"></div></div></div>
-<div id="tab-wheel" class="tab hidden"><div class="card" style="background:#1a1a2e;color:#fff"><h3 style="color:#fff">🎡 <span class="kuriNameDisplay">Kuri 1</span> <span id="memberWheelInfo" style="font-size:.7rem;background:#FFD700;color:#000;padding:4px 8px;border-radius:10px;margin-left:6px">VIEW ONLY</span></h3><div class="wheel-container"><div class="wheel-arrow">▶</div><canvas id="wheelCanvas" width="500" height="500" style="box-shadow:0 8px 30px rgba(0,0,0,.4);border-radius:50%"></canvas></div><button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:14px;background:#FF3B30;font-size:1.2rem;font-weight:900">🎯 SPIN NOW</button><div id="memberNoSpinMsg" class="hidden" style="background:#fff3cd;color:#000;padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-top:14px">👀 Member View Only</div><button class="btn btn-outline admin-only-btn" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;margin-top:8px">🔀 Shuffle</button><div id="wheelSubInfo" style="background:rgba(255,255,255,.1);padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;color:#fff"></div><div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.1);padding:10px;border-radius:12px;color:#fff"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div><div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;color:#000;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div><div class="winner-display" id="drawWinner" style="color:#FFD700">—</div><button class="btn btn-outline admin-only-btn" id="bringBackBtn">↩ Bring All Back</button><button class="btn btn-danger admin-only-btn" id="removeWinnerBtn">🗑 Remove Last Winner</button></div><div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:14px 0 20px 0;"><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700;font-weight:800;cursor:pointer;" id="manualBtn">👤 Manual Select</button><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#fff;color:#FF9800;border-radius:20px;border:2px solid #FF9800;font-weight:800;cursor:pointer;" id="clearManualBtn">✖ Clear Manual</button></div></div>
+
+<div id="tab-wheel" class="tab hidden"><div class="card" style="background:#1a1a2e;color:#fff"><h3 style="color:#fff">🎡 <span class="kuriNameDisplay">Kuri 1</span> <span id="memberWheelInfo" style="font-size:.7rem;background:#FFD700;color:#000;padding:4px 8px;border-radius:10px;margin-left:6px">VIEW ONLY</span> <span style="font-size:.65rem;margin-left:8px"><span class="pulse-dot"></span> LIVE SOUND ON</span></h3><div class="wheel-container"><div class="wheel-arrow">▶</div><canvas id="wheelCanvas" width="500" height="500" style="box-shadow:0 8px 30px rgba(0,0,0,.4);border-radius:50%"></canvas></div><button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:14px;background:#FF3B30;font-size:1.2rem;font-weight:900">🎯 SPIN NOW 🔊</button><div id="memberNoSpinMsg" class="hidden" style="background:#fff3cd;color:#000;padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-top:14px">👀 Member View Only - Sound കേൾക്കാം</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-outline admin-only-btn" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;flex:1">🔀 Shuffle</button><button class="btn btn-outline" onclick="testWheelSound()" style="border-color:#00ff6a;color:#00ff6a;flex:1">🔊 Test Sound</button></div><div id="wheelSubInfo" style="background:rgba(255,255,255,.1);padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;color:#fff"></div><div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.1);padding:10px;border-radius:12px;color:#fff"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div><div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;color:#000;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div><div class="winner-display" id="drawWinner" style="color:#FFD700">—</div><button class="btn btn-outline admin-only-btn" id="bringBackBtn">↩ Bring All Back</button><button class="btn btn-danger admin-only-btn" id="removeWinnerBtn">🗑 Remove Last Winner</button></div><div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:14px 0 20px 0;"><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700;font-weight:800;cursor:pointer;" id="manualBtn">👤 Manual Select</button><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#fff;color:#FF9800;border-radius:20px;border:2px solid #FF9800;font-weight:800;cursor:pointer;" id="clearManualBtn">✖ Clear Manual</button></div></div>
+
 <div id="tab-payments" class="tab hidden"><div class="card report-box"><div>ഈ മാസം Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹0</span></div><div>Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span> | Total: <span id="totalPaidMonths">0</span></div></div><div class="card"><div id="payList"></div></div></div>
 <div id="tab-payout" class="tab hidden"><div class="card report-box" style="background:#fff8e1"><h3>💸 Payout</h3><div>Collection: <span id="payoutCollection">₹0</span></div><div>Payout: <span id="payoutTotal">₹0</span></div><div>Balance: <span id="payoutBalance">₹0</span></div></div><div class="card"><div id="payoutList"></div></div><div class="card admin-only-btn"><h3>➕ Add Payout</h3><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="Amount"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Add Payout</button></div></div>
 <div id="tab-reports" class="tab hidden"><div class="card report-box"><h3>📊 Report</h3><div id="fullReport"></div></div><div class="card"><div id="memberReport"></div></div></div>
-<div id="tab-rules" class="tab hidden"><div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" class="editable-text" contenteditable="false" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px;min-height:80px"></div></div><div class="card admin-only-btn"><textarea id="rulesEdit" rows="6" style="display:none"></textarea><button class="btn btn-gold" id="saveRules" style="display:none">💾 Save</button></div></div>
-<div id="tab-whatsapp" class="tab hidden"><div class="card" style="border:2px solid #25D366"><h3>💬 WhatsApp Broadcast</h3><div class="select-all-row"><input type="checkbox" id="waSelectAll" onchange="toggleAllWA()"><label for="waSelectAll">Select All</label><span style="font-size:.7rem;color:#888;margin-left:auto" id="waSelectedCount">0 selected</span></div><div id="waMemberChecklist"></div><textarea id="waBroadcastMsg" rows="3" placeholder="Message..."></textarea><div style="display:flex;gap:6px;margin-top:8px"><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#25D366;color:#fff" onclick="sendWABroadcast()">📱 WhatsApp</button><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#1976D2;color:#fff" onclick="sendSMSBroadcast()">✉ SMS</button></div><div id="waStatus" class="sms-status"></div></div></div>
+<div id="tab-rules" class="tab hidden"><div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px;min-height:80px"></div></div></div>
+
+<div id="tab-whatsapp" class="tab hidden">
+  <!-- WHATSAPP GROUP LINK CARD -->
+  <div class="wa-group-card">
+    <h3>👥 WhatsApp Group - Live Link</h3>
+    <p style="font-size:.75rem;color:#666;margin:6px 0">Group Link ഇവിടെ സേവ് ചെയ്താൽ എല്ലാവർക്കും Live ആയി കിട്ടും. Share ചെയ്ത് Group-ലേക്ക് Message അയക്കാം.</p>
+    <input id="waGroupLinkInput" placeholder="https://chat.whatsapp.com/....">
+    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+      <button class="btn" style="background:#25D366;flex:1" onclick="saveWaGroupLink()">💾 Save Link</button>
+      <button class="btn btn-outline" style="border-color:#25D366;color:#25D366;flex:1" onclick="openWhatsAppGroup()">👥 Open Group</button>
+      <button class="btn" style="background:#000;color:#FFD700;flex:1" onclick="shareWaGroupLink()">🔗 Share Link</button>
+    </div>
+    <textarea id="waGroupMessage" rows="2" placeholder="Group-ലേക്ക് അയക്കാനുള്ള Message എഴുതുക... Ex: Onam Ashamshakal! Tomorrow Kuri"></textarea>
+    <button class="btn" style="background:#128C7E;margin-top:6px" onclick="sendMessageToWhatsAppGroup()">📢 Group-ലേക്ക് Message അയക്കുക</button>
+    <div id="waGroupStatus" style="font-size:.7rem;color:#065f46;margin-top:8px;font-weight:700;min-height:18px"></div>
+  </div>
+
+  <div class="card" style="border:2px solid #25D366"><h3>💬 Individual Broadcast</h3><div class="select-all-row"><input type="checkbox" id="waSelectAll" onchange="toggleAllWA()"><label for="waSelectAll">Select All</label><span style="font-size:.7rem;color:#888;margin-left:auto" id="waSelectedCount">0 selected</span></div><div id="waMemberChecklist"></div><textarea id="waBroadcastMsg" rows="3" placeholder="Message to selected members..."></textarea><div style="display:flex;gap:6px;margin-top:8px"><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#25D366;color:#fff" onclick="sendWABroadcast()">📱 WhatsApp</button><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#1976D2;color:#fff" onclick="sendSMSBroadcast()">✉ SMS</button></div><div id="waStatus" class="sms-status"></div></div>
+</div>
+
 <div id="tab-history" class="tab hidden"><div class="card"><h3>📜 History</h3><div id="historyList"></div></div></div>
 <div id="tab-settings" class="tab hidden">
+
 <div class="theme-upload-card">
-<h3 style="color:#0a1f0a">🎉 Festival Theme Photo - Onam / Vishu / Perunnal / Nabidina</h3>
-<p style="font-size:.75rem;color:#666;margin:6px 0">Photo upload ചെയ്താൽ App എവിടെ തുറന്നാലും എല്ലാ menu-വിലും theme ആയി മുകളിൽ കാണിക്കും. 2 ദിവസമല്ല, remove ചെയ്യുന്നതുവരെ നിൽക്കും.</p>
-<label style="font-weight:800;font-size:.8rem;margin-top:10px;display:block">📸 Festival Photo:</label>
+<h3 style="color:#0a1f0a">🎉 Festival Theme Photo - LIVE for All Members</h3>
+<p style="font-size:.78rem;color:#333;margin:6px 0;line-height:1.4">📸 Photo upload ചെയ്താൽ <b>Firebase വഴി LIVE</b> ആയി എല്ലാ മെമ്പർമാരുടെയും ഫോണിൽ എല്ലാ Page-ലും മുകളിൽ Banner ആയും പിന്നിൽ Theme ആയും വരും. Onam / Vishu / Perunnal / Nabidina വരെ Remove ചെയ്യുന്നതുവരെ നിൽക്കും.</p>
+<label style="font-weight:800;font-size:.8rem;margin-top:10px;display:block">📸 Festival Photo (Max 1.5MB - Auto Compressed):</label>
 <input type="file" id="themePhotoInput" accept="image/*" style="border:2px dashed #d4af37;background:#fff">
 <label style="font-weight:800;font-size:.8rem;margin-top:10px;display:block">🏷️ Festival Name:</label>
 <select id="themeNameSelect" style="border:2px solid #d4af37"><option value="Onam Ashamshakal">🌼 Onam Ashamshakal</option><option value="Vishu Ashamshakal">🌾 Vishu Ashamshakal</option><option value="Eid Mubarak">🌙 Eid Mubarak - Perunnal Ashamshakal</option><option value="Nabidina Ashamshakal">✨ Nabidina Ashamshakal</option><option value="Christmas Ashamshakal">🎄 Christmas Ashamshakal</option><option value="New Year Ashamshakal">🎉 New Year Ashamshakal</option><option value="Custom Festival">🎊 Custom Festival</option></select>
 <input id="themeCustomName" placeholder="Custom name - Ex: Onam 2025" style="display:none">
 <img id="themePreviewImg" class="theme-preview" src="">
-<div style="display:flex;gap:8px;margin-top:12px"><button class="btn" style="background:#0a1f0a;color:#ffec8b;flex:1" onclick="saveThemePhoto()">💾 Save Theme - All Pages</button><button class="btn btn-danger" style="flex:0 0 auto" onclick="removeThemePhoto()">🗑 Remove</button></div>
+<div style="display:flex;gap:8px;margin-top:12px"><button class="btn" style="background:#0a1f0a;color:#ffec8b;flex:1" onclick="saveThemePhoto()">💾 LIVE Save - All Members</button><button class="btn btn-danger" style="flex:0 0 auto" onclick="removeThemePhoto()">🗑 Remove</button></div>
 <div id="currentThemeInfo" style="margin-top:12px;background:#e8f5e9;padding:10px;border-radius:12px;font-size:.75rem;display:none"></div>
 </div>
 
-<div class="card"><h3>⚙ Settings</h3><div style="margin:8px 0"><label style="font-weight:700;font-size:.85rem">📅 Next Kuri Date</label><input type="date" id="settingsKuriDate"><button class="btn btn-gold" onclick="setKuriDateFromSettings()">📌 Set Date</button></div><div style="margin:8px 0;border-top:1px solid #eee;padding-top:12px"><label style="font-weight:700;font-size:.85rem">🔊 Voice</label><div style="display:flex;gap:8px;margin-top:6px"><button class="btn btn-sm" onclick="testVoice()" style="background:#000;color:#FFD700">Test Voice</button><button class="btn btn-sm" onclick="toggleVoice()" style="background:#fff;border:2px solid #2E7D32;color:#2E7D32">ON/OFF</button></div></div></div></div>
+<div class="wa-group-card">
+<h3>👥 WhatsApp Group Link Settings (Admin)</h3>
+<input id="waGroupLinkSettingsInput" placeholder="https://chat.whatsapp.com/...">
+<button class="btn" style="background:#25D366" onclick="saveWaGroupLinkFromSettings()">💾 Save WA Group Link - Live</button>
+</div>
+
+<div class="card"><h3>⚙ Settings</h3><div style="margin:8px 0"><label style="font-weight:700;font-size:.85rem">📅 Next Kuri Date</label><input type="date" id="settingsKuriDate"><button class="btn btn-gold" onclick="setKuriDateFromSettings()">📌 Set Date</button></div><div style="margin:8px 0;border-top:1px solid #eee;padding-top:12px"><label style="font-weight:700;font-size:.85rem">🔊 Voice & Sound</label><div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap"><button class="btn btn-sm" onclick="testVoice()" style="background:#000;color:#FFD700">Test Voice</button><button class="btn btn-sm" onclick="toggleVoice()" style="background:#fff;border:2px solid #2E7D32;color:#2E7D32">Voice ON/OFF</button><button class="btn btn-sm" onclick="testWheelSound()" style="background:#FF3B30;color:#fff">🎡 Test Wheel Sound</button></div></div></div>
+</div>
 </div>
 
 <script type="module">
@@ -339,6 +236,52 @@ const MONTHS=['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ�
 let currentRole=sessionStorage.getItem('mashood_role')||null;let currentMemberName=sessionStorage.getItem('mashood_member')||null;let currentRot=0,manualTarget=null,pendingWinner=null,isSpinning=false;
 let currentKuriId=localStorage.getItem('MASHOOD_CURRENT_KURI')||'kuri_1';let allKuriData={};try{const st=localStorage.getItem('MASHOOD_ALL_KURIS');if(st)allKuriData=JSON.parse(st);}catch(e){allKuriData={};}
 let voiceEnabled = localStorage.getItem('MASHOOD_VOICE') !== 'off';
+
+// === SOUND SYSTEM ===
+let audioCtx=null;
+function getAudioCtx(){if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); return audioCtx;}
+let spinTickInterval=null;
+function playSpinSound(){
+  try{
+    const tick=document.getElementById('wheelTickSound');
+    if(tick){ tick.currentTime=0; tick.volume=0.7; tick.play().catch(()=>{}); }
+    // WebAudio tick overlay
+    const ctx=getAudioCtx();
+    if(spinTickInterval) clearInterval(spinTickInterval);
+    spinTickInterval=setInterval(()=>{
+      const osc=ctx.createOscillator();
+      const gain=ctx.createGain();
+      osc.frequency.value= 800 + Math.random()*200;
+      gain.gain.value=0.08;
+      osc.connect(gain); gain.connect(ctx.destination);
+      osc.start(); osc.stop(ctx.currentTime+0.08);
+    }, 120);
+  }catch(e){}
+}
+function stopSpinSound(isWin=false){
+  try{
+    clearInterval(spinTickInterval);
+    const tick=document.getElementById('wheelTickSound');
+    if(tick){ tick.pause(); tick.currentTime=0; }
+    if(isWin){
+      const win=document.getElementById('wheelWinSound');
+      if(win){ win.currentTime=0; win.volume=0.8; win.play().catch(()=>{}); }
+      if(navigator.vibrate) navigator.vibrate([100,50,200,50,300]);
+      // confetti beep
+      const ctx=getAudioCtx();
+      [0,150,300].forEach((d,i)=>{
+        setTimeout(()=>{
+          const osc=ctx.createOscillator(); const g=ctx.createGain();
+          osc.frequency.value= 600 + i*200;
+          g.gain.value=0.2; osc.connect(g); g.connect(ctx.destination);
+          osc.start(); osc.stop(ctx.currentTime+0.25);
+        }, d);
+      });
+    }
+  }catch(e){}
+}
+window.testWheelSound=function(){playSpinSound(); setTimeout(()=>stopSpinSound(true), 2000);};
+
 function getVoiceLang(){const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];let ml = voices.find(v=>v.lang.includes('ml'));if(ml) return {voice: ml, lang: 'ml-IN'};let enIn = voices.find(v=>v.lang.includes('en-IN'));if(enIn) return {voice: enIn, lang: 'en-IN'};return {voice: null, lang: 'en-US'};}
 window.speakWelcome = function(name){if(!voiceEnabled) return;if(!('speechSynthesis' in window)) return;speechSynthesis.cancel();const displayName = name || currentMemberName || 'Member';const text = `Welcome, ${displayName}! Mashood Thennala Kuriyilekku swagatham.`;const utter = new SpeechSynthesisUtterance(text);const info = getVoiceLang();utter.lang = info.lang;if(info.voice) utter.voice = info.voice;utter.rate = 0.9;utter.pitch = 1.05;utter.volume = 1;speechSynthesis.speak(utter);}
 window.toggleVoice = function(){voiceEnabled = !voiceEnabled;localStorage.setItem('MASHOOD_VOICE', voiceEnabled ? 'on' : 'off');const btn = document.getElementById('voiceToggleBtn');if(btn) btn.textContent = voiceEnabled ? '🔇 ON' : '🔈 OFF';if(voiceEnabled) testVoice();}
@@ -362,44 +305,119 @@ window.toggleTimerEdit = function(){const panel=document.getElementById('timerEd
 window.setKuriDate=function(){const inp=document.getElementById('nextKuriDate');if(!inp.value)return alert('📅 തീയതി തിരഞ്ഞെടുക്കുക');data.nextKuriDate=inp.value;const skd=document.getElementById('settingsKuriDate');if(skd) skd.value=inp.value;save();updateCountdown();document.getElementById('timerEditPanel')?.classList.add('hidden');alert('✅ കുറി തീയതി സജ്ജമായി!');};
 window.setKuriDateFromSettings=function(){const inp=document.getElementById('settingsKuriDate');if(!inp.value)return alert('📅 തീയതി തിരഞ്ഞെടുക്കുക');data.nextKuriDate=inp.value;const mainInp=document.getElementById('nextKuriDate');if(mainInp)mainInp.value=inp.value;save();updateCountdown();alert('✅ കുറി തീയതി സജ്ജമായി!');};
 
-// FESTIVAL THEME LOGIC
+// ===== FESTIVAL THEME - LIVE SYNC FOR ALL =====
 let tempThemeBase64=null;
+function compressImage(file, callback){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      const max=800;
+      let w=img.width, h=img.height;
+      if(w>max||h>max){ if(w>h){ h*=max/w; w=max; } else { w*=max/h; h=max; } }
+      canvas.width=w; canvas.height=h;
+      const ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      const dataUrl=canvas.toDataURL('image/jpeg',0.7);
+      callback(dataUrl);
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 document.getElementById('themePhotoInput')?.addEventListener('change',function(e){
   const file=e.target.files[0];if(!file)return;
-  if(file.size>2*1024*1024){alert('2MB-ൽ കുറവ് വേണം');return;}
-  const reader=new FileReader();
-  reader.onload=function(ev){tempThemeBase64=ev.target.result;const p=document.getElementById('themePreviewImg');p.src=tempThemeBase64;p.classList.add('show');};
-  reader.readAsDataURL(file);
+  compressImage(file, (compressed)=>{
+    tempThemeBase64=compressed;
+    const p=document.getElementById('themePreviewImg'); p.src=compressed; p.classList.add('show');
+  });
 });
 document.getElementById('themeNameSelect')?.addEventListener('change',function(){document.getElementById('themeCustomName').style.display=this.value==='Custom Festival'?'block':'none';});
 window.saveThemePhoto=function(){
   if(!isAdmin())return alert('Only Admin');
-  if(!tempThemeBase64 && !data.festivalTheme?.image)return alert('Photo തിരഞ്ഞെടുക്കുക');
+  if(!tempThemeBase64 && !data.festivalTheme?.image)return alert('📸 Photo തിരഞ്ഞെടുക്കുക');
   let name=document.getElementById('themeNameSelect').value;
   if(name==='Custom Festival'){const c=document.getElementById('themeCustomName').value.trim();if(!c)return alert('Custom name');name=c;}
   const img=tempThemeBase64||data.festivalTheme?.image;
   data.festivalTheme={image:img,name:name,date:new Date().toISOString(),enabled:true};
-  localStorage.setItem('MASHOOD_FESTIVAL_THEME',JSON.stringify(data.festivalTheme));
-  save();updateFestivalBanner();alert('✅ Theme Saved! എല്ലാ Page-ലും ഇനി ഈ Photo വരും - Onam/Vishu/Perunnal');tempThemeBase64=null;document.getElementById('themePhotoInput').value='';document.getElementById('themePreviewImg').classList.remove('show');
+  save(); updateFestivalBanner();
+  alert('✅ LIVE! Theme Saved! എല്ലാ മെമ്പർക്കും ഇപ്പോൾ തന്നെ കാണാം - Firebase Live Sync!');
+  tempThemeBase64=null; document.getElementById('themePhotoInput').value=''; document.getElementById('themePreviewImg').classList.remove('show');
 };
 window.removeThemePhoto=function(){
   if(!isAdmin())return alert('Only Admin');
-  if(!confirm('Remove theme?'))return;
-  data.festivalTheme=null;localStorage.removeItem('MASHOOD_FESTIVAL_THEME');tempThemeBase64=null;document.getElementById('themePreviewImg').classList.remove('show');document.getElementById('themePhotoInput').value='';save();updateFestivalBanner();alert('✅ Theme Removed');
+  if(!confirm('Theme Remove ചെയ്യണോ? എല്ലാവരുടെയും ഫോണിൽ നിന്ന് മാറും'))return;
+  data.festivalTheme=null; tempThemeBase64=null;
+  document.getElementById('themePreviewImg').classList.remove('show'); document.getElementById('themePhotoInput').value='';
+  save(); updateFestivalBanner(); alert('✅ Theme Removed - All Members Live Updated');
 };
 function updateFestivalBanner(){
-  let theme=null;try{const g=localStorage.getItem('MASHOOD_FESTIVAL_THEME');if(g)theme=JSON.parse(g);}catch(e){}if(!theme&&data.festivalTheme&&data.festivalTheme.enabled)theme=data.festivalTheme;
-  const banner=document.getElementById('festivalBanner');const img=document.getElementById('festivalImg');const title=document.getElementById('festivalTitle');const sub=document.getElementById('festivalSub');const info=document.getElementById('currentThemeInfo');
-  if(theme&&theme.image&&theme.enabled!==false){
-    if(sessionStorage.getItem('MASHOOD_HIDE_FESTIVAL')==='1'){banner.classList.remove('show');return;}
-    banner.classList.add('show');img.src=theme.image;title.textContent='🎉 '+theme.name;sub.textContent='Mashood Thennala Kuri • '+new Date(theme.date).toLocaleDateString('ml-IN');
-    if(info){info.style.display='block';info.innerHTML=`✅ Current Theme: <b>${theme.name}</b> - Active on all pages<br>📅 Set: ${new Date(theme.date).toLocaleDateString()}`;}
-  }else{banner.classList.remove('show');if(info)info.style.display='none';}
+  // Priority: Firebase live data > local
+  let theme=null;
+  if(data.festivalTheme && data.festivalTheme.enabled!==false && data.festivalTheme.image) theme=data.festivalTheme;
+  else { try{ const g=localStorage.getItem('MASHOOD_FESTIVAL_THEME'); if(g){ const parsed=JSON.parse(g); if(parsed.enabled!==false) theme=parsed; } }catch(e){} }
+  const banner=document.getElementById('festivalBanner');
+  const img=document.getElementById('festivalImg');
+  const title=document.getElementById('festivalTitle');
+  const sub=document.getElementById('festivalSub');
+  const info=document.getElementById('currentThemeInfo');
+  const globalBg=document.getElementById('globalFestivalBg');
+  if(theme && theme.image && theme.enabled!==false){
+    if(sessionStorage.getItem('MASHOOD_HIDE_FESTIVAL')==='1'){ banner.classList.remove('show'); } 
+    else { banner.classList.add('show'); }
+    if(img) img.src=theme.image;
+    if(title) title.textContent='🎉 '+theme.name;
+    if(sub) sub.textContent='Mashood Thennala Kuri • '+new Date(theme.date).toLocaleDateString('ml-IN');
+    if(globalBg){ globalBg.style.backgroundImage=`url('${theme.image}')`; document.body.classList.add('festival-active'); }
+    if(info){ info.style.display='block'; info.innerHTML=`✅ <b>LIVE ACTIVE:</b> ${theme.name}<br>📅 ${new Date(theme.date).toLocaleDateString()} • എല്ലാ Page-ലും Theme ആയി കാണിക്കുന്നു<br>👥 എല്ലാ മെമ്പർക്കും Live Sync ആയി കാണാം`; }
+  }else{
+    banner.classList.remove('show');
+    if(globalBg){ globalBg.style.backgroundImage=''; document.body.classList.remove('festival-active'); }
+    if(info) info.style.display='none';
+  }
 }
-window.hideFestivalForSession=function(){sessionStorage.setItem('MASHOOD_HIDE_FESTIVAL','1');document.getElementById('festivalBanner').classList.remove('show');}
+window.hideFestivalForSession=function(){sessionStorage.setItem('MASHOOD_HIDE_FESTIVAL','1');document.getElementById('festivalBanner').classList.remove('show');};
 
+// ===== WHATSAPP GROUP LINK - LIVE =====
+window.saveWaGroupLink=function(){
+  if(!isAdmin())return alert('Only Admin');
+  const link=document.getElementById('waGroupLinkInput').value.trim() || document.getElementById('waGroupLinkSettingsInput').value.trim();
+  if(!link) return alert('Link ഇടുക');
+  if(!link.includes('chat.whatsapp.com')) return alert('Valid WhatsApp group link ആയിരിക്കണം');
+  data.waGroupLink=link; save();
+  document.getElementById('waGroupLinkInput').value=link;
+  document.getElementById('waGroupLinkSettingsInput').value=link;
+  document.getElementById('waGroupStatus').textContent='✅ Saved & Live for all members!';
+  alert('✅ WA Group Link Saved - Live for all!');
+};
+window.saveWaGroupLinkFromSettings=function(){ saveWaGroupLink(); };
+window.openWhatsAppGroup=function(){
+  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim() || document.getElementById('waGroupLinkSettingsInput').value.trim();
+  if(!link) return alert('Group link സേവ് ചെയ്തിട്ടില്ല');
+  window.open(link,'_blank');
+};
+window.shareWaGroupLink=async function(){
+  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim();
+  if(!link) return alert('Group link ഇല്ല');
+  const shareText=`🎉 ${data.festivalTheme?.name||'Mashood Kuri'} - Join Our WhatsApp Group:\n${link}`;
+  if(navigator.share){
+    try{ await navigator.share({title:'Mashood Kuri WhatsApp Group', text:shareText, url:link}); }catch(e){ copyToClipboard(link); }
+  } else { copyToClipboard(link); alert('Link Copied! Share ചെയ്യാം:\n'+link); }
+};
+function copyToClipboard(t){ navigator.clipboard?.writeText(t).catch(()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }); }
+window.sendMessageToWhatsAppGroup=function(){
+  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim();
+  const msg=document.getElementById('waGroupMessage').value.trim();
+  if(!link) return alert('Group link സേവ് ചെയ്യുക');
+  if(!msg) return alert('Message എഴുതുക');
+  // Save message copy and open group
+  copyToClipboard(msg);
+  document.getElementById('waGroupStatus').textContent='📋 Message Copied! Group തുറക്കുന്നു... Paste ചെയ്യുക';
+  setTimeout(()=>{ window.open(link,'_blank'); }, 500);
+};
 
-function renderAll(){try{data=getCurrentData();if(!data.groups)data.groups=[];if(!data.allWinners)data.allWinners=[];if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';ensureMonthlyPayments();const eligible=getEligible();const removed=data.groups.filter(g=>g.eligibility===false);const totals=calculateTotals();
+function renderAll(){try{data=getCurrentData();if(!data.groups)data.groups=[];if(!data.allWinners)data.allWinners=[];if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';if(!data.waGroupLink)data.waGroupLink='';ensureMonthlyPayments();const eligible=getEligible();const removed=data.groups.filter(g=>g.eligibility===false);const totals=calculateTotals();
 const totalMembers=data.groups.length;
 const pct = totalMembers ? Math.round((totals.paidCount/totalMembers)*100) : 0;
 document.getElementById('collCollected').textContent = totals.thisMonthCollection.toLocaleString('en-IN');
@@ -409,17 +427,14 @@ document.getElementById('collPendingCount').textContent = totalMembers ? totals.
 document.getElementById('collProgressText').textContent = pct+'% • '+totals.paidCount+'/'+totalMembers;
 document.getElementById('collProgressFill').style.width = pct+'%';
 document.getElementById('collReadyText').textContent = totalMembers===25 && pct===100 ? '✓ ₹5L Ready' : totalMembers+'/25 • ₹'+(totalMembers*20000).toLocaleString('en-IN');
-document.getElementById('memberCount').textContent=data.groups.length;document.getElementById('paidCount').textContent=totals.paidCount;document.getElementById('pendingCount').textContent=totals.pending;document.getElementById('monthlyTotal').textContent='₹ '+totals.thisMonthCollection.toFixed(0);const tpm=document.getElementById('totalPaidMonths');if(tpm)tpm.textContent=totals.totalPaidMonths;document.getElementById('drawEligible').textContent=eligible.length;document.getElementById('drawTotal').textContent=data.groups.length;document.getElementById('payoutCollection').textContent='₹ '+totals.collection;document.getElementById('payoutTotal').textContent='₹ '+totals.totalPayout;document.getElementById('payoutBalance').textContent='₹ '+totals.balance;const fr=document.getElementById('fullReport');if(fr)fr.innerHTML=`Members: ${data.groups.length}/25<br>Total: ₹${totals.collection.toLocaleString()}<br>Fixed Model: 25 × ₹20,000 = ₹5,00,000`;let html='';if(data.groups.length===0)html='<div style="text-align:center;color:#888;padding:20px">No Members - Add 25 members</div>';else data.groups.forEach((g,i)=>{const paid=computePaidCount(g);const last4=getLast4(g.phone);html+=`<div class="card" style="margin:8px 0;padding:12px"><div style="display:flex;justify-content:space-between"><strong>👤 ${i+1}. ${g.mainName}</strong>${isAdmin()?`<button onclick="delGroup('${g.id}')" style="border:none;background:#fee;color:#c62828;border-radius:50%;width:28px;height:28px">✕</button>`:''}</div><div style="font-size:.75rem;color:#666">📱 ${g.phone||''} | 🔑 ${last4} | Paid: ${paid}/25</div></div>`;});document.getElementById('membersList').innerHTML=html;const now=new Date();const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');let payHtml='';data.groups.forEach(g=>{const paid=computePaidCount(g);const isPaid=g.monthlyPayments&&g.monthlyPayments[nowKey]===true;payHtml+=`<div class="member-row" style="background:${isPaid?'#d1fae5':'#fff'};border-radius:12px;padding:12px;border:1px solid ${isPaid?'#10b981':'#eee'}"><div><strong>${g.mainName}</strong><br><span style="font-size:.7rem;color:#666">${getLast4(g.phone)} | ${paid}/25</span></div><div>${isAdmin()?`<button class="badge ${isPaid?'paid':'pending'}" style="padding:10px 18px;min-width:100px;border:none" onclick="event.stopPropagation(); toggleCurrentMonthPay('${g.id}')">${isPaid?'✅ Paid':'⏳ Pending'}</button>`:`<span class="badge ${isPaid?'paid':'pending'}">${isPaid?'Paid':'Pending'}</span>`}</div></div>`;});document.getElementById('payList').innerHTML=payHtml||'No members';let payoutHtml='';data.groups.forEach(g=>{(g.payouts||[]).forEach((p,idx)=>{payoutHtml+=`<div class="member-row"><span>${p.date} - ${p.member} - ₹${p.amount}</span><button class="btn-sm btn-danger" onclick="delPayout('${g.id}',${idx})">✕</button></div>`;});});const pl=document.getElementById('payoutList');if(pl)pl.innerHTML=payoutHtml||'No payouts';const mr=document.getElementById('memberReport');if(mr)mr.innerHTML=data.groups.map(g=>`<div class="member-row"><span>${g.mainName} (${getLast4(g.phone)})</span><span>${computePaidCount(g)}/25</span></div>`).join('')||'No data';const payoutSel=document.getElementById('payoutMemberSelect');if(payoutSel){payoutSel.innerHTML='';data.groups.forEach(g=>{const o=document.createElement('option');o.value=g.mainName;o.textContent=g.mainName;payoutSel.appendChild(o);});}const today=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—';document.getElementById('todayWinner').textContent=today;document.getElementById('drawWinner').textContent=today;let hHtml='';if(data.allWinners.length===0)hHtml='No winners';else data.allWinners.slice().reverse().forEach((w,ri)=>{const idx=data.allWinners.length-1-ri;hHtml+=`<div class="card" style="padding:10px"><div style="display:flex;justify-content:space-between"><span>🏆 ${w.mainName}</span><span style="font-size:.7rem">${w.date} ${isAdmin()?`<button onclick="delWinnerOne(${idx})" style="border:none;background:#fee;color:#c00;border-radius:50%;width:20px;height:20px">✕</button>`:''}</span></div></div>`;});document.getElementById('historyList').innerHTML=hHtml;const wsi=document.getElementById('wheelSubInfo');if(wsi)wsi.innerHTML=eligible.length?eligible.map(g=>g.mainName).join(', '):'No members';const rd=document.getElementById('rulesDisplay');if(rd)rd.textContent=data.rules||'';const re=document.getElementById('rulesEdit');if(re)re.value=data.rules||'';const wg=document.getElementById('waGroupLink');if(wg)wg.value=data.waGroupLink||'';renderWAChecklist();let waHtml='';data.groups.forEach(g=>{waHtml+=`<div class="member-row"><span>${g.mainName}</span>${g.phone?`<button class="whatsapp-btn" onclick="openWA('${g.phone}')">Message 💬</button>`:''}</div>`;});const wml=document.getElementById('waMemberList');if(wml)wml.innerHTML=waHtml||'No members';let rHtml='';if(removed.length===0)rHtml='None';else removed.forEach(g=>{rHtml+=`<div class="member-row"><span>🚫 ${g.mainName}</span><button class="btn-sm btn-outline" onclick="bringBack('${g.id}')">Back</button></div>`;});const rl=document.getElementById('removedList');if(rl)rl.innerHTML=rHtml;if(manualTarget){document.getElementById('manualSetInfoDraw')?.classList.remove('hidden');}else{document.getElementById('manualSetInfoDraw')?.classList.add('hidden');}updateMemberPaymentStatus();const isAdminUser=isAdmin();document.querySelectorAll('.admin-only-btn').forEach(el=>{el.style.display=isAdminUser?'':'none';});const memberWheelInfo=document.getElementById('memberWheelInfo');const memberNoSpin=document.getElementById('memberNoSpinMsg');const spinBtn=document.getElementById('spinDrawBtn');if(isAdminUser){if(memberWheelInfo)memberWheelInfo.textContent='👑 ADMIN';if(memberNoSpin)memberNoSpin.classList.add('hidden');if(spinBtn)spinBtn.style.display='';}else{if(memberWheelInfo)memberWheelInfo.textContent='👀 VIEW ONLY';if(memberNoSpin)memberNoSpin.classList.remove('hidden');if(spinBtn)spinBtn.style.display='none';}const banner=document.getElementById('memberWelcomeBanner');const payStatus=document.getElementById('memberPaymentStatus');if(isMember()&&currentMemberName){if(banner)banner.classList.remove('hidden');if(payStatus)payStatus.classList.remove('hidden');const wmn=document.getElementById('welcomeMemberName');if(wmn)wmn.textContent=currentMemberName+'! 🎉';}else{if(banner)banner.classList.add('hidden');if(payStatus)payStatus.classList.add('hidden');}const skd=document.getElementById('settingsKuriDate');if(skd)skd.value=data.nextKuriDate||'';const sbt=document.getElementById('settingsBroadcastTemplate');if(sbt)sbt.value=data.broadcastTemplate||'';updateStatus();drawWheel(currentRot);updateCountdown();updateFestivalBanner();}catch(e){console.error(e);}}
+document.getElementById('memberCount').textContent=data.groups.length;document.getElementById('paidCount').textContent=totals.paidCount;document.getElementById('pendingCount').textContent=totals.pending;document.getElementById('monthlyTotal').textContent='₹ '+totals.thisMonthCollection.toFixed(0);const tpm=document.getElementById('totalPaidMonths');if(tpm)tpm.textContent=totals.totalPaidMonths;document.getElementById('drawEligible').textContent=eligible.length;document.getElementById('drawTotal').textContent=data.groups.length;document.getElementById('payoutCollection').textContent='₹ '+totals.collection;document.getElementById('payoutTotal').textContent='₹ '+totals.totalPayout;document.getElementById('payoutBalance').textContent='₹ '+totals.balance;const fr=document.getElementById('fullReport');if(fr)fr.innerHTML=`Members: ${data.groups.length}/25<br>Total: ₹${totals.collection.toLocaleString()}<br>Fixed Model: 25 × ₹20,000 = ₹5,00,000`;let html='';if(data.groups.length===0)html='<div style="text-align:center;color:#888;padding:20px">No Members - Add 25 members</div>';else data.groups.forEach((g,i)=>{const paid=computePaidCount(g);const last4=getLast4(g.phone);html+=`<div class="card" style="margin:8px 0;padding:12px"><div style="display:flex;justify-content:space-between"><strong>👤 ${i+1}. ${g.mainName}</strong>${isAdmin()?`<button onclick="delGroup('${g.id}')" style="border:none;background:#fee;color:#c62828;border-radius:50%;width:28px;height:28px">✕</button>`:''}</div><div style="font-size:.75rem;color:#666">📱 ${g.phone||''} | 🔑 ${last4} | Paid: ${paid}/25</div></div>`;});document.getElementById('membersList').innerHTML=html;const now=new Date();const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');let payHtml='';data.groups.forEach(g=>{const paid=computePaidCount(g);const isPaid=g.monthlyPayments&&g.monthlyPayments[nowKey]===true;payHtml+=`<div class="member-row" style="background:${isPaid?'#d1fae5':'#fff'};border-radius:12px;padding:12px;border:1px solid ${isPaid?'#10b981':'#eee'}"><div><strong>${g.mainName}</strong><br><span style="font-size:.7rem;color:#666">${getLast4(g.phone)} | ${paid}/25</span></div><div>${isAdmin()?`<button class="badge ${isPaid?'paid':'pending'}" style="padding:10px 18px;min-width:100px;border:none" onclick="event.stopPropagation(); toggleCurrentMonthPay('${g.id}')">${isPaid?'✅ Paid':'⏳ Pending'}</button>`:`<span class="badge ${isPaid?'paid':'pending'}">${isPaid?'Paid':'Pending'}</span>`}</div></div>`;});document.getElementById('payList').innerHTML=payHtml||'No members';let payoutHtml='';data.groups.forEach(g=>{(g.payouts||[]).forEach((p,idx)=>{payoutHtml+=`<div class="member-row"><span>${p.date} - ${p.member} - ₹${p.amount}</span><button class="btn-sm btn-danger" onclick="delPayout('${g.id}',${idx})">✕</button></div>`;});});const pl=document.getElementById('payoutList');if(pl)pl.innerHTML=payoutHtml||'No payouts';const mr=document.getElementById('memberReport');if(mr)mr.innerHTML=data.groups.map(g=>`<div class="member-row"><span>${g.mainName} (${getLast4(g.phone)})</span><span>${computePaidCount(g)}/25</span></div>`).join('')||'No data';const payoutSel=document.getElementById('payoutMemberSelect');if(payoutSel){payoutSel.innerHTML='';data.groups.forEach(g=>{const o=document.createElement('option');o.value=g.mainName;o.textContent=g.mainName;payoutSel.appendChild(o);});}const today=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—';document.getElementById('todayWinner').textContent=today;document.getElementById('drawWinner').textContent=today;let hHtml='';if(data.allWinners.length===0)hHtml='No winners';else data.allWinners.slice().reverse().forEach((w,ri)=>{const idx=data.allWinners.length-1-ri;hHtml+=`<div class="card" style="padding:10px"><div style="display:flex;justify-content:space-between"><span>🏆 ${w.mainName}</span><span style="font-size:.7rem">${w.date} ${isAdmin()?`<button onclick="delWinnerOne(${idx})" style="border:none;background:#fee;color:#c00;border-radius:50%;width:20px;height:20px">✕</button>`:''}</span></div></div>`;});document.getElementById('historyList').innerHTML=hHtml;const wsi=document.getElementById('wheelSubInfo');if(wsi)wsi.innerHTML=eligible.length?eligible.map(g=>g.mainName).join(', '):'No members';const rd=document.getElementById('rulesDisplay');if(rd)rd.textContent=data.rules||'';const wgInput=document.getElementById('waGroupLinkInput');if(wgInput) wgInput.value=data.waGroupLink||'';const wgSet=document.getElementById('waGroupLinkSettingsInput');if(wgSet) wgSet.value=data.waGroupLink||'';renderWAChecklist();let waHtml='';data.groups.forEach(g=>{waHtml+=`<div class="member-row"><span>${g.mainName}</span>${g.phone?`<button class="whatsapp-btn" onclick="openWA('${g.phone}')">Message 💬</button>`:''}</div>`;});let rHtml='';if(removed.length===0)rHtml='None';else removed.forEach(g=>{rHtml+=`<div class="member-row"><span>🚫 ${g.mainName}</span><button class="btn-sm btn-outline" onclick="bringBack('${g.id}')">Back</button></div>`;});const rl=document.getElementById('removedList');if(rl)rl.innerHTML=rHtml;if(manualTarget){document.getElementById('manualSetInfoDraw')?.classList.remove('hidden');}else{document.getElementById('manualSetInfoDraw')?.classList.add('hidden');}updateMemberPaymentStatus();const isAdminUser=isAdmin();document.querySelectorAll('.admin-only-btn').forEach(el=>{el.style.display=isAdminUser?'':'none';});const memberWheelInfo=document.getElementById('memberWheelInfo');const memberNoSpin=document.getElementById('memberNoSpinMsg');const spinBtn=document.getElementById('spinDrawBtn');if(isAdminUser){if(memberWheelInfo)memberWheelInfo.textContent='👑 ADMIN 🔊';if(memberNoSpin)memberNoSpin.classList.add('hidden');if(spinBtn)spinBtn.style.display='';}else{if(memberWheelInfo)memberWheelInfo.textContent='👀 VIEW ONLY 🔊';if(memberNoSpin)memberNoSpin.classList.remove('hidden');if(spinBtn)spinBtn.style.display='none';}const banner=document.getElementById('memberWelcomeBanner');const payStatus=document.getElementById('memberPaymentStatus');if(isMember()&&currentMemberName){if(banner)banner.classList.remove('hidden');if(payStatus)payStatus.classList.remove('hidden');const wmn=document.getElementById('welcomeMemberName');if(wmn)wmn.textContent=currentMemberName+'! 🎉';}else{if(banner)banner.classList.add('hidden');if(payStatus)payStatus.classList.add('hidden');}const skd=document.getElementById('settingsKuriDate');if(skd)skd.value=data.nextKuriDate||'';updateStatus();drawWheel(currentRot);updateCountdown();updateFestivalBanner();}catch(e){console.error(e);}}
 function renderWAChecklist(){const container=document.getElementById('waMemberChecklist');if(!container)return;const members=data.groups||[];if(members.length===0){container.innerHTML='<div style="text-align:center;color:#888;padding:12px">No members</div>';return;}let html='';members.forEach((g,idx)=>{const hasPhone=g.phone&&g.phone.replace(/[^0-9]/g,'').length>=10;html+=`<div class="wa-member-select"><input type="checkbox" id="wa_${idx}" data-phone="${g.phone||''}" data-name="${g.mainName}" onchange="updateWACount()"><label for="wa_${idx}">${g.mainName}</label><span class="wa-phone" style="font-size:.7rem;color:#888">${hasPhone?'📱'+g.phone:'⚠ no phone'}</span></div>`;});container.innerHTML=html;updateWACount();}
 window.toggleAllWA=function(){const checked=document.getElementById('waSelectAll').checked;document.querySelectorAll('#waMemberChecklist input[type="checkbox"]').forEach(cb=>{cb.checked=checked;});updateWACount();};
 window.updateWACount=function(){const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');const total=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]').length;const el=document.getElementById('waSelectedCount');if(el)el.textContent=checks.length+' selected / '+total;};
 window.sendWABroadcast=function(){const msg=document.getElementById('waBroadcastMsg').value.trim();if(!msg)return alert('📝 മെസ്സേജ് എഴുതുക');const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');if(checks.length===0)return alert('👤 ഒരു മെംബറെങ്കിലും തിരഞ്ഞെടുക്കുക');let finalMsg=msg;const tmpl=data.broadcastTemplate||'';if(tmpl.includes('{message}'))finalMsg=tmpl.replace(/{message}/g,msg);let queue=[];checks.forEach(cb=>{const phone=cb.dataset.phone;if(phone){const clean=phone.replace(/[^0-9]/g,'');if(clean.length>=10)queue.push(clean.slice(-10));}});if(queue.length===0)return alert('📱 നമ്പർ ഇല്ല');const status=document.getElementById('waStatus');status.innerHTML=`📤 ${queue.length} പേർക്ക് അയക്കുന്നു...`;let i=0;function openNext(){if(i>=queue.length){status.innerHTML=`✅ ${queue.length} പേർക്ക് WhatsApp തുറന്നു!`;return;}const url='https://wa.me/91'+queue[i]+'?text='+encodeURIComponent(finalMsg);window.open(url,'_blank');status.innerHTML=`📤 ${i+1}/${queue.length} - ${queue[i]} തുറക്കുന്നു...`;i++;setTimeout(openNext,1500);}openNext();};
 window.sendSMSBroadcast=function(){const msg=document.getElementById('waBroadcastMsg').value.trim();if(!msg)return alert('📝 മെസ്സേജ് എഴുതുക');const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');if(checks.length===0)return alert('👤 ഒരു മെംബറെങ്കിലും തിരഞ്ഞെടുക്കുക');let finalMsg=msg;const tmpl=data.broadcastTemplate||'';if(tmpl.includes('{message}'))finalMsg=tmpl.replace(/{message}/g,msg);let phones=[];checks.forEach(cb=>{const phone=cb.dataset.phone;if(phone){const clean=phone.replace(/[^0-9]/g,'').slice(-10);if(clean.length>=10)phones.push('91'+clean);}});if(phones.length===0)return alert('📱 നമ്പർ ഇല്ല');const allNumbers=phones.join(',');const url='sms:'+allNumbers+'?body='+encodeURIComponent(finalMsg);document.getElementById('waStatus').innerHTML=`✉ ${phones.length} പേർക്ക് SMS തയ്യാറാക്കുന്നു...`;window.location.href=url;};
-window.saveBroadcastTemplate=function(){const tmpl=document.getElementById('settingsBroadcastTemplate').value;if(!tmpl)return alert('📝 ടെംപ്ലേറ്റ് എഴുതുക');data.broadcastTemplate=tmpl;save();alert('✅ ടെംപ്ലേറ്റ് സേവ് ചെയ്തു!');};
-window.toggleRulesEdit=function(){const display=document.getElementById('rulesDisplay');const editArea=document.getElementById('rulesEdit');const saveBtn=document.getElementById('saveRules');if(!display||!editArea||!saveBtn)return;if(display.getAttribute('contenteditable')==='true'){const newText=display.textContent;data.rules=newText;editArea.value=newText;save();display.setAttribute('contenteditable','false');display.style.borderColor='transparent';display.style.background='#f9f9f9';editArea.style.display='none';saveBtn.style.display='none';alert('✅ റൂൾസ് സേവ് ചെയ്തു!');}else{display.setAttribute('contenteditable','true');display.style.borderColor='#FFD700';display.style.background='#fff9e6';display.focus();editArea.style.display='block';saveBtn.style.display='block';editArea.value=display.textContent;}};
-document.getElementById('saveRules')?.addEventListener('click',function(){const val=document.getElementById('rulesEdit').value;data.rules=val;const display=document.getElementById('rulesDisplay');if(display)display.textContent=val;save();alert('✅ റൂൾസ് സേവ് ചെയ്തു!');document.getElementById('rulesEdit').style.display='none';this.style.display='none';});
 function drawWheel(rot){const canvas=document.getElementById('wheelCanvas');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,cx=w/2,cy=w/2,r=w/2-10;ctx.clearRect(0,0,w,w);const eligible=getEligible();if(!eligible.length){ctx.fillStyle='#888';ctx.font='bold 18px sans-serif';ctx.textAlign='center';ctx.fillText('No Members - Add First',cx,cy);return;}const seg=(Math.PI*2)/eligible.length;const colors=['#FF3B30','#007AFF','#34C759','#FFCC00','#AF52DE','#FF9500','#5856D6','#FF2D55'];eligible.forEach((g,i)=>{const s=i*seg+rot,e=s+seg;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();ctx.fillStyle=colors[i%colors.length];ctx.fill();ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=2;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(s+seg/2);const tr=r*0.68;ctx.textAlign='right';ctx.fillStyle=(colors[i%colors.length]==='#FFCC00')?'#000':'#fff';let baseSize;if(eligible.length<=4)baseSize=32;else if(eligible.length<=8)baseSize=26;else if(eligible.length<=12)baseSize=20;else if(eligible.length<=20)baseSize=16;else baseSize=13;let displayName=g.mainName.trim();let fontSize=baseSize;ctx.font=`900 ${fontSize}px 'Segoe UI', Arial, sans-serif`;let textWidth=ctx.measureText(displayName).width;let maxWidth=r*0.58;while(textWidth>maxWidth&&fontSize>10){fontSize-=1;ctx.font=`900 ${fontSize}px 'Segoe UI', Arial, sans-serif`;textWidth=ctx.measureText(displayName).width;}if(textWidth>maxWidth){while(displayName.length>2&&ctx.measureText(displayName+'..').width>maxWidth){displayName=displayName.slice(0,-1);}displayName+='..';}ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=4;ctx.shadowOffsetX=1;ctx.shadowOffsetY=1;ctx.fillText(displayName,tr,6);ctx.restore();});ctx.beginPath();ctx.arc(cx,cy,r*0.18,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,9,0,Math.PI*2);ctx.fillStyle='#222';ctx.fill();}
-function spinToWinner(targetId){if(!isAdmin())return alert('Only Admin can spin');if(isSpinning)return;const eligible=getEligible();if(!eligible.length)return alert('No members');isSpinning=true;let winner=null;if(targetId)winner=eligible.find(g=>g.id===targetId);else if(manualTarget)winner=eligible.find(g=>g.id===manualTarget);if(!winner)winner=eligible[Math.floor(Math.random()*eligible.length)];if(!winner)winner=eligible[0];const seg=(Math.PI*2)/eligible.length;const idx=eligible.indexOf(winner);const start=currentRot;let targetAngle=-(idx*seg+seg/2);let curNorm=start%(2*Math.PI);let delta=targetAngle-curNorm;while(delta<0)delta+=2*Math.PI;const full=6+Math.floor(Math.random()*4);const total=delta+full*2*Math.PI;const targetRot=start+total;const dur=5000,st=Date.now();const btn=document.getElementById('spinDrawBtn');if(btn){btn.textContent='🌀 SPINNING...';btn.disabled=true;}function anim(){const el=Date.now()-st,p=Math.min(el/dur,1),eased=1-Math.pow(1-p,3);const cur=start+total*eased;drawWheel(cur);if(p<1)requestAnimationFrame(anim);else{drawWheel(targetRot);currentRot=targetRot%(2*Math.PI);pendingWinner=winner;document.getElementById('winSaveName').textContent=winner.mainName;document.getElementById('winSubInfo').innerHTML='Winner: '+winner.mainName;document.getElementById('winSaveModal').classList.remove('hidden');document.getElementById('todayWinner').textContent='🎉 '+winner.mainName+' 🎉';document.getElementById('drawWinner').textContent='🎉 '+winner.mainName+' 🎉';if(btn){btn.textContent='🎯 SPIN NOW';btn.disabled=false;}isSpinning=false;if(navigator.vibrate)navigator.vibrate([100,50,100]);if(voiceEnabled){const u=new SpeechSynthesisUtterance(`Winner is ${winner.mainName}!`);speechSynthesis.speak(u);}}}anim();}
+function spinToWinner(targetId){if(!isAdmin())return alert('Only Admin can spin');if(isSpinning)return;const eligible=getEligible();if(!eligible.length)return alert('No members');isSpinning=true;let winner=null;if(targetId)winner=eligible.find(g=>g.id===targetId);else if(manualTarget)winner=eligible.find(g=>g.id===manualTarget);if(!winner)winner=eligible[Math.floor(Math.random()*eligible.length)];if(!winner)winner=eligible[0];const seg=(Math.PI*2)/eligible.length;const idx=eligible.indexOf(winner);const start=currentRot;let targetAngle=-(idx*seg+seg/2);let curNorm=start%(2*Math.PI);let delta=targetAngle-curNorm;while(delta<0)delta+=2*Math.PI;const full=6+Math.floor(Math.random()*4);const total=delta+full*2*Math.PI;const targetRot=start+total;const dur=5000,st=Date.now();const btn=document.getElementById('spinDrawBtn');if(btn){btn.textContent='🌀 SPINNING... 🔊';btn.disabled=true;} playSpinSound(); function anim(){const el=Date.now()-st,p=Math.min(el/dur,1),eased=1-Math.pow(1-p,3);const cur=start+total*eased;drawWheel(cur);if(p<1)requestAnimationFrame(anim);else{drawWheel(targetRot);currentRot=targetRot%(2*Math.PI);pendingWinner=winner;document.getElementById('winSaveName').textContent=winner.mainName;document.getElementById('winSubInfo').innerHTML='Winner: '+winner.mainName;document.getElementById('winSaveModal').classList.remove('hidden');document.getElementById('todayWinner').textContent='🎉 '+winner.mainName+' 🎉';document.getElementById('drawWinner').textContent='🎉 '+winner.mainName+' 🎉';if(btn){btn.textContent='🎯 SPIN NOW 🔊';btn.disabled=false;}isSpinning=false; stopSpinSound(true); if(voiceEnabled){const u=new SpeechSynthesisUtterance(`Winner is ${winner.mainName}!`);speechSynthesis.speak(u);}}}anim();}
 document.getElementById('spinDrawBtn')?.addEventListener('click',()=>{spinToWinner(null);});
 document.getElementById('shuffleBtn')?.addEventListener('click',()=>{if(!isAdmin())return;for(let i=data.groups.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]];}save();drawWheel(currentRot);});
 document.getElementById('clearManualBtn')?.addEventListener('click',function(){manualTarget=null;renderAll();});
@@ -443,9 +458,6 @@ window.bringBack=function(id){if(!isAdmin())return;const g=data.groups.find(x=>x
 window.delWinnerOne=function(idx){if(!isAdmin())return;if(!confirm('Delete winner?'))return;const r=data.allWinners.splice(idx,1)[0];const g=data.groups.find(x=>x.mainName===r.mainName);if(g)g.eligibility=true;save();};
 window.delPayout=function(gid,idx){if(!isAdmin())return;const g=data.groups.find(x=>x.id===gid);if(g&&g.payouts){g.payouts.splice(idx,1);save();}};
 window.openWA=function(p){if(!p)return;window.open('https://wa.me/'+p.replace(/[^0-9]/g,''),'_blank');};
-window.saveWaGroupLink=function(){if(!isAdmin())return alert('Only admin');data.waGroupLink=document.getElementById('waGroupLink').value.trim();save();alert('Saved');};
-window.openWhatsAppGroup=function(){const link=data.waGroupLink||document.getElementById('waGroupLink').value.trim();if(!link)return alert('No group link set');window.open(link,'_blank');};
-window.broadcastWhatsApp=function(){const msg=document.getElementById('broadcastMsg').value.trim();if(!msg)return alert('Enter message');window.open('https://wa.me/?text='+encodeURIComponent(msg),'_blank');};
 window.hardReset=function(){if(!confirm('Reset local cache? Firebase safe.'))return;localStorage.removeItem('MASHOOD_ALL_KURIS');localStorage.removeItem('MASHOOD_CURRENT_KURI');sessionStorage.clear();location.reload();};
 document.getElementById('addSingleBtn')?.addEventListener('click',function(){if(!isAdmin())return;const name=document.getElementById('singleName').value.trim();const phone=document.getElementById('singlePhone').value.trim();const amount=parseFloat(document.getElementById('singleAmount').value)||20000;if(!name)return alert('Name required');if(data.groups.find(g=>g.mainName===name))return alert('Name exists');if(phone&&phone.replace(/[^0-9]/g,'').length<10)return alert('10 digits');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:name,phone:phone,subMembers:[],eligibility:true,payouts:[],amount:amount,monthlyPayments:{}});document.getElementById('singleName').value='';document.getElementById('singlePhone').value='';document.getElementById('singleAmount').value='';save();});
 document.getElementById('bulkAddBtn')?.addEventListener('click',function(){if(!isAdmin())return;const txt=document.getElementById('bulkText').value.trim();if(!txt)return;txt.split('\n').forEach(line=>{const parts=line.split(',');const n=parts[0]?.trim();const ph=parts[1]?.trim()||'';const am=parseFloat(parts[2])||20000;if(n&&!data.groups.find(g=>g.mainName===n)){data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(),mainName:n,phone:ph,subMembers:[],eligibility:true,payouts:[],amount:am,monthlyPayments:{}});}});document.getElementById('bulkText').value='';save();});
@@ -463,5 +475,5 @@ renderKuriSelector();
 if(currentRole){document.getElementById('loginScreen').style.display='none';document.getElementById('mainApp').style.display='block';const rd=document.getElementById('roleDisplay');if(rd)rd.textContent=currentRole==='admin'?'👑 Admin':'👤 '+(currentMemberName||'Member');if(currentRole==='admin')initMonthlySelectors();loadKuri(currentKuriId);if(currentRole==='member' && currentMemberName){ setTimeout(()=>speakWelcome(currentMemberName), 1000); }}else{document.getElementById('loginScreen').style.display='flex';document.getElementById('mainApp').style.display='none';}
 drawWheel(0);renderAll();setInterval(updateCountdown,1000);
 </script>
-</body>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
 </html>
