@@ -1,489 +1,213 @@
 <!DOCTYPE html>
-<html lang="ml">
-<head><style>
-@font-face {
-  font-family: "Optimistic";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Optimistic Mono";
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
-}
-:where(html) {
-  font-family: "Optimistic", system-ui, sans-serif;
-}
-:where(code, pre, kbd, samp) {
-  font-family: "Optimistic Mono", ui-monospace, monospace;
-}
-</style>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Mashood V31 - Festival Live Theme + Sound + WA Group</title>
+<html lang="ml"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mashood Thennala Kuri V32</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',sans-serif;background:#f5f7fb;color:#1e293b;padding-bottom:100px;overflow-x:hidden;position:relative}.container{max-width:520px;margin:0 auto;padding:16px;position:relative;z-index:2}.card{background:#fff;border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 4px 12px rgba(0,0,0,.05)}.btn{background:#2E7D32;color:#fff;border:none;padding:12px 20px;border-radius:30px;font-weight:700;width:100%;margin:6px 0;cursor:pointer;font-size:1rem}.btn-outline{background:#fff;border:2px solid #2E7D32;color:#2E7D32}.btn-danger{background:#c62828}.btn-gold{background:#FFD700;color:#000}.btn-sm{padding:6px 10px;font-size:.75rem;width:auto;border-radius:20px;border:none;cursor:pointer}.status{padding:10px;border-radius:12px;text-align:center;font-weight:700;margin-bottom:10px;font-size:.8rem}.live{background:#d1fae5;color:#065f46;border:2px solid #065f46}.local{background:#fef3c7;color:#92400e}
-.hidden{display:none!important}input,select,textarea{width:100%;padding:12px;border-radius:20px;border:2px solid #ddd;margin:8px 0;font-size:1rem;background:#fff;font-family:inherit}textarea{resize:vertical;min-height:60px}.member-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid #eee;gap:8px;flex-wrap:wrap}.winner-display{font-size:1.9rem;font-weight:900;color:#2E7D32;text-align:center;padding:15px 0;min-height:60px}#wheelCanvas{width:100%;aspect-ratio:1/1;border-radius:50%;background:#f0f0f0;touch-action:none;border:4px solid #2E7D32}.wheel-container{position:relative;max-width:380px;margin:auto}.wheel-arrow{position:absolute;top:50%;right:-10px;transform:translateY(-50%) rotate(180deg);font-size:38px;color:#007AFF;filter:drop-shadow(0 2px 4px rgba(0,0,0,.5))}.badge{font-size:.7rem;padding:5px 10px;border-radius:20px;font-weight:700;cursor:pointer;border:none}.paid{background:#2E7D32;color:#fff}.pending{background:#c62828;color:#fff}.login-screen{position:fixed;inset:0;background:linear-gradient(135deg,#2E7D32,#1b5e20);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px}.login-card{background:#fff;border-radius:24px;padding:28px;width:100%;max-width:380px;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.2)}.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px}.modal-card{background:#fff;border-radius:20px;padding:20px;width:100%;max-width:380px;text-align:center}.top-kuri-bar{display:flex;gap:4px;align-items:center;background:#fff;padding:8px 12px;border-radius:30px;margin-bottom:10px;position:sticky;top:0;z-index:30;box-shadow:0 2px 8px rgba(0,0,0,.08)}.top-kuri-bar select{width:auto;flex:1;min-width:70px;max-width:110px;margin:0;padding:7px 10px;font-size:.85rem;font-weight:700;border-radius:20px;border:2px solid #2E7D32;background:#f8fff8}.pass-wrap{position:relative}.pass-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;font-size:1.2rem;cursor:pointer;padding:4px}.report-box{background:linear-gradient(135deg,#f8f9fa,#e9ecef);border-radius:16px;padding:14px;margin:10px 0;border-left:6px solid #2E7D32}
-.tab-bar{display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;padding:10px 10px 14px 10px;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-radius:22px;margin-bottom:14px;position:sticky;top:52px;z-index:20;box-shadow:0 8px 30px rgba(0,0,0,.08), 0 1px 0 rgba(0,0,0,.05) inset;border:1px solid rgba(0,0,0,.06);scrollbar-width:thin;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scroll-snap-type:x proximity;}
-.tab-bar button{scroll-snap-align:start;flex:0 0 auto;min-width:58px;padding:0;border:none;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:all .25s cubic-bezier(.2,1,.3,1);position:relative;}
-.tab-bar::-webkit-scrollbar{display:none}
-.tab-bar button .tab-icon{width:42px;height:42px;border-radius:12px;background:#f3f4f6;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .25s;border:1.5px solid transparent;}
-.tab-bar button .tab-label{font-size:.58rem;font-weight:800;color:#888;letter-spacing:.3px;text-transform:uppercase;}
-.tab-bar button.active .tab-icon{background:linear-gradient(135deg,#1a3a1a,#2E7D32);color:#fff;box-shadow:0 6px 16px rgba(46,125,50,.35);transform:translateY(-2px) scale(1.05);border-color:#4caf50;}
-.tab-bar button.active .tab-label{color:#2E7D32;}
-.tab-bar button.active::after{content:'';position:absolute;bottom:-6px;width:20px;height:3px;background:#2E7D32;border-radius:10px;}
-.tab-bar button.admin-only-btn .tab-icon{background:linear-gradient(135deg,#fff8e1,#ffec8b);border-color:#f9d949;}
-.tab-bar button.admin-only-btn.active .tab-icon{background:linear-gradient(135deg,#d4af37,#ffec8b);color:#000;box-shadow:0 6px 16px rgba(212,175,55,.4);border-color:#d4af37;}
-.welcome-banner{background: radial-gradient(ellipse at top, #2e7d32 0%, #0f2810 40%, #000 100%);border:2px solid #d4af37;border-radius:22px;padding:22px 18px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 10px 40px rgba(46,125,50,.4), 0 0 0 1px rgba(212,175,55,.3) inset;}
-.welcome-banner::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background: linear-gradient(110deg, transparent 40%, rgba(255,255,255,.08) 50%, transparent 60%);animation: movieShine 3.5s infinite;}
-@keyframes movieShine{0%{transform:translateX(-100%) rotate(15deg)}100%{transform:translateX(100%) rotate(15deg)}}
-.wb-badge{display:inline-block;background:linear-gradient(90deg,#d4af37,#ffec8b,#d4af37);color:#000;font-weight:900;font-size:.65rem;letter-spacing:2px;padding:4px 12px;border-radius:30px;margin-bottom:10px;box-shadow:0 2px 10px rgba(255,215,0,.4);position:relative;z-index:2;animation: badgePulse 2s infinite;}
-@keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-#welcomeMemberName{font-size:1.9rem;font-weight:900;background: linear-gradient(180deg,#fff 10%,#ffec8b 60%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.15;position:relative;z-index:2;animation: textPop 0.8s cubic-bezier(.2,1.5,.5,1);}
-@keyframes textPop{0%{transform:scale(.7) translateY(20px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
-#welcomeKuriName{color:#8ec8a0;font-weight:700;font-size:.9rem;margin-top:6px;position:relative;z-index:2;}
-.wb-actions{margin-top:12px;display:flex;gap:8px;justify-content:center;position:relative;z-index:2;}
-.wb-voice-btn{background:rgba(255,255,255,.12);border:1px solid rgba(212,175,55,.4);color:#ffec8b;padding:7px 14px;border-radius:30px;font-size:.75rem;font-weight:800;cursor:pointer;backdrop-filter:blur(6px);}
-.coll-card{background:#fff;border-radius:26px;overflow:hidden;margin:12px 0;border:1.5px solid #e6e6e6;box-shadow:0 12px 40px rgba(0,0,0,.07);position:relative;}
-.coll-header{background:linear-gradient(135deg,#0a1f0a 0%,#1e4d20 60%,#2e7d32 100%);padding:16px 18px 14px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;}
-.coll-header-left b{color:#ffec8b;font-size:.85rem;letter-spacing:1.2px;display:flex;align-items:center;gap:6px;}
-.coll-header-left span{display:block;color:rgba(255,255,255,.6);font-size:.65rem;margin-top:3px;letter-spacing:.5px;}
-.coll-live-dot{background:#00ff6a;width:8px;height:8px;border-radius:50%;display:inline-block;box-shadow:0 0 8px #00ff6a;animation: liveBlink 1.5s infinite;}
-@keyframes liveBlink{0%,100%{opacity:1}50%{opacity:.4}}
-.coll-header-right{background:rgba(255,255,255,.12);border:1px solid rgba(212,175,55,.3);padding:6px 12px;border-radius:20px;color:#d4af37;font-weight:800;font-size:.7rem;backdrop-filter:blur(8px);}
-.coll-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;}
-.coll-box{padding:16px 14px;border-right:1px solid #f0f0f0;border-bottom:1px solid #f0f0f0;position:relative;}
-.coll-box:nth-child(2n){border-right:none}
-.coll-box-label{font-size:.65rem;color:#888;font-weight:700;letter-spacing:.8px;text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:4px}
-.coll-box-value{font-size:1.4rem;font-weight:900;color:#111;line-height:1.1}
-.coll-box-value small{font-size:.9rem;font-weight:700}
-.coll-box-sub{font-size:.7rem;color:#666;margin-top:4px;font-weight:600}
-.coll-box.gold{ background: linear-gradient(135deg,#fffef5,#fff9db); }
-.coll-box.green{ background: linear-gradient(135deg,#f2fbf3,#e8f5e9); }
-.coll-box.dark{ background: linear-gradient(135deg,#0f1a0f,#1a2e1a); color:#fff; }
-.coll-box.dark .coll-box-value{color:#fff}
-.coll-box.dark .coll-box-label{color:#8ec8a0}
-.coll-box.dark .coll-box-sub{color:rgba(255,255,255,.6)}
-.coll-formula{margin:0 14px;background:#fafafa;border:1px dashed #d4d4d4;border-radius:14px;padding:10px 14px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:800;font-size:.8rem;color:#333;margin-top:12px;}
-.coll-formula .f-chip{background:#111;color:#ffec8b;padding:4px 10px;border-radius:20px;font-size:.75rem;}
-.coll-formula .f-eq{color:#2E7D32;font-size:1rem}
-.coll-progress-section{padding:14px 16px 16px}
-.coll-progress-top{display:flex;justify-content:space-between;font-size:.75rem;font-weight:800;margin-bottom:8px}
-.coll-progress-bar{height:10px;background:#eee;border-radius:20px;overflow:hidden;position:relative}
-.coll-progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#2E7D32,#4caf50,#d4af37);width:0%;transition:width 1s ease-out;position:relative}
-.coll-stats{display:flex;gap:8px;margin-top:12px}
-.coll-stat{flex:1;background:#f8f9fa;border-radius:12px;padding:10px;text-align:center;border:1px solid #eee}
-.coll-stat b{display:block;font-size:1.1rem;font-weight:900;color:#111}
-.coll-stat span{font-size:.6rem;color:#888;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.coll-stat.paid b{color:#2E7D32}
-.coll-stat.pending b{color:#c62828}
-.coll-footer{background:#0a0a0a;color:#d4af37;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;font-size:.7rem;font-weight:700;}
-.coll-footer span{color:rgba(255,255,255,.5)}
-.coll-footer b{color:#ffec8b}
-.timer-card{background:linear-gradient(145deg,#0b1a0b 0%,#121212 60%,#1a1a0a 100%);border-radius:24px;padding:18px;margin:12px 0;border:2px solid #d4af37;box-shadow:0 10px 30px rgba(0,0,0,.3), 0 0 20px rgba(212,175,55,.15) inset;position:relative;overflow:hidden;}
-.timer-top{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;margin-bottom:14px;}
-.timer-top-left{display:flex;align-items:center;gap:8px}
-.timer-icon{width:36px;height:36px;background:linear-gradient(135deg,#d4af37,#ffec8b);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 12px rgba(255,215,0,.3);}
-.timer-top-left b{color:#ffec8b;font-size:.9rem;letter-spacing:.5px}
-.timer-top-left span{display:block;color:rgba(255,255,255,.5);font-size:.65rem;font-weight:600;margin-top:1px}
-.timer-edit-btn{background:rgba(255,255,255,.08);border:1px solid rgba(212,175,55,.3);color:#d4af37;padding:6px 12px;border-radius:20px;font-size:.65rem;font-weight:800;cursor:pointer;}
-.timer-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;position:relative;z-index:2;}
-.timer-unit{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:12px 6px;text-align:center;backdrop-filter:blur(10px);position:relative;overflow:hidden;}
-.timer-num{font-size:1.9rem;font-weight:900;color:#fff;line-height:1;letter-spacing:1px;}
-.timer-num.gold{background:linear-gradient(180deg,#fff 40%,#ffec8b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.timer-label{font-size:.55rem;color:rgba(255,255,255,.5);font-weight:800;letter-spacing:1.5px;margin-top:6px;text-transform:uppercase;}
-.timer-date-row{margin-top:14px;background:rgba(0,0,0,.4);border-radius:12px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2;border:1px solid rgba(255,255,255,.06);}
-.timer-date-row span{color:rgba(255,255,255,.6);font-size:.7rem;font-weight:600}
-.timer-date-row b{color:#ffec8b;font-size:.8rem}
-.timer-edit-panel{margin-top:12px;background:rgba(255,255,255,.06);border-radius:14px;padding:12px;display:flex;gap:8px;align-items:center;position:relative;z-index:2;}
-.timer-edit-panel input{flex:1;margin:0;padding:8px 12px;font-size:.8rem;background:rgba(255,255,255,.1);border:1px solid rgba(212,175,55,.4);color:#fff;border-radius:20px;}
-.timer-edit-panel button{padding:8px 16px;border:none;border-radius:20px;background:#FFD700;color:#000;font-weight:800;font-size:.7rem;cursor:pointer;}
-.progress-wrap{background:#e9ecef;border-radius:30px;height:20px;overflow:hidden;margin:8px 0}.progress-fill{height:100%;background:linear-gradient(90deg,#2E7D32,#4CAF50);border-radius:30px;display:flex;align-items:center;justify-content:center;font-size:.7rem;color:#fff;font-weight:700}.pay-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;margin:10px 0}.pay-dot{width:100%;aspect-ratio:1/1;border-radius:50%;border:2px solid #ddd;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:700;background:#f5f5f5}.pay-dot.paid-dot{background:#2E7D32;border-color:#2E7D32;color:#fff}.pay-dot.pending-dot{background:#fff;border-color:#c62828}.wa-member-select{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #eee}.wa-member-select input[type="checkbox"]{width:20px;height:20px;margin:0;accent-color:#25D366;flex-shrink:0}.wa-member-select label{flex:1;font-weight:600;font-size:.9rem}.select-all-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:2px solid #25D366;margin-bottom:8px}.select-all-row input[type="checkbox"]{width:22px;height:22px;accent-color:#25D366}.select-all-row label{font-weight:800;font-size:.95rem}.sms-status{font-size:.7rem;color:#1976D2;margin-top:6px;min-height:20px;font-weight:700}.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:800;cursor:pointer}
-
-/* FESTIVAL GLOBAL THEME */
-#globalFestivalBg{position:fixed;inset:0;z-index:0;background-size:cover;background-position:center;opacity:0;transition:opacity .6s ease;pointer-events:none;filter:blur(1.5px) brightness(0.95);}
-body.festival-active #globalFestivalBg{opacity:0.22;}
-body.festival-active{background:#fffef5;}
-.festival-theme-banner{border-radius:20px;overflow:hidden;margin-bottom:14px;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.18);border:2px solid #d4af37;display:none;z-index:3}
-.festival-theme-banner.show{display:block;animation: festivalPop .6s cubic-bezier(.2,1.5,.5,1);}
-@keyframes festivalPop{0%{transform:scale(.9) translateY(-20px);opacity:0}100%{transform:scale(1) translateY(0);opacity:1}}
-.festival-theme-banner img{width:100%;max-height:380px;object-fit:cover;display:block}
-.festival-theme-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(0deg, rgba(0,0,0,.9) 0%, rgba(0,0,0,.4) 60%, transparent 100%);padding:18px 14px 14px;color:#fff}
-.festival-theme-overlay b{color:#ffec8b;font-size:1.05rem;display:block;letter-spacing:.5px}
-.festival-theme-overlay span{font-size:.75rem;opacity:.9}
-.festival-close{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);font-size:14px;cursor:pointer;backdrop-filter:blur(6px)}
-.theme-upload-card{border:2px dashed #d4af37;background:linear-gradient(135deg,#fffef5,#fff9db);border-radius:20px;padding:16px;margin:12px 0}
-.theme-preview{width:100%;max-height:240px;object-fit:cover;border-radius:14px;margin:10px 0;border:2px solid #eee;display:none}
-.theme-preview.show{display:block}
-.wa-group-card{border:2px solid #25D366;background:linear-gradient(135deg,#f0fff4,#e6ffed);border-radius:20px;padding:16px;margin:12px 0}
-.pulse-dot{width:10px;height:10px;background:#ff3b30;border-radius:50%;display:inline-block;animation:pulse 1.2s infinite;box-shadow:0 0 8px #ff3b30}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.3)}}
-</style>
-</head>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f5f7fb;--c:#fff;--t:#1e293b;--m:#666;--l:#eee;--g:#2E7D32}
+body.dk{--bg:#10151c;--c:#1b2330;--t:#e8edf3;--m:#9aa6b5;--l:#2b3544}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--t);padding-bottom:90px}
+.w{max-width:520px;margin:0 auto;padding:12px}
+.card{background:var(--c);border-radius:18px;padding:14px;margin:10px 0;box-shadow:0 3px 10px rgba(0,0,0,.07)}
+h3{margin-bottom:8px;font-size:1rem}
+.btn{display:block;width:100%;background:var(--g);color:#fff;border:none;padding:12px;border-radius:26px;font-weight:700;font-size:.95rem;margin:6px 0;cursor:pointer;text-align:center;text-decoration:none}
+.o{background:transparent;border:2px solid var(--g);color:var(--g)}.gd{background:#FFD700;color:#000}.rd{background:#c62828}.wa{background:#25D366}
+.sm{display:inline-block;width:auto;padding:6px 12px;font-size:.75rem;margin:0 2px}
+input,select,textarea{width:100%;padding:11px;border-radius:16px;border:2px solid #ccc;margin:5px 0;font-size:1rem;background:var(--c);color:var(--t);font-family:inherit}
+.r{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--l)}
+.r small{color:var(--m)}
+.top{display:flex;gap:6px;align-items:center;position:sticky;top:0;z-index:20;background:var(--c);padding:8px;border-radius:24px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.top select{margin:0;flex:1;padding:6px 10px}
+.st{font-size:.72rem;font-weight:700;padding:3px 8px;border-radius:12px}.on{background:#d1fae5;color:#065f46}.off{background:#fef3c7;color:#92400e}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:10px 2px;scrollbar-width:none}
+.tabs button{flex:0 0 auto;min-width:60px;border:none;background:var(--c);border-radius:14px;padding:8px 6px;font-size:.62rem;font-weight:800;color:var(--m);box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.tabs button b{display:block;font-size:1.2rem}
+.tabs button.a{background:var(--g);color:#fff}
+.bar{height:12px;background:var(--l);border-radius:12px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:linear-gradient(90deg,#2E7D32,#d4af37)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.bx{background:var(--bg);border-radius:14px;padding:12px;text-align:center}.bx b{display:block;font-size:1.3rem}
+.p{padding:4px 10px;border-radius:14px;font-size:.7rem;font-weight:800;border:none;color:#fff}.pd{background:#2E7D32}.pn{background:#c62828}
+.wn{font-size:1.8rem;font-weight:900;color:var(--g);text-align:center;padding:10px}
+.cd{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}.cd div{background:#0b1a0b;color:#ffec8b;border-radius:12px;padding:10px 2px;font-size:1.4rem;font-weight:900}.cd small{display:block;font-size:.55rem;color:#aaa}
+.dots{display:grid;grid-template-columns:repeat(auto-fill,minmax(30px,1fr));gap:5px}.dots i{aspect-ratio:1;border-radius:50%;background:var(--l);font-size:.55rem;font-style:normal;display:flex;align-items:center;justify-content:center}.dots i.y{background:#2E7D32;color:#fff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:500;padding:16px}.hidden{display:none!important}
+.mc{background:var(--c);border-radius:20px;padding:18px;width:100%;max-width:400px;max-height:90vh;overflow:auto}
+.wm{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--l);font-weight:600}.wm input{width:22px;height:22px;margin:0;flex:none}
+#vid{position:fixed;left:10px;right:10px;bottom:10px;z-index:600;background:#0a1f0a;color:#ffec8b;border:2px solid #d4af37;border-radius:18px;padding:10px;display:flex;gap:6px;align-items:center;font-weight:800;font-size:.8rem}
+#vid button{border:none;border-radius:14px;padding:8px 12px;font-weight:800}
+.wb{background:radial-gradient(ellipse at top,#2e7d32,#0f2810 45%,#000);border:2px solid #d4af37;border-radius:22px;padding:24px 14px;text-align:center;position:relative;overflow:hidden;color:#fff;margin:10px 0;box-shadow:0 8px 30px rgba(46,125,50,.4)}
+.wb:before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.14) 50%,transparent 60%);animation:sh 3.5s infinite}
+@keyframes sh{0%{transform:translateX(-100%) rotate(15deg)}100%{transform:translateX(100%) rotate(15deg)}}
+.wb .bg{display:inline-block;background:linear-gradient(90deg,#d4af37,#ffec8b,#d4af37);color:#000;font-weight:900;font-size:.65rem;letter-spacing:2px;padding:4px 12px;border-radius:30px;animation:pl 2s infinite;position:relative}
+@keyframes pl{50%{transform:scale(1.07)}}
+.wb h2{position:relative;font-size:1.9rem;font-weight:900;margin-top:10px;background:linear-gradient(180deg,#fff,#ffec8b 60%,#d4af37);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.wb h2.pp{animation:pop .9s cubic-bezier(.2,1.5,.5,1)}
+@keyframes pop{0%{transform:scale(.6) translateY(20px);opacity:0}100%{transform:none;opacity:1}}
+.wb p{position:relative;color:#8ec8a0;font-weight:700;margin-top:6px}
+.fl{position:absolute;top:-24px;font-size:1.2rem;animation:fall 5s linear infinite}
+@keyframes fall{to{transform:translateY(220px) rotate(360deg);opacity:0}}
+</style></head>
 <body>
-<div id="globalFestivalBg"></div>
-
-<!-- WHEEL SPIN SOUNDS -->
-<audio id="wheelSpinSound" preload="auto" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
-<audio id="wheelTickSound" preload="auto" loop>
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/24/audio_6cc265a55f.mp3?filename=roulette-wheel-spin-121244.mp3" type="audio/mpeg">
-</audio>
-<audio id="wheelWinSound" preload="auto" src="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg"></audio>
-
-<div id="loginScreen" class="login-screen"><div class="login-card"><div style="font-size:3rem;margin-bottom:8px">🪙</div><h2 style="color:#2E7D32;margin-bottom:4px">Mashood thennala</h2><p style="font-size:.8rem;color:#666;margin-bottom:16px">V31 Festival Live • Secure</p><select id="loginRole" style="margin-bottom:8px"><option value="admin">👑 Admin Login</option><option value="member">👤 Member Login</option></select><div id="adminLoginFields"><div style="margin-bottom:6px;font-size:.85rem;color:#555;">Select Kuri:</div><select id="loginKuriSelector" style="margin-bottom:8px;border:2px solid #2E7D32;"><option value="kuri_1">Kuri 1</option><option value="kuri_2">Kuri 2</option><option value="kuri_3">Kuri 3</option><option value="kuri_4">Kuri 4</option></select><div class="pass-wrap"><input id="loginPass" type="password" placeholder="Enter Admin Password"><button class="pass-toggle" id="passToggle" type="button">👁</button></div></div><div id="memberLoginFields" class="hidden"><p style="font-size:.85rem;color:#555;margin-bottom:6px">🔑 Last 4 digits of your phone</p><div class="pass-wrap"><input id="memberPass" type="password" placeholder="4-digit" maxlength="4" inputmode="numeric"><button class="pass-toggle" id="memberPassToggle" type="button">👁</button></div></div><button class="btn" id="loginBtn" style="margin-top:12px">🔓 Secure Login</button><div id="loginMsg" style="color:#c62828;font-weight:700;margin-top:10px;min-height:20px"></div></div></div>
-<div id="winSaveModal" class="modal hidden"><div class="modal-card"><h3>🎉 വിജയി!</h3><div id="winSaveName" style="font-size:2rem;font-weight:900;color:#2E7D32;margin:12px 0">—</div><div id="winSubInfo" style="background:#f5f5f5;padding:10px;border-radius:12px;font-size:.85rem;margin:8px 0"></div><button class="btn" id="confirmSaveWin">✅ Save Winner</button><button class="btn btn-outline" id="cancelSaveWin">❌ Cancel</button></div></div>
-<div id="manualModal" class="modal hidden"><div class="modal-card" style="border:3px solid #FFD700"><h3>👑 Manual Select - Hidden</h3><select id="manualSelect"></select><button class="btn btn-gold" id="confirmManual">✅ Set Hidden</button><button class="btn btn-outline" id="cancelManual">Cancel</button></div></div>
-<div class="container" id="mainApp" style="display:none">
-<div id="status" class="status local">⏳ Connecting...</div>
-<div class="top-kuri-bar"><span id="roleDisplay" style="background:#FFD700;color:#000;padding:4px 10px;border-radius:20px;font-size:.75rem;font-weight:800">👑</span><select id="kuriSelector"></select><button class="btn-sm btn-danger" onclick="logout()">Out</button></div>
-
-<!-- FESTIVAL BANNER - ALL PAGES LIVE -->
-<div class="festival-theme-banner" id="festivalBanner">
-<img id="festivalImg" src="" alt="Festival">
-<div class="festival-theme-overlay"><b id="festivalTitle">Festival Wishes</b><span id="festivalSub">Mashood Thennala Kuri</span></div>
-<button class="festival-close" onclick="hideFestivalForSession()">✕</button>
-</div>
-
-<div class="tab-bar">
-  <button class="active" data-tab="home"><div class="tab-icon">◉</div><div class="tab-label">Home</div></button>
-  <button data-tab="members"><div class="tab-icon">◎</div><div class="tab-label">Members</div></button>
-  <button data-tab="addmember" class="admin-only-btn"><div class="tab-icon">＋</div><div class="tab-label">Add</div></button>
-  <button data-tab="monthly" class="admin-only-btn"><div class="tab-icon">◍</div><div class="tab-label">Monthly</div></button>
-  <button data-tab="wheel"><div class="tab-icon">⦿</div><div class="tab-label">Wheel</div></button>
-  <button data-tab="payments"><div class="tab-icon">₹</div><div class="tab-label">Pay</div></button>
-  <button data-tab="payout"><div class="tab-icon">₴</div><div class="tab-label">Payout</div></button>
-  <button data-tab="reports"><div class="tab-icon">▤</div><div class="tab-label">Report</div></button>
-  <button data-tab="rules"><div class="tab-icon">≡</div><div class="tab-label">Rules</div></button>
-  <button data-tab="whatsapp"><div class="tab-icon">✆</div><div class="tab-label">WA</div></button>
-  <button data-tab="history"><div class="tab-icon">↻</div><div class="tab-label">History</div></button>
-  <button data-tab="settings"><div class="tab-icon">⚙</div><div class="tab-label">Settings</div></button>
-</div>
-
-<div id="tab-home" class="tab">
-  <div id="memberWelcomeBanner" class="hidden welcome-banner"><div class="wb-badge">✦ MASHOOD THENNALA KURI ✦</div><h2 id="welcomeMemberName">Welcome!</h2><p id="welcomeKuriName">Kuri 1</p><div class="wb-actions"><button class="wb-voice-btn" onclick="speakWelcome(currentMemberName||'Member')">🔊 Voice</button><button class="wb-voice-btn" id="voiceToggleBtn" onclick="toggleVoice()">🔇 ON</button></div></div>
-  <div class="coll-card" id="collectionCard"><div class="coll-header"><div class="coll-header-left"><b><span class="coll-live-dot"></span> COLLECTION SUMMARY</b><span id="collKuriName">25 പേർ × ₹20,000 = ₹5,00,000</span></div><div class="coll-header-right" id="collStatusBadge">₹5L • READY</div></div><div class="coll-grid"><div class="coll-box gold"><div class="coll-box-label">👥 Members</div><div class="coll-box-value">25</div><div class="coll-box-sub">Fixed</div></div><div class="coll-box"><div class="coll-box-label">💵 Per Person</div><div class="coll-box-value"><small>₹</small>20,000</div><div class="coll-box-sub">ഒരാൾക്ക്</div></div><div class="coll-box dark"><div class="coll-box-label">💰 Total Pool</div><div class="coll-box-value"><small>₹</small>5,00,000</div><div class="coll-box-sub">25 × 20k</div></div><div class="coll-box green"><div class="coll-box-label">✅ This Month</div><div class="coll-box-value"><small>₹</small><span id="collCollected">0</span></div><div class="coll-box-sub" id="collCollectedSub">Collected</div></div></div><div class="coll-formula"><span class="f-chip">25</span><span>×</span><span class="f-chip">₹20,000</span><span class="f-eq">=</span><span class="f-chip" style="background:#2E7D32;color:#fff">₹5,00,000</span></div><div class="coll-progress-section"><div class="coll-progress-top"><span>Progress</span><span id="collProgressText" style="color:#2E7D32">0% Complete</span></div><div class="coll-progress-bar"><div class="coll-progress-fill" id="collProgressFill"></div></div><div class="coll-stats"><div class="coll-stat paid"><b id="collPaidCount">0</b><span>Paid</span></div><div class="coll-stat pending"><b id="collPendingCount">25</b><span>Pending</span></div><div class="coll-stat"><b>₹5L</b><span>Target</span></div></div></div><div class="coll-footer"><span>25 × ₹20,000 = ₹5,00,000</span><b id="collReadyText">✓ Ready</b></div></div>
-  <div class="timer-card"><div class="timer-top"><div class="timer-top-left"><div class="timer-icon">⏳</div><div><b>KURI DAY COUNTDOWN</b><span id="timerKuriLabel">Next Kuri Date</span></div></div><button class="timer-edit-btn admin-only-btn" onclick="toggleTimerEdit()">✏ Edit</button></div><div class="timer-grid"><div class="timer-unit"><div class="timer-num gold" id="cdDays">--</div><div class="timer-label">Days</div></div><div class="timer-unit"><div class="timer-num" id="cdHours">--</div><div class="timer-label">Hours</div></div><div class="timer-unit"><div class="timer-num" id="cdMins">--</div><div class="timer-label">Mins</div></div><div class="timer-unit"><div class="timer-num" id="cdSecs">--</div><div class="timer-label">Secs</div></div></div><div class="timer-date-row"><span>📅 Date:</span><b id="countdownSub">തീയതി സജ്ജമാക്കുക</b></div><div class="timer-edit-panel hidden admin-only-btn" id="timerEditPanel"><input type="date" id="nextKuriDate"><button onclick="setKuriDate()">Set Date</button></div></div>
-  <div class="card"><h3>🏆 <span class="kuriNameDisplay">Kuri 1</span> - Winner</h3><div class="winner-display" id="todayWinner">—</div></div>
-  <div id="memberPaymentStatus" class="hidden card" style="border:2px solid #2E7D32"><h3>💳 Your Payments</h3><div style="display:flex;justify-content:space-between;margin:8px 0"><span>Paid: <strong id="memPaidCount">0</strong></span><span>Remaining: <strong id="memRemainingCount">25</strong></span></div><div>Amount: <span id="memAmountPaid">₹ 0</span></div><div class="progress-wrap"><div class="progress-fill" id="memProgressFill" style="width:0%">0%</div></div><div class="pay-grid" id="memberPayGrid"></div><div id="memPaidMonths" style="font-size:.7rem;color:#666"></div></div>
-</div>
-
-<div id="tab-members" class="tab hidden"><div class="card"><h3>👥 Members - <span id="memberCount">0</span></h3><div id="membersList"></div></div></div>
-<div id="tab-addmember" class="tab hidden"><div class="card" style="border:2px solid #2E7D32"><h3>➕ Add Member</h3><input id="singleName" placeholder="Name"><input id="singlePhone" placeholder="Phone 10 digit"><input id="singleAmount" type="number" placeholder="Amount - 20000"><button class="btn" id="addSingleBtn">✅ Add Member</button></div><div class="card"><h3>📋 Bulk Add</h3><textarea id="bulkText" rows="3" placeholder="Name,Phone,Amount"></textarea><button class="btn btn-gold" id="bulkAddBtn">📋 Bulk Add</button></div><div class="card" style="border:2px solid #1565c0"><h3>🏠 Group Add</h3><input id="mainName" placeholder="Group Head Name"><input id="mainPhone" placeholder="Head Phone"><input id="mainAmount" type="number" placeholder="Amount 20000" value="20000"><textarea id="subText" rows="3" placeholder="Sub Members - one per line"></textarea><button class="btn" style="background:#1565c0" id="addGroupBtn">🏠 Add Group</button></div></div>
-<div id="tab-monthly" class="tab hidden"><div class="card"><h3>📆 Monthly</h3><div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px"><select id="monthSelectMonthly"></select><select id="yearSelectMonthly"></select><button class="btn-sm" id="loadMonthBtn" style="background:#2E7D32;color:#fff;padding:8px 16px;">Load</button><button class="btn-sm btn-danger" id="clearMonthBtn" style="background:#c62828;color:#fff;padding:8px 16px;">Clear</button></div><div id="monthlyPayList"></div></div></div>
-
-<div id="tab-wheel" class="tab hidden"><div class="card" style="background:#1a1a2e;color:#fff"><h3 style="color:#fff">🎡 <span class="kuriNameDisplay">Kuri 1</span> <span id="memberWheelInfo" style="font-size:.7rem;background:#FFD700;color:#000;padding:4px 8px;border-radius:10px;margin-left:6px">VIEW ONLY</span> <span style="font-size:.65rem;margin-left:8px"><span class="pulse-dot"></span> LIVE SOUND ON</span></h3><div class="wheel-container"><div class="wheel-arrow">▶</div><canvas id="wheelCanvas" width="500" height="500" style="box-shadow:0 8px 30px rgba(0,0,0,.4);border-radius:50%"></canvas></div><button class="btn admin-only-btn" id="spinDrawBtn" style="padding:16px;margin-top:14px;background:#FF3B30;font-size:1.2rem;font-weight:900">🎯 SPIN NOW 🔊</button><div id="memberNoSpinMsg" class="hidden" style="background:#fff3cd;color:#000;padding:12px;border-radius:12px;text-align:center;font-weight:700;margin-top:14px">👀 Member View Only - Sound കേൾക്കാം</div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-outline admin-only-btn" id="shuffleBtn" style="border-color:#FF9800;color:#FF9800;flex:1">🔀 Shuffle</button><button class="btn btn-outline" onclick="testWheelSound()" style="border-color:#00ff6a;color:#00ff6a;flex:1">🔊 Test Sound</button></div><div id="wheelSubInfo" style="background:rgba(255,255,255,.1);padding:10px;border-radius:12px;font-size:.8rem;margin:8px 0;text-align:center;color:#fff"></div><div style="display:flex;justify-content:space-between;background:rgba(255,255,255,.1);padding:10px;border-radius:12px;color:#fff"><span>Wheel: <strong id="drawEligible">0</strong></span><span>Total: <strong id="drawTotal">0</strong></span></div><div id="manualSetInfoDraw" class="hidden" style="background:#fff3cd;color:#000;padding:10px;border-radius:12px;text-align:center;font-weight:800;border:2px dashed #FFD700;margin:8px 0">🎯 Manual Hidden</div><div class="winner-display" id="drawWinner" style="color:#FFD700">—</div><button class="btn btn-outline admin-only-btn" id="bringBackBtn">↩ Bring All Back</button><button class="btn btn-danger admin-only-btn" id="removeWinnerBtn">🗑 Remove Last Winner</button></div><div class="card"><h3>🚫 Removed</h3><div id="removedList"></div></div><div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:14px 0 20px 0;"><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#000;color:#FFD700;border-radius:20px;border:1px solid #FFD700;font-weight:800;cursor:pointer;" id="manualBtn">👤 Manual Select</button><button class="admin-only-btn" style="font-size:.75rem;padding:10px 20px;background:#fff;color:#FF9800;border-radius:20px;border:2px solid #FF9800;font-weight:800;cursor:pointer;" id="clearManualBtn">✖ Clear Manual</button></div></div>
-
-<div id="tab-payments" class="tab hidden"><div class="card report-box"><div>ഈ മാസം Collection: <span id="monthlyTotal" style="font-size:1.5rem;color:#2E7D32;font-weight:900">₹0</span></div><div>Paid: <span id="paidCount">0</span> | Pending: <span id="pendingCount">0</span> | Total: <span id="totalPaidMonths">0</span></div></div><div class="card"><div id="payList"></div></div></div>
-<div id="tab-payout" class="tab hidden"><div class="card report-box" style="background:#fff8e1"><h3>💸 Payout</h3><div>Collection: <span id="payoutCollection">₹0</span></div><div>Payout: <span id="payoutTotal">₹0</span></div><div>Balance: <span id="payoutBalance">₹0</span></div></div><div class="card"><div id="payoutList"></div></div><div class="card admin-only-btn"><h3>➕ Add Payout</h3><input type="date" id="payoutDate"><input type="number" id="payoutAmount" placeholder="Amount"><select id="payoutMemberSelect"></select><button class="btn btn-gold" id="addPayout">➕ Add Payout</button></div></div>
-<div id="tab-reports" class="tab hidden"><div class="card report-box"><h3>📊 Report</h3><div id="fullReport"></div></div><div class="card"><div id="memberReport"></div></div></div>
-<div id="tab-rules" class="tab hidden"><div class="card"><h3>📜 Rules</h3><div id="rulesDisplay" style="white-space:pre-wrap;background:#f9f9f9;padding:14px;border-radius:12px;min-height:80px"></div></div></div>
-
-<div id="tab-whatsapp" class="tab hidden">
-  <!-- WHATSAPP GROUP LINK CARD -->
-  <div class="wa-group-card">
-    <h3>👥 WhatsApp Group - Live Link</h3>
-    <p style="font-size:.75rem;color:#666;margin:6px 0">Group Link ഇവിടെ സേവ് ചെയ്താൽ എല്ലാവർക്കും Live ആയി കിട്ടും. Share ചെയ്ത് Group-ലേക്ക് Message അയക്കാം.</p>
-    <input id="waGroupLinkInput" placeholder="https://chat.whatsapp.com/....">
-    <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
-      <button class="btn" style="background:#25D366;flex:1" onclick="saveWaGroupLink()">💾 Save Link</button>
-      <button class="btn btn-outline" style="border-color:#25D366;color:#25D366;flex:1" onclick="openWhatsAppGroup()">👥 Open Group</button>
-      <button class="btn" style="background:#000;color:#FFD700;flex:1" onclick="shareWaGroupLink()">🔗 Share Link</button>
-    </div>
-    <textarea id="waGroupMessage" rows="2" placeholder="Group-ലേക്ക് അയക്കാനുള്ള Message എഴുതുക... Ex: Onam Ashamshakal! Tomorrow Kuri"></textarea>
-    <button class="btn" style="background:#128C7E;margin-top:6px" onclick="sendMessageToWhatsAppGroup()">📢 Group-ലേക്ക് Message അയക്കുക</button>
-    <div id="waGroupStatus" style="font-size:.7rem;color:#065f46;margin-top:8px;font-weight:700;min-height:18px"></div>
-  </div>
-
-  <div class="card" style="border:2px solid #25D366"><h3>💬 Individual Broadcast</h3><div class="select-all-row"><input type="checkbox" id="waSelectAll" onchange="toggleAllWA()"><label for="waSelectAll">Select All</label><span style="font-size:.7rem;color:#888;margin-left:auto" id="waSelectedCount">0 selected</span></div><div id="waMemberChecklist"></div><textarea id="waBroadcastMsg" rows="3" placeholder="Message to selected members..."></textarea><div style="display:flex;gap:6px;margin-top:8px"><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#25D366;color:#fff" onclick="sendWABroadcast()">📱 WhatsApp</button><button class="btn" style="flex:1;padding:12px;font-weight:800;background:#1976D2;color:#fff" onclick="sendSMSBroadcast()">✉ SMS</button></div><div id="waStatus" class="sms-status"></div></div>
-</div>
-
-<div id="tab-history" class="tab hidden"><div class="card"><h3>📜 History</h3><div id="historyList"></div></div></div>
-<div id="tab-settings" class="tab hidden">
-
-<div class="theme-upload-card">
-<h3 style="color:#0a1f0a">🎉 Festival Theme Photo - LIVE for All Members</h3>
-<p style="font-size:.78rem;color:#333;margin:6px 0;line-height:1.4">📸 Photo upload ചെയ്താൽ <b>Firebase വഴി LIVE</b> ആയി എല്ലാ മെമ്പർമാരുടെയും ഫോണിൽ എല്ലാ Page-ലും മുകളിൽ Banner ആയും പിന്നിൽ Theme ആയും വരും. Onam / Vishu / Perunnal / Nabidina വരെ Remove ചെയ്യുന്നതുവരെ നിൽക്കും.</p>
-<label style="font-weight:800;font-size:.8rem;margin-top:10px;display:block">📸 Festival Photo (Max 1.5MB - Auto Compressed):</label>
-<input type="file" id="themePhotoInput" accept="image/*" style="border:2px dashed #d4af37;background:#fff">
-<label style="font-weight:800;font-size:.8rem;margin-top:10px;display:block">🏷️ Festival Name:</label>
-<select id="themeNameSelect" style="border:2px solid #d4af37"><option value="Onam Ashamshakal">🌼 Onam Ashamshakal</option><option value="Vishu Ashamshakal">🌾 Vishu Ashamshakal</option><option value="Eid Mubarak">🌙 Eid Mubarak - Perunnal Ashamshakal</option><option value="Nabidina Ashamshakal">✨ Nabidina Ashamshakal</option><option value="Christmas Ashamshakal">🎄 Christmas Ashamshakal</option><option value="New Year Ashamshakal">🎉 New Year Ashamshakal</option><option value="Custom Festival">🎊 Custom Festival</option></select>
-<input id="themeCustomName" placeholder="Custom name - Ex: Onam 2025" style="display:none">
-<img id="themePreviewImg" class="theme-preview" src="">
-<div style="display:flex;gap:8px;margin-top:12px"><button class="btn" style="background:#0a1f0a;color:#ffec8b;flex:1" onclick="saveThemePhoto()">💾 LIVE Save - All Members</button><button class="btn btn-danger" style="flex:0 0 auto" onclick="removeThemePhoto()">🗑 Remove</button></div>
-<div id="currentThemeInfo" style="margin-top:12px;background:#e8f5e9;padding:10px;border-radius:12px;font-size:.75rem;display:none"></div>
-</div>
-
-<div class="wa-group-card">
-<h3>👥 WhatsApp Group Link Settings (Admin)</h3>
-<input id="waGroupLinkSettingsInput" placeholder="https://chat.whatsapp.com/...">
-<button class="btn" style="background:#25D366" onclick="saveWaGroupLinkFromSettings()">💾 Save WA Group Link - Live</button>
-</div>
-
-<div class="card"><h3>⚙ Settings</h3><div style="margin:8px 0"><label style="font-weight:700;font-size:.85rem">📅 Next Kuri Date</label><input type="date" id="settingsKuriDate"><button class="btn btn-gold" onclick="setKuriDateFromSettings()">📌 Set Date</button></div><div style="margin:8px 0;border-top:1px solid #eee;padding-top:12px"><label style="font-weight:700;font-size:.85rem">🔊 Voice & Sound</label><div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap"><button class="btn btn-sm" onclick="testVoice()" style="background:#000;color:#FFD700">Test Voice</button><button class="btn btn-sm" onclick="toggleVoice()" style="background:#fff;border:2px solid #2E7D32;color:#2E7D32">Voice ON/OFF</button><button class="btn btn-sm" onclick="testWheelSound()" style="background:#FF3B30;color:#fff">🎡 Test Wheel Sound</button></div></div></div>
-</div>
-</div>
-
+<div class="w" id="app"><div class="card" style="text-align:center;margin-top:40px"><div style="font-size:2.5rem">🪙</div><h3>Mashood Thennala Kuri</h3><p>⏳ Loading...</p><p style="font-size:.8rem;color:#c62828;margin-top:8px">ഇത് മാറുന്നില്ലെങ്കിൽ ഫയൽ Chrome ബ്രൗസറിൽ (ഇന്റർനെറ്റ് ഓൺ ആക്കി) തുറക്കുക.</p></div></div>
+<div id="modal" class="modal hidden"><div class="mc" id="mc"></div></div>
+<div id="vid" class="hidden"><span style="flex:1">🎥 Spin Video തയ്യാർ</span><button id="vs" style="background:#25D366;color:#fff">📤 Share</button><button id="vd" style="background:#FFD700">⬇ Save</button><button id="vx" style="background:#333;color:#fff">✕</button></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-import { getDatabase, ref, onValue, set, get, child } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
-const firebaseConfig = { apiKey: "AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0", authDomain: "mashood-kuri.firebaseapp.com", databaseURL: "https://mashood-kuri-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "mashood-kuri", storageBucket: "mashood-kuri.firebasestorage.app", messagingSenderId: "1016691708150", appId: "1:1016691708150:web:02d79ef9ddc5dff3285cd7" };
-let db=null,firebaseConnected=false,dbRef=null; try{const app=initializeApp(firebaseConfig);db=getDatabase(app);const cRef=ref(db,'.info/connected');onValue(cRef,s=>{firebaseConnected=s.val()===true;updateStatus();});}catch(e){}
-const MONTHS=['ജനു','ഫെബ്രു','മാർച്ച്','ഏപ്രിൽ','മെയ്','ജൂൺ','ജൂലൈ','ഓഗ','സെപ്റ്റം','ഒക്ടോ','നവം','ഡിസം'];const TOTAL_INSTALLMENTS=25;
-let currentRole=sessionStorage.getItem('mashood_role')||null;let currentMemberName=sessionStorage.getItem('mashood_member')||null;let currentRot=0,manualTarget=null,pendingWinner=null,isSpinning=false;
-let currentKuriId=localStorage.getItem('MASHOOD_CURRENT_KURI')||'kuri_1';let allKuriData={};try{const st=localStorage.getItem('MASHOOD_ALL_KURIS');if(st)allKuriData=JSON.parse(st);}catch(e){allKuriData={};}
-let voiceEnabled = localStorage.getItem('MASHOOD_VOICE') !== 'off';
+import {initializeApp} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+import {getDatabase,ref,onValue,set,get} from "https://www.gstatic.com/firebasejs/9.22.0/firebase-database.js";
+const db=getDatabase(initializeApp({apiKey:"AIzaSyAMgfioVqgKQfOfiPsc1TDlTuWZZyH0Zq0",authDomain:"mashood-kuri.firebaseapp.com",databaseURL:"https://mashood-kuri-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"mashood-kuri",appId:"1:1016691708150:web:02d79ef9ddc5dff3285cd7"}));
+const $=id=>document.getElementById(id),W=o=>Object.assign(window,o);
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const PASS='ma7hood',KS=['kuri_1','kuri_2','kuri_3','kuri_4'],MKF=()=>{const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')};
+const l4=p=>(p||'').replace(/\D/g,'').slice(-4);
+let fresh=true,wk='',role=sessionStorage.role||'',me=sessionStorage.me||'',kid=localStorage.kid||'kuri_1',tab='home',pm=MKF(),lrole='admin',conn=false,data=norm(),ext={},u1,u2,spinning=false,rot=0,win=null,winTxt='',preWin=null;
+if(localStorage.dk==='1')document.body.classList.add('dk');
+function norm(v){v=v||{};const g=v.groups?Object.values(v.groups):[];g.forEach(x=>{x.monthlyPayments=x.monthlyPayments||{};x.payouts=x.payouts?Object.values(x.payouts):[];x.subMembers=x.subMembers?Object.values(x.subMembers):[]});return Object.assign({nextKuriDate:'',upi:null,waGroupLink:''},v,{groups:g,allWinners:v.allWinners?Object.values(v.allWinners):[]})}
+const save=()=>set(ref(db,'mashood_kuri_'+kid),JSON.parse(JSON.stringify(data)));
+const elig=()=>data.groups.filter(g=>g.eligibility!==false),paid=(g,m)=>!!g.monthlyPayments[m||MKF()],cnt=g=>Object.values(g.monthlyPayments).filter(Boolean).length;
+const reqs=()=>Object.entries(ext).map(([id,r])=>Object.assign({id},r)),meG=()=>data.groups.find(g=>g.mainName===me);
+const kname='Kuri '+(kid.split('_')[1]||1);
+onValue(ref(db,'.info/connected'),s=>{conn=s.val()===true;draw()});
+function watch(){if(u1)u1();if(u2)u2();u1=onValue(ref(db,'mashood_kuri_'+kid),s=>{data=norm(s.val());draw()});u2=onValue(ref(db,'mashood_ext/'+kid+'/req'),s=>{ext=s.val()||{};draw()})}
+function dl(b,n){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),500)}
 
-// === SOUND SYSTEM ===
-let audioCtx=null;
-function getAudioCtx(){if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); return audioCtx;}
-let spinTickInterval=null;
-function playSpinSound(){
-  try{
-    const tick=document.getElementById('wheelTickSound');
-    if(tick){ tick.currentTime=0; tick.volume=0.7; tick.play().catch(()=>{}); }
-    // WebAudio tick overlay
-    const ctx=getAudioCtx();
-    if(spinTickInterval) clearInterval(spinTickInterval);
-    spinTickInterval=setInterval(()=>{
-      const osc=ctx.createOscillator();
-      const gain=ctx.createGain();
-      osc.frequency.value= 800 + Math.random()*200;
-      gain.gain.value=0.08;
-      osc.connect(gain); gain.connect(ctx.destination);
-      osc.start(); osc.stop(ctx.currentTime+0.08);
-    }, 120);
-  }catch(e){}
-}
-function stopSpinSound(isWin=false){
-  try{
-    clearInterval(spinTickInterval);
-    const tick=document.getElementById('wheelTickSound');
-    if(tick){ tick.pause(); tick.currentTime=0; }
-    if(isWin){
-      const win=document.getElementById('wheelWinSound');
-      if(win){ win.currentTime=0; win.volume=0.8; win.play().catch(()=>{}); }
-      if(navigator.vibrate) navigator.vibrate([100,50,200,50,300]);
-      // confetti beep
-      const ctx=getAudioCtx();
-      [0,150,300].forEach((d,i)=>{
-        setTimeout(()=>{
-          const osc=ctx.createOscillator(); const g=ctx.createGain();
-          osc.frequency.value= 600 + i*200;
-          g.gain.value=0.2; osc.connect(g); g.connect(ctx.destination);
-          osc.start(); osc.stop(ctx.currentTime+0.25);
-        }, d);
-      });
-    }
-  }catch(e){}
-}
-window.testWheelSound=function(){playSpinSound(); setTimeout(()=>stopSpinSound(true), 2000);};
+/* ===== DRAW ===== */
+const cv=document.createElement('canvas');cv.width=cv.height=500;cv.style.cssText='width:100%;border-radius:50%;border:4px solid #2E7D32;background:#f0f0f0;display:block';
+function draw(force){
+ if(spinning)return;const a=document.activeElement;if(!force&&a&&/INPUT|TEXTAREA|SELECT/.test(a.tagName)&&$('app').contains(a))return;
+ $('app').innerHTML=role?shell():login();
+ if(tab==='wheel'&&role&&$('wh')){$('wh').appendChild(cv);drawWheel(rot)}
+ const qb=$('qr'),u=data.upi,g=meG();if(qb&&u&&u.id&&g&&window.QRCode)new QRCode(qb,{text:'upi://pay?pa='+u.id+'&pn='+(u.name||'Kuri')+'&am='+(g.amount||20000)+'&cu=INR&tn=Kuri',width:180,height:180});
+ fresh=false;tick()}
+function login(){return '<div style="min-height:90vh;display:flex;align-items:center"><div class="card" style="width:100%;text-align:center"><div style="font-size:3rem">🪙</div><h2 style="color:var(--g)">Mashood Thennala Kuri</h2><p style="font-size:.8rem;color:var(--m);margin-bottom:10px">V32 • Live</p><select id="lr" onchange="setRole(this.value)"><option value="admin"'+(lrole==='admin'?' selected':'')+'>👑 Admin</option><option value="member"'+(lrole==='member'?' selected':'')+'>👤 Member</option></select>'+(lrole==='admin'?'<select id="lk">'+KS.map(k=>'<option value="'+k+'"'+(k===kid?' selected':'')+'>Kuri '+k.split('_')[1]+'</option>').join('')+'</select><input id="lp" type="password" placeholder="Admin Password">':'<input id="lp" type="password" maxlength="4" inputmode="numeric" placeholder="ഫോൺ നമ്പറിന്റെ അവസാന 4 അക്കം">')+'<button class="btn" onclick="login()">🔓 Login</button><div id="lm" style="color:#c62828;font-weight:700;min-height:20px"></div></div></div>'}
+const adm=()=>role==='admin';
+function shell(){
+ const pr=reqs().filter(x=>x.s==='p').length;
+ const T=adm()?[['home','🏠','Home'],['members','👥','Members'],['pay','₹','Pay'],['wheel','🎡','Wheel'],['upi','💳','Pay+'+(pr?' ('+pr+')':'')],['hist','↻','History'],['rules','📜','Rules'],['set','⚙','Settings']]:[['home','🏠','Home'],['members','👥','Members'],['wheel','🎡','Wheel'],['upi','💳','Pay Now'],['hist','↻','History'],['rules','📜','Rules']];
+ return '<div class="top"><span class="st '+(conn?'on':'off')+'">'+(conn?'✅ LIVE':'⚠ OFFLINE')+'</span>'+(adm()?'<select onchange="chK(this.value)">'+KS.map(k=>'<option value="'+k+'"'+(k===kid?' selected':'')+'>Kuri '+k.split('_')[1]+'</option>').join('')+'</select>':'<b style="flex:1;font-size:.85rem">👤 '+esc(me)+' • '+kname+'</b>')+'<button class="btn rd sm" onclick="logout()">Out</button></div><div class="tabs">'+T.map(t=>'<button class="'+(tab===t[0]?'a':'')+'" onclick="go(\''+t[0]+'\')"><b>'+t[1]+'</b>'+t[2]+'</button>').join('')+'</div>'+V[tab]()}
+const V={
+home(){const m=MKF(),n=data.groups.length,pd=data.groups.filter(g=>paid(g)).length,pc=n?Math.round(pd/n*100):0,g=meG(),lw=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—';
+ let h='<div class="wb">'+[8,24,40,56,72,88].map((l,i)=>'<span class="fl" style="left:'+l+'%;animation-delay:'+i*.8+'s">'+['🎉','✨','🌼','🎊','✨','🎉'][i]+'</span>').join('')+'<div class="bg">✦ MASHOOD THENNALA KURI ✦</div><h2 class="'+(fresh?'pp':'')+'">'+(adm()?'സ്വാഗതം, Admin! 👑':'സ്വാഗതം, '+esc(me)+'! 🎉')+'</h2><p>Welcome to '+kname+'</p></div><div class="card"><h3>💰 '+kname+' - ഈ മാസം</h3><div class="g2"><div class="bx">👥<b>'+n+'/25</b>Members</div><div class="bx">🎯<b>₹5,00,000</b>Pool</div><div class="bx">✅<b>₹'+(pd*20000).toLocaleString('en-IN')+'</b>Collected</div><div class="bx">⏳<b>'+(n-pd)+'</b>Pending</div></div><div class="bar"><i style="width:'+pc+'%"></i></div><small>'+pc+'% • '+pd+'/'+n+' paid</small></div>';
+ h+='<div class="card" style="background:#0b1a0b;color:#fff"><h3 style="color:#ffec8b">⏳ കുറി ദിവസം</h3><div class="cd"><div id="cd1">--</div><div id="cd2">--</div><div id="cd3">--</div><div id="cd4">--</div></div><p id="cds" style="text-align:center;margin-top:8px;color:#ffec8b;font-size:.8rem"></p></div>';
+ h+='<div class="card"><h3>🏆 അവസാന വിജയി</h3><div class="wn">'+esc(lw)+'</div></div>';
+ if(g){const k=cnt(g);h+='<div class="card"><h3>💳 നിങ്ങളുടെ പേയ്മെന്റ്</h3><b>Paid '+k+'/25</b> • ഈ മാസം: '+(paid(g)?'✅ Paid':'⏳ Pending')+'<div class="bar"><i style="width:'+k*4+'%"></i></div><div class="dots">'+Array.from({length:25},(_,i)=>'<i class="'+(i<k?'y':'')+'">'+(i+1)+'</i>').join('')+'</div></div>'}
+ if(data.waGroupLink)h+='<a class="btn wa" href="'+esc(data.waGroupLink)+'" target="_blank">👥 WhatsApp Group</a>';
+ return h+'<button class="btn o" onclick="dark()">🌙 Dark Mode</button>'},
+members(){let h='<div class="card"><h3>👥 Members ('+data.groups.length+'/25)</h3>'+(data.groups.map((g,i)=>'<div class="r"><span><b>'+(i+1)+'. '+esc(g.mainName)+'</b>'+(g.subMembers.length?' <small>+'+g.subMembers.length+' group</small>':'')+'<br><small>'+(adm()?esc(g.phone||'-')+' • ':'')+'Paid '+cnt(g)+'/25</small>'+g.subMembers.map((m,si)=>'<br><small>• '+esc(m)+(adm()?' <a href="#" style="color:#c62828" onclick="delSub('+i+','+si+');return false">✕</a>':'')+'</small>').join('')+'</span>'+(adm()?'<button class="p pn" onclick="del('+i+')">✕</button>':'')+'</div>').join('')||'<small>മെംബർമാർ ഇല്ല</small>')+'</div>';
+ if(adm())h+='<div class="card"><h3>➕ Add Member</h3><input id="an" placeholder="Name"><input id="ap" placeholder="Phone 10 digit" inputmode="numeric"><input id="aa" type="number" min="0" max="1000000" step="1000" placeholder="Amount 20000" value="20000"><button class="btn" onclick="add()">✅ Add</button><h3 style="margin-top:12px">📋 Bulk (Name,Phone,Amount)</h3><textarea id="ab" rows="3"></textarea><button class="btn gd" onclick="bulk()">Bulk Add</button></div><div class="card"><h3>🏠 Group Add</h3><input id="gn" placeholder="Group Head Name"><input id="gp" placeholder="Head Phone" inputmode="numeric"><input id="ga" type="number" min="0" max="1000000" step="1000" placeholder="Amount 20000" value="20000"><textarea id="gs" rows="3" placeholder="Sub members - ഒരു വരിയിൽ ഒന്ന്"></textarea><button class="btn" style="background:#1565c0" onclick="addGroup()">🏠 Add Group</button></div>';
+ return h},
+pay(){let h='<div class="card"><h3>₹ Payments</h3><input type="month" id="pmm" value="'+pm+'" onchange="setPm(this.value)"><button class="btn wa" onclick="bulkWA()">📢 Pending എല്ലാവർക്കും WhatsApp</button><b>'+data.groups.filter(g=>paid(g,pm)).length+' Paid / '+data.groups.filter(g=>!paid(g,pm)).length+' Pending</b>';
+ return h+data.groups.map((g,i)=>'<div class="r"><span><b>'+esc(g.mainName)+'</b><br><small>'+l4(g.phone)+' • '+cnt(g)+'/25</small></span><span><button class="p" style="background:#25D366" onclick="openWA(['+i+'],1)">💬</button> <button class="p '+(paid(g,pm)?'pd':'pn')+'" onclick="tg('+i+')">'+(paid(g,pm)?'✅ Paid':'⏳ Pending')+'</button></span></div>').join('')+'</div>'},
+wheel(){const E=elig();
+ let h='<div class="card" style="background:#1a1a2e;color:#fff"><h3>🎡 '+kname+'</h3><div style="position:relative;max-width:380px;margin:auto"><div id="wh"></div><div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:34px;color:#007AFF">◀</div></div>'+(adm()?'<button class="btn" id="spinBtn" style="background:#FF3B30;font-size:1.1rem;padding:15px" onclick="spin()">🎯 SPIN</button><label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input id="rc" type="checkbox" checked style="width:22px;height:22px;margin:0"> 🎥 സ്പിൻ വീഡിയോ റെക്കോർഡ് ചെയ്യുക</label>':'<div style="text-align:center;padding:10px;font-weight:700;color:#FFD700">👀 View Only</div>')+'<div style="text-align:center;font-size:.8rem">Wheel: '+E.length+' / Total: '+data.groups.length+'</div></div>';
+ if(adm()){
+  h+='<div class="card"><div style="display:flex;gap:6px"><button class="btn o" style="border-color:#FF9800;color:#FF9800" onclick="shuf()">🔀 Shuffle</button><button class="btn o" style="border-color:#00c853;color:#00c853" onclick="togSnd()">🔊 Sound ON/OFF</button></div><button class="btn o" onclick="back()">↩ എല്ലാവരെയും തിരികെ</button><button class="btn rd" onclick="undoW()">🗑 അവസാന വിജയിയെ നീക്കുക</button><div style="text-align:center;margin-top:18px"><button onclick="manual()" style="background:none;border:none;font-size:2.6rem;cursor:pointer;line-height:1;padding:6px 12px;border-radius:50%;background:radial-gradient(circle,#ffeaa7,#fdcb6e);box-shadow:0 3px 10px rgba(0,0,0,.15)" title="Manual">🌸</button></div></div>';
+ }
+ return h},
+upi(){const u=data.upi||{},rq=reqs();let h='';
+ if(adm()){const pend=rq.filter(x=>x.s==='p'),np=data.groups.map((g,i)=>[g,i]).filter(a=>!paid(a[0]));
+  h+='<div class="card"><h3>🏦 UPI Settings</h3><input id="ui" placeholder="UPI ID" value="'+esc(u.id||'')+'"><input id="un" placeholder="Payee name" value="'+esc(u.name||'')+'"><button class="btn" onclick="saveUpi()">💾 Save UPI</button></div>';
+  h+='<div class="card"><h3>🔔 Payment Requests ('+pend.length+')</h3>'+(pend.map(x=>'<div class="r"><span><b>'+esc(x.n)+'</b><br><small>'+x.m+' • ₹'+x.a+'</small></span><span><button class="p pd" onclick="okR(\''+x.id+'\')">✅ Approve</button> <button class="p pn" onclick="noR(\''+x.id+'\')">✖</button></span></div>').join('')||'<small>പുതിയ റിക്വസ്റ്റ് ഇല്ല</small>')+'</div>';
+  h+='<div class="card"><h3>⏳ Pending ('+np.length+')</h3><button class="btn wa" onclick="bulkWA()">📢 Bulk WA</button>'+np.map(a=>'<div class="r"><b>'+esc(a[0].mainName)+'</b><span><button class="p" style="background:#25D366" onclick="openWA(['+a[1]+'],1)">💬</button> <button class="p pd" onclick="tgm('+a[1]+')">✅ Paid</button></span></div>').join('')+'</div>';
+  h+='<div class="card"><h3>🔳 Create QR (Scanner)</h3><input id="qa" type="number" min="0" max="1000000" step="1000" placeholder="Amount (ഉദാ: 20000)" value="20000"><button class="btn gd" onclick="makeQR()">🔳 QR Create</button><div id="aqr" style="display:flex;justify-content:center;margin:10px 0"></div><button class="btn o" onclick="saveQR()">⬇ QR Image Save</button></div><div class="card"><h3>📤 Export</h3><button class="btn gd" onclick="csv()">CSV Ledger</button><button class="btn o" onclick="pdf()">PDF / Print</button></div>'}
+ else{const g=meG();if(g){h+='<div class="card" style="text-align:center"><h3>💳 Pay Now - ₹'+(g.amount||20000)+'</h3>'+(paid(g)?'<b style="color:var(--g)">✅ ഈ മാസം Paid</b>':(u.id?'<div id="qr" style="display:flex;justify-content:center;margin:10px 0"></div><b>'+esc(u.id)+'</b><button class="btn o" onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+esc(u.id)+'\');alert(\'Copied\')">📋 Copy UPI</button><a class="btn" href="upi://pay?pa='+encodeURIComponent(u.id)+'&pn='+encodeURIComponent(u.name||'Kuri')+'&am='+(g.amount||20000)+'&cu=INR&tn=Kuri">📲 UPI App തുറക്കുക</a><button class="btn gd" onclick="iPaid()">✅ ഞാൻ അടച്ചു (I Paid)</button>':'<small>UPI ഇതുവരെ സജ്ജമാക്കിയിട്ടില്ല</small>'))+'</div>';
+  h+='<div class="card"><h3>🔔 Notifications</h3>'+(rq.filter(x=>x.gid===g.id).sort((a,b)=>(b.t||'').localeCompare(a.t||'')).slice(0,6).map(x=>'<div class="r"><span>'+x.m+' • ₹'+x.a+'</span><b>'+(x.s==='ok'?'✅ അംഗീകരിച്ചു':x.s==='no'?'❌ നിരസിച്ചു':'⏳ പരിശോധനയിൽ')+'</b></div>').join('')||'<small>അറിയിപ്പുകൾ ഇല്ല</small>')+'</div>'}}
+ return h},
+hist(){return '<div class="card"><h3>🏆 വിജയികൾ</h3>'+(data.allWinners.slice().reverse().map((w,ri)=>'<div class="r"><span>🏆 <b>'+esc(w.mainName)+'</b></span><small>'+esc(w.date)+(adm()&&w.manual?' • Admin select':'')+(adm()?' <button class="p pn" onclick="delW('+(data.allWinners.length-1-ri)+')">✕</button>':'')+'</small></div>').join('')||'<small>വിജയികൾ ഇല്ല</small>')+'</div>'},
+rules(){return '<div class="card"><h3>📜 Rules</h3><div style="white-space:pre-wrap;background:var(--bg);padding:12px;border-radius:12px;min-height:70px">'+esc(data.rules||'1. 25 പേർ × ₹20,000 = ₹5,00,000')+'</div></div>'+(adm()?'<div class="card"><h3>✏ Rules എഡിറ്റ്</h3><textarea id="rt" rows="7">'+esc(data.rules||'')+'</textarea><button class="btn gd" onclick="saveRules()">💾 Save Rules</button></div>':'')},
+set(){return '<div class="card"><h3>📅 Next Kuri Date</h3><input type="date" id="kd" value="'+esc(data.nextKuriDate||'')+'"><button class="btn gd" onclick="setDate()">📌 Set Date</button></div><div class="card"><h3>👥 WhatsApp Group Link</h3><input id="gl" placeholder="https://chat.whatsapp.com/..." value="'+esc(data.waGroupLink||'')+'"><button class="btn wa" onclick="saveGl()">💾 Save</button></div>'}};
 
-function getVoiceLang(){const voices = window.speechSynthesis ? speechSynthesis.getVoices() : [];let ml = voices.find(v=>v.lang.includes('ml'));if(ml) return {voice: ml, lang: 'ml-IN'};let enIn = voices.find(v=>v.lang.includes('en-IN'));if(enIn) return {voice: enIn, lang: 'en-IN'};return {voice: null, lang: 'en-US'};}
-window.speakWelcome = function(name){if(!voiceEnabled) return;if(!('speechSynthesis' in window)) return;speechSynthesis.cancel();const displayName = name || currentMemberName || 'Member';const text = `Welcome, ${displayName}! Mashood Thennala Kuriyilekku swagatham.`;const utter = new SpeechSynthesisUtterance(text);const info = getVoiceLang();utter.lang = info.lang;if(info.voice) utter.voice = info.voice;utter.rate = 0.9;utter.pitch = 1.05;utter.volume = 1;speechSynthesis.speak(utter);}
-window.toggleVoice = function(){voiceEnabled = !voiceEnabled;localStorage.setItem('MASHOOD_VOICE', voiceEnabled ? 'on' : 'off');const btn = document.getElementById('voiceToggleBtn');if(btn) btn.textContent = voiceEnabled ? '🔇 ON' : '🔈 OFF';if(voiceEnabled) testVoice();}
-window.testVoice = function(){voiceEnabled = true;localStorage.setItem('MASHOOD_VOICE','on');speakWelcome(currentMemberName || 'Test User');}
-if('speechSynthesis' in window){speechSynthesis.onvoiceschanged = ()=>{ speechSynthesis.getVoices(); };}
-function getDefaultKuriData(){return{groups:[],allWinners:[],rules:'1. 25 പേർ × ₹20,000 = ₹5,00,000\n2. Timer-ൽ തീയതി',monthlyContribution:20000,passwords:{admin:'ma7hood'},waGroupLink:'',nextKuriDate:'',broadcastTemplate:'📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty',festivalTheme:null};}
-function ensureDefaultKuris(){if(!allKuriData||typeof allKuriData!=='object'||Object.keys(allKuriData).length===0){allKuriData={'kuri_1':{name:'Kuri 1',data:getDefaultKuriData()},'kuri_2':{name:'Kuri 2',data:getDefaultKuriData()},'kuri_3':{name:'Kuri 3',data:getDefaultKuriData()},'kuri_4':{name:'Kuri 4',data:getDefaultKuriData()}};localStorage.setItem('MASHOOD_ALL_KURIS',JSON.stringify(allKuriData));}}
-ensureDefaultKuris();function getCurrentKuriObj(){return allKuriData[currentKuriId]||allKuriData['kuri_1'];}function getCurrentData(){return getCurrentKuriObj().data;}let data=getCurrentData();if(!data.passwords)data.passwords={};data.passwords.admin='ma7hood';if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';
-function ensureMonthlyPayments(){if(!data.groups)data.groups=[];data.groups.forEach(g=>{if(!g.monthlyPayments)g.monthlyPayments={};});}ensureMonthlyPayments();
-function computePaidCount(g){if(!g.monthlyPayments)return 0;return Object.keys(g.monthlyPayments).filter(k=>g.monthlyPayments[k]===true).length;}
-function isAdmin(){return currentRole==='admin';}function getLoggedInMember(){if(currentRole!=='member'||!currentMemberName)return null;return data.groups.find(g=>g.mainName===currentMemberName);}function isMember(){return currentRole==='member';}function getLast4(p){if(!p)return'';return p.replace(/[^0-9]/g,'').slice(-4);}
-async function findMemberByPasswordAcrossKuris(pass){const clean=pass.replace(/[^0-9]/g,'');if(clean.length!==4)return null;for(const[kuriId,kuriObj]of Object.entries(allKuriData)){if(!kuriObj.data)continue;const m=kuriObj.data.groups.find(g=>g.phone&&getLast4(g.phone)===clean);if(m)return{kuriId,member:m};}if(db&&firebaseConnected){for(let i=1;i<=4;i++){const kid='kuri_'+i;try{const snap=await get(child(ref(db),'mashood_kuri_'+kid));const val=snap.val();if(val&&val.groups){const f=val.groups.find(g=>g.phone&&getLast4(g.phone)===clean);if(f){if(!allKuriData[kid])allKuriData[kid]={name:'Kuri '+i,data:getDefaultKuriData()};allKuriData[kid].data={...getDefaultKuriData(),...val};localStorage.setItem('MASHOOD_ALL_KURIS',JSON.stringify(allKuriData));return{kuriId:kid,member:f};}}}catch(e){}}}return null;}
-function getEligible(){return data.groups.filter(g=>g.eligibility!==false);}function saveAllKuri(){localStorage.setItem('MASHOOD_ALL_KURIS',JSON.stringify(allKuriData));localStorage.setItem('MASHOOD_CURRENT_KURI',currentKuriId);}
-function save(){try{ensureMonthlyPayments();allKuriData[currentKuriId].data=data;saveAllKuri();if(db&&firebaseConnected){if(!dbRef)dbRef=ref(db,'mashood_kuri_'+currentKuriId);set(dbRef,data).then(()=>{updateStatus();}).catch(()=>{updateStatus();});}renderAll();}catch(e){console.error(e);}}
-function updateStatus(){const kuriName=getCurrentKuriObj().name;const s=document.getElementById('status');const isLive=firebaseConnected;s.textContent=(isLive?'✅ LIVE':'⚠ LOCAL')+' - '+kuriName+' | '+data.groups.length+'/25';s.className=isLive?'status live':'status local';document.querySelectorAll('.kuriNameDisplay').forEach(el=>el.textContent=kuriName);const wk=document.getElementById('welcomeKuriName');if(wk)wk.textContent='Welcome to '+kuriName;const ck=document.getElementById('collKuriName');if(ck)ck.textContent=kuriName+' • 25 × ₹20,000 = ₹5,00,000';}
-function loadKuri(kuriId){if(!allKuriData[kuriId]){ensureDefaultKuris();kuriId='kuri_1';}currentKuriId=kuriId;data=getCurrentData();ensureMonthlyPayments();if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';manualTarget=null;pendingWinner=null;currentRot=0;if(db){try{dbRef=ref(db,'mashood_kuri_'+kuriId);onValue(dbRef,(snap)=>{const val=snap.val();if(val&&val.groups){allKuriData[kuriId].data={...getDefaultKuriData(),...val};data=allKuriData[kuriId].data;ensureMonthlyPayments();if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';saveAllKuri();}else{if(isAdmin()&&data.groups.length>0&&firebaseConnected){set(dbRef,data);}}if(currentRole)renderAll();updateStatus();updateCountdown();updateFestivalBanner();});}catch(e){}}saveAllKuri();renderKuriSelector();renderAll();drawWheel(0);updateCountdown();updateFestivalBanner();}
-function renderKuriSelector(){const sel=document.getElementById('kuriSelector');const loginSel=document.getElementById('loginKuriSelector');[sel,loginSel].forEach(s=>{if(!s)return;s.innerHTML='';Object.keys(allKuriData).sort().forEach(kid=>{const o=document.createElement('option');o.value=kid;o.textContent=allKuriData[kid].name;if(kid===currentKuriId)o.selected=true;s.appendChild(o);});});}
-function calculateTotals(){const now=new Date();const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');let totalPaidMonths=0,paidThisMonth=0,totalPayout=0;data.groups.forEach(g=>{totalPaidMonths+=computePaidCount(g);if(g.monthlyPayments&&g.monthlyPayments[nowKey])paidThisMonth++;totalPayout+=(g.payouts||[]).reduce((s,p)=>s+(parseFloat(p.amount)||0),0);});return{collection:totalPaidMonths*20000,thisMonthCollection:paidThisMonth*20000,totalPayout,balance:(totalPaidMonths*20000)-totalPayout,paidCount:paidThisMonth,pending:data.groups.length-paidThisMonth,totalPaidMonths,modelTotal:25*20000};}
-function updateCountdown(){const daysEl=document.getElementById('cdDays');const hoursEl=document.getElementById('cdHours');const minsEl=document.getElementById('cdMins');const secsEl=document.getElementById('cdSecs');const subEl=document.getElementById('countdownSub');const labelEl=document.getElementById('timerKuriLabel');if(!data.nextKuriDate){if(daysEl)daysEl.textContent='--';if(hoursEl)hoursEl.textContent='--';if(minsEl)minsEl.textContent='--';if(secsEl)secsEl.textContent='--';if(subEl)subEl.textContent='📅 തീയതി സജ്ജമാക്കുക';if(labelEl)labelEl.textContent='Date not set';return;}const target=new Date(data.nextKuriDate+'T00:00:00');if(isNaN(target.getTime())){if(subEl)subEl.textContent='⚠ തീയതി ശരിയല്ല';return;}const now=new Date();const diff=target.getTime()-now.getTime();if(diff<=0){if(daysEl)daysEl.textContent='🎉';if(hoursEl)hoursEl.textContent='00';if(minsEl)minsEl.textContent='00';if(secsEl)secsEl.textContent='00';if(subEl)subEl.textContent='✅ ഇന്ന് കുറി ദിവസം!';if(labelEl)labelEl.textContent='Today is Kuri Day!';return;}const days=Math.floor(diff/(1000*60*60*24));const hours=Math.floor((diff%(1000*60*60*24))/(1000*60*60));const mins=Math.floor((diff%(1000*60*60))/(1000*60));const secs=Math.floor((diff%(1000*60))/1000);if(daysEl)daysEl.textContent=String(days).padStart(2,'0');if(hoursEl)hoursEl.textContent=String(hours).padStart(2,'0');if(minsEl)minsEl.textContent=String(mins).padStart(2,'0');if(secsEl)secsEl.textContent=String(secs).padStart(2,'0');const d=new Date(data.nextKuriDate);const dateStr=d.toLocaleDateString('ml-IN',{day:'numeric',month:'long',year:'numeric'});if(subEl){if(days<=3){subEl.textContent=`🔥 ${days} ദിവസം മാത്രം! ${dateStr}`; subEl.style.color='#FF4444';}else{subEl.textContent=`📅 ${dateStr} • ${days} ദിവസം ശേഷിക്കുന്നു`; subEl.style.color='#ffec8b';}}if(labelEl) labelEl.textContent = `Next: ${dateStr}`;}
-window.toggleTimerEdit = function(){const panel=document.getElementById('timerEditPanel');if(!panel) return;panel.classList.toggle('hidden');const inp=document.getElementById('nextKuriDate');if(inp && data.nextKuriDate) inp.value=data.nextKuriDate;}
-window.setKuriDate=function(){const inp=document.getElementById('nextKuriDate');if(!inp.value)return alert('📅 തീയതി തിരഞ്ഞെടുക്കുക');data.nextKuriDate=inp.value;const skd=document.getElementById('settingsKuriDate');if(skd) skd.value=inp.value;save();updateCountdown();document.getElementById('timerEditPanel')?.classList.add('hidden');alert('✅ കുറി തീയതി സജ്ജമായി!');};
-window.setKuriDateFromSettings=function(){const inp=document.getElementById('settingsKuriDate');if(!inp.value)return alert('📅 തീയതി തിരഞ്ഞെടുക്കുക');data.nextKuriDate=inp.value;const mainInp=document.getElementById('nextKuriDate');if(mainInp)mainInp.value=inp.value;save();updateCountdown();alert('✅ കുറി തീയതി സജ്ജമായി!');};
-
-// ===== FESTIVAL THEME - LIVE SYNC FOR ALL =====
-let tempThemeBase64=null;
-function compressImage(file, callback){
-  const reader=new FileReader();
-  reader.onload=e=>{
-    const img=new Image();
-    img.onload=()=>{
-      const canvas=document.createElement('canvas');
-      const max=800;
-      let w=img.width, h=img.height;
-      if(w>max||h>max){ if(w>h){ h*=max/w; w=max; } else { w*=max/h; h=max; } }
-      canvas.width=w; canvas.height=h;
-      const ctx=canvas.getContext('2d');
-      ctx.drawImage(img,0,0,w,h);
-      const dataUrl=canvas.toDataURL('image/jpeg',0.7);
-      callback(dataUrl);
-    };
-    img.src=e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-document.getElementById('themePhotoInput')?.addEventListener('change',function(e){
-  const file=e.target.files[0];if(!file)return;
-  compressImage(file, (compressed)=>{
-    tempThemeBase64=compressed;
-    const p=document.getElementById('themePreviewImg'); p.src=compressed; p.classList.add('show');
-  });
+/* ===== ACTIONS ===== */
+function tick(){const e=$('cd1');if(!e)return;const d=data.nextKuriDate;if(!d){$('cds').textContent='📅 തീയതി സജ്ജമാക്കിയിട്ടില്ല';return}const df=new Date(d+'T00:00:00')-new Date();if(df<=0){e.textContent='🎉';$('cd2').textContent=$('cd3').textContent=$('cd4').textContent='00';$('cds').textContent='ഇന്ന് കുറി ദിവസം!';return}
+ const z=n=>String(n).padStart(2,'0'),D=Math.floor(df/864e5);e.innerHTML=z(D)+'<small>DAYS</small>';$('cd2').innerHTML=z(Math.floor(df%864e5/36e5))+'<small>HRS</small>';$('cd3').innerHTML=z(Math.floor(df%36e5/6e4))+'<small>MIN</small>';$('cd4').innerHTML=z(Math.floor(df%6e4/1e3))+'<small>SEC</small>';$('cds').textContent='📅 '+d}
+setInterval(tick,1000);
+W({draw,MKF,setPm(v){pm=v;draw(true)},setRole(v){lrole=v;draw(true)},
+ go(t){tab=t;draw(true)},
+ dark(){document.body.classList.toggle('dk');localStorage.dk=document.body.classList.contains('dk')?'1':'0'},
+ chK(k){kid=k;localStorage.kid=k;data=norm();ext={};watch();draw(true)},
+ async login(){const p=$('lp').value.trim(),m=$('lm');
+  if(lrole==='admin'){if(p!==PASS)return m.textContent='❌ Wrong password';role='admin';me='';kid=$('lk').value}
+  else{if(p.length!==4)return m.textContent='❌ 4 അക്കം നൽകുക';m.textContent='🔍 Checking...';let f=null;
+   for(const k of KS){try{const s=await get(ref(db,'mashood_kuri_'+k+'/groups'));const gs=s.val()?Object.values(s.val()):[];const x=gs.find(g=>g&&g.phone&&l4(g.phone)===p);if(x){f={k,n:x.mainName};break}}catch(e){}}
+   if(!f)return m.textContent='❌ ഈ നമ്പർ ഇല്ല';role='member';me=f.n;kid=f.k}
+  sessionStorage.role=role;sessionStorage.me=me;localStorage.kid=kid;tab='home';watch();draw(true)},
+ logout(){sessionStorage.clear();role='';me='';if(u1)u1();if(u2)u2();draw(true)},
+ tg(i){const g=data.groups[i];if(g.monthlyPayments[pm])delete g.monthlyPayments[pm];else g.monthlyPayments[pm]=true;save()},
+ tgm(i){const g=data.groups[i],m=MKF();g.monthlyPayments[m]=true;save()},
+ del(i){if(confirm('Delete '+data.groups[i].mainName+'?')){data.groups.splice(i,1);save()}},
+ add(){const n=$('an').value.trim(),p=$('ap').value.trim();if(!n)return alert('Name വേണം');if(data.groups.find(g=>g.mainName===n))return alert('Name ഇതിനകം ഉണ്ട്');if(p&&p.replace(/\D/g,'').length<10)return alert('Phone 10 അക്കം');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),mainName:n,phone:p,subMembers:[],eligibility:true,payouts:[],amount:parseFloat($('aa').value)||20000,monthlyPayments:{}});save()},
+ bulk(){$('ab').value.split('\n').forEach(l=>{const a=l.split(','),n=(a[0]||'').trim();if(n&&!data.groups.find(g=>g.mainName===n))data.groups.push({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),mainName:n,phone:(a[1]||'').trim(),subMembers:[],eligibility:true,payouts:[],amount:parseFloat(a[2])||20000,monthlyPayments:{}})});save()},
+ back(){if(confirm('എല്ലാവരെയും തിരികെ വീലിൽ ചേർക്കണോ?')){data.groups.forEach(g=>g.eligibility=true);save()}},
+ undoW(){if(!data.allWinners.length)return alert('വിജയികൾ ഇല്ല');if(!confirm('അവസാന വിജയിയെ നീക്കണോ?'))return;const l=data.allWinners.pop(),g=data.groups.find(x=>x.mainName===l.mainName);if(g)g.eligibility=true;save()},
+ delW(i){if(!confirm('Delete?'))return;const r=data.allWinners.splice(i,1)[0],g=data.groups.find(x=>x.mainName===r.mainName);if(g)g.eligibility=true;save()},
+ setDate(){data.nextKuriDate=$('kd').value;save();alert('✅ സെറ്റ് ചെയ്തു')},
+ saveRules(){data.rules=$('rt').value;save();alert('✅ Saved')},
+ delSub(i,si){if(confirm('Sub member delete ചെയ്യണോ?')){data.groups[i].subMembers.splice(si,1);save()}},
+ addGroup(){const n=$('gn').value.trim(),p=$('gp').value.trim();if(!n)return alert('Group Head Name വേണം');if(data.groups.find(g=>g.mainName===n))return alert('Name ഇതിനകം ഉണ്ട്');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),mainName:n,phone:p,subMembers:$('gs').value.split('\n').map(x=>x.trim()).filter(Boolean),eligibility:true,payouts:[],amount:parseFloat($('ga').value)||20000,monthlyPayments:{}});save()},
+ makeQR(){const u=data.upi;if(!u||!u.id)return alert('ആദ്യം UPI Save ചെയ്യുക');const a=$('qa').value,b=$('aqr');b.innerHTML='';if(!window.QRCode)return alert('QR library ലോഡ് ആയില്ല');new QRCode(b,{text:'upi://pay?pa='+u.id+'&pn='+(u.name||'Kuri')+(a?'&am='+a:'')+'&cu=INR&tn=Kuri',width:220,height:220})},
+ saveQR(){const i=document.querySelector('#aqr img'),c=document.querySelector('#aqr canvas');const src=i&&i.src?i.src:(c&&c.toDataURL());if(!src)return alert('ആദ്യം QR Create ചെയ്യുക');const a=document.createElement('a');a.href=src;a.download='kuri-upi-qr.png';document.body.appendChild(a);a.click();a.remove()},
+ saveGl(){const v=$('gl').value.trim();if(v&&v.indexOf('chat.whatsapp.com')<0)return alert('Valid WhatsApp group link വേണം');data.waGroupLink=v;save();alert('✅ Saved')},
+ saveUpi(){const i=$('ui').value.trim();if(!i)return alert('UPI ID ഇടുക');data.upi={id:i,name:$('un').value.trim()};save();alert('✅ Saved')},
+ iPaid(){const g=meG();if(!g||paid(g))return;if(reqs().some(r=>r.gid===g.id&&r.m===MKF()&&r.s==='p'))return alert('റിക്വസ്റ്റ് ഇതിനകം അയച്ചു');set(ref(db,'mashood_ext/'+kid+'/req/r'+Math.random().toString(36).slice(2,9)),{gid:g.id,n:g.mainName,m:MKF(),a:g.amount||20000,t:new Date().toISOString(),s:'p'});alert('✅ Admin-ന് അയച്ചു')},
+ okR(id){const r=ext[id],g=r&&data.groups.find(x=>x.id===r.gid);if(!g)return;g.monthlyPayments[r.m]=true;save();set(ref(db,'mashood_ext/'+kid+'/req/'+id+'/s'),'ok')},
+ noR(id){set(ref(db,'mashood_ext/'+kid+'/req/'+id+'/s'),'no')},
+ csv(){const rows=[['Member','Phone','Month/Date','Type','Amount']];data.groups.forEach(g=>{Object.keys(g.monthlyPayments).sort().forEach(m=>{if(g.monthlyPayments[m])rows.push([g.mainName,g.phone||'',m,'Paid',g.amount||20000])});g.payouts.forEach(p=>rows.push([g.mainName,g.phone||'',p.date,'Payout',p.amount]))});dl(new Blob(['\ufeff'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv'}),'kuri-ledger.csv')},
+ pdf(){const w=window.open('','_blank');if(!w)return;w.document.write('<html><head><meta charset="utf-8"><title>Kuri Report</title></head><body style="font-family:sans-serif"><h2>Mashood Thennala Kuri - '+kname+' - '+MKF()+'</h2><table border="1" cellpadding="6" style="border-collapse:collapse;width:100%"><tr><th>#</th><th>Name</th><th>Phone</th><th>Paid</th><th>This month</th></tr>'+data.groups.map((g,i)=>'<tr><td>'+(i+1)+'</td><td>'+esc(g.mainName)+'</td><td>'+esc(g.phone||'')+'</td><td>'+cnt(g)+'/25</td><td>'+(paid(g)?'Paid':'Pending')+'</td></tr>').join('')+'</table><\/body><\/html>');w.document.close();w.print()}
 });
-document.getElementById('themeNameSelect')?.addEventListener('change',function(){document.getElementById('themeCustomName').style.display=this.value==='Custom Festival'?'block':'none';});
-window.saveThemePhoto=function(){
-  if(!isAdmin())return alert('Only Admin');
-  if(!tempThemeBase64 && !data.festivalTheme?.image)return alert('📸 Photo തിരഞ്ഞെടുക്കുക');
-  let name=document.getElementById('themeNameSelect').value;
-  if(name==='Custom Festival'){const c=document.getElementById('themeCustomName').value.trim();if(!c)return alert('Custom name');name=c;}
-  const img=tempThemeBase64||data.festivalTheme?.image;
-  data.festivalTheme={image:img,name:name,date:new Date().toISOString(),enabled:true};
-  save(); updateFestivalBanner();
-  alert('✅ LIVE! Theme Saved! എല്ലാ മെമ്പർക്കും ഇപ്പോൾ തന്നെ കാണാം - Firebase Live Sync!');
-  tempThemeBase64=null; document.getElementById('themePhotoInput').value=''; document.getElementById('themePreviewImg').classList.remove('show');
-};
-window.removeThemePhoto=function(){
-  if(!isAdmin())return alert('Only Admin');
-  if(!confirm('Theme Remove ചെയ്യണോ? എല്ലാവരുടെയും ഫോണിൽ നിന്ന് മാറും'))return;
-  data.festivalTheme=null; tempThemeBase64=null;
-  document.getElementById('themePreviewImg').classList.remove('show'); document.getElementById('themePhotoInput').value='';
-  save(); updateFestivalBanner(); alert('✅ Theme Removed - All Members Live Updated');
-};
-function updateFestivalBanner(){
-  // Priority: Firebase live data > local
-  let theme=null;
-  if(data.festivalTheme && data.festivalTheme.enabled!==false && data.festivalTheme.image) theme=data.festivalTheme;
-  else { try{ const g=localStorage.getItem('MASHOOD_FESTIVAL_THEME'); if(g){ const parsed=JSON.parse(g); if(parsed.enabled!==false) theme=parsed; } }catch(e){} }
-  const banner=document.getElementById('festivalBanner');
-  const img=document.getElementById('festivalImg');
-  const title=document.getElementById('festivalTitle');
-  const sub=document.getElementById('festivalSub');
-  const info=document.getElementById('currentThemeInfo');
-  const globalBg=document.getElementById('globalFestivalBg');
-  if(theme && theme.image && theme.enabled!==false){
-    if(sessionStorage.getItem('MASHOOD_HIDE_FESTIVAL')==='1'){ banner.classList.remove('show'); } 
-    else { banner.classList.add('show'); }
-    if(img) img.src=theme.image;
-    if(title) title.textContent='🎉 '+theme.name;
-    if(sub) sub.textContent='Mashood Thennala Kuri • '+new Date(theme.date).toLocaleDateString('ml-IN');
-    if(globalBg){ globalBg.style.backgroundImage=`url('${theme.image}')`; document.body.classList.add('festival-active'); }
-    if(info){ info.style.display='block'; info.innerHTML=`✅ <b>LIVE ACTIVE:</b> ${theme.name}<br>📅 ${new Date(theme.date).toLocaleDateString()} • എല്ലാ Page-ലും Theme ആയി കാണിക്കുന്നു<br>👥 എല്ലാ മെമ്പർക്കും Live Sync ആയി കാണാം`; }
+
+/* ===== WHATSAPP (4 options) ===== */
+const L=['സൗമ്യ റിമൈൻഡർ','അടിയന്തരം - ഇന്ന് രാത്രിക്കുള്ളിൽ','UPI വിവരം സഹിതം','പണം അടച്ചെങ്കിൽ അറിയിക്കുക'];
+const T=[()=>'🙏 {name}, ഈ മാസത്തെ കുറി പൈസ ₹{amt} ഇതുവരെ കിട്ടിയിട്ടില്ല. ദയവായി അടക്കുക.',()=>'⚠ {name}, കുറി പൈസ ഇനിയും വൈകിക്കരുത്. ഇന്ന് രാത്രിക്കുള്ളിൽ ₹{amt} ക്ലിയർ ആക്കണം.',()=>{const u=data.upi||{};return '💳 {name}, കുറി പൈസ ₹{amt} UPI ID: '+(u.id||'-')+' '+(u.name?'('+u.name+') ':'')+'ലേക്ക് അയച്ച ശേഷം സ്ക്രീൻഷോട്ട് അയക്കുക.'},()=>'✅ {name}, പൈസ അടച്ചിട്ടുണ്ടെങ്കിൽ ദയവായി അടച്ച വിവരം / സ്ക്രീൻഷോട്ട് അയച്ചു തരിക. നന്ദി 🙏'];
+let Q=[],qi=0;
+const modal=h=>{$('mc').innerHTML=h;$('modal').classList.remove('hidden')},closeM=()=>$('modal').classList.add('hidden');
+const setTxt=()=>{const r=document.querySelector('input[name=wo]:checked');$('waTxt').value=T[r?+r.value:0]()};
+const chk=f=>document.querySelectorAll('.wmc').forEach((c,i)=>{c.checked=f(data.groups[i])});
+function nextWA(){if(qi>=Q.length){$('waSt').textContent='✅ എല്ലാവർക്കും തുറന്നു';$('waGo').textContent='📱 Send';Q=[];qi=0;return}const q=Q[qi++];window.open('https://wa.me/91'+q.p+'?text='+encodeURIComponent($('waTxt').value.replace(/\{name\}/g,q.n).replace(/\{amt\}/g,q.a)),'_blank');$('waSt').textContent=qi+'/'+Q.length+' തുറന്നു: '+q.n;$('waGo').textContent=qi<Q.length?'▶ അടുത്തത് ('+(qi+1)+'/'+Q.length+')':'✔ കഴിഞ്ഞു'}
+W({closeM,chk,
+ openWA(sel,tpl){Q=[];qi=0;modal('<h3 style="color:#128C7E">💬 WhatsApp മെസ്സേജ്</h3><div style="display:flex;gap:6px"><button class="btn rd sm" onclick="chk(g=>!(g.monthlyPayments[MKF()]))">Pending മാത്രം</button><button class="btn sm" onclick="chk(()=>true)">എല്ലാവരും</button><button class="btn o sm" onclick="chk(()=>false)">Clear</button></div><div style="max-height:200px;overflow:auto;margin:8px 0">'+data.groups.map((g,i)=>'<label class="wm"><input type="checkbox" class="wmc" value="'+i+'" '+(sel.indexOf(i)>-1?'checked':'')+'><span style="flex:1">'+esc(g.mainName)+'</span><small>'+(paid(g)?'✅':'⏳')+' '+(g.phone?'📱':'⚠')+'</small></label>').join('')+'</div><b>Message തിരഞ്ഞെടുക്കുക:</b>'+L.map((l,i)=>'<label class="wm"><input type="radio" name="wo" value="'+i+'" onchange="setTxt()" '+(i===(tpl||0)?'checked':'')+'>'+l+'</label>').join('')+'<textarea id="waTxt" rows="4"></textarea><button class="btn wa" id="waGo" onclick="waGo()">📱 Send</button><button class="btn o" onclick="closeM()">Cancel</button><div id="waSt" style="font-size:.8rem;font-weight:700;color:#1976D2"></div>');setTxt()},
+ setTxt,
+ bulkWA(){window.openWA(data.groups.map((g,i)=>paid(g)?-1:i).filter(i=>i>=0),1)},
+ waGo(){if(Q.length&&qi>0){nextWA();return}if(!$('waTxt').value.trim())return alert('Message ഇല്ല');Q=[...document.querySelectorAll('.wmc:checked')].map(c=>data.groups[+c.value]).filter(g=>g.phone&&g.phone.replace(/\D/g,'').length>=10).map(g=>({n:g.mainName,p:g.phone.replace(/\D/g,'').slice(-10),a:g.amount||20000}));if(!Q.length)return alert('മെംബറെ / നമ്പർ തിരഞ്ഞെടുക്കുക');qi=0;nextWA()}});
+
+/* ===== WHEEL (സൗണ്ട് ഇല്ല, സ്ലോ സ്പിൻ, വീഡിയോ ഷെയർ) ===== */
+const wimg=document.createElement('canvas');wimg.width=wimg.height=500;
+function buildWheel(){const x=wimg.getContext('2d'),cx=250,R=240,E=elig();x.clearRect(0,0,500,500);if(!E.length){x.fillStyle='#888';x.font='bold 22px sans-serif';x.textAlign='center';x.fillText('No members',cx,cx);return}
+ const s=Math.PI*2/E.length,cols=['#FF3B30','#007AFF','#34C759','#FFCC00','#AF52DE','#FF9500','#5856D6','#FF2D55'];
+ E.forEach((g,i)=>{const a=i*s;x.beginPath();x.moveTo(cx,cx);x.arc(cx,cx,R,a,a+s);x.closePath();x.fillStyle=cols[i%8];x.fill();x.strokeStyle='#fff';x.lineWidth=2;x.stroke();x.save();x.translate(cx,cx);x.rotate(a+s/2);x.fillStyle=cols[i%8]==='#FFCC00'?'#000':'#fff';x.font='bold '+(E.length<=8?26:E.length<=14?20:15)+'px sans-serif';x.textAlign='right';let n=g.mainName;while(x.measureText(n).width>R*.6&&n.length>3)n=n.slice(0,-1);x.fillText(n,R-14,6);x.restore()});
+ x.beginPath();x.arc(cx,cx,28,0,7);x.fillStyle='#fff';x.fill()}
+function drawWheel(r){const k=elig().map(g=>g.id+g.mainName).join('|');if(k!==wk){wk=k;buildWheel()}const x=cv.getContext('2d');x.clearRect(0,0,500,500);x.save();x.translate(250,250);x.rotate(r);x.drawImage(wimg,-250,-250);x.restore()}
+let AC=null,snd=localStorage.snd!=='0',lt=0;
+function ac(){if(!snd)return null;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
+function tk(){const a=ac(),n=performance.now();if(!a||n-lt<40)return;lt=n;const o=a.createOscillator(),g=a.createGain();o.type='square';o.frequency.value=850+Math.random()*350;g.gain.setValueAtTime(.13,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.05);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.06)}
+function fanfare(){const a=ac();if(!a)return;[523,659,784,1047,784,1047,1319].forEach((f,i)=>{const t=a.currentTime+i*.14,o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.3,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+.4)});
+ const len=Math.floor(a.sampleRate*1.8),b=a.createBuffer(1,len,a.sampleRate),d=b.getChannelData(0);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2)*(Math.random()>.7?1:.3);const n=a.createBufferSource();n.buffer=b;const g=a.createGain();g.gain.value=.35;const f=a.createBiquadFilter();f.type='highpass';f.frequency.value=1500;n.connect(f);f.connect(g);g.connect(a.destination);n.start(a.currentTime+.9);if(navigator.vibrate)navigator.vibrate([100,50,200])}
+let rec=null,chunks=[],live=false,mime='',recT=null;
+function startRec(){if(!$('rc')||!$('rc').checked||!window.MediaRecorder)return;try{mime=['video/webm;codecs=vp9','video/webm','video/mp4'].find(t=>MediaRecorder.isTypeSupported(t));if(!mime)return;const c=document.createElement('canvas');c.width=540;c.height=660;const x=c.getContext('2d');live=true;winTxt='';
+ (function f(){if(!live)return;x.fillStyle='#1a1a2e';x.fillRect(0,0,540,660);x.fillStyle='#ffec8b';x.font='bold 24px sans-serif';x.textAlign='center';x.fillText('🎡 '+kname+' - Mashood Thennala',270,48);x.drawImage(cv,20,80,500,500);x.fillStyle='#007AFF';x.beginPath();x.moveTo(508,330);x.lineTo(538,315);x.lineTo(538,345);x.fill();x.fillStyle='#fff';x.font='bold 34px sans-serif';x.fillText(winTxt||'🎡 ...',270,632);requestAnimationFrame(f)})();
+ chunks=[];rec=new MediaRecorder(c.captureStream(30),{mimeType:mime,videoBitsPerSecond:2500000});rec.ondataavailable=e=>{if(e.data.size)chunks.push(e.data)};rec.onstop=()=>{live=false;showVid(new Blob(chunks,{type:mime}))};rec.start();recT=setTimeout(stopRec,20000)}catch(e){live=false}}
+function stopRec(){clearTimeout(recT);if(rec&&rec.state!=='inactive')rec.stop();rec=null}
+function showVid(b){const n='mashood-kuri-spin.'+(mime.indexOf('mp4')>-1?'mp4':'webm');$('vid').classList.remove('hidden');$('vd').onclick=()=>dl(b,n);$('vx').onclick=()=>$('vid').classList.add('hidden');$('vs').onclick=async()=>{const f=new File([b],n,{type:b.type});if(navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f],title:'Mashood Kuri Wheel'})}catch(e){}}else{dl(b,n);alert('ഷെയർ സപ്പോർട്ട് ഇല്ല - വീഡിയോ ഡൗൺലോഡ് ആയി. WhatsApp-ൽ attach ചെയ്യാം.')}}}
+W({shuf(){if(spinning)return;for(let i=data.groups.length-1;i>0;i--){const j=Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*(i+1));[data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]]}save()},
+ togSnd(){snd=!snd;localStorage.snd=snd?'1':'0';alert(snd?'🔊 Sound ON':'🔇 Sound OFF');if(snd){ac();tk()}},
+ manual(){const E=elig();if(!E.length)return alert('മെംബർമാർ ഇല്ല');modal('<h3 style="text-align:center">🌸</h3><p style="font-size:.8rem;color:var(--m);text-align:center">തിരഞ്ഞെടുത്ത ആളിൽ വീൽ നിർത്തും. SPIN അമർത്തിയാൽ കറങ്ങി അവിടെ വരും.<br><small>മെംബർമാർക്ക് അറിയില്ല</small></p><select id="msel">'+E.map(g=>'<option value="'+g.id+'">'+esc(g.mainName)+'</option>').join('')+'</select><button class="btn gd" onclick="manualGo()">തിരഞ്ഞെടുക്കുക</button><button class="btn o" onclick="closeM()">Cancel</button>')},
+ manualGo(){const g=data.groups.find(x=>x.id===$('msel').value);if(!g)return;
+  // Shuffle the wheel positions so it looks random
+  for(let i=data.groups.length-1;i>0;i--){const j=Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*(i+1));[data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]]}
+  preWin=g;
+  closeM();
+  draw(true)},
+ spin(){if(spinning)return;const E=elig();if(!E.length)return alert('മെംബർമാർ ഇല്ല');spinning=true;
+  let wi;
+  if(preWin){
+   wi=E.findIndex(g=>g.id===preWin.id);
+   if(wi<0){preWin=null;wi=Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*E.length)}
   }else{
-    banner.classList.remove('show');
-    if(globalBg){ globalBg.style.backgroundImage=''; document.body.classList.remove('festival-active'); }
-    if(info) info.style.display='none';
+   wi=Math.floor(crypto.getRandomValues(new Uint32Array(1))[0]/4294967296*E.length);
   }
-}
-window.hideFestivalForSession=function(){sessionStorage.setItem('MASHOOD_HIDE_FESTIVAL','1');document.getElementById('festivalBanner').classList.remove('show');};
-
-// ===== WHATSAPP GROUP LINK - LIVE =====
-window.saveWaGroupLink=function(){
-  if(!isAdmin())return alert('Only Admin');
-  const link=document.getElementById('waGroupLinkInput').value.trim() || document.getElementById('waGroupLinkSettingsInput').value.trim();
-  if(!link) return alert('Link ഇടുക');
-  if(!link.includes('chat.whatsapp.com')) return alert('Valid WhatsApp group link ആയിരിക്കണം');
-  data.waGroupLink=link; save();
-  document.getElementById('waGroupLinkInput').value=link;
-  document.getElementById('waGroupLinkSettingsInput').value=link;
-  document.getElementById('waGroupStatus').textContent='✅ Saved & Live for all members!';
-  alert('✅ WA Group Link Saved - Live for all!');
-};
-window.saveWaGroupLinkFromSettings=function(){ saveWaGroupLink(); };
-window.openWhatsAppGroup=function(){
-  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim() || document.getElementById('waGroupLinkSettingsInput').value.trim();
-  if(!link) return alert('Group link സേവ് ചെയ്തിട്ടില്ല');
-  window.open(link,'_blank');
-};
-window.shareWaGroupLink=async function(){
-  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim();
-  if(!link) return alert('Group link ഇല്ല');
-  const shareText=`🎉 ${data.festivalTheme?.name||'Mashood Kuri'} - Join Our WhatsApp Group:\n${link}`;
-  if(navigator.share){
-    try{ await navigator.share({title:'Mashood Kuri WhatsApp Group', text:shareText, url:link}); }catch(e){ copyToClipboard(link); }
-  } else { copyToClipboard(link); alert('Link Copied! Share ചെയ്യാം:\n'+link); }
-};
-function copyToClipboard(t){ navigator.clipboard?.writeText(t).catch(()=>{ const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); }); }
-window.sendMessageToWhatsAppGroup=function(){
-  const link=data.waGroupLink || document.getElementById('waGroupLinkInput').value.trim();
-  const msg=document.getElementById('waGroupMessage').value.trim();
-  if(!link) return alert('Group link സേവ് ചെയ്യുക');
-  if(!msg) return alert('Message എഴുതുക');
-  // Save message copy and open group
-  copyToClipboard(msg);
-  document.getElementById('waGroupStatus').textContent='📋 Message Copied! Group തുറക്കുന്നു... Paste ചെയ്യുക';
-  setTimeout(()=>{ window.open(link,'_blank'); }, 500);
-};
-
-function renderAll(){try{data=getCurrentData();if(!data.groups)data.groups=[];if(!data.allWinners)data.allWinners=[];if(!data.nextKuriDate)data.nextKuriDate='';if(!data.broadcastTemplate)data.broadcastTemplate='📢 കുറി അറിയിപ്പ്:\n\n{message}\n\n- Mashood Chitty';if(!data.waGroupLink)data.waGroupLink='';ensureMonthlyPayments();const eligible=getEligible();const removed=data.groups.filter(g=>g.eligibility===false);const totals=calculateTotals();
-const totalMembers=data.groups.length;
-const pct = totalMembers ? Math.round((totals.paidCount/totalMembers)*100) : 0;
-document.getElementById('collCollected').textContent = totals.thisMonthCollection.toLocaleString('en-IN');
-document.getElementById('collCollectedSub').textContent = totals.paidCount+'/'+totalMembers+' paid';
-document.getElementById('collPaidCount').textContent = totals.paidCount;
-document.getElementById('collPendingCount').textContent = totalMembers ? totals.pending : 25;
-document.getElementById('collProgressText').textContent = pct+'% • '+totals.paidCount+'/'+totalMembers;
-document.getElementById('collProgressFill').style.width = pct+'%';
-document.getElementById('collReadyText').textContent = totalMembers===25 && pct===100 ? '✓ ₹5L Ready' : totalMembers+'/25 • ₹'+(totalMembers*20000).toLocaleString('en-IN');
-document.getElementById('memberCount').textContent=data.groups.length;document.getElementById('paidCount').textContent=totals.paidCount;document.getElementById('pendingCount').textContent=totals.pending;document.getElementById('monthlyTotal').textContent='₹ '+totals.thisMonthCollection.toFixed(0);const tpm=document.getElementById('totalPaidMonths');if(tpm)tpm.textContent=totals.totalPaidMonths;document.getElementById('drawEligible').textContent=eligible.length;document.getElementById('drawTotal').textContent=data.groups.length;document.getElementById('payoutCollection').textContent='₹ '+totals.collection;document.getElementById('payoutTotal').textContent='₹ '+totals.totalPayout;document.getElementById('payoutBalance').textContent='₹ '+totals.balance;const fr=document.getElementById('fullReport');if(fr)fr.innerHTML=`Members: ${data.groups.length}/25<br>Total: ₹${totals.collection.toLocaleString()}<br>Fixed Model: 25 × ₹20,000 = ₹5,00,000`;let html='';if(data.groups.length===0)html='<div style="text-align:center;color:#888;padding:20px">No Members - Add 25 members</div>';else data.groups.forEach((g,i)=>{
-  const paid=computePaidCount(g);
-  const last4=getLast4(g.phone);
-  const subs = g.subMembers && g.subMembers.length ? g.subMembers : [];
-  let subHtml = '';
-  if(subs.length){
-    subHtml = `<div style="margin-top:10px;background:#f8fff8;border:1.5px dashed #2E7D32;border-radius:12px;padding:8px 10px"><div style="font-size:.7rem;font-weight:800;color:#2E7D32;margin-bottom:4px">👥 Sub Members (${subs.length}):</div>${subs.map((s,si)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:${si===subs.length-1?'none':'1px solid #eee'}"><span style="font-size:.8rem">• ${s}</span>${isAdmin()?`<button onclick="delSubMember('${g.id}',${si})" style="border:none;background:#ffebee;color:#c62828;border-radius:12px;padding:2px 8px;font-size:.65rem">✕</button>`:''}</div>`).join('')}</div>`;
-  }
-  html+=`<div class="card" style="margin:8px 0;padding:12px;border-left:4px solid ${subs.length?'#2E7D32':'#ddd'}"><div style="display:flex;justify-content:space-between;align-items:center"><strong>👤 ${i+1}. ${g.mainName} ${subs.length?`<span style="background:#2E7D32;color:#fff;font-size:.6rem;padding:2px 6px;border-radius:10px;margin-left:6px">+${subs.length}</span>`:''}</strong>${isAdmin()?`<button onclick="delGroup('${g.id}')" style="border:none;background:#fee;color:#c62828;border-radius:50%;width:28px;height:28px">✕</button>`:''}</div><div style="font-size:.75rem;color:#666;margin-top:4px">📱 ${g.phone||''} | 🔑 ${last4} | Paid: ${paid}/25 ${subs.length?'| Group':''}</div>${subHtml}</div>`;
-});document.getElementById('membersList').innerHTML=html;const now=new Date();const nowKey=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');let payHtml='';data.groups.forEach(g=>{const paid=computePaidCount(g);const isPaid=g.monthlyPayments&&g.monthlyPayments[nowKey]===true;payHtml+=`<div class="member-row" style="background:${isPaid?'#d1fae5':'#fff'};border-radius:12px;padding:12px;border:1px solid ${isPaid?'#10b981':'#eee'}"><div><strong>${g.mainName}</strong><br><span style="font-size:.7rem;color:#666">${getLast4(g.phone)} | ${paid}/25</span></div><div>${isAdmin()?`<button class="badge ${isPaid?'paid':'pending'}" style="padding:10px 18px;min-width:100px;border:none" onclick="event.stopPropagation(); toggleCurrentMonthPay('${g.id}')">${isPaid?'✅ Paid':'⏳ Pending'}</button>`:`<span class="badge ${isPaid?'paid':'pending'}">${isPaid?'Paid':'Pending'}</span>`}</div></div>`;});document.getElementById('payList').innerHTML=payHtml||'No members';let payoutHtml='';data.groups.forEach(g=>{(g.payouts||[]).forEach((p,idx)=>{payoutHtml+=`<div class="member-row"><span>${p.date} - ${p.member} - ₹${p.amount}</span><button class="btn-sm btn-danger" onclick="delPayout('${g.id}',${idx})">✕</button></div>`;});});const pl=document.getElementById('payoutList');if(pl)pl.innerHTML=payoutHtml||'No payouts';const mr=document.getElementById('memberReport');if(mr)mr.innerHTML=data.groups.map(g=>`<div class="member-row"><span>${g.mainName} (${getLast4(g.phone)})</span><span>${computePaidCount(g)}/25</span></div>`).join('')||'No data';const payoutSel=document.getElementById('payoutMemberSelect');if(payoutSel){payoutSel.innerHTML='';data.groups.forEach(g=>{const o=document.createElement('option');o.value=g.mainName;o.textContent=g.mainName;payoutSel.appendChild(o);});}const today=data.allWinners.length?data.allWinners[data.allWinners.length-1].mainName:'—';document.getElementById('todayWinner').textContent=today;document.getElementById('drawWinner').textContent=today;let hHtml='';if(data.allWinners.length===0)hHtml='No winners';else data.allWinners.slice().reverse().forEach((w,ri)=>{const idx=data.allWinners.length-1-ri;hHtml+=`<div class="card" style="padding:10px"><div style="display:flex;justify-content:space-between"><span>🏆 ${w.mainName}</span><span style="font-size:.7rem">${w.date} ${isAdmin()?`<button onclick="delWinnerOne(${idx})" style="border:none;background:#fee;color:#c00;border-radius:50%;width:20px;height:20px">✕</button>`:''}</span></div></div>`;});document.getElementById('historyList').innerHTML=hHtml;const wsi=document.getElementById('wheelSubInfo');if(wsi)wsi.innerHTML=eligible.length?eligible.map(g=>g.mainName).join(', '):'No members';const rd=document.getElementById('rulesDisplay');if(rd)rd.textContent=data.rules||'';const wgInput=document.getElementById('waGroupLinkInput');if(wgInput) wgInput.value=data.waGroupLink||'';const wgSet=document.getElementById('waGroupLinkSettingsInput');if(wgSet) wgSet.value=data.waGroupLink||'';renderWAChecklist();let waHtml='';data.groups.forEach(g=>{waHtml+=`<div class="member-row"><span>${g.mainName}</span>${g.phone?`<button class="whatsapp-btn" onclick="openWA('${g.phone}')">Message 💬</button>`:''}</div>`;});let rHtml='';if(removed.length===0)rHtml='None';else removed.forEach(g=>{rHtml+=`<div class="member-row"><span>🚫 ${g.mainName}</span><button class="btn-sm btn-outline" onclick="bringBack('${g.id}')">Back</button></div>`;});const rl=document.getElementById('removedList');if(rl)rl.innerHTML=rHtml;if(manualTarget){document.getElementById('manualSetInfoDraw')?.classList.remove('hidden');}else{document.getElementById('manualSetInfoDraw')?.classList.add('hidden');}updateMemberPaymentStatus();const isAdminUser=isAdmin();document.querySelectorAll('.admin-only-btn').forEach(el=>{el.style.display=isAdminUser?'':'none';});const memberWheelInfo=document.getElementById('memberWheelInfo');const memberNoSpin=document.getElementById('memberNoSpinMsg');const spinBtn=document.getElementById('spinDrawBtn');if(isAdminUser){if(memberWheelInfo)memberWheelInfo.textContent='👑 ADMIN 🔊';if(memberNoSpin)memberNoSpin.classList.add('hidden');if(spinBtn)spinBtn.style.display='';}else{if(memberWheelInfo)memberWheelInfo.textContent='👀 VIEW ONLY 🔊';if(memberNoSpin)memberNoSpin.classList.remove('hidden');if(spinBtn)spinBtn.style.display='none';}const banner=document.getElementById('memberWelcomeBanner');const payStatus=document.getElementById('memberPaymentStatus');if(isMember()&&currentMemberName){if(banner)banner.classList.remove('hidden');if(payStatus)payStatus.classList.remove('hidden');const wmn=document.getElementById('welcomeMemberName');if(wmn)wmn.textContent=currentMemberName+'! 🎉';}else{if(banner)banner.classList.add('hidden');if(payStatus)payStatus.classList.add('hidden');}const skd=document.getElementById('settingsKuriDate');if(skd)skd.value=data.nextKuriDate||'';updateStatus();drawWheel(currentRot);updateCountdown();updateFestivalBanner();}catch(e){console.error(e);}}
-function renderWAChecklist(){const container=document.getElementById('waMemberChecklist');if(!container)return;const members=data.groups||[];if(members.length===0){container.innerHTML='<div style="text-align:center;color:#888;padding:12px">No members</div>';return;}let html='';members.forEach((g,idx)=>{const hasPhone=g.phone&&g.phone.replace(/[^0-9]/g,'').length>=10;html+=`<div class="wa-member-select"><input type="checkbox" id="wa_${idx}" data-phone="${g.phone||''}" data-name="${g.mainName}" onchange="updateWACount()"><label for="wa_${idx}">${g.mainName}</label><span class="wa-phone" style="font-size:.7rem;color:#888">${hasPhone?'📱'+g.phone:'⚠ no phone'}</span></div>`;});container.innerHTML=html;updateWACount();}
-window.toggleAllWA=function(){const checked=document.getElementById('waSelectAll').checked;document.querySelectorAll('#waMemberChecklist input[type="checkbox"]').forEach(cb=>{cb.checked=checked;});updateWACount();};
-window.updateWACount=function(){const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');const total=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]').length;const el=document.getElementById('waSelectedCount');if(el)el.textContent=checks.length+' selected / '+total;};
-window.sendWABroadcast=function(){const msg=document.getElementById('waBroadcastMsg').value.trim();if(!msg)return alert('📝 മെസ്സേജ് എഴുതുക');const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');if(checks.length===0)return alert('👤 ഒരു മെംബറെങ്കിലും തിരഞ്ഞെടുക്കുക');let finalMsg=msg;const tmpl=data.broadcastTemplate||'';if(tmpl.includes('{message}'))finalMsg=tmpl.replace(/{message}/g,msg);let queue=[];checks.forEach(cb=>{const phone=cb.dataset.phone;if(phone){const clean=phone.replace(/[^0-9]/g,'');if(clean.length>=10)queue.push(clean.slice(-10));}});if(queue.length===0)return alert('📱 നമ്പർ ഇല്ല');const status=document.getElementById('waStatus');status.innerHTML=`📤 ${queue.length} പേർക്ക് അയക്കുന്നു...`;let i=0;function openNext(){if(i>=queue.length){status.innerHTML=`✅ ${queue.length} പേർക്ക് WhatsApp തുറന്നു!`;return;}const url='https://wa.me/91'+queue[i]+'?text='+encodeURIComponent(finalMsg);window.open(url,'_blank');status.innerHTML=`📤 ${i+1}/${queue.length} - ${queue[i]} തുറക്കുന്നു...`;i++;setTimeout(openNext,1500);}openNext();};
-window.sendSMSBroadcast=function(){const msg=document.getElementById('waBroadcastMsg').value.trim();if(!msg)return alert('📝 മെസ്സേജ് എഴുതുക');const checks=document.querySelectorAll('#waMemberChecklist input[type="checkbox"]:checked');if(checks.length===0)return alert('👤 ഒരു മെംബറെങ്കിലും തിരഞ്ഞെടുക്കുക');let finalMsg=msg;const tmpl=data.broadcastTemplate||'';if(tmpl.includes('{message}'))finalMsg=tmpl.replace(/{message}/g,msg);let phones=[];checks.forEach(cb=>{const phone=cb.dataset.phone;if(phone){const clean=phone.replace(/[^0-9]/g,'').slice(-10);if(clean.length>=10)phones.push('91'+clean);}});if(phones.length===0)return alert('📱 നമ്പർ ഇല്ല');const allNumbers=phones.join(',');const url='sms:'+allNumbers+'?body='+encodeURIComponent(finalMsg);document.getElementById('waStatus').innerHTML=`✉ ${phones.length} പേർക്ക് SMS തയ്യാറാക്കുന്നു...`;window.location.href=url;};
-function drawWheel(rot){const canvas=document.getElementById('wheelCanvas');if(!canvas)return;const ctx=canvas.getContext('2d');const w=canvas.width,cx=w/2,cy=w/2,r=w/2-10;ctx.clearRect(0,0,w,w);const eligible=getEligible();if(!eligible.length){ctx.fillStyle='#888';ctx.font='bold 18px sans-serif';ctx.textAlign='center';ctx.fillText('No Members - Add First',cx,cy);return;}const seg=(Math.PI*2)/eligible.length;const colors=['#FF3B30','#007AFF','#34C759','#FFCC00','#AF52DE','#FF9500','#5856D6','#FF2D55'];eligible.forEach((g,i)=>{const s=i*seg+rot,e=s+seg;ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,s,e);ctx.closePath();ctx.fillStyle=colors[i%colors.length];ctx.fill();ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=2;ctx.stroke();ctx.save();ctx.translate(cx,cy);ctx.rotate(s+seg/2);const tr=r*0.68;ctx.textAlign='right';ctx.fillStyle=(colors[i%colors.length]==='#FFCC00')?'#000':'#fff';let baseSize;if(eligible.length<=4)baseSize=32;else if(eligible.length<=8)baseSize=26;else if(eligible.length<=12)baseSize=20;else if(eligible.length<=20)baseSize=16;else baseSize=13;let displayName=g.mainName.trim();let fontSize=baseSize;ctx.font=`900 ${fontSize}px 'Segoe UI', Arial, sans-serif`;let textWidth=ctx.measureText(displayName).width;let maxWidth=r*0.58;while(textWidth>maxWidth&&fontSize>10){fontSize-=1;ctx.font=`900 ${fontSize}px 'Segoe UI', Arial, sans-serif`;textWidth=ctx.measureText(displayName).width;}if(textWidth>maxWidth){while(displayName.length>2&&ctx.measureText(displayName+'..').width>maxWidth){displayName=displayName.slice(0,-1);}displayName+='..';}ctx.shadowColor='rgba(0,0,0,.8)';ctx.shadowBlur=4;ctx.shadowOffsetX=1;ctx.shadowOffsetY=1;ctx.fillText(displayName,tr,6);ctx.restore();});ctx.beginPath();ctx.arc(cx,cy,r*0.18,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=3;ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,9,0,Math.PI*2);ctx.fillStyle='#222';ctx.fill();}
-function spinToWinner(targetId){if(!isAdmin())return alert('Only Admin can spin');if(isSpinning)return;const eligible=getEligible();if(!eligible.length)return alert('No members');isSpinning=true;let winner=null;if(targetId)winner=eligible.find(g=>g.id===targetId);else if(manualTarget)winner=eligible.find(g=>g.id===manualTarget);if(!winner)winner=eligible[Math.floor(Math.random()*eligible.length)];if(!winner)winner=eligible[0];const seg=(Math.PI*2)/eligible.length;const idx=eligible.indexOf(winner);const start=currentRot;let targetAngle=-(idx*seg+seg/2);let curNorm=start%(2*Math.PI);let delta=targetAngle-curNorm;while(delta<0)delta+=2*Math.PI;const full=6+Math.floor(Math.random()*4);const total=delta+full*2*Math.PI;const targetRot=start+total;const dur=5000,st=Date.now();const btn=document.getElementById('spinDrawBtn');if(btn){btn.textContent='🌀 SPINNING... 🔊';btn.disabled=true;} playSpinSound(); function anim(){const el=Date.now()-st,p=Math.min(el/dur,1),eased=1-Math.pow(1-p,3);const cur=start+total*eased;drawWheel(cur);if(p<1)requestAnimationFrame(anim);else{drawWheel(targetRot);currentRot=targetRot%(2*Math.PI);pendingWinner=winner;document.getElementById('winSaveName').textContent=winner.mainName;document.getElementById('winSubInfo').innerHTML='Winner: '+winner.mainName;document.getElementById('winSaveModal').classList.remove('hidden');document.getElementById('todayWinner').textContent='🎉 '+winner.mainName+' 🎉';document.getElementById('drawWinner').textContent='🎉 '+winner.mainName+' 🎉';if(btn){btn.textContent='🎯 SPIN NOW 🔊';btn.disabled=false;}isSpinning=false; stopSpinSound(true); if(voiceEnabled){const u=new SpeechSynthesisUtterance(`Winner is ${winner.mainName}!`);speechSynthesis.speak(u);}}}anim();}
-document.getElementById('spinDrawBtn')?.addEventListener('click',()=>{spinToWinner(null);});
-document.getElementById('shuffleBtn')?.addEventListener('click',()=>{if(!isAdmin())return;for(let i=data.groups.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[data.groups[i],data.groups[j]]=[data.groups[j],data.groups[i]];}save();drawWheel(currentRot);});
-document.getElementById('clearManualBtn')?.addEventListener('click',function(){manualTarget=null;renderAll();});
-function openManualModal(){if(!isAdmin())return;const eligible=getEligible();if(!eligible.length)return alert('No Members');const sel=document.getElementById('manualSelect');sel.innerHTML='';eligible.forEach(g=>{const o=document.createElement('option');o.value=g.id;o.textContent=g.mainName;sel.appendChild(o);});if(manualTarget)sel.value=manualTarget;document.getElementById('manualModal').classList.remove('hidden');}
-document.getElementById('manualBtn')?.addEventListener('click',openManualModal);
-document.getElementById('confirmManual')?.addEventListener('click',()=>{const v=document.getElementById('manualSelect').value;if(!v)return;manualTarget=v;document.getElementById('manualModal').classList.add('hidden');renderAll();});
-document.getElementById('cancelManual')?.addEventListener('click',()=>document.getElementById('manualModal').classList.add('hidden'));
-document.getElementById('confirmSaveWin')?.addEventListener('click',()=>{if(!isAdmin())return;if(!pendingWinner)return;data.allWinners.push({mainName:pendingWinner.mainName,subMembers:pendingWinner.subMembers||[],date:new Date().toLocaleDateString()});pendingWinner.eligibility=false;manualTarget=null;save();document.getElementById('winSaveModal').classList.add('hidden');pendingWinner=null;});
-document.getElementById('cancelSaveWin')?.addEventListener('click',()=>{document.getElementById('winSaveModal').classList.add('hidden');pendingWinner=null;});
-document.getElementById('bringBackBtn')?.addEventListener('click',()=>{if(!isAdmin())return;if(!confirm('Bring all back?'))return;data.groups.forEach(g=>g.eligibility=true);save();});
-document.getElementById('removeWinnerBtn')?.addEventListener('click',()=>{if(!isAdmin())return;if(!data.allWinners.length)return alert('No Winners');if(!confirm('Remove last winner?'))return;const last=data.allWinners.pop();const g=data.groups.find(x=>x.mainName===last.mainName);if(g)g.eligibility=true;manualTarget=null;save();});
-document.querySelectorAll('.tab-bar button').forEach(b=>{b.addEventListener('click',function(){document.querySelectorAll('.tab-bar button').forEach(x=>x.classList.remove('active'));this.classList.add('active');document.querySelectorAll('.tab').forEach(x=>x.classList.add('hidden'));const target=document.getElementById('tab-'+this.dataset.tab);if(target)target.classList.remove('hidden');if(this.dataset.tab==='wheel')drawWheel(currentRot);if(this.dataset.tab==='home'){updateMemberPaymentStatus();updateCountdown();if(isMember()) setTimeout(()=>speakWelcome(currentMemberName), 600);}if(this.dataset.tab==='monthly'&&isAdmin()){initMonthlySelectors();loadMonthlyData();}if(this.dataset.tab==='whatsapp'){renderWAChecklist();}});});
-function initMonthlySelectors(){const ms=document.getElementById('monthSelectMonthly');const ys=document.getElementById('yearSelectMonthly');if(!ms||!ys)return;ms.innerHTML='';MONTHS.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;ms.appendChild(o);});ms.value=new Date().getMonth();ys.innerHTML='';for(let y=2023;y<=2030;y++){const o=document.createElement('option');o.value=y;o.textContent=y;ys.appendChild(o);}ys.value=new Date().getFullYear();ms.onchange=loadMonthlyData;ys.onchange=loadMonthlyData;const lb=document.getElementById('loadMonthBtn');if(lb)lb.onclick=loadMonthlyData;const cb=document.getElementById('clearMonthBtn');if(cb)cb.onclick=clearMonthlyPayments;setTimeout(loadMonthlyData,100);}
-function loadMonthlyData(){const ms=document.getElementById('monthSelectMonthly');const ys=document.getElementById('yearSelectMonthly');if(!ms||!ys)return;const key=parseInt(ys.value)+'-'+String(parseInt(ms.value)+1).padStart(2,'0');const div=document.getElementById('monthlyPayList');if(!data.groups.length){div.innerHTML='<div style="text-align:center;color:#888;padding:20px">No members</div>';return;}let h='<div style="display:flex;flex-direction:column;gap:8px">';data.groups.forEach(g=>{const paid=g.monthlyPayments&&g.monthlyPayments[key]===true;h+=`<div class="member-row" style="background:${paid?'#d1fae5':'#fef3c7'};border-radius:12px;padding:12px"><span><strong>${g.mainName}</strong> (${getLast4(g.phone)}) ${paid?'✅':''}</span><button class="badge ${paid?'paid':'pending'}" style="border:none;min-width:90px;padding:8px 14px" onclick="event.stopPropagation(); toggleMonthlyPay('${g.id}','${key}')">${paid?'Paid':'Pending'}</button></div>`;});h+='</div>';div.innerHTML=h;}
-window.toggleMonthlyPay=function(id,key){if(!isAdmin())return;const g=data.groups.find(x=>x.id===id);if(!g)return;if(!g.monthlyPayments)g.monthlyPayments={};if(g.monthlyPayments[key])delete g.monthlyPayments[key];else g.monthlyPayments[key]=true;save();setTimeout(loadMonthlyData,50);};
-window.clearMonthlyPayments=function(){if(!isAdmin())return;if(!confirm('Clear this month?'))return;const ms=document.getElementById('monthSelectMonthly');const ys=document.getElementById('yearSelectMonthly');const key=parseInt(ys.value)+'-'+String(parseInt(ms.value)+1).padStart(2,'0');data.groups.forEach(g=>{if(g.monthlyPayments)delete g.monthlyPayments[key];});save();loadMonthlyData();};
-window.toggleCurrentMonthPay=function(id){if(!isAdmin())return;const g=data.groups.find(x=>x.id===id);if(!g)return;if(!g.monthlyPayments)g.monthlyPayments={};const now=new Date();const key=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0');if(g.monthlyPayments[key])delete g.monthlyPayments[key];else g.monthlyPayments[key]=true;save();};
-function updateMemberPaymentStatus(){const mem=getLoggedInMember();if(!mem){document.getElementById('memberPaymentStatus')?.classList.add('hidden');return;}const card=document.getElementById('memberPaymentStatus');if(card)card.classList.remove('hidden');const paid=computePaidCount(mem);const rem=TOTAL_INSTALLMENTS-paid;document.getElementById('memPaidCount').textContent=paid;document.getElementById('memRemainingCount').textContent=rem;document.getElementById('memAmountPaid').textContent='₹ '+(paid*(mem.amount||20000));const pct=Math.round((paid/TOTAL_INSTALLMENTS)*100);const fill=document.getElementById('memProgressFill');if(fill){fill.style.width=pct+'%';fill.textContent=pct+'%';}const grid=document.getElementById('memberPayGrid');if(grid){grid.innerHTML='';for(let i=0;i<TOTAL_INSTALLMENTS;i++){const d=document.createElement('div');d.className='pay-dot '+(i<paid?'paid-dot':'pending-dot');d.textContent=i+1;grid.appendChild(d);}}const mp=document.getElementById('memPaidMonths');if(mp){const months=Object.keys(mem.monthlyPayments).filter(k=>mem.monthlyPayments[k]).sort();mp.textContent=months.length?'Paid: '+months.join(', '):'No payments yet';}}
-window.delGroup=function(id){if(!isAdmin())return;if(!confirm('Delete member?'))return;data.groups=data.groups.filter(x=>x.id!==id);if(manualTarget===id)manualTarget=null;if(currentMemberName&&!data.groups.find(g=>g.mainName===currentMemberName)){logout();return;}save();};
-window.delSubMember=function(groupId, subIndex){if(!isAdmin())return;if(!confirm('Sub member delete ചെയ്യണോ?'))return;const g=data.groups.find(x=>x.id===groupId);if(g && g.subMembers){g.subMembers.splice(subIndex,1);save();}};
-window.bringBack=function(id){if(!isAdmin())return;const g=data.groups.find(x=>x.id===id);if(g){g.eligibility=true;save();}};
-window.delWinnerOne=function(idx){if(!isAdmin())return;if(!confirm('Delete winner?'))return;const r=data.allWinners.splice(idx,1)[0];const g=data.groups.find(x=>x.mainName===r.mainName);if(g)g.eligibility=true;save();};
-window.delPayout=function(gid,idx){if(!isAdmin())return;const g=data.groups.find(x=>x.id===gid);if(g&&g.payouts){g.payouts.splice(idx,1);save();}};
-window.openWA=function(p){if(!p)return;window.open('https://wa.me/'+p.replace(/[^0-9]/g,''),'_blank');};
-window.hardReset=function(){if(!confirm('Reset local cache? Firebase safe.'))return;localStorage.removeItem('MASHOOD_ALL_KURIS');localStorage.removeItem('MASHOOD_CURRENT_KURI');sessionStorage.clear();location.reload();};
-document.getElementById('addSingleBtn')?.addEventListener('click',function(){if(!isAdmin())return;const name=document.getElementById('singleName').value.trim();const phone=document.getElementById('singlePhone').value.trim();const amount=parseFloat(document.getElementById('singleAmount').value)||20000;if(!name)return alert('Name required');if(data.groups.find(g=>g.mainName===name))return alert('Name exists');if(phone&&phone.replace(/[^0-9]/g,'').length<10)return alert('10 digits');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:name,phone:phone,subMembers:[],eligibility:true,payouts:[],amount:amount,monthlyPayments:{}});document.getElementById('singleName').value='';document.getElementById('singlePhone').value='';document.getElementById('singleAmount').value='';save();});
-document.getElementById('bulkAddBtn')?.addEventListener('click',function(){if(!isAdmin())return;const txt=document.getElementById('bulkText').value.trim();if(!txt)return;txt.split('\n').forEach(line=>{const parts=line.split(',');const n=parts[0]?.trim();const ph=parts[1]?.trim()||'';const am=parseFloat(parts[2])||20000;if(n&&!data.groups.find(g=>g.mainName===n)){data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5)+Math.random(),mainName:n,phone:ph,subMembers:[],eligibility:true,payouts:[],amount:am,monthlyPayments:{}});}});document.getElementById('bulkText').value='';save();});
-document.getElementById('addGroupBtn')?.addEventListener('click',function(){if(!isAdmin())return;const main=document.getElementById('mainName').value.trim();const mainPh=document.getElementById('mainPhone').value.trim();const amount=parseFloat(document.getElementById('mainAmount').value)||20000;const subs=document.getElementById('subText').value.trim().split('\n').map(s=>s.trim()).filter(Boolean);if(!main)return alert('Main Name required');if(data.groups.find(g=>g.mainName===main))return alert('Exists');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).substr(2,5),mainName:main,phone:mainPh,subMembers:subs,eligibility:true,payouts:[],amount:amount,monthlyPayments:{}});document.getElementById('mainName').value='';document.getElementById('mainPhone').value='';document.getElementById('mainAmount').value='';document.getElementById('subText').value='';save();alert('Group Added');});
-document.getElementById('addPayout')?.addEventListener('click',function(){if(!isAdmin())return;const gName=document.getElementById('payoutMemberSelect').value;const g=data.groups.find(x=>x.mainName===gName);if(!g)return alert('Select Member');const amount=parseFloat(document.getElementById('payoutAmount').value);if(!amount||amount<=0)return alert('Valid amount');if(!g.payouts)g.payouts=[];g.payouts.push({date:document.getElementById('payoutDate').value||new Date().toISOString().slice(0,10),member:gName,amount:amount});document.getElementById('payoutAmount').value='';save();});
-document.getElementById('loginBtn')?.addEventListener('click',async function(){const role=document.getElementById('loginRole').value;const btn=this;btn.textContent='⏳ Checking...';btn.disabled=true;document.getElementById('loginMsg').textContent='';try{if(role==='admin'){const selectedKuri=document.getElementById('loginKuriSelector').value||'kuri_1';const pass=document.getElementById('loginPass').value.trim();const kuriData=allKuriData[selectedKuri]?.data;if(pass===kuriData?.passwords?.admin||pass==='ma7hood'){currentKuriId=selectedKuri;data=allKuriData[selectedKuri].data;saveAllKuri();doLogin('admin',null);}else{document.getElementById('loginMsg').textContent='❌ Wrong Password!';}}else{const pass=document.getElementById('memberPass').value.trim();if(!pass||pass.length!==4){document.getElementById('loginMsg').textContent='❌ Enter 4-digit';btn.textContent='🔓 Secure Login';btn.disabled=false;return;}document.getElementById('loginMsg').textContent='🔍 Checking LIVE...';const result=await findMemberByPasswordAcrossKuris(pass);if(result){currentKuriId=result.kuriId;data=allKuriData[result.kuriId].data;saveAllKuri();doLogin('member',result.member.mainName);}else{document.getElementById('loginMsg').textContent='❌ No member with '+pass;}}}catch(e){document.getElementById('loginMsg').textContent='Error: '+e.message;}btn.textContent='🔓 Secure Login';btn.disabled=false;});
-function doLogin(role,memberName){currentRole=role;currentMemberName=memberName;sessionStorage.setItem('mashood_role',role);if(memberName)sessionStorage.setItem('mashood_member',memberName);else sessionStorage.removeItem('mashood_member');document.getElementById('loginScreen').style.display='none';document.getElementById('mainApp').style.display='block';const rd=document.getElementById('roleDisplay');if(rd)rd.textContent=role==='admin'?'👑 Admin':'👤 '+memberName;renderKuriSelector();loadKuri(currentKuriId);document.getElementById('loginPass').value='';document.getElementById('memberPass').value='';if(role==='admin')initMonthlySelectors();if(role==='member' && memberName){setTimeout(()=>{ speakWelcome(memberName); }, 800);}}
-window.logout=function(){currentRole=null;currentMemberName=null;sessionStorage.removeItem('mashood_role');sessionStorage.removeItem('mashood_member');document.getElementById('mainApp').style.display='none';document.getElementById('loginScreen').style.display='flex';document.getElementById('loginPass').value='';document.getElementById('memberPass').value='';document.getElementById('loginMsg').textContent='';renderKuriSelector();};
-document.getElementById('passToggle')?.addEventListener('click',function(){const i=document.getElementById('loginPass');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁':'🙈';});
-document.getElementById('memberPassToggle')?.addEventListener('click',function(){const i=document.getElementById('memberPass');i.type=i.type==='password'?'text':'password';this.textContent=i.type==='password'?'👁':'🙈';});
-document.getElementById('kuriSelector')?.addEventListener('change',function(){loadKuri(this.value);});
-const loginRole=document.getElementById('loginRole');const adminLoginFields=document.getElementById('adminLoginFields');const memberLoginFields=document.getElementById('memberLoginFields');
-loginRole?.addEventListener('change',function(){if(this.value==='admin'){adminLoginFields.classList.remove('hidden');memberLoginFields.classList.add('hidden');}else{adminLoginFields.classList.add('hidden');memberLoginFields.classList.remove('hidden');}});
-renderKuriSelector();
-if(currentRole){document.getElementById('loginScreen').style.display='none';document.getElementById('mainApp').style.display='block';const rd=document.getElementById('roleDisplay');if(rd)rd.textContent=currentRole==='admin'?'👑 Admin':'👤 '+(currentMemberName||'Member');if(currentRole==='admin')initMonthlySelectors();loadKuri(currentKuriId);if(currentRole==='member' && currentMemberName){ setTimeout(()=>speakWelcome(currentMemberName), 1000); }}else{document.getElementById('loginScreen').style.display='flex';document.getElementById('mainApp').style.display='none';}
-drawWheel(0);renderAll();setInterval(updateCountdown,1000);
+  const s=Math.PI*2/E.length,P=Math.PI*2,st=rot,dl_=(((-(wi*s+s/2)-st)%P)+P)%P+P*12,dur=11000,t0=performance.now();
+  ac();let lc=Math.floor(st/s);$('spinBtn').disabled=true;$('spinBtn').textContent='🌀 SPINNING...';startRec();
+  (function f(t){const p=Math.min((t-t0)/dur,1);rot=st+dl_*(1-Math.pow(1-p,5));const c=Math.floor(rot/s);if(c!==lc){lc=c;tk()}drawWheel(rot);if(p<1)requestAnimationFrame(f);else{spinning=false;fanfare();win=E[wi];if(preWin){win.man=1;preWin=null}winTxt='🎉 '+win.mainName+' 🎉';setTimeout(stopRec,2000);
+   modal('<div style="text-align:center"><h3>🎉 വിജയി!</h3><div class="wn">'+esc(win.mainName)+'</div><button class="btn" onclick="saveWin()">✅ Save Winner</button><button class="btn o" onclick="closeM();draw(true)">❌ Cancel</button></div>')}})(t0)},
+ saveWin(){if(!win)return;const g=data.groups.find(x=>x.id===win.id);data.allWinners.push({mainName:win.mainName,subMembers:win.subMembers||[],date:new Date().toLocaleDateString(),manual:win.man?1:0});if(g)g.eligibility=false;win=null;closeM();save()}});
+if(role)watch();draw(true);
 </script>
-<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script></body>
-</html>
+</body></html>
