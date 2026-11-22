@@ -153,6 +153,7 @@ notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').loca
   h+='</div><div style="display:flex;gap:6px;flex-wrap:wrap">';
   if(isPending){h+='<button class="p pd" onclick="approveJoin(\''+id+'\')">✅ Approve</button><button class="p pn" onclick="rejectJoin(\''+id+'\')">✖ Reject</button>'}
   h+='<button class="p" style="background:#1565c0" onclick="viewJoin(\''+id+'\')">👁 Full</button>';
+  h+='<button class="p" style="background:#FFD700;color:#000" onclick="printApplicationPDF(joinReqs[\''+id+'\'])">📄 PDF</button>';
   if(r.phone)h+='<button class="p" style="background:#25D366" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button>';
   h+='</div></div>';
   return h},
@@ -223,21 +224,63 @@ if(ph)ph.onchange=async function(){const f=this.files[0];if(!f)return;
   m.textContent='Submitting...';
   try{await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:window._jphoto||'',date:new Date().toISOString(),status:'pending'});
   window._jphoto='';closeM();alert('✅ Application submitted successfully!\nAdmin will contact you soon.');}catch(e){m.textContent='Error. Please try again.'}},
- approveJoin(id){const r=joinReqs[id];if(!r)return;if(!confirm('Approve '+r.name+'?'))return;
+ approveJoin(id){const r=joinReqs[id];if(!r)return;if(!confirm('Approve '+r.name+'?\n\nPDF download + WhatsApp message will open.'))return;
   set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'approved');
-  // Open WhatsApp with Malayalam approval message
+  printApplicationPDF(r); // download/print application PDF
   const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
   if(phone.length===10){
-    const msg='നമസ്കാരം '+r.name+',\n\nനിങ്ങളുടെ Mashood Thennala Kuri അപേക്ഷ *അംഗീകരിച്ചിരിക്കുന്നു* ✅\n\n📋 വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Aadhaar: '+(r.aadhaar||'-')+'\n\nഅടുത്ത നടപടികൾ അറിയിക്കാം. നന്ദി 🙏\n\n— Mashood Thennala Kuri Admin';
-    window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank');
+    const msg='നമസ്കാരം '+r.name+',\n\nനിങ്ങളുടെ Mashood Thennala Kuri അപേക്ഷ *അംഗീകരിച്ചിരിക്കുന്നു* ✅\n\n📋 വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Aadhaar: '+(r.aadhaar||'-')+'\n\nഅപേക്ഷയുടെ PDF റെഡി ആണ്. ആവശ്യമെങ്കിൽ അറ്റാച്ച് ചെയ്യാം.\nഅടുത്ത നടപടികൾ അറിയിക്കാം. നന്ദി 🙏\n\n— Mashood Thennala Kuri Admin';
+    setTimeout(()=>window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank'),800);
   }
-  alert('✅ Approved'+(phone?' — WhatsApp opened':'')+'. Application stays in Notif as Approved.')},
+  alert('✅ Approved\n\n1. Application PDF opened — Save / Share it\n2. WhatsApp message opened\n\nPDF അറ്റാച്ച് ചെയ്ത് അയയ്ക്കാം.')},
  rejectJoin(id){if(!confirm('Reject this application?'))return;set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'rejected');alert('Rejected')},
  waJoin(id){const r=joinReqs[id];if(!r||!r.phone)return alert('No phone number');
+  printApplicationPDF(r);
   const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
   const msg='നമസ്കാരം '+r.name+',\n\nMashood Thennala Kuri സംബന്ധിച്ച് ബന്ധപ്പെടുന്നു.\n\n📋 നിങ്ങളുടെ അപേക്ഷ വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Occupation: '+(r.occupation||'-')+'\n• Family: '+(r.family||'-')+'\n• Status: '+(r.status||'')+'\n\n— Mashood Thennala Kuri Admin';
-  window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank')},
- viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.outerHTML=\'<p style=color:#c62828;text-align:center>Photo could not load</p>\'"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">📷 No photo uploaded</p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn wa" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button><button class="btn o" onclick="closeM()">Close</button></div>')},
+  setTimeout(()=>window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank'),800)},
+ viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.outerHTML=\'<p style=color:#c62828;text-align:center>Photo could not load</p>\'"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">📷 No photo uploaded<br><small>(പുതിയ അപേക്ഷകളിൽ മാത്രം ഫോട്ടോ സേവ് ആകും)</small></p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap"><button class="btn gd" onclick="printApplicationPDF(joinReqs[\''+id+'\'])">📄 PDF</button><button class="btn wa" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button><button class="btn o" onclick="closeM()">Close</button></div>')},
+ printApplicationPDF(r){if(!r)return;const w=window.open('','_blank');if(!w)return alert('Please allow popups');
+  const photoHtml=r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:120px;height:120px;object-fit:cover;border-radius:12px;border:3px solid #2E7D32;float:right;margin:0 0 12px 12px">':'';
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Application - ${esc(r.name)}</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;color:#1a1a2e;background:#faf9f6;padding:24px;line-height:1.55}
+.wrap{max-width:640px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 6px 30px rgba(0,0,0,.08);border:1px solid #e8e4d9}
+.topbar{height:5px;background:linear-gradient(90deg,#1a3c1a,#2E7D32,#c9a227,#2E7D32,#1a3c1a)}
+.header{background:linear-gradient(160deg,#0d1f0d,#1b4332 50%,#2d6a4f);color:#fff;padding:22px 24px}
+.header h1{font-size:1.35rem;font-weight:800}
+.header p{opacity:.85;font-size:.85rem;margin-top:3px}
+.badge{display:inline-block;margin-top:10px;background:rgba(201,162,39,.25);border:1px solid rgba(201,162,39,.5);color:#f0e6c0;padding:4px 12px;border-radius:4px;font-size:.7rem;font-weight:600;letter-spacing:.8px;text-transform:uppercase}
+.body{padding:22px 24px}
+.row{display:flex;padding:9px 0;border-bottom:1px solid #f0ede5;font-size:.88rem}
+.row .lbl{width:140px;color:#64748b;font-weight:600;flex-shrink:0}
+.row .val{flex:1;font-weight:500}
+.status{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.75rem;font-weight:700}
+.status.ok{background:#d1fae5;color:#065f46}
+.footer{padding:14px 24px;background:#f8f7f4;border-top:1px solid #e8e4d9;text-align:center;font-size:.7rem;color:#8a8578}
+@media print{body{padding:0;background:#fff}.wrap{box-shadow:none;border:none}.header{print-color-adjust:exact;-webkit-print-color-adjust:exact}}
+</style></head><body>
+<div class="wrap"><div class="topbar"></div>
+<div class="header"><h1>🪙 Mashood Thennala Kuri</h1><p>Join Application Form</p>
+<span class="badge">${esc(r.status||'pending')}  •  ${esc((r.date||'').slice(0,10))}</span></div>
+<div class="body">${photoHtml}
+<div class="row"><div class="lbl">Full Name</div><div class="val"><b>${esc(r.name)}</b></div></div>
+<div class="row"><div class="lbl">Phone</div><div class="val">${esc(r.phone||'-')}</div></div>
+<div class="row"><div class="lbl">Aadhaar</div><div class="val">${esc(r.aadhaar||'-')}</div></div>
+<div class="row"><div class="lbl">Address</div><div class="val">${esc(r.address||'-')}</div></div>
+<div class="row"><div class="lbl">Occupation</div><div class="val">${esc(r.occupation||'-')}</div></div>
+<div class="row"><div class="lbl">Heard via</div><div class="val">${esc(r.heard||'-')}</div></div>
+<div class="row"><div class="lbl">Family</div><div class="val">${esc(r.family||'-')}</div></div>
+<div class="row"><div class="lbl">Parent Phone</div><div class="val">${esc(r.parentPhone||'-')}</div></div>
+<div class="row"><div class="lbl">Parent Address</div><div class="val">${esc(r.parentAddress||'-')}</div></div>
+<div class="row"><div class="lbl">If unable to pay</div><div class="val">${esc(r.responsibility||'-')}</div></div>
+<div class="row"><div class="lbl">Status</div><div class="val"><span class="status ok">${esc(r.status||'')}</span></div></div>
+</div>
+<div class="footer">Mashood Thennala Kuri • Application Statement • ${new Date().toLocaleDateString('en-IN')}</div>
+</div>
+<script>setTimeout(()=>window.print(),500)<\/script></body></html>`);w.document.close()},
  async login(){const p=$('lp').value.trim(),m=$('lm');
   if(lrole==='admin'){if(p!==PASS)return m.textContent='❌ Wrong password';role='admin';me='';kid=$('lk').value}
   else{if(p.length!==4)return m.textContent='❌ 4 അക്കം നൽകുക';m.textContent='🔍 Checking...';let f=null;
