@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ml"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mashood Thennala Kuri V32</title>
+<title>Mashood Thennala Kuri V34</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#f5f7fb;--c:#fff;--t:#1e293b;--m:#666;--l:#eee;--g:#2E7D32}
@@ -45,6 +45,8 @@ input,select,textarea{width:100%;padding:11px;border-radius:16px;border:2px soli
 .wb p{position:relative;color:#8ec8a0;font-weight:700;margin-top:6px}
 .fl{position:absolute;top:-24px;font-size:1.2rem;animation:fall 5s linear infinite}
 @keyframes fall{to{transform:translateY(220px) rotate(360deg);opacity:0}}
+#tst{position:fixed;left:10px;right:10px;top:10px;z-index:900;background:#0b1a0b;color:#ffec8b;border:2px solid #d4af37;border-radius:18px;padding:14px;font-weight:800;font-size:.9rem;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.35);transform:translateY(-160%);transition:transform .35s;pointer-events:none}
+#tst.show{transform:translateY(0)}
 </style></head>
 <body>
 <div class="w" id="app"><div class="card" style="text-align:center;margin-top:40px"><div style="font-size:2.5rem">🪙</div><h3>Mashood Thennala Kuri</h3><p>⏳ Loading...</p><p style="font-size:.8rem;color:#c62828;margin-top:8px">ഇത് മാറുന്നില്ലെങ്കിൽ ഫയൽ Chrome ബ്രൗസറിൽ (ഇന്റർനെറ്റ് ഓൺ ആക്കി) തുറക്കുക.</p></div></div>
@@ -61,22 +63,28 @@ const PASS='ma7hood',KS=['kuri_1','kuri_2','kuri_3','kuri_4'],MKF=()=>{const n=n
 const getMonths=()=>{const ms=[];let y=2026,m=8;for(let i=0;i<25;i++){ms.push(y+'-'+String(m).padStart(2,'0'));m++;if(m>12){m=1;y++}}return ms};
 const monthName=m=>{const[y,mo]=m.split('-');return new Date(+y,+mo-1).toLocaleString('en',{month:'short',year:'numeric'})};
 const l4=p=>(p||'').replace(/\D/g,'').slice(-4);
-function compressPhoto(file,maxW=420,quality=0.55){return new Promise((resolve,reject)=>{
+function compressPhoto(file,maxW=360,quality=0.6){return new Promise((resolve,reject)=>{
   const reader=new FileReader();
   reader.onload=e=>{const img=new Image();img.onload=()=>{let w=img.width,h=img.height;if(w>maxW){h=Math.round(h*maxW/w);w=maxW}
     const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);resolve(c.toDataURL('image/jpeg',quality))};
     img.onerror=reject;img.src=e.target.result};
   reader.onerror=reject;reader.readAsDataURL(file)})}
 window.compressPhoto=compressPhoto;
-let fresh=true,wk='',role=sessionStorage.role||'',me=sessionStorage.me||'',kid=localStorage.kid||'kuri_1',tab='home',pm=MKF(),lrole='admin',conn=false,data=norm(),ext={},joinReqs={},u1,u2,u3,spinning=false,rot=0,win=null,winTxt='',preWin=null;
+let fresh=true,wk='',role=sessionStorage.role||'',me=sessionStorage.me||'',kid=localStorage.kid||'kuri_1',tab='home',pm=MKF(),lrole='admin',conn=false,data=norm(),ext={},joinReqs={},logins={},exits={},u1,u2,u3,u4,u5,spinning=false,rot=0,win=null,winTxt='',preWin=null;
 if(localStorage.dk==='1')document.body.classList.add('dk');
-function norm(v){v=v||{};const g=v.groups?Object.values(v.groups):[];g.forEach(x=>{x.monthlyPayments=x.monthlyPayments||{};x.payouts=x.payouts?Object.values(x.payouts):[];x.subMembers=x.subMembers?Object.values(x.subMembers):[]});return Object.assign({nextKuriDate:'',upi:null,waGroupLink:''},v,{groups:g,allWinners:v.allWinners?Object.values(v.allWinners):[]})}
+function norm(v){v=v||{};const g=v.groups?Object.values(v.groups):[];g.forEach(x=>{x.monthlyPayments=x.monthlyPayments||{};x.payouts=x.payouts?Object.values(x.payouts):[];x.subMembers=x.subMembers?Object.values(x.subMembers):[]});return Object.assign({nextKuriDate:'',upi:null,waGroupLink:''},v,{groups:g,allWinners:v.allWinners?Object.values(v.allWinners):[],settlements:v.settlements?Object.values(v.settlements):[],exitCutMonths:parseInt(v.exitCutMonths)||1})}
 const save=()=>set(ref(db,'mashood_kuri_'+kid),JSON.parse(JSON.stringify(data)));
 const elig=()=>data.groups.filter(g=>g.eligibility!==false),paid=(g,m)=>!!g.monthlyPayments[m||MKF()],cnt=g=>Object.values(g.monthlyPayments).filter(Boolean).length;
 const reqs=()=>Object.entries(ext).map(([id,r])=>Object.assign({id},r)),meG=()=>data.groups.find(g=>g.mainName===me);
-const kname='Kuri '+(kid.split('_')[1]||1);
+let kname='Kuri '+(kid.split('_')[1]||1);
+function setKname(){kname='Kuri '+(kid.split('_')[1]||1)}
 onValue(ref(db,'.info/connected'),s=>{conn=s.val()===true;draw()});
-function watch(){if(u1)u1();if(u2)u2();if(u3)u3();u1=onValue(ref(db,'mashood_kuri_'+kid),s=>{data=norm(s.val());draw()});u2=onValue(ref(db,'mashood_ext/'+kid+'/req'),s=>{ext=s.val()||{};draw()});u3=onValue(ref(db,'mashood_ext/join_requests'),s=>{joinReqs=s.val()||{};draw()})}
+function watch(){if(u1)u1();if(u2)u2();if(u3)u3();if(u4)u4();if(u5)u5();
+ u1=onValue(ref(db,'mashood_kuri_'+kid),s=>{data=norm(s.val());draw()});
+ u2=onValue(ref(db,'mashood_ext/'+kid+'/req'),s=>{ext=s.val()||{};draw()});
+ u3=onValue(ref(db,'mashood_ext/join_requests'),s=>{joinReqs=s.val()||{};Object.keys(joinReqs).forEach(function(q){var r=joinReqs[q];if(r&&typeof r==='object')r.photo=photoOf(r)});draw()});
+ u4=onValue(ref(db,'mashood_ext/'+kid+'/logins'),s=>{logins=s.val()||{};draw()});
+ u5=onValue(ref(db,'mashood_ext/'+kid+'/exit'),s=>{exits=s.val()||{};draw()})}
 function dl(b,n){const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),500)}
 
 /* ===== DRAW ===== */
@@ -87,7 +95,7 @@ function draw(force){
  if(tab==='wheel'&&role&&$('wh')){$('wh').appendChild(cv);drawWheel(rot)}
  const qb=$('qr'),u=data.upi,g=meG();if(qb&&u&&u.id&&g&&window.QRCode)new QRCode(qb,{text:'upi://pay?pa='+u.id+'&pn='+(u.name||'Kuri')+'&am='+(g.amount||20000)+'&cu=INR&tn=Kuri',width:180,height:180});
  fresh=false;tick()}
-function login(){return '<div style="min-height:90vh;display:flex;align-items:center"><div class="card" style="width:100%;text-align:center"><div style="font-size:3rem">🪙</div><h2 style="color:var(--g)">Mashood Thennala Kuri</h2><p style="font-size:.8rem;color:var(--m);margin-bottom:10px">V32 • Live</p><select id="lr" onchange="setRole(this.value)"><option value="admin"'+(lrole==='admin'?' selected':'')+'>👑 Admin</option><option value="member"'+(lrole==='member'?' selected':'')+'>👤 Member</option></select>'+(lrole==='admin'?'<select id="lk">'+KS.map(k=>'<option value="'+k+'"'+(k===kid?' selected':'')+'>Kuri '+k.split('_')[1]+'</option>').join('')+'</select><input id="lp" type="password" placeholder="Admin Password">':'<input id="lp" type="password" maxlength="4" inputmode="numeric" placeholder="ഫോൺ നമ്പറിന്റെ അവസാന 4 അക്കം">')+'<button class="btn" onclick="login()">🔓 Login</button><div id="lm" style="color:#c62828;font-weight:700;min-height:20px"></div><hr style="margin:18px 0;border:none;border-top:1px solid var(--l)"><button class="btn o" onclick="showApply()">📝 Apply to Join (New Member)</button></div></div>'}
+function login(){return '<div style="min-height:90vh;display:flex;align-items:center"><div class="card" style="width:100%;text-align:center"><div style="font-size:3rem">🪙</div><h2 style="color:var(--g)">Mashood Thennala Kuri</h2><p style="font-size:.8rem;color:var(--m);margin-bottom:10px">V34 • Live</p><select id="lr" onchange="setRole(this.value)"><option value="admin"'+(lrole==='admin'?' selected':'')+'>👑 Admin</option><option value="member"'+(lrole==='member'?' selected':'')+'>👤 Member</option></select>'+(lrole==='admin'?'<select id="lk">'+KS.map(k=>'<option value="'+k+'"'+(k===kid?' selected':'')+'>Kuri '+k.split('_')[1]+'</option>').join('')+'</select><input id="lp" type="password" placeholder="Admin Password">':'<input id="lp" type="password" maxlength="4" inputmode="numeric" placeholder="ഫോൺ നമ്പറിന്റെ അവസാന 4 അക്കം">')+'<button class="btn" onclick="login()">🔓 Login</button><div id="lm" style="color:#c62828;font-weight:700;min-height:20px"></div><hr style="margin:18px 0;border:none;border-top:1px solid var(--l)"><button class="btn o" onclick="showApply()">📝 Apply to Join (New Member)</button></div></div>'}
 const adm=()=>role==='admin';
 function shell(){
  const pr=reqs().filter(x=>x.s==='p').length;
@@ -104,11 +112,11 @@ home(){const m=MKF(),n=data.groups.length,pd=data.groups.filter(g=>paid(g)).leng
  if(data.waGroupLink)h+='<a class="btn wa" href="'+esc(data.waGroupLink)+'" target="_blank">👥 WhatsApp Group</a>';
  if(adm())h+='<button class="btn wa" onclick="openWA([],0)" style="font-size:1.05rem;padding:14px">📢 Broadcast Message</button>';
  return h+'<button class="btn o" onclick="dark()">🌙 Dark Mode</button>'},
-members(){let h='<div class="card"><h3>👥 Members ('+data.groups.length+'/25)</h3>'+(data.groups.map((g,i)=>'<div class="r"><span><b>'+(i+1)+'. '+esc(g.mainName)+'</b>'+(g.subMembers.length?' <small>+'+g.subMembers.length+' group</small>':'')+'<br><small>'+(adm()?esc(g.phone||'-')+' • ':'')+'Paid '+cnt(g)+'/25</small>'+g.subMembers.map((m,si)=>'<br><small>• '+esc(m)+(adm()?' <a href="#" style="color:#c62828" onclick="delSub('+i+','+si+');return false">✕</a>':'')+'</small>').join('')+'</span>'+(adm()?'<button class="p pn" onclick="del('+i+')">✕</button>':'')+'</div>').join('')||'<small>മെംബർമാർ ഇല്ല</small>')+'</div>';
+members(){let h='<div class="card"><h3>👥 Members ('+data.groups.length+'/25)</h3>'+(data.groups.map((g,i)=>'<div class="r"><span>'+(g.photo&&g.photo.length>50?'<img src="'+g.photo+'" style="width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid #2E7D32;vertical-align:middle;margin-right:6px">':'')+'<b>'+(i+1)+'. '+esc(g.mainName)+'</b>'+(g.subMembers.length?' <small>+'+g.subMembers.length+' group</small>':'')+'<br><small>'+(adm()?esc(g.phone||'-')+' • ':'')+'Paid '+cnt(g)+'/25</small>'+g.subMembers.map((m,si)=>'<br><small>• '+esc(m)+(adm()?' <a href="#" style="color:#c62828" onclick="delSub('+i+','+si+');return false">✕</a>':'')+'</small>').join('')+'</span>'+(adm()?'<button class="p pn" onclick="del('+i+')">✕</button>':'')+'</div>').join('')||'<small>മെംബർമാർ ഇല്ല</small>')+'</div>';
  if(adm())h+='<div class="card"><h3>➕ Add Member</h3><input id="an" placeholder="Name"><input id="ap" placeholder="Phone 10 digit" inputmode="numeric"><input id="aa" type="number" min="0" max="1000000" step="1000" placeholder="Amount 20000" value="20000"><button class="btn" onclick="add()">✅ Add</button><h3 style="margin-top:12px">📋 Bulk (Name,Phone,Amount)</h3><textarea id="ab" rows="3"></textarea><button class="btn gd" onclick="bulk()">Bulk Add</button></div><div class="card"><h3>🏠 Group Add</h3><input id="gn" placeholder="Group Head Name"><input id="gp" placeholder="Head Phone" inputmode="numeric"><input id="ga" type="number" min="0" max="1000000" step="1000" placeholder="Amount 20000" value="20000"><textarea id="gs" rows="3" placeholder="Sub members - ഒരു വരിയിൽ ഒന്ന്"></textarea><button class="btn" style="background:#1565c0" onclick="addGroup()">🏠 Add Group</button></div>';
  return h},
 pay(){let h='<div class="card"><h3>₹ Payments</h3><input type="month" id="pmm" value="'+pm+'" onchange="setPm(this.value)"><button class="btn wa" onclick="bulkWA()">📢 Pending എല്ലാവർക്കും WhatsApp</button><button class="btn wa" style="background:#128C7E" onclick="openWA([],0)">📢 Broadcast Message</button><b>'+data.groups.filter(g=>paid(g,pm)).length+' Paid / '+data.groups.filter(g=>!paid(g,pm)).length+' Pending</b>';
- return h+data.groups.map((g,i)=>'<div class="r"><span><b>'+esc(g.mainName)+'</b><br><small>'+l4(g.phone)+' • '+cnt(g)+'/25</small></span><span><button class="p" style="background:#25D366" onclick="openWA(['+i+'],1)">💬</button> <button class="p '+(paid(g,pm)?'pd':'pn')+'" onclick="tg('+i+')">'+(paid(g,pm)?'✅ Paid':'⏳ Pending')+'</button></span></div>').join('')+'</div>'},
+ return h+data.groups.map((g,i)=>'<div class="r"><span><b>'+esc(g.mainName)+'</b><br><small>'+l4(g.phone)+' • '+cnt(g)+'/25</small></span><span><button class="p" style="background:#25D366" onclick="waOne('+i+',1)">💬</button> <button class="p '+(paid(g,pm)?'pd':'pn')+'" onclick="tg('+i+')">'+(paid(g,pm)?'✅ Paid':'⏳ Pending')+'</button></span></div>').join('')+'</div>'},
 wheel(){const E=elig();
  let h='<div class="card" style="background:#1a1a2e;color:#fff"><h3>🎡 '+kname+'</h3><div style="position:relative;max-width:380px;margin:auto"><div id="wh"></div><div style="position:absolute;right:-8px;top:50%;transform:translateY(-50%);font-size:34px;color:#007AFF">◀</div></div>'+(adm()?'<button class="btn" id="spinBtn" style="background:#FF3B30;font-size:1.1rem;padding:15px" onclick="spin()">🎯 SPIN</button><label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input id="rc" type="checkbox" checked style="width:22px;height:22px;margin:0"> 🎥 സ്പിൻ വീഡിയോ റെക്കോർഡ് ചെയ്യുക</label>':'<div style="text-align:center;padding:10px;font-weight:700;color:#FFD700">👀 View Only</div>')+'<div style="text-align:center;font-size:.8rem">Wheel: '+E.length+' / Total: '+data.groups.length+'</div></div>';
  if(adm()){
@@ -119,7 +127,7 @@ upi(){const u=data.upi||{},rq=reqs();let h='';
  if(adm()){const pend=rq.filter(x=>x.s==='p'),np=data.groups.map((g,i)=>[g,i]).filter(a=>!paid(a[0]));
   h+='<div class="card"><h3>🏦 UPI Settings</h3><input id="ui" placeholder="UPI ID" value="'+esc(u.id||'')+'"><input id="un" placeholder="Payee name" value="'+esc(u.name||'')+'"><button class="btn" onclick="saveUpi()">💾 Save UPI</button></div>';
   h+='<div class="card"><h3>🔔 Payment Requests ('+pend.length+')</h3>'+(pend.map(x=>'<div class="r"><span><b>'+esc(x.n)+'</b><br><small>'+x.m+' • ₹'+x.a+'</small></span><span><button class="p pd" onclick="okR(\''+x.id+'\')">✅ Approve</button> <button class="p pn" onclick="noR(\''+x.id+'\')">✖</button></span></div>').join('')||'<small>പുതിയ റിക്വസ്റ്റ് ഇല്ല</small>')+'</div>';
-  h+='<div class="card"><h3>⏳ Pending ('+np.length+')</h3><button class="btn wa" onclick="bulkWA()">📢 Bulk WA</button>'+np.map(a=>'<div class="r"><b>'+esc(a[0].mainName)+'</b><span><button class="p" style="background:#25D366" onclick="openWA(['+a[1]+'],1)">💬</button> <button class="p pd" onclick="tgm('+a[1]+')">✅ Paid</button></span></div>').join('')+'</div>';
+  h+='<div class="card"><h3>⏳ Pending ('+np.length+')</h3><button class="btn wa" onclick="bulkWA()">📢 Bulk WA</button>'+np.map(a=>'<div class="r"><b>'+esc(a[0].mainName)+'</b><span><button class="p" style="background:#25D366" onclick="waOne('+a[1]+',1)">💬</button> <button class="p pd" onclick="tgm('+a[1]+')">✅ Paid</button></span></div>').join('')+'</div>';
   h+='<div class="card"><h3>🔳 Create QR (Scanner)</h3><input id="qa" type="number" min="0" max="1000000" step="1000" placeholder="Amount (ഉദാ: 20000)" value="20000"><button class="btn gd" onclick="makeQR()">🔳 QR Create</button><div id="aqr" style="display:flex;justify-content:center;margin:10px 0"></div><button class="btn o" onclick="saveQR()">⬇ QR Image Save</button></div><div class="card"><h3>📤 Export</h3><button class="btn gd" onclick="csv()">CSV Ledger</button><button class="btn o" onclick="pdf()">PDF / Print</button></div>'}
  else{const g=meG();if(g){h+='<div class="card" style="text-align:center"><h3>💳 Pay Now - ₹'+(g.amount||20000)+'</h3>'+(paid(g)?'<b style="color:var(--g)">✅ ഈ മാസം Paid</b>':(u.id?'<div id="qr" style="display:flex;justify-content:center;margin:10px 0"></div><b>'+esc(u.id)+'</b><button class="btn o" onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+esc(u.id)+'\');alert(\'Copied\')">📋 Copy UPI</button><a class="btn" href="upi://pay?pa='+encodeURIComponent(u.id)+'&pn='+encodeURIComponent(u.name||'Kuri')+'&am='+(g.amount||20000)+'&cu=INR&tn=Kuri">📲 UPI App തുറക്കുക</a><button class="btn gd" onclick="iPaid()">✅ ഞാൻ അടച്ചു (I Paid)</button>':'<small>UPI ഇതുവരെ സജ്ജമാക്കിയിട്ടില്ല</small>'))+'</div>';
   h+='<div class="card"><h3>🔔 Notifications</h3>'+(rq.filter(x=>x.gid===g.id).sort((a,b)=>(b.t||'').localeCompare(a.t||'')).slice(0,6).map(x=>'<div class="r"><span>'+x.m+' • ₹'+x.a+'</span><b>'+(x.s==='ok'?'✅ അംഗീകരിച്ചു':x.s==='no'?'❌ നിരസിച്ചു':'⏳ പരിശോധനയിൽ')+'</b></div>').join('')||'<small>അറിയിപ്പുകൾ ഇല്ല</small>')+'</div>'}}
@@ -129,6 +137,7 @@ notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').loca
  const approved=allJoins.filter(([id,r])=>r.status==='approved');
  const payReqs=reqs().filter(x=>x.s==='p');
  let h='<div class="card"><h3>🔔 Notifications</h3>';
+ h+='<button class="btn o sm" style="margin:4px 0 8px" onclick="chK(\''+NEWK+'\')">➡️ '+NEWKNAME+' മെമ്പർ ലിസ്റ\u0d4d\u0d31\u0d4d \u0d24\u0d41\u0d31\u0d15\u0d4d\u0d15\u0d41\u0d15</button>';
  if(!pending.length&&!approved.length&&!payReqs.length)h+='<p style="color:var(--m);text-align:center;padding:20px">No notifications</p>';
  if(pending.length){h+='<h3 style="margin-top:12px;color:#c62828">📝 Pending Applications ('+pending.length+')</h3>';
   pending.forEach(([id,r])=>{h+=V.joinCard(id,r,true)});
@@ -139,7 +148,12 @@ notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').loca
  if(payReqs.length){h+='<h3 style="margin-top:16px">💳 Payment Requests ('+payReqs.length+')</h3>';
   payReqs.forEach(x=>{h+='<div class="r"><span><b>'+esc(x.n)+'</b><br><small>'+x.m+' • ₹'+x.a+'</small></span><span><button class="p pd" onclick="okR(\''+x.id+'\')">✅</button> <button class="p pn" onclick="noR(\''+x.id+'\')">✖</button></span></div>'});
  }
+ const lg=Object.entries(logins).sort((a,b)=>(b[1].t||'').localeCompare(a[1].t||'')).slice(0,10);
+ if(lg.length){h+='<h3 style="margin-top:16px">👤 Recent Member Logins</h3>';
+  lg.forEach(a=>{const r=a[1]||{};h+='<div class="r"><span><b>'+esc(r.name)+'</b><br><small>…'+esc(r.phone4||'')+' • '+esc(new Date(r.t||Date.now()).toLocaleString('en-IN'))+'</small></span>🟢</div>'});
+  h+='<button class="btn o sm" onclick="clearLogins()">🗑 Logins ക്ലിയർ</button>'}
  return h+'</div>'},
+
  joinCard(id,r,isPending){let h='<div class="card" style="background:var(--bg);margin:8px 0"><div class="r"><span><b>'+esc(r.name)+'</b> '+(r.status==='approved'?'<span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">APPROVED</span>':'')+'<br><small>📱 '+esc(r.phone)+' • '+esc((r.date||'').slice(0,10))+'</small>'+(r.aadhaar?'<br><small>Aadhaar: '+esc(r.aadhaar)+'</small>':'')+(r.address?'<br><small>'+esc(r.address)+'</small>':'')+'</span></div>';
   if(r.photo&&r.photo.length>50)h+='<div style="margin:8px 0"><img src="'+r.photo+'" style="width:110px;height:110px;object-fit:cover;border-radius:12px;border:2px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.parentNode.innerHTML=\'<small style=color:#c62828>Photo load failed</small>\'"></div>';
   else h+='<div style="font-size:.75rem;color:var(--m);margin:4px 0">📷 No photo</div>';
@@ -153,7 +167,7 @@ notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').loca
   h+='</div><div style="display:flex;gap:6px;flex-wrap:wrap">';
   if(isPending){h+='<button class="p pd" onclick="approveJoin(\''+id+'\')">✅ Approve</button><button class="p pn" onclick="rejectJoin(\''+id+'\')">✖ Reject</button>'}
   h+='<button class="p" style="background:#1565c0" onclick="viewJoin(\''+id+'\')">👁 Full</button>';
-  h+='<button class="p" style="background:#FFD700;color:#000" onclick="printApplicationPDF(joinReqs[\''+id+'\'])">📄 PDF</button>';
+  h+='<button class="p" style="background:#FFD700;color:#000" onclick="pdfJoin(\''+id+'\')">📄 PDF</button>';
   if(r.phone)h+='<button class="p" style="background:#25D366" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button>';
   h+='</div></div>';
   return h},
@@ -164,8 +178,8 @@ notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').loca
  }
  if(adm()){h+='<div class="card"><h3>📅 25-Month Payment Overview (from Aug 2026)</h3><div style="overflow:auto;max-height:400px">'+data.groups.map((g,gi)=>{const pc=months.filter(m=>paid(g,m)).length;return '<div style="margin:10px 0;padding:10px;background:var(--bg);border-radius:12px"><b>'+esc(g.mainName)+'</b> <small>('+pc+'/25)</small><div class="dots" style="margin-top:6px">'+months.map((m,i)=>'<i class="'+(paid(g,m)?'y':'')+'" title="'+monthName(m)+'" style="cursor:pointer" onclick="tgMonth('+gi+',\''+m+'\')">'+(i+1)+'</i>').join('')+'</div></div>'}).join('')+'</div></div>'}
  return h},
-rules(){return '<div class="card"><h3>📜 Rules</h3><div style="white-space:pre-wrap;background:var(--bg);padding:12px;border-radius:12px;min-height:70px">'+esc(data.rules||'1. 25 പേർ × ₹20,000 = ₹5,00,000')+'</div></div>'+(adm()?'<div class="card"><h3>✏ Rules എഡിറ്റ്</h3><textarea id="rt" rows="7">'+esc(data.rules||'')+'</textarea><button class="btn gd" onclick="saveRules()">💾 Save Rules</button></div>':'')},
-set(){return '<div class="card"><h3>📅 Next Kuri Date</h3><input type="date" id="kd" value="'+esc(data.nextKuriDate||'')+'"><button class="btn gd" onclick="setDate()">📌 Set Date</button></div><div class="card"><h3>👥 WhatsApp Group Link</h3><input id="gl" placeholder="https://chat.whatsapp.com/..." value="'+esc(data.waGroupLink||'')+'"><button class="btn wa" onclick="saveGl()">💾 Save</button></div><div class="card"><h3>📝 Application Form Link</h3><p style="font-size:.8rem;color:var(--m);margin-bottom:8px">Share this link. When someone fills & submits the form, it will appear in <b>🔔 Notif</b> tab live.</p><input id="applyLink" readonly value="'+esc((location.href.split('?')[0].split('#')[0])+'?apply=1')+'"><button class="btn gd" onclick="copyApplyLink()">📋 Copy Application Link</button></div>'}};
+rules(){return '<div class="card"><h3>📜 Rules</h3><div style="white-space:pre-wrap;background:var(--bg);padding:12px;border-radius:12px;min-height:70px">'+esc(data.rules||'1. 25 പേർ × ₹20,000 = ₹5,00,000\n2. എല്ലാ മാസവും കുറി ദിവസത്തിന് മുൻപ് തുക അടക്കണം.\n3. കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് ഒരു മാസത്തെ തുക കട്ട് ചെയ്ത് ബാക്കി തുക കുറി അവസാനിക്കുന്ന സമയത്ത് തിരികെ നൽകും.\n4. അല്ലെങ്കിൽ അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം (Admin അംഗീകാരത്തോടെ).\n5. കുറി കിട്ടിയ ശേഷം പിന്മാറാൻ സമാന തുകയുള്ള വസ്തു ഈടായി നൽകണം.')+'</div></div>'+(adm()?'<div class="card"><h3>✏ Rules എഡിറ്റ്</h3><textarea id="rt" rows="7">'+esc(data.rules||'')+'</textarea><button class="btn gd" onclick="saveRules()">💾 Save Rules</button></div>':'')},
+set(){return '<div class="card"><h3>📅 Next Kuri Date</h3><input type="date" id="kd" value="'+esc(data.nextKuriDate||'')+'"><button class="btn gd" onclick="setDate()">📌 Set Date</button></div><div class="card"><h3>👥 WhatsApp Group Link</h3><input id="gl" placeholder="https://chat.whatsapp.com/..." value="'+esc(data.waGroupLink||'')+'"><button class="btn wa" onclick="saveGl()">💾 Save</button></div><div class="card"><h3>📝 Application Form Link</h3><p style="font-size:.8rem;color:var(--m);margin-bottom:8px">Share this link. When someone fills & submits the form, it will appear in <b>🔔 Notif</b> tab live.</p><input id="applyLink" readonly value="'+esc((location.href.split('?')[0].split('#')[0])+'?apply=1')+'"><button class="btn gd" onclick="copyApplyLink()">📋 Copy Application Link</button></div><div class="card"><h3>⚙️ Paid → WhatsApp</h3><p style="font-size:.78rem;color:var(--m);margin-bottom:6px">Paid ടിക്ക് ചെയ്യുമ്പോൾ WhatsApp മെസേജ് ചോദിക്കണോ?</p><button class="btn '+(localStorage.askWA==='0'?'o':'')+'" onclick="toggleAskWA()">'+(localStorage.askWA==='0'?'🔕 ഓഫ് — ഓൺ ചെയ്യുക':'🔔 ഓൺ — ഓഫ് ചെയ്യുക')+'</button><p style="font-size:.7rem;color:var(--m);margin-top:8px">ℹ️ ഒരു വെബ് പേജിന് സ്വയം WhatsApp അയക്കാൻ സാധിക്കില്ല — ഓരോ മെസേജും ഒരു ക്ലിക്കിൽ WhatsApp തുറന്ന് അയക്കുന്നു. പൂർണ ഓട്ടോമാറ്റിക് അയക്കലിന് WhatsApp Business API / Twilio പോലുള്ള സർവീസും ഒരു ബാക്കെൻഡും വേണം.</p></div><div class="card"><h3>🔔 ബ്രൗസർ നോട്ടിഫിക്കേഷൻ</h3><button class="btn" onclick="notifPerm()">🔔 നോട്ടിഫിക്കേഷൻ ഓൺ ചെയ്യുക</button></div><div class="card"><h3>🚪 പിന്മാറ്റം — കട്ട്</h3><input id="ecm" type="number" min="1" max="12" value="'+(data.exitCutMonths||1)+'"><button class="btn gd" onclick="setCut()">💾 Save</button><p style="font-size:.72rem;color:var(--m)">ഒരു മാസത്തെ തുക ₹'+(20000*(data.exitCutMonths||1)).toLocaleString('en-IN')+' കട്ട് ചെയ്യും. ബാക്കി കുറി അവസാനിക്കുമ്പോൾ തിരികെ നൽകും.</p></div>'}};
 
 /* ===== ACTIONS ===== */
 function tick(){const e=$('cd1');if(!e)return;const d=data.nextKuriDate;if(!d){$('cds').textContent='📅 തീയതി സജ്ജമാക്കിയിട്ടില്ല';return}const df=new Date(d+'T00:00:00')-new Date();if(df<=0){e.textContent='🎉';$('cd2').textContent=$('cd3').textContent=$('cd4').textContent='00';$('cds').textContent='ഇന്ന് കുറി ദിവസം!';return}
@@ -174,8 +188,8 @@ setInterval(tick,1000);
 W({draw,MKF,setPm(v){pm=v;draw(true)},setRole(v){lrole=v;draw(true)},
  go(t){tab=t;draw(true)},
  dark(){document.body.classList.toggle('dk');localStorage.dk=document.body.classList.contains('dk')?'1':'0'},
- chK(k){kid=k;localStorage.kid=k;data=norm();ext={};watch();draw(true)},
- showApply(){modal(`<h3 style="text-align:center;color:var(--g)">📝 Application to Join</h3>
+ chK(k){kid=k;localStorage.kid=k;setKname();data=norm();ext={};exits={};logins={};watch();draw(true)},
+ showApply(){window._jphoto='';modal(`<h3 style="text-align:center;color:var(--g)">📝 Application to Join</h3>
 <p style="font-size:.78rem;color:var(--m);text-align:center;margin-bottom:10px">Mashood Thennala Kuri • 25 Months • ₹20,000 / month</p>
 <div style="max-height:70vh;overflow:auto;padding-right:4px">
 <input id="jn" placeholder="Full Name *">
@@ -196,8 +210,8 @@ W({draw,MKF,setPm(v){pm=v;draw(true)},setRole(v){lrole=v;draw(true)},
 <label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം</span></label>
 <label class="wm"><input type="radio" name="jresp" value="3"><span style="flex:1;font-size:.8rem">3. കുറി കിട്ടിയ ശേഷമാണെങ്കിൽ - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതിക്കുന്നു</span></label>
 <hr style="margin:12px 0;border:none;border-top:1px solid var(--l)">
-<b style="font-size:.85rem">Photo (Optional)</b>
-<input type="file" id="jphoto" accept="image/*" style="padding:8px">
+<div style="background:#fff8e1;border:1px solid #FFD700;border-radius:12px;padding:10px;margin:10px 0;font-size:.78rem;line-height:1.6"><b>📌 പിന്മാറ്റ വ്യവസ്ഥ</b><br>കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ — ഒരു മാസത്തെ തുക കട്ട് ചെയ്ത്, ബാക്കി വരുന്ന തുക കുറി അവസാനിക്കുന്ന സമയത്ത് തിരിച്ചു നൽകും. അല്ലെങ്കിൽ അടുത്ത ആൾക്ക് ട്രാന്സ്ഫർ ചെയ്യാം.</div><b style="font-size:.85rem">Photo (Optional)</b>
+<input type="file" id="jphoto" accept="image/*" style="padding:8px" onchange="photoPick(this)">
 <div id="jprev" style="text-align:center;margin:6px 0"></div>
 <label class="wm" style="margin:10px 0"><input type="checkbox" id="jag" style="width:20px;height:20px;margin:0"><span style="flex:1;font-size:.82rem">I have read the rules and agree to pay ₹20,000 every month for 25 months (Total Pool ₹5,00,000). I accept the above conditions.</span></label>
 </div>
@@ -222,24 +236,27 @@ if(ph)ph.onchange=async function(){const f=this.files[0];if(!f)return;
   const respText={1:'ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും',2:'കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം',3:'കുറി കിട്ടിയ ശേഷം - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം'}[resp];
   const family=[rel,fn].filter(Boolean).join(': ');
   m.textContent='Submitting...';
-  try{await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:window._jphoto||'',date:new Date().toISOString(),status:'pending'});
+  try{await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:await grabPhoto(),date:new Date().toISOString(),status:'pending'});
   window._jphoto='';closeM();alert('✅ Application submitted successfully!\nAdmin will contact you soon.');}catch(e){m.textContent='Error. Please try again.'}},
- approveJoin(id){const r=joinReqs[id];if(!r)return;if(!confirm('Approve '+r.name+'?\n\nPDF download + WhatsApp message will open.'))return;
-  set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'approved');
-  printApplicationPDF(r); // download/print application PDF
+ async approveJoin(id){const r=joinReqs[id];if(!r)return;
+  const nm=(r.name||'').trim();if(!nm)return alert('\u0d2a\u0d47\u0d30\u0d4d \u0d07\u0d32\u0d4d\u0d32');
+  if(!confirm('Approve '+nm+' ?\n\n\u2795 '+NEWKNAME+' \u0d2e\u0d46\u0d2e\u0d4d\u0d2a\u0d7c \u0d32\u0d3f\u0d38\u0d4d\u0d31\u0d4d\u0d31\u0d3f\u0d7d \u0d1a\u0d47\u0d30\u0d4d\u0d15\u0d4d\u0d15\u0d41\u0d02.'))return;
+  let res;try{res=await kuri3Add(r)}catch(e){return alert('Error: '+e.message)}
+  if(res.dup)return alert('\u26a0\ufe0f '+nm+' \u0d07\u0d24\u0d3f\u0d28\u0d15\u0d02 '+NEWKNAME+'-\u0d7d \u0d09\u0d23\u0d4d\u0d1f');
+  try{await set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'approved');
+   await set(ref(db,'mashood_ext/join_requests/'+id+'/kuri'),NEWK)}catch(e){}
+  toast('\u2705 <b>'+esc(nm)+'</b> \u2192 '+NEWKNAME+' \u0d2e\u0d46\u0d2e\u0d4d\u0d2a\u0d7c \u0d32\u0d3f\u0d38\u0d4d\u0d31\u0d4d\u0d31\u0d3f\u0d7d \u0d1a\u0d47\u0d30\u0d4d\u0d24\u0d4d\u0d24\u0d41 ('+res.count+'/25)',7000);
   const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
-  if(phone.length===10){
-    const msg='നമസ്കാരം '+r.name+',\n\nനിങ്ങളുടെ Mashood Thennala Kuri അപേക്ഷ *അംഗീകരിച്ചിരിക്കുന്നു* ✅\n\n📋 വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Aadhaar: '+(r.aadhaar||'-')+'\n\nഅപേക്ഷയുടെ PDF റെഡി ആണ്. ആവശ്യമെങ്കിൽ അറ്റാച്ച് ചെയ്യാം.\nഅടുത്ത നടപടികൾ അറിയിക്കാം. നന്ദി 🙏\n\n— Mashood Thennala Kuri Admin';
-    setTimeout(()=>window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank'),800);
-  }
-  alert('✅ Approved\n\n1. Application PDF opened — Save / Share it\n2. WhatsApp message opened\n\nPDF അറ്റാച്ച് ചെയ്ത് അയയ്ക്കാം.')},
+  const msg='\u0d28\u0d2e\u0d38\u0d4d\u0d15\u0d3e\u0d30\u0d02 '+nm+',\n\n\u0d28\u0d3f\u0d19\u0d4d\u0d19\u0d33\u0d41\u0d1f\u0d46 Mashood Thennala Kuri \u0d05\u0d2a\u0d47\u0d15\u0d4d\u0d37 *\u0d05\u0d02\u0d17\u0d40\u0d15\u0d30\u0d3f\u0d1a\u0d4d\u0d1a\u0d3f\u0d30\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d41* \u2705\n\n\u2795 '+NEWKNAME+' \u0d2e\u0d46\u0d2e\u0d4d\u0d2a\u0d7c \u0d06\u0d2f\u0d3f \u0d1a\u0d47\u0d30\u0d4d\u0d24\u0d4d\u0d24\u0d3f\u0d1f\u0d4d\u0d1f\u0d41\u0d23\u0d4d\u0d1f\u0d4d.\n\n\ud83d\udccb \u0d2a\u0d47\u0d30\u0d4d: '+nm+'\n\u0d2b\u0d4b\u0d23\u0d4d: '+(r.phone||'-')+'\n\n\ud83d\udccc \u0d15\u0d41\u0d31\u0d3f \u0d15\u0d3f\u0d1f\u0d4d\u0d1f\u0d41\u0d28\u0d4d\u0d28\u0d24\u0d3f\u0d28\u0d41 \u0d2e\u0d41\u0d7b\u0d2a\u0d4d \u0d2a\u0d3f\u0d28\u0d4d\u0d2e\u0d3e\u0d31\u0d41\u0d15\u0d2f\u0d3e\u0d23\u0d46\u0d19\u0d4d\u0d15\u0d3f\u0d7d \u2014 \u0d12\u0d30\u0d41 \u0d2e\u0d3e\u0d38\u0d24\u0d4d\u0d24\u0d46 \u0d24\u0d41\u0d15 (\u20b920,000) \u0d15\u0d1f\u0d4d\u0d1f\u0d4d \u0d1a\u0d46\u0d2f\u0d4d\u0d24\u0d4d, \u0d2c\u0d3e\u0d15\u0d4d\u0d15\u0d3f \u0d24\u0d41\u0d15 \u0d15\u0d41\u0d31\u0d3f \u0d05\u0d35\u0d38\u0d3e\u0d28\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d28\u0d4d\u0d28 \u0d38\u0d2e\u0d2f\u0d24\u0d4d\u0d24\u0d4d \u0d24\u0d3f\u0d30\u0d3f\u0d15\u0d46 \u0d28\u0d7d\u0d15\u0d41\u0d02.\n\n\u2014 Mashood Thennala Kuri Admin';
+  if(phone.length===10){if(!openWA2(phone,msg))waAsk(phone,msg,'\ud83d\udcac WhatsApp','\u0d2a\u0d4b\u0d2a\u0d4d\u0d2a\u0d4d-\u0d05\u0d2a\u0d4d\u0d2a\u0d4d \u0d24\u0d1f\u0d1e\u0d4d\u0d1e\u0d41 \u2014 \u0d24\u0d3e\u0d34\u0d46 \u0d15\u0d4d\u0d32\u0d3f\u0d15\u0d4d\u0d15\u0d4d \u0d1a\u0d46\u0d2f\u0d4d\u0d2f\u0d41\u0d15.')}
+  else alert('\u2705 Approved \u2014 '+nm+' \u2192 '+NEWKNAME+' (\u0d2b\u0d4b\u0d23\u0d4d \u0d28\u0d2e\u0d4d\u0d2a\u0d7c \u0d07\u0d32\u0d4d\u0d32)')},
  rejectJoin(id){if(!confirm('Reject this application?'))return;set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'rejected');alert('Rejected')},
- waJoin(id){const r=joinReqs[id];if(!r||!r.phone)return alert('No phone number');
-  printApplicationPDF(r);
+ waJoin(id){const r=joinReqs[id];if(!r)return alert('അപേക്ഷ കണ്ടെത്തിയില്ല');
   const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
+  if(phone.length<10)return alert('ഈ അപേക്ഷയിൽ ഫോൺ നമ്പർ ഇല്ല');
   const msg='നമസ്കാരം '+r.name+',\n\nMashood Thennala Kuri സംബന്ധിച്ച് ബന്ധപ്പെടുന്നു.\n\n📋 നിങ്ങളുടെ അപേക്ഷ വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Occupation: '+(r.occupation||'-')+'\n• Family: '+(r.family||'-')+'\n• Status: '+(r.status||'')+'\n\n— Mashood Thennala Kuri Admin';
-  setTimeout(()=>window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank'),800)},
- viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.outerHTML=\'<p style=color:#c62828;text-align:center>Photo could not load</p>\'"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">📷 No photo uploaded<br><small>(പുതിയ അപേക്ഷകളിൽ മാത്രം ഫോട്ടോ സേവ് ആകും)</small></p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap"><button class="btn gd" onclick="printApplicationPDF(joinReqs[\''+id+'\'])">📄 PDF</button><button class="btn wa" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button><button class="btn o" onclick="closeM()">Close</button></div>')},
+  if(!openWA2(phone,msg))waAsk(phone,msg,'💬 WhatsApp','പോപ്പ്-അപ്പ് തടഞ്ഞു — താഴെ ക്ലിക്ക് ചെയ്ത് അയക്കുക.')},
+ viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.outerHTML=\'<p style=color:#c62828;text-align:center>Photo could not load</p>\'"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">📷 No photo uploaded<br><small>(പുതിയ അപേക്ഷകളിൽ മാത്രം ഫോട്ടോ സേവ് ആകും)</small></p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><div style="display:flex;gap:6px;margin-top:12px;flex-wrap:wrap"><button class="btn gd" onclick="pdfJoin(\''+id+'\')">📄 PDF</button><button class="btn wa" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button><button class="btn o" onclick="closeM()">Close</button></div>')},
  printApplicationPDF(r){if(!r)return;const w=window.open('','_blank');if(!w)return alert('Please allow popups');
   const photoHtml=r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:120px;height:120px;object-fit:cover;border-radius:12px;border:3px solid #2E7D32;float:right;margin:0 0 12px 12px">':'';
   w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>Application - ${esc(r.name)}</title>
@@ -286,11 +303,13 @@ body{font-family:'Inter',system-ui,sans-serif;color:#1a1a2e;background:#faf9f6;p
   else{if(p.length!==4)return m.textContent='❌ 4 അക്കം നൽകുക';m.textContent='🔍 Checking...';let f=null;
    for(const k of KS){try{const s=await get(ref(db,'mashood_kuri_'+k+'/groups'));const gs=s.val()?Object.values(s.val()):[];const x=gs.find(g=>g&&g.phone&&l4(g.phone)===p);if(x){f={k,n:x.mainName};break}}catch(e){}}
    if(!f)return m.textContent='❌ ഈ നമ്പർ ഇല്ല';role='member';me=f.n;kid=f.k}
-  sessionStorage.role=role;sessionStorage.me=me;localStorage.kid=kid;tab='home';watch();draw(true)},
- logout(){sessionStorage.clear();role='';me='';if(u1)u1();if(u2)u2();if(u3)u3();draw(true)},
- tg(i){const g=data.groups[i];if(g.monthlyPayments[pm])delete g.monthlyPayments[pm];else g.monthlyPayments[pm]=true;save()},
- tgm(i){const g=data.groups[i],m=MKF();g.monthlyPayments[m]=true;save()},
- tgMonth(i,m){const g=data.groups[i];if(g.monthlyPayments[m])delete g.monthlyPayments[m];else g.monthlyPayments[m]=true;save()},
+  sessionStorage.role=role;sessionStorage.me=me;localStorage.kid=kid;setKname();tab='home';watch();draw(true);
+  if(role==='member'){logLogin(me,kid,l4p(p));toast('👋 സ്വാഗതം, <b>'+esc(me)+'</b><br><span style="font-size:.72rem;font-weight:600;opacity:.85">'+esc(kname)+' • Member Login ✓</span>',6000);pushNotif('സ്വാഗതം '+me,'Mashood Thennala Kuri — '+kname+' ലോഗിൻ വിജയിച്ചു')}
+  else{toast('👑 സ്വാഗതം Admin<br><span style="font-size:.72rem;font-weight:600;opacity:.85">'+esc(kname)+'</span>',4000)}},
+ logout(){sessionStorage.clear();role='';me='';if(u1)u1();if(u2)u2();if(u3)u3();if(u4)u4();if(u5)u5();draw(true)},
+ tg(i){const g=data.groups[i];if(g.monthlyPayments[pm]){delete g.monthlyPayments[pm];save();return}g.monthlyPayments[pm]=true;save();setTimeout(function(){window.paidWA(g,pm)},260)},
+ tgm(i){const g=data.groups[i],m=MKF();g.monthlyPayments[m]=true;save();setTimeout(function(){window.paidWA(g,m)},260)},
+ tgMonth(i,m){const g=data.groups[i];if(g.monthlyPayments[m]){delete g.monthlyPayments[m];save();return}g.monthlyPayments[m]=true;save();setTimeout(function(){window.paidWA(g,m)},260)},
  del(i){if(confirm('Delete '+data.groups[i].mainName+'?')){data.groups.splice(i,1);save()}},
  add(){const n=$('an').value.trim(),p=$('ap').value.trim();if(!n)return alert('Name വേണം');if(data.groups.find(g=>g.mainName===n))return alert('Name ഇതിനകം ഉണ്ട്');if(p&&p.replace(/\D/g,'').length<10)return alert('Phone 10 അക്കം');data.groups.push({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),mainName:n,phone:p,subMembers:[],eligibility:true,payouts:[],amount:parseFloat($('aa').value)||20000,monthlyPayments:{}});save()},
  bulk(){$('ab').value.split('\n').forEach(l=>{const a=l.split(','),n=(a[0]||'').trim();if(n&&!data.groups.find(g=>g.mainName===n))data.groups.push({id:Date.now()+'_'+Math.random().toString(36).slice(2,6),mainName:n,phone:(a[1]||'').trim(),subMembers:[],eligibility:true,payouts:[],amount:parseFloat(a[2])||20000,monthlyPayments:{}})});save()},
@@ -307,7 +326,7 @@ body{font-family:'Inter',system-ui,sans-serif;color:#1a1a2e;background:#faf9f6;p
  copyApplyLink(){const el=$('applyLink');if(!el)return;el.select();el.setSelectionRange(0,99999);navigator.clipboard?navigator.clipboard.writeText(el.value).then(()=>alert('✅ Link copied! Share it via WhatsApp / SMS')).catch(()=>alert('Copy: '+el.value)):alert('Copy this link:\n'+el.value)},
  saveUpi(){const i=$('ui').value.trim();if(!i)return alert('UPI ID ഇടുക');data.upi={id:i,name:$('un').value.trim()};save();alert('✅ Saved')},
  iPaid(){const g=meG();if(!g||paid(g))return;if(reqs().some(r=>r.gid===g.id&&r.m===MKF()&&r.s==='p'))return alert('റിക്വസ്റ്റ് ഇതിനകം അയച്ചു');set(ref(db,'mashood_ext/'+kid+'/req/r'+Math.random().toString(36).slice(2,9)),{gid:g.id,n:g.mainName,m:MKF(),a:g.amount||20000,t:new Date().toISOString(),s:'p'});alert('✅ Admin-ന് അയച്ചു')},
- okR(id){const r=ext[id],g=r&&data.groups.find(x=>x.id===r.gid);if(!g)return;g.monthlyPayments[r.m]=true;save();set(ref(db,'mashood_ext/'+kid+'/req/'+id+'/s'),'ok')},
+ okR(id){const r=ext[id],g=r&&data.groups.find(x=>x.id===r.gid);if(!g)return;g.monthlyPayments[r.m]=true;save();set(ref(db,'mashood_ext/'+kid+'/req/'+id+'/s'),'ok');setTimeout(function(){window.paidWA(g,r.m)},260)},
  noR(id){set(ref(db,'mashood_ext/'+kid+'/req/'+id+'/s'),'no')},
  csv(){const rows=[['Member','Phone','Month/Date','Type','Amount']];data.groups.forEach(g=>{Object.keys(g.monthlyPayments).sort().forEach(m=>{if(g.monthlyPayments[m])rows.push([g.mainName,g.phone||'',m,'Paid',g.amount||20000])});g.payouts.forEach(p=>rows.push([g.mainName,g.phone||'',p.date,'Payout',p.amount]))});dl(new Blob(['\ufeff'+rows.map(r=>r.map(c=>'"'+String(c).replace(/"/g,'""')+'"').join(',')).join('\n')],{type:'text/csv'}),'kuri-ledger.csv')},
  pdf(){adminPDF()},
@@ -421,6 +440,70 @@ td{padding:9px 10px;border-bottom:1px solid #f0ede5}
 <script>setTimeout(()=>window.print(),700)<\/script></body></html>`);w.document.close()}
 });
 
+/* ===== V33: WhatsApp helpers, photo, toast, exit ===== */
+const NEWK='kuri_3',NEWKNAME='Kuri 3';
+function setCut(){var e=document.getElementById('ecm');if(e){data.exitCutMonths=Math.max(1,parseInt(e.value)||1);save();alert('\u2705 \u0d38\u0d47\u0d35\u0d4d \u0d1a\u0d46\u0d2f\u0d4d\u0d24\u0d41')}}
+function photoOf(r){if(!r)return '';var v=r.photo||r.photoUrl||r.img||r.jphoto||r.pic||'';
+ if(typeof v==='string')return v.length>50?v:'';
+ if(v&&typeof v==='object'){var d=v.data||v.url||v.src||'';return (typeof d==='string'&&d.length>50)?d:''}
+ return ''}
+function photoPick(el){var f=el&&el.files&&el.files[0];if(!f){window._jphoto='';return}
+ el.setAttribute('data-busy','1');
+ compressPhoto(f).then(function(d){window._jphoto=d;var pv=document.getElementById('jprev');
+  if(pv)pv.innerHTML='<img src="'+d+'" style="max-width:150px;max-height:150px;border-radius:12px;border:3px solid #2E7D32;object-fit:cover"><div style="font-size:.7rem;color:#2E7D32;font-weight:700">\u2705 \u0d2b\u0d4b\u0d1f\u0d4d\u0d1f\u0d4b \u0d24\u0d2f\u0d4d\u0d2f\u0d3e\u0d7c ('+Math.round(d.length/1024)+' KB)</div>';el.removeAttribute('data-busy')})
+ .catch(function(){window._jphoto='';el.removeAttribute('data-busy');alert('\u26a0\ufe0f \u0d2b\u0d4b\u0d1f\u0d4d\u0d1f\u0d4b \u0d32\u0d4b\u0d21\u0d4d \u0d1a\u0d46\u0d2f\u0d4d\u0d2f\u0d3e\u0d28\u0d3e\u0d2f\u0d3f\u0d32\u0d3f\u0d32\u0d3e \u2014 \u0d2e\u0d31\u0d4d\u0d31\u0d4a\u0d30\u0d41 \u0d2b\u0d4b\u0d1f\u0d4d\u0d1f\u0d4b \u0d28\u0d4b\u0d15\u0d4d\u0d15\u0d41\u0d15')})}
+window.photoPick=photoPick;
+async function kuri3Add(r){const nm=(r.name||'').trim();if(!nm)throw new Error('\u0d2a\u0d47\u0d30\u0d4d \u0d07\u0d32\u0d4d\u0d32');
+ const snap=await get(ref(db,'mashood_kuri_'+NEWK+'/groups'));
+ const gs=Object.values(snap.val()||{});
+ if(gs.some(function(g){return g&&g.mainName===nm}))return {dup:true,name:nm,count:gs.length};
+ const mid='j'+Date.now()+'_'+Math.random().toString(36).slice(2,6);
+ await set(ref(db,'mashood_kuri_'+NEWK+'/groups/'+mid),{id:mid,mainName:nm,phone:r.phone||'',subMembers:[],eligibility:true,payouts:[],amount:20000,monthlyPayments:{},photo:photoOf(r)||'',joinedAt:new Date().toISOString(),fromJoin:true});
+ return {dup:false,name:nm,count:gs.length+1}}
+function waUrl(phone,msg){const p=String(phone||'').replace(/\D/g,'').slice(-10);return 'https://wa.me/91'+p+'?text='+encodeURIComponent(msg||'')}
+function openWA2(phone,msg){try{const w=window.open(waUrl(phone,msg),'_blank');return !!w}catch(e){return false}}
+function copyWA(){const t=$('waCopy');if(!t)return;t.focus();t.select();try{if(navigator.clipboard)navigator.clipboard.writeText(t.value);else document.execCommand('copy');alert('📋 മെസേജ് കോപ്പി ആയി')}catch(e){alert('Copy: '+t.value)}}
+function waAsk(phone,msg,title,note){const p=String(phone||'').replace(/\D/g,'');if(p.length<10)return;
+ modal('<h3 style="text-align:center;color:#128C7E">'+(title||'💬 WhatsApp')+'</h3>'+(note?'<p style="font-size:.78rem;color:var(--m);text-align:center;margin:6px 0">'+note+'</p>':'')+
+ '<textarea id="waCopy" rows="6" readonly style="font-size:.85rem">'+esc(msg)+'</textarea>'+
+ '<a class="btn wa" href="'+esc(waUrl(p,msg))+'" target="_blank" rel="noopener">📲 WhatsApp തുറക്കുക</a>'+
+ '<button class="btn o" onclick="copyWA()">📋 മെസേജ് കോപ്പി</button>'+
+ '<button class="btn o" onclick="closeM()">അടയ്ക്കുക</button>')}
+async function grabPhoto(){const el=$('jphoto');const f=el&&el.files&&el.files[0];
+ if(f){try{return await compressPhoto(f)}catch(e){return window._jphoto||''}}
+ return window._jphoto||''}
+document.addEventListener('change',async function(e){const t=e.target;if(!t||t.id!=='jphoto')return;
+ const f=t.files&&t.files[0];if(!f)return;
+ try{const d=await compressPhoto(f);window._jphoto=d;const pv=$('jprev');
+  if(pv)pv.innerHTML='<img src="'+d+'" style="max-width:150px;max-height:150px;border-radius:12px;border:2px solid #2E7D32;object-fit:cover">'}
+ catch(err){window._jphoto='';alert('ഫോട്ടോ ലോഡ് ചെയ്യാനായില്ല \u2014 മറ്റൊരു ഫോട്ടോ നോക്കുക.')}});
+function toast(html,ms){let t=$('tst');if(!t){t=document.createElement('div');t.id='tst';document.body.appendChild(t)}
+ t.innerHTML=html;t.classList.add('show');clearTimeout(t._x);t._x=setTimeout(function(){t.classList.remove('show')},ms||5000)}
+function notifPerm(){if(!('Notification' in window))return alert('ഈ ബ്രൗസറിൽ നോട്ടിഫിക്കേഷൻ ലഭ്യമല്ല');
+ Notification.requestPermission().then(function(p){alert(p==='granted'?'🔔 നോട്ടിഫിക്കേഷൻ ഓൺ ആയി':'\u274c അനുമതി കിട്ടിയില്ല')})}
+function pushNotif(title,body){try{if('Notification' in window&&Notification.permission==='granted')new Notification(title,{body:body})}catch(e){}}
+function l4p(p){return String(p||'').replace(/\D/g,'').slice(-4)}
+function logLogin(name,k,p4){try{set(ref(db,'mashood_ext/'+k+'/logins/l'+Date.now()),{name:name,phone4:p4||'',t:new Date().toISOString()})}catch(e){}}
+function mAmt(g){return (g&&g.amount)||20000}
+function mPaid(g){return g&&g.monthlyPayments?Object.keys(g.monthlyPayments).filter(function(k){return g.monthlyPayments[k]}).length:0}
+function paidMsg(g,m){return '\u2705 '+g.mainName+',\n\nഈ മാസത്തെ ('+monthName(m)+') കുറി പൈസ \u20b9'+mAmt(g).toLocaleString('en-IN')+' ലഭിച്ചിരിക്കുന്നു. നന്ദി 🙏\n\n📋 ഇതുവരെ അടച്ചത്: '+mPaid(g)+' മാസം\n\u2014 Mashood Thennala Kuri'}
+
+W({
+ paidWA(g,m){if(localStorage.askWA==='0'||!g)return;const ph=String(g.phone||'').replace(/\D/g,'');
+  if(ph.length<10)return;
+  const msg=paidMsg(g,m);
+  if(openWA2(ph,msg)){toast('\u2705 Paid \u2022 WhatsApp തുറന്നു ('+esc(g.mainName)+')',3500)}
+  else waAsk(ph,msg,'\u2705 Paid \u2014 WhatsApp','പോപ്പ്-അപ്പ് തടഞ്ഞു. താഴെ ക്ലിക്ക് ചെയ്ത് അയക്കുക.')},
+ waOne(i,tpl){const g=data.groups[i];if(!g)return;const ph=String(g.phone||'').replace(/\D/g,'');
+  if(ph.length<10)return alert('ഈ മെമ്പറുടെ ഫോൺ നമ്പർ ഇല്ല');
+  const t=T[tpl||0]||T[0],msg=t().replace(/\{name\}/g,g.mainName).replace(/\{amt\}/g,mAmt(g));
+  if(!openWA2(ph,msg))waAsk(ph,msg,'💬 WhatsApp','പോപ്പ്-അപ്പ് തടഞ്ഞു. താഴെ ക്ലിക്ക് ചെയ്ത് അയക്കുക.')},
+ copyWA:copyWA, notifPerm:notifPerm,
+ pdfJoin(id){const r=joinReqs[id];if(!r)return alert('അപേക്ഷ കണ്ടെത്തിയില്ല');window.printApplicationPDF(r)},
+ toggleAskWA(){localStorage.askWA=localStorage.askWA==='0'?'1':'0';draw(true)},
+ clearLogins(){if(!confirm('Login ചരിത്രം ക്ലിയർ ചെയ്യണോ?'))return;set(ref(db,'mashood_ext/'+kid+'/logins'),null)},
+});
+
 /* ===== WHATSAPP (4 options) ===== */
 const L=['സൗമ്യ റിമൈൻഡർ','അടിയന്തരം - ഇന്ന് രാത്രിക്കുള്ളിൽ','UPI വിവരം സഹിതം','പണം അടച്ചെങ്കിൽ അറിയിക്കുക'];
 const T=[()=>'🙏 {name}, ഈ മാസത്തെ കുറി പൈസ ₹{amt} ഇതുവരെ കിട്ടിയിട്ടില്ല. ദയവായി അടക്കുക.',()=>'⚠ {name}, കുറി പൈസ ഇനിയും വൈകിക്കരുത്. ഇന്ന് രാത്രിക്കുള്ളിൽ ₹{amt} ക്ലിയർ ആക്കണം.',()=>{const u=data.upi||{};return '💳 {name}, കുറി പൈസ ₹{amt} UPI ID: '+(u.id||'-')+' '+(u.name?'('+u.name+') ':'')+'ലേക്ക് അയച്ച ശേഷം സ്ക്രീൻഷോട്ട് അയക്കുക.'},()=>'✅ {name}, പൈസ അടച്ചിട്ടുണ്ടെങ്കിൽ ദയവായി അടച്ച വിവരം / സ്ക്രീൻഷോട്ട് അയച്ചു തരിക. നന്ദി 🙏'];
@@ -428,7 +511,11 @@ let Q=[],qi=0;
 const modal=h=>{$('mc').innerHTML=h;$('modal').classList.remove('hidden')},closeM=()=>$('modal').classList.add('hidden');
 const setTxt=()=>{const r=document.querySelector('input[name=wo]:checked');$('waTxt').value=T[r?+r.value:0]()};
 const chk=f=>document.querySelectorAll('.wmc').forEach((c,i)=>{c.checked=f(data.groups[i])});
-function nextWA(){if(qi>=Q.length){$('waSt').textContent='✅ എല്ലാവർക്കും തുറന്നു';$('waGo').textContent='📱 Send';Q=[];qi=0;return}const q=Q[qi++];window.open('https://wa.me/91'+q.p+'?text='+encodeURIComponent($('waTxt').value.replace(/\{name\}/g,q.n).replace(/\{amt\}/g,q.a)),'_blank');$('waSt').textContent=qi+'/'+Q.length+' തുറന്നു: '+q.n;$('waGo').textContent=qi<Q.length?'▶ അടുത്തത് ('+(qi+1)+'/'+Q.length+')':'✔ കഴിഞ്ഞു'}
+function nextWA(){if(qi>=Q.length){$('waSt').innerHTML='✅ എല്ലാവർക്കും തുറന്നു';$('waGo').textContent='📱 Send';Q=[];qi=0;return}
+ const q=Q[qi++],txt=$('waTxt').value.replace(/\{name\}/g,q.n).replace(/\{amt\}/g,q.a),u=waUrl(q.p,txt),w=window.open(u,'_blank'),st=$('waSt');
+ if(!w){st.innerHTML='⚠️ പോപ്പ്-അപ്പ് തടഞ്ഞു — <a href="'+esc(u)+'" target="_blank" rel="noopener" style="color:#25D366;font-weight:800;text-decoration:underline">ഇവിടെ ക്ലിക്ക് ചെയ്ത് '+esc(q.n)+' ന് അയക്കുക</a>'}
+ else st.textContent=qi+'/'+Q.length+' തുറന്നു: '+q.n;
+ $('waGo').textContent=qi<Q.length?'▶ അടുത്തത് ('+(qi+1)+'/'+Q.length+')':'✔ കഴിഞ്ഞു'}
 W({closeM,chk,
  openWA(sel,tpl){Q=[];qi=0;modal('<h3 style="color:#128C7E;text-align:center">📢 Broadcast Message</h3><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn rd sm" onclick="chk(g=>!(g.monthlyPayments[MKF()]))">Pending മാത്രം</button><button class="btn sm" onclick="chk(()=>true)">എല്ലാവരും</button><button class="btn o sm" onclick="chk(()=>false)">Clear</button></div><div style="max-height:180px;overflow:auto;margin:8px 0">'+data.groups.map((g,i)=>'<label class="wm"><input type="checkbox" class="wmc" value="'+i+'" '+(sel.indexOf(i)>-1?'checked':'')+'><span style="flex:1">'+esc(g.mainName)+'</span><small>'+(paid(g)?'✅':'⏳')+' '+(g.phone?'📱':'⚠')+'</small></label>').join('')+'</div><b>Template തിരഞ്ഞെടുക്കുക (അല്ലെങ്കിൽ താഴെ സ്വയം എഴുതുക):</b>'+L.map((l,i)=>'<label class="wm"><input type="radio" name="wo" value="'+i+'" onchange="setTxt()" '+(i===(tpl||0)?'checked':'')+'>'+l+'</label>').join('')+'<textarea id="waTxt" rows="5" placeholder="ഇവിടെ കസ്റ്റം മെസേജ് എഴുതാം...&#10;{name} = പേര്&#10;{amt} = തുക"></textarea><button class="btn wa" id="waGo" onclick="waGo()">📢 Broadcast അയയ്ക്കുക</button><button class="btn o" onclick="closeM()">Cancel</button><div id="waSt" style="font-size:.8rem;font-weight:700;color:#1976D2;margin-top:6px"></div>');setTxt()},
  setTxt,
@@ -512,8 +599,8 @@ function applyPage(){
 <label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം</span></label>
 <label class="wm"><input type="radio" name="jresp" value="3"><span style="flex:1;font-size:.8rem">3. കുറി കിട്ടിയ ശേഷം – സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം</span></label>
 <hr style="margin:14px 0;border:none;border-top:1px solid var(--l)">
-<b style="font-size:.85rem">Photo (Optional)</b>
-<input type="file" id="jphoto" accept="image/*" style="padding:8px">
+<div style="background:#fff8e1;border:1px solid #FFD700;border-radius:12px;padding:10px;margin:10px 0;font-size:.78rem;line-height:1.6"><b>📌 പിന്മാറ്റ വ്യവസ്ഥ</b><br>കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ — ഒരു മാസത്തെ തുക കട്ട് ചെയ്ത്, ബാക്കി വരുന്ന തുക കുറി അവസാനിക്കുന്ന സമയത്ത് തിരിച്ചു നൽകും. അല്ലെങ്കിൽ അടുത്ത ആൾക്ക് ട്രാന്സ്ഫർ ചെയ്യാം.</div><b style="font-size:.85rem">Photo (Optional)</b>
+<input type="file" id="jphoto" accept="image/*" style="padding:8px" onchange="photoPick(this)">
 <div id="jprev" style="text-align:center;margin:8px 0"></div>
 <label class="wm" style="margin:12px 0"><input type="checkbox" id="jag" style="width:20px;height:20px;margin:0"><span style="flex:1;font-size:.82rem">I agree to pay ₹20,000 every month for 25 months (Pool ₹5,00,000) and accept the above conditions.</span></label>
 <button class="btn" onclick="submitApplyPublic()">✅ Submit Application</button>
@@ -544,7 +631,7 @@ W({
   const family=[rel,fn].filter(Boolean).join(': ');
   m.textContent='Submitting...';
   try{
-    await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:window._jphoto||'',date:new Date().toISOString(),status:'pending'});
+    await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:await grabPhoto(),date:new Date().toISOString(),status:'pending'});
     window._jphoto='';
     $('app').innerHTML=`<div class="w" style="padding-top:60px"><div class="card" style="text-align:center"><div style="font-size:3.5rem">✅</div><h2 style="color:var(--g);margin:12px 0">Application Submitted!</h2><p style="color:var(--m);margin-bottom:16px">Thank you. Admin will contact you soon.</p><p style="font-size:.8rem;color:var(--m)">You can close this page now.</p></div></div>`;
   }catch(e){m.textContent='Error. Please try again.';}
