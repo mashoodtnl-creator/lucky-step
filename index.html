@@ -124,27 +124,38 @@ upi(){const u=data.upi||{},rq=reqs();let h='';
  else{const g=meG();if(g){h+='<div class="card" style="text-align:center"><h3>💳 Pay Now - ₹'+(g.amount||20000)+'</h3>'+(paid(g)?'<b style="color:var(--g)">✅ ഈ മാസം Paid</b>':(u.id?'<div id="qr" style="display:flex;justify-content:center;margin:10px 0"></div><b>'+esc(u.id)+'</b><button class="btn o" onclick="navigator.clipboard&&navigator.clipboard.writeText(\''+esc(u.id)+'\');alert(\'Copied\')">📋 Copy UPI</button><a class="btn" href="upi://pay?pa='+encodeURIComponent(u.id)+'&pn='+encodeURIComponent(u.name||'Kuri')+'&am='+(g.amount||20000)+'&cu=INR&tn=Kuri">📲 UPI App തുറക്കുക</a><button class="btn gd" onclick="iPaid()">✅ ഞാൻ അടച്ചു (I Paid)</button>':'<small>UPI ഇതുവരെ സജ്ജമാക്കിയിട്ടില്ല</small>'))+'</div>';
   h+='<div class="card"><h3>🔔 Notifications</h3>'+(rq.filter(x=>x.gid===g.id).sort((a,b)=>(b.t||'').localeCompare(a.t||'')).slice(0,6).map(x=>'<div class="r"><span>'+x.m+' • ₹'+x.a+'</span><b>'+(x.s==='ok'?'✅ അംഗീകരിച്ചു':x.s==='no'?'❌ നിരസിച്ചു':'⏳ പരിശോധനയിൽ')+'</b></div>').join('')||'<small>അറിയിപ്പുകൾ ഇല്ല</small>')+'</div>'}}
  return h},
-notif(){const pending=Object.entries(joinReqs).filter(([id,r])=>r.status==='pending').sort((a,b)=>(b[1].date||'').localeCompare(a[1].date||''));
+notif(){const allJoins=Object.entries(joinReqs).sort((a,b)=>(b[1].date||'').localeCompare(a[1].date||''));
+ const pending=allJoins.filter(([id,r])=>r.status==='pending');
+ const approved=allJoins.filter(([id,r])=>r.status==='approved');
  const payReqs=reqs().filter(x=>x.s==='p');
  let h='<div class="card"><h3>🔔 Notifications</h3>';
- if(!pending.length&&!payReqs.length)h+='<p style="color:var(--m);text-align:center;padding:20px">No new notifications</p>';
- if(pending.length){h+='<h3 style="margin-top:12px;color:#c62828">📝 New Join Applications ('+pending.length+')</h3>';
-  pending.forEach(([id,r])=>{h+='<div class="card" style="background:var(--bg);margin:8px 0"><div class="r"><span><b>'+esc(r.name)+'</b><br><small>📱 '+esc(r.phone)+' • '+esc((r.date||'').slice(0,10))+'</small>'+(r.aadhaar?'<br><small>Aadhaar: '+esc(r.aadhaar)+'</small>':'')+(r.address?'<br><small>'+esc(r.address)+'</small>':'')+'</span></div>';
-   if(r.photo)h+='<div style="margin:8px 0"><img src="'+r.photo+'" style="width:100px;height:100px;object-fit:cover;border-radius:12px;border:2px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')"></div>';
-  else h+='<div style="font-size:.75rem;color:var(--m);margin:4px 0">No photo</div>';
-   h+='<div style="font-size:.78rem;margin:6px 0;color:var(--m)">';
-   if(r.occupation)h+='Occupation: '+esc(r.occupation)+'<br>';
-   if(r.heard)h+='Heard via: '+esc(r.heard)+'<br>';
-   if(r.responsibility)h+='<b>If unable to pay:</b> '+esc(r.responsibility)+'<br>';
-   if(r.family)h+='<b>Family:</b> '+esc(r.family)+'<br>';
-   if(r.parentPhone)h+='Parent Phone: '+esc(r.parentPhone)+'<br>';
-   if(r.parentAddress)h+='Parent Address: '+esc(r.parentAddress)+'<br>';
-   h+='</div><div style="display:flex;gap:6px"><button class="p pd" onclick="approveJoin(\''+id+'\')">✅ Approve</button><button class="p pn" onclick="rejectJoin(\''+id+'\')">✖ Reject</button><button class="p" style="background:#1565c0" onclick="viewJoin(\''+id+'\')">👁 Full</button></div></div>'});
+ if(!pending.length&&!approved.length&&!payReqs.length)h+='<p style="color:var(--m);text-align:center;padding:20px">No notifications</p>';
+ if(pending.length){h+='<h3 style="margin-top:12px;color:#c62828">📝 Pending Applications ('+pending.length+')</h3>';
+  pending.forEach(([id,r])=>{h+=V.joinCard(id,r,true)});
+ }
+ if(approved.length){h+='<h3 style="margin-top:16px;color:#2E7D32">✅ Approved Applications ('+approved.length+')</h3>';
+  approved.forEach(([id,r])=>{h+=V.joinCard(id,r,false)});
  }
  if(payReqs.length){h+='<h3 style="margin-top:16px">💳 Payment Requests ('+payReqs.length+')</h3>';
   payReqs.forEach(x=>{h+='<div class="r"><span><b>'+esc(x.n)+'</b><br><small>'+x.m+' • ₹'+x.a+'</small></span><span><button class="p pd" onclick="okR(\''+x.id+'\')">✅</button> <button class="p pn" onclick="noR(\''+x.id+'\')">✖</button></span></div>'});
  }
  return h+'</div>'},
+ joinCard(id,r,isPending){let h='<div class="card" style="background:var(--bg);margin:8px 0"><div class="r"><span><b>'+esc(r.name)+'</b> '+(r.status==='approved'?'<span style="background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:10px;font-size:.7rem;font-weight:700">APPROVED</span>':'')+'<br><small>📱 '+esc(r.phone)+' • '+esc((r.date||'').slice(0,10))+'</small>'+(r.aadhaar?'<br><small>Aadhaar: '+esc(r.aadhaar)+'</small>':'')+(r.address?'<br><small>'+esc(r.address)+'</small>':'')+'</span></div>';
+  if(r.photo&&r.photo.length>50)h+='<div style="margin:8px 0"><img src="'+r.photo+'" style="width:110px;height:110px;object-fit:cover;border-radius:12px;border:2px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.parentNode.innerHTML=\'<small style=color:#c62828>Photo load failed</small>\'"></div>';
+  else h+='<div style="font-size:.75rem;color:var(--m);margin:4px 0">📷 No photo</div>';
+  h+='<div style="font-size:.78rem;margin:6px 0;color:var(--m)">';
+  if(r.occupation)h+='Occupation: '+esc(r.occupation)+'<br>';
+  if(r.heard)h+='Heard via: '+esc(r.heard)+'<br>';
+  if(r.responsibility)h+='<b>If unable to pay:</b> '+esc(r.responsibility)+'<br>';
+  if(r.family)h+='<b>Family:</b> '+esc(r.family)+'<br>';
+  if(r.parentPhone)h+='Parent Phone: '+esc(r.parentPhone)+'<br>';
+  if(r.parentAddress)h+='Parent Address: '+esc(r.parentAddress)+'<br>';
+  h+='</div><div style="display:flex;gap:6px;flex-wrap:wrap">';
+  if(isPending){h+='<button class="p pd" onclick="approveJoin(\''+id+'\')">✅ Approve</button><button class="p pn" onclick="rejectJoin(\''+id+'\')">✖ Reject</button>'}
+  h+='<button class="p" style="background:#1565c0" onclick="viewJoin(\''+id+'\')">👁 Full</button>';
+  if(r.phone)h+='<button class="p" style="background:#25D366" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button>';
+  h+='</div></div>';
+  return h},
  hist(){const months=getMonths();
  let h='<div class="card"><h3>🏆 Winners</h3>'+(data.allWinners.slice().reverse().map((w,ri)=>'<div class="r"><span>🏆 <b>'+esc(w.mainName)+'</b></span><small>'+esc(w.date)+(adm()&&w.manual?' • Admin select':'')+(adm()?' <button class="p pn" onclick="delW('+(data.allWinners.length-1-ri)+')">✕</button>':'')+'</small></div>').join('')||'<small>No winners yet</small>')+'</div>';
  if(!adm()){const g=meG();if(g){const paidCount=months.filter(m=>paid(g,m)).length;
@@ -181,7 +192,7 @@ W({draw,MKF,setPm(v){pm=v;draw(true)},setRole(v){lrole=v;draw(true)},
 <hr style="margin:12px 0;border:none;border-top:1px solid var(--l)">
 <b style="font-size:.85rem">കുറി അടയ്ക്കാൻ പറ്റാത്ത സാഹചര്യം വന്നാൽ (If unable to pay)</b>
 <label class="wm"><input type="radio" name="jresp" value="1" checked><span style="flex:1;font-size:.8rem">1. ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും</span></label>
-<label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപാണെങ്കിൽ - കൊടുത്ത പൈസ അഡ്മിൻ സൂക്ഷിക്കും, ബാക്കി മാസങ്ങൾ അഡ്മിൻ നടത്തും</span></label>
+<label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം</span></label>
 <label class="wm"><input type="radio" name="jresp" value="3"><span style="flex:1;font-size:.8rem">3. കുറി കിട്ടിയ ശേഷമാണെങ്കിൽ - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതിക്കുന്നു</span></label>
 <hr style="margin:12px 0;border:none;border-top:1px solid var(--l)">
 <b style="font-size:.85rem">Photo (Optional)</b>
@@ -207,14 +218,26 @@ if(ph)ph.onchange=async function(){const f=this.files[0];if(!f)return;
   if(ad&&ad.replace(/\D/g,'').length!==12)return m.textContent='Aadhaar must be 12 digits';
   if(!a)return m.textContent='Please enter Address';
   if(!ag)return m.textContent='Please agree to the terms';
-  const respText={1:'ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും',2:'കുറി കിട്ടുന്നതിനു മുൻപ് - അഡ്മിൻ സൂക്ഷിക്കും / ബാക്കി അഡ്മിൻ നടത്തും',3:'കുറി കിട്ടിയ ശേഷം - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം'}[resp];
+  const respText={1:'ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും',2:'കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം',3:'കുറി കിട്ടിയ ശേഷം - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം'}[resp];
   const family=[rel,fn].filter(Boolean).join(': ');
   m.textContent='Submitting...';
   try{await set(ref(db,'mashood_ext/join_requests/r'+Date.now()),{name:n,phone:p,aadhaar:ad,address:a,occupation:o,heard:h,relation:rel,family:family,parentPhone:fp,parentAddress:fa,responsibility:respText,photo:window._jphoto||'',date:new Date().toISOString(),status:'pending'});
   window._jphoto='';closeM();alert('✅ Application submitted successfully!\nAdmin will contact you soon.');}catch(e){m.textContent='Error. Please try again.'}},
- approveJoin(id){if(!confirm('Approve this application?'))return;set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'approved');alert('✅ Approved')},
+ approveJoin(id){const r=joinReqs[id];if(!r)return;if(!confirm('Approve '+r.name+'?'))return;
+  set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'approved');
+  // Open WhatsApp with Malayalam approval message
+  const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
+  if(phone.length===10){
+    const msg='നമസ്കാരം '+r.name+',\n\nനിങ്ങളുടെ Mashood Thennala Kuri അപേക്ഷ *അംഗീകരിച്ചിരിക്കുന്നു* ✅\n\n📋 വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Aadhaar: '+(r.aadhaar||'-')+'\n\nഅടുത്ത നടപടികൾ അറിയിക്കാം. നന്ദി 🙏\n\n— Mashood Thennala Kuri Admin';
+    window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank');
+  }
+  alert('✅ Approved'+(phone?' — WhatsApp opened':'')+'. Application stays in Notif as Approved.')},
  rejectJoin(id){if(!confirm('Reject this application?'))return;set(ref(db,'mashood_ext/join_requests/'+id+'/status'),'rejected');alert('Rejected')},
- viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">No photo uploaded</p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><button class="btn o" onclick="closeM()">Close</button>')},
+ waJoin(id){const r=joinReqs[id];if(!r||!r.phone)return alert('No phone number');
+  const phone=(r.phone||'').replace(/\D/g,'').slice(-10);
+  const msg='നമസ്കാരം '+r.name+',\n\nMashood Thennala Kuri സംബന്ധിച്ച് ബന്ധപ്പെടുന്നു.\n\n📋 നിങ്ങളുടെ അപേക്ഷ വിവരങ്ങൾ:\n• പേര്: '+r.name+'\n• ഫോൺ: '+r.phone+'\n• വിലാസം: '+(r.address||'-')+'\n• Occupation: '+(r.occupation||'-')+'\n• Family: '+(r.family||'-')+'\n• Status: '+(r.status||'')+'\n\n— Mashood Thennala Kuri Admin';
+  window.open('https://wa.me/91'+phone+'?text='+encodeURIComponent(msg),'_blank')},
+ viewJoin(id){const r=joinReqs[id];if(!r)return;modal('<h3 style="text-align:center">'+esc(r.name)+'</h3><div style="font-size:.85rem;line-height:1.7">'+(r.photo&&r.photo.length>50?'<img src="'+r.photo+'" style="width:160px;height:160px;object-fit:cover;border-radius:14px;display:block;margin:0 auto 14px;border:3px solid #2E7D32;cursor:pointer" onclick="window.open(this.src,\'_blank\')" onerror="this.outerHTML=\'<p style=color:#c62828;text-align:center>Photo could not load</p>\'"><p style="text-align:center;font-size:.7rem;color:var(--m)">Tap photo to enlarge</p>':'<p style="text-align:center;color:var(--m)">📷 No photo uploaded</p>')+'Phone: <b>'+esc(r.phone)+'</b><br>Aadhaar: '+esc(r.aadhaar||'-')+'<br>Address: '+esc(r.address||'-')+'<br>Occupation: '+esc(r.occupation||'-')+'<br>Heard: '+esc(r.heard||'-')+'<br>Family: '+esc(r.family||'-')+'<br>Parent Phone: '+esc(r.parentPhone||'-')+'<br>Parent Address: '+esc(r.parentAddress||'-')+'<br><b>If unable to pay:</b> '+esc(r.responsibility||'-')+'<br>Date: '+esc((r.date||'').slice(0,16))+'<br>Status: <b>'+esc(r.status)+'</b></div><div style="display:flex;gap:6px;margin-top:12px"><button class="btn wa" onclick="waJoin(\''+id+'\')">💬 WhatsApp</button><button class="btn o" onclick="closeM()">Close</button></div>')},
  async login(){const p=$('lp').value.trim(),m=$('lm');
   if(lrole==='admin'){if(p!==PASS)return m.textContent='❌ Wrong password';role='admin';me='';kid=$('lk').value}
   else{if(p.length!==4)return m.textContent='❌ 4 അക്കം നൽകുക';m.textContent='🔍 Checking...';let f=null;
@@ -443,7 +466,7 @@ function applyPage(){
 <hr style="margin:14px 0;border:none;border-top:1px solid var(--l)">
 <b style="font-size:.85rem">കുറി അടയ്ക്കാൻ പറ്റാത്ത സാഹചര്യം വന്നാൽ</b>
 <label class="wm"><input type="radio" name="jresp" value="1" checked><span style="flex:1;font-size:.8rem">1. ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും</span></label>
-<label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപ് – അഡ്മിൻ സൂക്ഷിക്കും, ബാക്കി അഡ്മിൻ നടത്തും</span></label>
+<label class="wm"><input type="radio" name="jresp" value="2"><span style="flex:1;font-size:.8rem">2. കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം</span></label>
 <label class="wm"><input type="radio" name="jresp" value="3"><span style="flex:1;font-size:.8rem">3. കുറി കിട്ടിയ ശേഷം – സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം</span></label>
 <hr style="margin:14px 0;border:none;border-top:1px solid var(--l)">
 <b style="font-size:.85rem">Photo (Optional)</b>
@@ -474,7 +497,7 @@ W({
   if(ad&&ad.replace(/\D/g,'').length!==12)return m.textContent='Aadhaar must be 12 digits';
   if(!a)return m.textContent='Please enter Address';
   if(!ag)return m.textContent='Please agree to the terms';
-  const respText={1:'ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും',2:'കുറി കിട്ടുന്നതിനു മുൻപ് - അഡ്മിൻ സൂക്ഷിക്കും / ബാക്കി അഡ്മിൻ നടത്തും',3:'കുറി കിട്ടിയ ശേഷം - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം'}[resp];
+  const respText={1:'ഉത്തരവാദിത്തപ്പെട്ടവരെ ഏൽപ്പിക്കും',2:'കുറി കിട്ടുന്നതിനു മുൻപ് പിന്മാറുകയാണെങ്കിൽ - അടച്ച തുകയിൽ നിന്ന് നിശ്ചിത കട്ട് എടുത്ത് ബാക്കി തിരിച്ചു തരാം / അടുത്ത ആൾക്ക് ട്രാൻസ്ഫർ ചെയ്യാം',3:'കുറി കിട്ടിയ ശേഷം - സമാന തുകയുള്ള വസ്തു ഈടായി നൽകാൻ സമ്മതം'}[resp];
   const family=[rel,fn].filter(Boolean).join(': ');
   m.textContent='Submitting...';
   try{
